@@ -1,0 +1,643 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://groeidiagrammen.nl/schema/EPremDossier_string.json",
+  "type": "object",
+  "title": "EPremDossier",
+  "required": [
+    "OrganisatieCode",
+    "ClientGegevens"
+  ],
+  "properties": {
+    "Referentie": {
+      "title": "Request identification",
+      "$id": "#/properties/Referentie",
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "OrganisatieCode": {
+      "title": "Care organisation code",
+      "$id": "#/properties/OrganisatieCode",
+      "type": "integer"
+    },
+    "ClientGegevens": {
+      "title": "Child data object",
+      "$id": "#/properties/ClientGegevens",
+      "type": "object",
+      "required": [
+        "Elementen"
+      ],
+      "properties": {
+        "Elementen": {
+          "title": "Elementen",
+          "$id": "#/properties/ClientGegevens/properties/Elementen",
+          "type": "array",
+          "allOf": [
+            {"contains": {
+            	"properties": {"Bdsnummer": {"const": 19}}
+          				}
+            },
+            {"contains": {
+            	"properties": {"Bdsnummer": {"const": 20}}
+          				}
+            }
+          ],
+          "items": {
+            "$id": "#/properties/ClientGegevens/properties/Elementen/items",
+            "type": "object",
+            "title": "Observed items",
+            "required": [
+              "Bdsnummer"
+            ],
+            "if": {
+              "properties": {
+                "Bdsnummer": {
+                  "enum": [
+                    19,20,62,63,66,71,82,91,
+                    110,235,238,240,245,252,510,
+                    879,881,883,884,885,886,887,888,889,
+                    890,891,892,893,894,896,897,898,
+                    900,902,903,905,906,907,909,911,913,914,916,917,918,
+                    920,921,922,923,926,927,928,
+                    930,931,932,933,934,935,936,937,938,939,
+                    940,941,942,944,947,948,949,
+                    950,951,953,954,955,956,958,959,
+                    960,962,964,965,968,
+                    970,971,972,975,977,978,
+                    980,982,984,986,989,
+                    991,993,994,996,998,999,
+                    1001,1002,1278]
+                }
+              }
+            },
+            "then": {
+              "anyOf": [
+              {"properties": {
+                    "Bdsnummer": {"const": 19},
+                    "Waarde": {"enum": ["0", "1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 20},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 62},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 63},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 66},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98","00"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 71},
+                    "Waarde": {"pattern": "^([0-9]{4})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 82},
+                    "Waarde": {"pattern": "^([0-9]{2,3})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 91},
+                    "Waarde": {"enum": ["1", "2", "99"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 110},
+                    "Waarde": {"pattern": "^([0-9]{3,4})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 235},
+                    "Waarde": {"pattern": "^([0-9]{3,4})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 245},
+                    "Waarde": {"pattern": "^([0-9]{3,6})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 252},
+                    "Waarde": {"pattern": "^([0-9]{2,3})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 238},
+                    "Waarde": {"pattern": "^([0-9]{3,4})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 240},
+                    "Waarde": {"pattern": "^([0-9]{3,4})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 510},
+                    "Waarde": {"enum": ["01", "02", "03", "04"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 879},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 881},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 883},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 884},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 885},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 886},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 887},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 888},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 889},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 890},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 891},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 892},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 893},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 894},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 896},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 897},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 898},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 900},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 902},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 903},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 905},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 906},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 907},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 909},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 910},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 912},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 913},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 914},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 916},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 917},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 918},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 920},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 921},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 922},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 923},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 926},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 927},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 928},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 930},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 931},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 932},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 933},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 934},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 935},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 936},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 937},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 938},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 939},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 940},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 941},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 943},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 945},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 947},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 948},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 949},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 950},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 951},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 953},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 954},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 955},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 956},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 958},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 959},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 961},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 962},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 964},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 966},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 968},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 970},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 971},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 973},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 975},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 977},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 978},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 980},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 982},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 984},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 986},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 989},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 991},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 993},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 994},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 996},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 998},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 999},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 1001},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 1002},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 1278},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                }
+              ]
+            }
+          }
+        },
+        "Groepen": {
+          "title": "Grouping information",
+          "$id": "#/properties/ClientGegevens/properties/Groepen",
+          "type": "array",
+          "items": {
+            "title": "Observed items",
+            "$id": "#/properties/ClientGegevens/properties/Groepen/items",
+            "type": "object",
+            "required": [
+              "Elementen"
+            ],
+            "properties": {
+              "Elementen": {
+                "items": {
+                	"$ref": "#/properties/ClientGegevens/properties/Elementen/items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Contactmomenten": {
+      "title": "Child data per visit",
+      "$id": "#/properties/Contactmomenten",
+      "type": "array",
+      "items": {
+        "title": "Observed items",
+        "$id": "#/properties/Contactmomenten/items",
+        "type": "object",
+        "required": [
+          "Tijdstip",
+          "Elementen"
+        ],
+        "properties": {
+          "Tijdstip": {
+            "title": "Date observation",
+            "$id": "#/properties/Contactmomenten/items/properties/Tijdstip",
+            "type": "string",
+            "pattern": "^([0-9]{8})$"
+          },
+          "Elementen": {
+            "items": {
+            "$ref": "#/properties/ClientGegevens/properties/Elementen/items"
+            }
+          }
+        }
+      }
+    }
+  }
+}

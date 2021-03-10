@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://groeidiagrammen.nl/schema/EPremDossier.json",
+  "type": "object",
+  "title": "EPremDossier",
+  "required": [
+    "OrganisatieCode",
+    "ClientGegevens"
+  ],
+  "properties": {
+    "Referentie": {
+      "title": "Request identification",
+      "$id": "#/properties/Referentie",
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "OrganisatieCode": {
+      "title": "Care organisation code",
+      "$id": "#/properties/OrganisatieCode",
+      "type": "integer"
+    },
+    "ClientGegevens": {
+      "title": "Child data object",
+      "$id": "#/properties/ClientGegevens",
+      "type": "object",
+      "required": [
+        "Elementen"
+      ],
+      "properties": {
+        "Elementen": {
+          "title": "Elementen",
+          "$id": "#/properties/ClientGegevens/properties/Elementen",
+          "type": "array",
+          "items": {
+            "$id": "#/properties/ClientGegevens/properties/Elementen/items",
+            "type": "object",
+            "title": "Observed items",
+            "required": [
+              "Bdsnummer"
+            ],
+            "if": {
+              "properties": {
+                "Bdsnummer": {
+                  "enum": [
+                    19,20,62,63,66,71,82,91,
+                    110,235,238,240,245,252,510]
+                }
+              }
+            },
+            "then": {
+              "anyOf": [
+              {"properties": {
+                    "Bdsnummer": {"const": 19},
+                    "Waarde": {"enum": ["0", "1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 20},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 62},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 63},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 66},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98","00"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 71},
+                    "Waarde": {"type": "integer", "minimum": 1000, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 82},
+                    "Waarde": {"type": "number", "minimum": 50, "maximum": 350}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 91},
+                    "Waarde": {"enum": ["1", "2", "99"]}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 110},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 235},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 245},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 252},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 238},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 240},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "Bdsnummer": {"const": 510},
+                    "Waarde": {"enum": ["01", "02", "03", "04"]}
+                    }
+                }
+              ]
+            }
+          }
+        },
+        "Groepen": {
+          "title": "Grouping information",
+          "$id": "#/properties/ClientGegevens/properties/Groepen",
+          "type": "array",
+          "items": {
+            "title": "Observed items",
+            "$id": "#/properties/ClientGegevens/properties/Groepen/items",
+            "type": "object",
+            "required": [
+              "Elementen"
+            ],
+            "properties": {
+              "Elementen": {
+                "$ref": "#/properties/ClientGegevens/properties/Elementen"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Contactmomenten": {
+      "title": "Child data per visit",
+      "$id": "#/properties/Contactmomenten",
+      "type": "array",
+      "items": {
+        "title": "Observed items",
+        "$id": "#/properties/Contactmomenten/items",
+        "type": "object",
+        "required": [
+          "Tijdstip",
+          "Elementen"
+        ],
+        "properties": {
+          "Tijdstip": {
+            "title": "Date observation",
+            "$id": "#/properties/Contactmomenten/items/properties/Tijdstip",
+            "type": "string",
+            "pattern": "^([0-9]{8})$"
+          },
+          "Elementen": {
+            "$ref": "#/properties/ClientGegevens/properties/Elementen"
+          }
+        }
+      }
+    }
+  }
+}
