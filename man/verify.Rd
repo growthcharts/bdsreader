@@ -13,14 +13,11 @@ verify(txt = NULL, schema = NULL, ...)
 schema.}
 
 \item{\dots}{Additional parameter passed down to
-\code{fromJSON(txt, ...)}, \code{new("xyz",... )} and
-\code{new("bse",... )}. Useful parameters are \code{models =
-  "bsmodel"} for setting the broken stick model, or \code{call =
-  as.call(...)} for setting proper reference standards.}
+\code{fromJSON(txt, ...)}.}
 }
 \value{
 A list of processed input data. Side effect: messages are
-thrown for input fields that does not quite conform to the expected
+thrown for input fields that do not conform to the expected
 data.
 }
 \description{
@@ -30,6 +27,7 @@ checks the input json for further processing.
 \examples{
 fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 p <- verify(fn)
+
 }
 \seealso{
 \code{\link[jsonlite]{fromJSON}}
