@@ -2,6 +2,7 @@
 
 export(convert_bds_individual)
 export(get_dob)
+export(is.target)
 export(validate_bds_individual)
 export(verify)
 importFrom(donorloader,load_data)
