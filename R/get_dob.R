@@ -1,17 +1,10 @@
-#' Get the date of birth of an individual
+#' Get the date of birth of a child
 #'
-#' @param ind An object of class \code{individual}.
+#' @param x An object of class \code{target}.
 #' @return  Object of class \code{Date}. If dob is missing,
 #' the function return dob 01-01-2000.
-#' @examples
-#' # Extract date of birth
-#' #ind <- new("individual", dob = Sys.Date(),
-#' #            hgt = new("xyz", x = c(0.3, 2, 6)),
-#' #           wgt = new("xyz", x = c(0.2, 1), y = c(1, NA)))
-#' #get_dob(ind)
 #' @export
-get_dob <- function(ind) {
-  if (is.na(slot(ind, "dob")))
-    return(as.Date("01-01-00", format = "%d-%m-%y"))
-  slot(ind, "dob")
+get_dob <- function(x) {
+  dob <- x$child$dob
+  ifelse(is.na(dob), as.Date("01-01-00", format = "%d-%m-%y"), dob)
 }

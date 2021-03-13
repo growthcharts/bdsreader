@@ -2,24 +2,17 @@
 % Please edit documentation in R/get_dob.R
 \name{get_dob}
 \alias{get_dob}
-\title{Get the date of birth of an individual}
+\title{Get the date of birth of a child}
 \usage{
-get_dob(ind)
+get_dob(x)
 }
 \arguments{
-\item{ind}{An object of class \code{individual}.}
+\item{x}{An object of class \code{target}.}
 }
 \value{
 Object of class \code{Date}. If dob is missing,
 the function return dob 01-01-2000.
 }
 \description{
-Get the date of birth of an individual
-}
-\examples{
-# Extract date of birth
-#ind <- new("individual", dob = Sys.Date(),
-#            hgt = new("xyz", x = c(0.3, 2, 6)),
-#           wgt = new("xyz", x = c(0.2, 1), y = c(1, NA)))
-#get_dob(ind)
+Get the date of birth of a child
 }
