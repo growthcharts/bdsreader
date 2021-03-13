@@ -3,7 +3,6 @@
 #' @param x An object
 #' @return A logical
 #' @export
-is.target <- function(x)
-{
-  inherits(x,"target")
+is.target <- function(x) {
+  inherits(x, "target")
 }

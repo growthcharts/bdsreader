@@ -27,7 +27,6 @@ checks the input json for further processing.
 \examples{
 fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 p <- verify(fn)
-
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}

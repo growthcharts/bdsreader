@@ -14,8 +14,9 @@
 #' q <- convert_bds_target(fn)
 #' @export
 convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
-
-  if (is.null(txt)) return(NULL)
+  if (is.null(txt)) {
+    return(NULL)
+  }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.

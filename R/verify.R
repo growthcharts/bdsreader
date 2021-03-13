@@ -15,7 +15,6 @@
 #' @examples
 #' fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 #' p <- verify(fn)
-#'
 #' @export
 verify <- function(txt = NULL, schema = NULL, ...) {
 
@@ -29,9 +28,10 @@ verify <- function(txt = NULL, schema = NULL, ...) {
 
   if (length(mess$required) > 0L) {
     if (any(grepl("required", mess$required)) ||
-        any(grepl("verplicht", mess$required)) ||
-        any(grepl("should", mess$required)))
+      any(grepl("verplicht", mess$required)) ||
+      any(grepl("should", mess$required))) {
       throw_messages(mess$required)
+    }
   }
   throw_messages(mess$supplied)
 

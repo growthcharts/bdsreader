@@ -1,5 +1,4 @@
 convert_checked_target <- function(checked = NULL, ...) {
-
   d <- checked$data
   b <- d$ClientGegevens$Elementen
   r <- checked$ranges
@@ -22,7 +21,7 @@ convert_checked_target <- function(checked = NULL, ...) {
 
     # store GA in days and completed weeks
     gad = r$gad,
-    ga  = trunc(r$gad / 7),
+    ga = trunc(r$gad / 7),
 
     # 1 = Nee, volgens BDS 1 = Ja, 2 = Nee
     smo = extract_field2(d, 91L, "ClientGegevens", "Elementen") - 1L,
@@ -49,8 +48,10 @@ convert_checked_target <- function(checked = NULL, ...) {
   )
 
   if (length(d$Contactmomenten) == 0L) {
-    time <- tibble(age = numeric(), hgt = numeric(), wgt = numeric(),
-                   hdc = numeric(), bmi = numeric(), dsc = numeric())
+    time <- tibble(
+      age = numeric(), hgt = numeric(), wgt = numeric(),
+      hdc = numeric(), bmi = numeric(), dsc = numeric()
+    )
   } else {
     time <-
       tibble(
@@ -58,15 +59,19 @@ convert_checked_target <- function(checked = NULL, ...) {
         hgt = r$hgt / 10,
         wgt = r$wgt / 1000,
         hdc = r$hdc / 10,
-        dsc = ds$d)
+        dsc = ds$d
+      )
   }
 
   # append birth weight record if needed
   if (!is.na(child$bw) && !any(is.na(time$age)) && !any(time$age == 0)) {
     time <- bind_rows(
-      tibble(age = 0,
-             wgt = child$bw / 1000),
-      time)
+      tibble(
+        age = 0,
+        wgt = child$bw / 1000
+      ),
+      time
+    )
   }
 
   val <- list(child = child, time = time)
@@ -77,17 +82,22 @@ convert_checked_target <- function(checked = NULL, ...) {
 extract_dob <- function(d) {
   b <- d$ClientGegevens$Elementen
   dob <- ymd(b[b$Bdsnummer == 20, 2])
-  if (length(dob) == 0L) return(as.Date(NA))
+  if (length(dob) == 0L) {
+    return(as.Date(NA))
+  }
   dob
 }
 
 extract_sex <- function(b) {
   s <- b[b$Bdsnummer == 19L, 2L]
-  if (length(s) == 0L) return(NA_character_)
+  if (length(s) == 0L) {
+    return(NA_character_)
+  }
   switch(s,
-         "1" = "male",
-         "2" = "female",
-         NA_character_)
+    "1" = "male",
+    "2" = "female",
+    NA_character_
+  )
 }
 
 extract_agep <- function(d, which_parent = "02") {
@@ -95,13 +105,15 @@ extract_agep <- function(d, which_parent = "02") {
   # which_parent: "01" = father, "02" = mother
   dob <- extract_dob(d)
   p <- d$ClientGegevens$Groepen[[1]]
-  if (is.null(p)) return(NA_real_)
+  if (is.null(p)) {
+    return(NA_real_)
+  }
   for (i in 1L:length(p)) {
     pp <- p[[i]]
     parent <- pp[pp$Bdsnummer == 62, "Waarde"]
     if (parent == which_parent) {
       dobp <- ymd(pp[pp$Bdsnummer == 63, 2])
-      agep <- as.numeric(trunc(difftime(dob, dobp, "days")/365.25))
+      agep <- as.numeric(trunc(difftime(dob, dobp, "days") / 365.25))
       aa <- 1
       if (length(agep) == 0L) agep <- NA_real_
       return(agep)
@@ -112,22 +124,27 @@ extract_agep <- function(d, which_parent = "02") {
 
 extract_field <- function(d, f = 245L) {
   z <- d$Contactmomenten[[2L]]
-  as.numeric(unlist(lapply(z, function(x, f2 = f)
-    ifelse("Waarde" %in% names(x), x[x$Bdsnummer == f2, "Waarde"], NA))))
+  as.numeric(unlist(lapply(z, function(x, f2 = f) {
+    ifelse("Waarde" %in% names(x), x[x$Bdsnummer == f2, "Waarde"], NA)
+  })))
 }
 
 extract_field2 <- function(d, f, l1, l2) {
   b <- d[[l1]][[l2]]
   v <- b[b$Bdsnummer == f, "Waarde"]
-  ifelse (!length(v), NA_real_, as.numeric(v))
+  ifelse(!length(v), NA_real_, as.numeric(v))
 }
 
 extract_field3 <- function(d, f, l1, l2, l3, which_parent = "02") {
   p <- d[[l1]][[l2]][[l3]]
-  if (is.null(p)) return(NA)
+  if (is.null(p)) {
+    return(NA)
+  }
   for (i in 1L:length(p)) {
     pp <- p[[i]]
     parent <- pp[pp$Bdsnummer == 62L, "Waarde"]
-    if (parent == which_parent) return(pp[pp$Bdsnummer == f, 2L])
+    if (parent == which_parent) {
+      return(pp[pp$Bdsnummer == f, 2L])
+    }
   }
 }

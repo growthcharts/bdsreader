@@ -11,11 +11,12 @@
 #' @author Arjan Huizing 2019
 #' @export
 validate_json <- function(txt = NULL, schema = NULL,
-                                    verbose = TRUE) {
-  if (is.null(schema))
+                          verbose = TRUE) {
+  if (is.null(schema)) {
     schemajs <- system.file("json", "bds_schema_str.json", package = "bdsreader")
-  else
+  } else {
     schemajs <- system.file("json", schema, package = "bdsreader")
+  }
 
   json_validate(txt, schemajs, engine = "ajv", verbose = verbose)
 }
