@@ -24,7 +24,7 @@ verify <- function(txt = NULL, schema = NULL, ...) {
   if (!is.null(err)) stop(conditionMessage(err))
 
   # PHASE 2: JSON schema validation
-  valid <- validate_bds_individual(txt, schema)
+  valid <- validate_json(txt, schema)
   mess <- parse_valid(valid)
 
   if (length(mess$required) > 0L) {

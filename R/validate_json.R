@@ -10,7 +10,7 @@
 #' @return A \code{boolean} with optional \code{errors} attribute.
 #' @author Arjan Huizing 2019
 #' @export
-validate_bds_individual <- function(txt = NULL, schema = NULL,
+validate_json <- function(txt = NULL, schema = NULL,
                                     verbose = TRUE) {
   if (is.null(schema))
     schemajs <- system.file("json", "bds_schema_str.json", package = "bdsreader")
