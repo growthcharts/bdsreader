@@ -6,12 +6,12 @@
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
 #' @param \dots Additional parameter passed down to
-#'   \code{fromJSON(txt, ...)}.
+#'   `fromJSON(txt, ...)`.
 #' @return A list of processed input data. Side effect: messages are
 #' thrown for input fields that do not conform to the expected
 #' data.
 #' @author Stef van Buuren 2020
-#' @seealso \code{\link[jsonlite]{fromJSON}}
+#' @seealso [jsonlite::fromJSON()]
 #' @examples
 #' fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 #' p <- verify(fn)

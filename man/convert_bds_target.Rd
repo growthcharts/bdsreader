@@ -26,7 +26,7 @@ fn <- system.file("extdata", "allegrosultum", "client3.json", package = "jameste
 q <- convert_bds_target(fn)
 }
 \seealso{
-\code{\link[jsonlite]{fromJSON}}
+\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}
 }
 \author{
 Stef van Buuren 2021

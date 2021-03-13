@@ -1,14 +1,14 @@
 #' Convert json BDS data for single individual to target object
 #'
 #' This function takes data from a json source and saves it as a an object
-#' of class \code{target}.
+#' of class `target`.
 #' @param txt a JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
-#' @param \dots Additional parameter passed down to \code{fromJSON(txt, ...)}.
-#' @return An object of class \code{target} or \code{NULL}
+#' @param \dots Additional parameter passed down to `fromJSON(txt, ...)`.
+#' @return An object of class `target` or `NULL`
 #' @author Stef van Buuren 2021
-#' @seealso \code{\link[jsonlite]{fromJSON}}
+#' @seealso [jsonlite::fromJSON()]
 #' @examples
 #' fn <- system.file("extdata", "allegrosultum", "client3.json", package = "jamestest")
 #' q <- convert_bds_target(fn)

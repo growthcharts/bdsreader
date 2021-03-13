@@ -30,7 +30,7 @@ p <- verify(fn)
 
 }
 \seealso{
-\code{\link[jsonlite]{fromJSON}}
+\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}
 }
 \author{
 Stef van Buuren 2020

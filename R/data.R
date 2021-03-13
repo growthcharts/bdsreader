@@ -10,8 +10,8 @@
 #' \item{bds_label}{Dutch label}
 #' \item{labelEN}{English label}}
 #'
-#' @source This table is constructed from \code{dscore::bds_edited.csv} by
-#' script \code{data-raw/R/bds_gsed_table.R}
+#' @source This table is constructed from `dscore::bds_edited.csv` by
+#' script `data-raw/R/bds_gsed_table.R`
 #' @keywords dataset
 "bds_gsed"
 
