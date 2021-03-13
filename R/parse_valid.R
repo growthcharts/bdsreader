@@ -39,7 +39,7 @@ parse_valid <- function(valid) {
                                                    NA, mode(val.err[i, 2L][[1L]]))
       }
       mess$supplied <- merge(user.warning, bdsreader::bds_lexicon, by = "bdsnummer") %>%
-        select(one_of(c("bdsnummer", "description", "expected", "supplied", "supplied_type")))
+        select(all_of(c("bdsnummer", "description", "expected", "supplied", "supplied_type")))
     }
   }
   mess

@@ -1,24 +1,24 @@
 Package: bdsreader
 Type: Package
-Title: Read and Validate Data Using Basis Data Set Jeugdgezondheidszorg
+Title: Read Data from the Basisdataset Jeugdgezondheidszorg
 Version: 0.1.0
-Author: Stef van Buuren, Arjan Huizing
-Maintainer: Stef van Buuren <stef.vanbuuren@tno.nl>
-Description: Read and Validate Data Using Basis Data Set Jeugdgezondheidszorg.
-    This package takes a subset from the minihealth package.
+Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
+             person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
+Description: A light package to read and validate JSON files with
+     individual data coded according to the Basisdataset (BDS) 
+     Jeugdgezondheidszorg. This version supports fields related to 
+     child growth and development.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
 Imports:
-    donorloader,
-    dplyr (>= 0.8.3),
+    dplyr (>= 1.0.0),
     dscore (>= 1.4.0),
     jsonlite,
     jsonvalidate,
     lubridate,
-    methods,
     rlang (>= 0.4.0)
 Suggests: 
     openxlsx,
