@@ -1,4 +1,4 @@
-convert_checked_target <- function(checked = NULL, ...) {
+convert_checked_list <- function(checked = NULL, ...) {
   d <- checked$data
   b <- d$ClientGegevens$Elementen
   r <- checked$ranges

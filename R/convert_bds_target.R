@@ -27,6 +27,19 @@ convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
     }
   )
 
-  # and produce proper target data object
-  convert_checked_target(checked)
+  # parse to list with child/time components
+  x <- convert_checked_list(checked)
+
+  # add Z-scores
+  data <- x$time %>%
+    mutate(sex = (!!x)$child$sex,
+           ga = (!!x)$child$ga,
+           bmi = .data$wgt / (.data$hgt / 100)^2)
+  data <- bind_cols(
+    select(data, c(-c("sex", "ga"))),
+    transform2z(data))
+
+  val <- list(child = x$child, time = data)
+  class(val) <- c("target", "list")
+  val
 }

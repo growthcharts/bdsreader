@@ -3,7 +3,6 @@
 export(convert_bds_target)
 export(get_dob)
 export(is.target)
-export(target_to_donordata)
 export(validate_json)
 export(verify)
 importFrom(centile,y2z)
