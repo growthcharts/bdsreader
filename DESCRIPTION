@@ -14,11 +14,13 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 Imports:
+    centile,
     dplyr (>= 1.0.0),
     dscore (>= 1.4.0),
     jsonlite,
     jsonvalidate,
     lubridate,
+    nlreferences,
     rlang (>= 0.4.0)
 Suggests: 
     openxlsx,

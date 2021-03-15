@@ -1,7 +1,10 @@
-#' @importFrom dplyr           %>% all_of bind_rows recode select tibble
+#' @importFrom centile         y2z
+#' @importFrom dplyr           %>% all_of bind_cols bind_rows mutate
+#'                             recode select tibble
 #' @importFrom dscore          dscore
 #' @importFrom jsonlite        fromJSON
 #' @importFrom jsonvalidate    json_validate
 #' @importFrom lubridate       ymd
-#' @importFrom rlang           catch_cnd
+#' @importFrom nlreferences    transform2z
+#' @importFrom rlang           .data catch_cnd
 NULL
