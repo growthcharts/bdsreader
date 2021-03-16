@@ -42,7 +42,7 @@ convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
     select(data, c(-c("sex", "ga"))),
     transform2z(data))
 
-  val <- list(child = x$child, time = data)
+  val <- list(child = x$child, time = data, ddi = x$ddi)
   class(val) <- c("target", "list")
   val
 }

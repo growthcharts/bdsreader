@@ -74,7 +74,7 @@ convert_checked_list <- function(checked = NULL, ...) {
     )
   }
 
-  list(child = child, time = time)
+  list(child = child, time = time, ddi = ddi)
 }
 
 extract_dob <- function(d) {
