@@ -31,9 +31,12 @@ convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
   x <- convert_checked_list(checked)
 
   # add Z-scores
+  sex <- ifelse(nrow(x$child), x$child$sex, NA_character_)
+  ga <- ifelse(nrow(x$child), x$child$ga, NA_real_)
+
   data <- x$time %>%
-    mutate(sex = (!!x)$child$sex,
-           ga = (!!x)$child$ga,
+    mutate(sex = !! sex,
+           ga = !! ga,
            bmi = .data$wgt / (.data$hgt / 100)^2)
   data <- bind_cols(
     select(data, c(-c("sex", "ga"))),

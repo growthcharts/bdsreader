@@ -47,7 +47,7 @@ convert_checked_list <- function(checked = NULL, ...) {
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (length(d$Contactmomenten) == 0L) {
+  if (!length(d$Contactmomenten)) {
     time <- tibble(
       age = numeric(), hgt = numeric(), wgt = numeric(),
       hdc = numeric(), bmi = numeric(), dsc = numeric()
@@ -64,7 +64,7 @@ convert_checked_list <- function(checked = NULL, ...) {
   }
 
   # append birth weight record if needed
-  if (!is.na(child$bw) && !any(is.na(time$age)) && !any(time$age == 0)) {
+  if (nrow(child) && !is.na(child$bw) && !any(is.na(time$age)) && !any(time$age == 0)) {
     time <- bind_rows(
       tibble(
         age = 0,
