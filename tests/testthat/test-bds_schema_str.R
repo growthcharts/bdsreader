@@ -69,3 +69,11 @@ js  <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Laura_S.json passes bds_schema_str.json", {
           expect_true(validate_json(fn))})
+
+fn  <- system.file("extdata", "graham", "Bas_G.json", package = "jamestest")
+js  <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+
+test_that("Bas_G.json (Bdsnummer 19 missing) FAILS bds_schema_str.json", {
+  expect_false(validate_json(fn))})
+
+
