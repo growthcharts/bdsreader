@@ -2,7 +2,7 @@
 % Please edit documentation in R/convert_bds_target.R
 \name{convert_bds_target}
 \alias{convert_bds_target}
-\title{Convert json BDS data for single individual to target object}
+\title{Convert json BDS data for single individual to a tibble}
 \usage{
 convert_bds_target(
   txt = NULL,
@@ -25,15 +25,16 @@ schema.}
 \item{\dots}{Additional parameter passed down to}
 }
 \value{
-An object of class \code{target} or \code{NULL}
+A \code{tbl_df} object with 8 columns and a \code{child} attribute
 }
 \description{
-This function takes data from a json source and saves it as a an object
-of class \code{target}.
+This function takes data from a json source, calculate Z-scores in the
+analysis metric, and saves the data as a tibble.
 }
 \examples{
-fn <- system.file("extdata", "allegrosultum", "client3.json", package = "jamestest")
+fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 q <- convert_bds_target(fn)
+q
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}

@@ -51,7 +51,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),
-      x = numeric(), y = numeric())
+      x = numeric(), y = numeric()
+    )
   } else {
     xy <-
       tibble(
@@ -59,12 +60,15 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
         xname = c(rep("age", length(r$dom) * 5L), rep("hgt", length(r$dom))),
         yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"), each = length(r$dom)),
         x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L), r$hgt / 10),
-        y = c(r$hgt / 10,
-              r$wgt / 1000,
-              r$hdc / 10,
-              r$wgt / (r$hgt / 100)^2,
-              ds$d,
-              r$wgt / 1000)) %>%
+        y = c(
+          r$hgt / 10,
+          r$wgt / 1000,
+          r$hdc / 10,
+          r$wgt / (r$hgt / 100)^2,
+          ds$d,
+          r$wgt / 1000
+        )
+      ) %>%
       tidyr::drop_na()
   }
 
@@ -87,11 +91,14 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     xy <- bind_rows(
       xy,
       ddi %>%
-        pivot_longer(cols = -all_of("age"), names_to = "yname",
-                     values_to = "y", values_drop_na = TRUE) %>%
-        mutate(xname = "age",
-               x = .data$age
-               )
+        pivot_longer(
+          cols = -all_of("age"), names_to = "yname",
+          values_to = "y", values_drop_na = TRUE
+        ) %>%
+        mutate(
+          xname = "age",
+          x = .data$age
+        )
     )
   }
 

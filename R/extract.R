@@ -13,9 +13,9 @@ extract_sex <- function(b) {
     return(NA_character_)
   }
   switch(s,
-         "1" = "male",
-         "2" = "female",
-         NA_character_
+    "1" = "male",
+    "2" = "female",
+    NA_character_
   )
 }
 
