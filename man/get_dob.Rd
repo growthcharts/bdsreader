@@ -7,7 +7,7 @@
 get_dob(x)
 }
 \arguments{
-\item{x}{An object of class \code{target}.}
+\item{x}{A tibble with a \code{child} attribute.}
 }
 \value{
 Object of class \code{Date}. If dob is missing,

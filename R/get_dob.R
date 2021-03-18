@@ -1,6 +1,6 @@
 #' Get the date of birth of a child
 #'
-#' @param x An object of class `target`.
+#' @param x A tibble with a `child` attribute.
 #' @return  Object of class `Date`. If dob is missing,
 #' the function return dob 01-01-2000.
 #' @export

@@ -2,7 +2,6 @@
 
 export(convert_bds_target)
 export(get_dob)
-export(is.target)
 export(validate_json)
 export(verify)
 importFrom(centile,y2z)
