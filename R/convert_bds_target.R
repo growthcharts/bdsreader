@@ -5,7 +5,9 @@
 #' @param txt a JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
-#' @param \dots Additional parameter passed down to `fromJSON(txt, ...)`.
+#' @param append_ddi Should DDI measures be appended?
+#' @param verbose Show warnings of missing references
+#' @param \dots Additional parameter passed down to
 #' @return An object of class `target` or `NULL`
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()]
@@ -13,7 +15,8 @@
 #' fn <- system.file("extdata", "allegrosultum", "client3.json", package = "jamestest")
 #' q <- convert_bds_target(fn)
 #' @export
-convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
+convert_bds_target <- function(txt = NULL, schema = NULL,
+                               append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     return(NULL)
   }
@@ -28,21 +31,28 @@ convert_bds_target <- function(txt = NULL, schema = NULL, ...) {
   )
 
   # parse to list with child/time components
-  x <- convert_checked_list(checked)
+  x <- convert_checked_list(checked, ...)
 
-  # add Z-scores
-  sex <- ifelse(nrow(x$child), x$child$sex, NA_character_)
-  ga <- ifelse(nrow(x$child), x$child$ga, NA_real_)
+  # add Z-scores, analysis metric
+  xyz <- x$xy %>%
+    mutate(
+      sex = (!!x)$child$sex,
+      ga = (!!x)$child$ga
+    ) %>%
+    mutate(
+      refcode_z = nlreferences::set_refcodes(.),
+      refcode_z = ifelse(nchar(.data$yname) == 3L, .data$refcode_z, NA_character_),
+      zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"), NA_character_),
+      z = y2z(
+        y = .data$y,
+        x = .data$x,
+        refcode = .data$refcode_z,
+        pkg = "nlreferences",
+        verbose = verbose
+      )
+    ) %>%
+    select(all_of(c("xname", "yname", "zname", "x", "y", "z", "age", "refcode_z")))
 
-  data <- x$time %>%
-    mutate(sex = !! sex,
-           ga = !! ga,
-           bmi = .data$wgt / (.data$hgt / 100)^2)
-  data <- bind_cols(
-    select(data, c(-c("sex", "ga"))),
-    transform2z(data))
-
-  val <- list(child = x$child, time = data, ddi = x$ddi)
-  class(val) <- c("target", "list")
-  val
+  attr(xyz, "child") <- x$child
+  xyz
 }

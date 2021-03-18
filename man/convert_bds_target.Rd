@@ -4,7 +4,13 @@
 \alias{convert_bds_target}
 \title{Convert json BDS data for single individual to target object}
 \usage{
-convert_bds_target(txt = NULL, schema = NULL, ...)
+convert_bds_target(
+  txt = NULL,
+  schema = NULL,
+  append_ddi = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{txt}{a JSON string, URL or file}
@@ -12,7 +18,11 @@ convert_bds_target(txt = NULL, schema = NULL, ...)
 \item{schema}{A JSON string, URL or file that selects the JSON validation
 schema.}
 
-\item{\dots}{Additional parameter passed down to \code{fromJSON(txt, ...)}.}
+\item{append_ddi}{Should DDI measures be appended?}
+
+\item{verbose}{Show warnings of missing references}
+
+\item{\dots}{Additional parameter passed down to}
 }
 \value{
 An object of class \code{target} or \code{NULL}

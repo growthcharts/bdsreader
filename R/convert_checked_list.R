@@ -1,4 +1,4 @@
-convert_checked_list <- function(checked = NULL, ...) {
+convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
   d <- checked$data
   b <- d$ClientGegevens$Elementen
   r <- checked$ranges
@@ -12,8 +12,8 @@ convert_checked_list <- function(checked = NULL, ...) {
   src <- as.character(d$OrganisatieCode)
   src <- ifelse(length(src), src, "")
   child <- tibble(
-    id = 0L,
-    name = as.character(d$Referentie),
+    id = -1L,
+    name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
     dob = extract_dob(d),
     src = src,
     dnr = NA_character_,
@@ -48,31 +48,52 @@ convert_checked_list <- function(checked = NULL, ...) {
   )
 
   if (!length(d$Contactmomenten)) {
-    time <- tibble(
-      age = numeric(), hgt = numeric(), wgt = numeric(),
-      hdc = numeric(), bmi = numeric(), dsc = numeric()
-    )
+    xy <- tibble(
+      age = numeric(),
+      xname = character(), yname = character(),
+      x = numeric(), y = numeric())
   } else {
-    time <-
+    xy <-
       tibble(
-        age = as.numeric(round((r$dom - r$dob) / 365.25, 4L)),
-        hgt = r$hgt / 10,
-        wgt = r$wgt / 1000,
-        hdc = r$hdc / 10,
-        dsc = ds$d
-      )
+        age = rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 6L),
+        xname = c(rep("age", length(r$dom) * 5L), rep("hgt", length(r$dom))),
+        yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"), each = length(r$dom)),
+        x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L), r$hgt / 10),
+        y = c(r$hgt / 10,
+              r$wgt / 1000,
+              r$hdc / 10,
+              r$wgt / (r$hgt / 100)^2,
+              ds$d,
+              r$wgt / 1000)) %>%
+      tidyr::drop_na()
   }
 
   # append birth weight record if needed
-  if (nrow(child) && !is.na(child$bw) && !any(is.na(time$age)) && !any(time$age == 0)) {
-    time <- bind_rows(
+  if (nrow(child) && !is.na(child$bw) && !any(is.na(xy$x)) && !any(xy$x == 0)) {
+    xy <- bind_rows(
+      xy,
       tibble(
         age = 0,
-        wgt = child$bw / 1000
-      ),
-      time
+        xname = "age",
+        yname = "wgt",
+        x = 0,
+        y = child$bw / 1000
+      )
     )
   }
 
-  list(child = child, time = time, ddi = ddi)
+  ## append DDI
+  if (nrow(ddi) && append_ddi) {
+    xy <- bind_rows(
+      xy,
+      ddi %>%
+        pivot_longer(cols = -all_of("age"), names_to = "yname",
+                     values_to = "y", values_drop_na = TRUE) %>%
+        mutate(xname = "age",
+               x = .data$age
+               )
+    )
+  }
+
+  list(child = child, xy = xy)
 }

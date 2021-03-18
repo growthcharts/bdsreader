@@ -21,7 +21,8 @@ Imports:
     jsonvalidate,
     lubridate,
     nlreferences,
-    rlang (>= 0.4.0)
+    rlang (>= 0.4.0),
+    tidyr
 Suggests: 
     openxlsx,
     jamestest,

@@ -1,16 +1,18 @@
 # test the empty object
 js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
 test_that("handles the empty individual object", {
-           expect_message(is.target(convert_bds_target(js1)),
+           expect_message(convert_bds_target(js1),
                           "should have required property 'Elementen'")})
 
 jtf <- system.file("extdata", "test", paste0("test", 1:24, ".json"), package = "jamestest")
 
 test_that("test1.json (client3.json) passes convert_bds_target()", {
-          expect_s3_class(convert_bds_target(jtf[1]), "target")})
+  expect_equal(class(convert_bds_target(jtf[1])),
+               c("tbl_df", "tbl", "data.frame"))})
 
 test_that("test2.json (missing Referentie) PASSES", {
-          expect_s3_class(convert_bds_target(jtf[2]), "target")})
+  expect_equal(class(convert_bds_target(jtf[2])),
+               c("tbl_df", "tbl", "data.frame"))})
 
 test_that("test3.json (missing OrganisatieCode) MESS", {
           expect_message(convert_bds_target(jtf[3]),
