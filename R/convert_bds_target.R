@@ -1,24 +1,49 @@
-#' Convert json BDS data for single individual to target object
+#' Convert json BDS data for single individual to a tibble
 #'
-#' This function takes data from a json source and saves it as a an object
-#' of class `target`.
+#' This function takes data from a json source, calculate Z-scores in the
+#' analysis metric, and saves the data as a tibble.
 #' @param txt a JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show warnings of missing references
 #' @param \dots Additional parameter passed down to
-#' @return An object of class `target` or `NULL`
+#' @return A `tbl_df` object with 8 columns and a `child` attribute
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' fn <- system.file("extdata", "allegrosultum", "client3.json", package = "jamestest")
+#' fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
 #' q <- convert_bds_target(fn)
+#' q
 #' @export
 convert_bds_target <- function(txt = NULL, schema = NULL,
                                append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
-    return(NULL)
+    xyz <- tibble(
+      xname = character(0),
+      yname = character(0),
+      zname = character(0),
+      x = numeric(0),
+      y = numeric(0),
+      z = numeric(0),
+      age = numeric(0),
+      refcode_z = character(0))
+    attr(xyz, "child") <- tibble(
+        id = -1L,
+        name = NA_character_,
+        dob = as.Date(NA),
+        src = NA_character_,
+        dnr = NA_character_,
+        sex = NA_character_,
+        gad = NA_real_,
+        ga = NA_real_,
+        smo = NA_real_,
+        bw = NA_real_,
+        hgtm = NA_real_,
+        hgtf = NA_real_,
+        agem = NA_real_,
+        etn = NA_character_)
+    return(xyz)
   }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a
@@ -31,7 +56,7 @@ convert_bds_target <- function(txt = NULL, schema = NULL,
   )
 
   # parse to list with child/time components
-  x <- convert_checked_list(checked, ...)
+  x <- convert_checked_list(checked, append_ddi = append_ddi)
 
   # add Z-scores, analysis metric
   xyz <- x$xy %>%
@@ -40,7 +65,7 @@ convert_bds_target <- function(txt = NULL, schema = NULL,
       ga = (!!x)$child$ga
     ) %>%
     mutate(
-      refcode_z = nlreferences::set_refcodes(.),
+      refcode_z = set_refcodes(.),
       refcode_z = ifelse(nchar(.data$yname) == 3L, .data$refcode_z, NA_character_),
       zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"), NA_character_),
       z = y2z(

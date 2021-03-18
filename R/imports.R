@@ -5,7 +5,7 @@
 #' @importFrom jsonlite        fromJSON
 #' @importFrom jsonvalidate    json_validate
 #' @importFrom lubridate       ymd
-#' @importFrom nlreferences    transform2z
+#' @importFrom nlreferences    set_refcodes
 #' @importFrom rlang           .data catch_cnd
 #' @importFrom tidyr           drop_na pivot_longer tibble
 NULL
