@@ -381,7 +381,7 @@ suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(dplyr))
 
 fn  &lt;- system.file(&quot;extdata&quot;, &quot;test&quot;, &quot;test25.json&quot;, package = &quot;jamestest&quot;)
-tgt &lt;- suppressMessages(convert_bds_target(fn))
+tgt &lt;- suppressMessages(read_bds(fn))
 tgt$time</code></pre>
 <pre><code>## # A tibble: 7 x 12
 ##      age   hgt   wgt   hdc   dsc   bmi hgt_z wgt_z hdc_z  dsc_z bmi_z wfh_z

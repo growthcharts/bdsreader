@@ -13,7 +13,7 @@
 #' @author Stef van Buuren 2020
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
+#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
 #' p <- verify(fn)
 #' @export
 verify <- function(txt = NULL, schema = NULL, ...) {

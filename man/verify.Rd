@@ -25,7 +25,7 @@ This function checks the json input, runs it against a validation schema, and
 checks the input json for further processing.
 }
 \examples{
-fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
+fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
 p <- verify(fn)
 }
 \seealso{

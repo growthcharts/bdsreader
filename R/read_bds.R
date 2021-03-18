@@ -1,8 +1,8 @@
-#' Convert json BDS data for single individual to a tibble
+#' Reads selected BDS data of a child
 #'
-#' This function takes data from a json source, calculate Z-scores in the
-#' analysis metric, and saves the data as a tibble.
-#' @param txt a JSON string, URL or file
+#' This function takes data from a json source, calcuates the D-score,
+#' calculates Z-scores and transforms the data as a tibble.
+#' @param txt A JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
 #' @param append_ddi Should DDI measures be appended?
@@ -12,12 +12,12 @@
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
-#' q <- convert_bds_target(fn)
+#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' q <- read_bds(fn)
 #' q
 #' @export
-convert_bds_target <- function(txt = NULL, schema = NULL,
-                               append_ddi = FALSE, verbose = FALSE, ...) {
+read_bds <- function(txt = NULL, schema = NULL,
+                     append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(
       xname = character(0),
@@ -29,20 +29,20 @@ convert_bds_target <- function(txt = NULL, schema = NULL,
       age = numeric(0),
       refcode_z = character(0))
     attr(xyz, "child") <- tibble(
-        id = -1L,
-        name = NA_character_,
-        dob = as.Date(NA),
-        src = NA_character_,
-        dnr = NA_character_,
-        sex = NA_character_,
-        gad = NA_real_,
-        ga = NA_real_,
-        smo = NA_real_,
-        bw = NA_real_,
-        hgtm = NA_real_,
-        hgtf = NA_real_,
-        agem = NA_real_,
-        etn = NA_character_)
+      id = -1L,
+      name = NA_character_,
+      dob = as.Date(NA),
+      src = NA_character_,
+      dnr = NA_character_,
+      sex = NA_character_,
+      gad = NA_real_,
+      ga = NA_real_,
+      smo = NA_real_,
+      bw = NA_real_,
+      hgtm = NA_real_,
+      hgtf = NA_real_,
+      agem = NA_real_,
+      etn = NA_character_)
     return(xyz)
   }
 

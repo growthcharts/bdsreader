@@ -25,7 +25,7 @@ suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(dplyr))
 
 fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
-tgt <- suppressMessages(convert_bds_target(fn))
+tgt <- suppressMessages(read_bds(fn))
 tgt$time
 ```
 
