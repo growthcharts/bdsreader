@@ -1,0 +1,12 @@
+#' Extract person-level information
+#'
+#' @param x A tibble with a `person` attribute
+#' @return A tibble with person-level data
+#' @examples
+#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' persondata(read_bds(fn))
+#' @export
+persondata <- function(x) {
+  attr(x, "person") %>%
+    select(-all_of(c("dob")))
+}

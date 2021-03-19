@@ -1,4 +1,4 @@
-#' Reads selected BDS data of a child
+#' Reads selected BDS data of a person
 #'
 #' This function takes data from a json source, calcuates the D-score,
 #' calculates Z-scores and transforms the data as a tibble.
@@ -8,7 +8,7 @@
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show warnings of missing references
 #' @param \dots Additional parameter passed down to
-#' @return A `tbl_df` object with 8 columns and a `child` attribute
+#' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
@@ -20,15 +20,15 @@ read_bds <- function(txt = NULL, schema = NULL,
                      append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(
+      age = numeric(0),
       xname = character(0),
       yname = character(0),
       zname = character(0),
       x = numeric(0),
       y = numeric(0),
       z = numeric(0),
-      age = numeric(0),
       refcode_z = character(0))
-    attr(xyz, "child") <- tibble(
+    attr(xyz, "persondata") <- tibble(
       id = -1L,
       name = NA_character_,
       dob = as.Date(NA),
@@ -55,14 +55,15 @@ read_bds <- function(txt = NULL, schema = NULL,
     }
   )
 
-  # parse to list with child/time components
+  # parse to list with components: persondata, xy
   x <- convert_checked_list(checked, append_ddi = append_ddi)
 
   # add Z-scores, analysis metric
+  # try to find a reference only if yname has three letters
   xyz <- x$xy %>%
     mutate(
-      sex = (!!x)$child$sex,
-      ga = (!!x)$child$ga
+      sex = (!!x)$persondata$sex,
+      ga = (!!x)$persondata$ga
     ) %>%
     mutate(
       refcode_z = set_refcodes(.),
@@ -76,8 +77,8 @@ read_bds <- function(txt = NULL, schema = NULL,
         verbose = verbose
       )
     ) %>%
-    select(all_of(c("xname", "yname", "zname", "x", "y", "z", "age", "refcode_z")))
+    select(all_of(c("age", "xname", "yname", "zname", "x", "y", "z", "refcode_z")))
 
-  attr(xyz, "child") <- x$child
+  attr(xyz, "person") <- x$persondata
   xyz
 }

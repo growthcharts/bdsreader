@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_bds.R
 \name{read_bds}
 \alias{read_bds}
-\title{Reads selected BDS data of a child}
+\title{Reads selected BDS data of a person}
 \usage{
 read_bds(txt = NULL, schema = NULL, append_ddi = FALSE, verbose = FALSE, ...)
 }
@@ -19,7 +19,7 @@ schema.}
 \item{\dots}{Additional parameter passed down to}
 }
 \value{
-A \code{tbl_df} object with 8 columns and a \code{child} attribute
+A tibble with 8 columns with a \code{person} attribute
 }
 \description{
 This function takes data from a json source, calcuates the D-score,

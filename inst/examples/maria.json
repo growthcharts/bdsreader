@@ -1,5 +1,5 @@
 {
-   "Referentie":"fa308134-069e-49ce-9847-ccdae380ed6f",
+   "Referentie":"Maria",
    "OrganisatieCode":1234,
    "ClientGegevens":{
       "Elementen":[
@@ -13,7 +13,7 @@
          },
          {
             "Bdsnummer":82,
-            "Waarde":"189"
+            "Waarde":189
          },
          {
             "Bdsnummer":91,
@@ -21,15 +21,15 @@
          },
          {
             "Bdsnummer":110,
-            "Waarde":"990"
+            "Waarde":990
          },
          {
             "Bdsnummer":238,
-            "Waarde":"1670"
+            "Waarde":1670
          },
          {
             "Bdsnummer":240,
-            "Waarde":"1900"
+            "Waarde":1900
          }
       ],
       "Groepen":[
@@ -41,7 +41,7 @@
                },
                {
                   "Bdsnummer":71,
-                  "Waarde":"6030"
+                  "Waarde":6030
                },
                {
                   "Bdsnummer":62,
@@ -57,7 +57,7 @@
                },
                {
                   "Bdsnummer":71,
-                  "Waarde":"6030"
+                  "Waarde":6030
                },
                {
                   "Bdsnummer":62,
@@ -73,15 +73,15 @@
          "Elementen":[
             {
                "Bdsnummer":235,
-               "Waarde":"380"
+               "Waarde":380
             },
             {
                "Bdsnummer":245,
-               "Waarde":"1250"
+               "Waarde":1250
             },
             {
                "Bdsnummer":252,
-               "Waarde":"270"
+               "Waarde":270
             }
          ]
       },
@@ -90,15 +90,15 @@
          "Elementen":[
             {
                "Bdsnummer":235,
-               "Waarde":"435"
+               "Waarde":435
             },
             {
                "Bdsnummer":245,
-               "Waarde":"2100"
+               "Waarde":2100
             },
             {
                "Bdsnummer":252,
-               "Waarde":"305"
+               "Waarde":305
             }
          ]
       }

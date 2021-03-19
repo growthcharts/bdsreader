@@ -7,11 +7,10 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
   ddi <- convert_ddi_gsed(d, r)
   ds <- dscore::dscore(data = ddi, key = "dutch")
 
-  # browser()
-  # is this child or message number?
+  # store requester code
   src <- as.character(d$OrganisatieCode)
   src <- ifelse(length(src), src, "")
-  child <- tibble(
+  persondata <- tibble(
     id = -1L,
     name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
     dob = extract_dob(d),
@@ -73,7 +72,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
   }
 
   # append birth weight record if needed
-  if (nrow(child) && !is.na(child$bw) && !any(is.na(xy$x)) && !any(xy$x == 0)) {
+  if (nrow(persondata) && !is.na(persondata$bw) && !any(is.na(xy$x)) && !any(xy$x == 0)) {
     xy <- bind_rows(
       xy,
       tibble(
@@ -81,7 +80,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
         xname = "age",
         yname = "wgt",
         x = 0,
-        y = child$bw / 1000
+        y = persondata$bw / 1000
       )
     )
   }
@@ -102,5 +101,5 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     )
   }
 
-  list(child = child, xy = xy)
+  list(persondata = persondata, xy = xy)
 }
