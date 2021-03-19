@@ -20,13 +20,13 @@ knitr::opts_chunk$set(
 
 The `bdsreader` package is a lightweight package that
 
-- Reads JSON files with data coded according to the Basisdataset JGZ protocol;
-- Validates the data against a JSON schema;
-- Calculates the child's D-score from individual Van Wiechen Schema (DDI) response;
-- Adds Z-scores for height, weight, head circumference, BMI, weight-for-height and D-score measurements;
+- Reads and parses JSON data coded according to the Basisdataset JGZ protocol;
+- Validates the data against the JSON schema;
+- Calculates the child's D-score from the Van Wiechen Schema (DDI) responses;
+- Adds Z-scores for height, weight, head circumference, BMI, weight-for-height and D-score;
 - Stores the result as a structured `tibble`.
 
-The main use of the `bdsreader` is to translate incoming API request that contain child data into data objects useful for `R` processing. The package is part of Joint Automatic Measurement and Evaluation System (JAMES) as developed by the Netherlands Organisation for Applied Scientific Research TNO.
+The main use of the `bdsreader` is to translate child data (incoming via an API request) into a data object useful for `R` processing. The package is part of Joint Automatic Measurement and Evaluation System (JAMES) developed by the Netherlands Organisation for Applied Scientific Research TNO.
 
 ## Installation
 
@@ -39,21 +39,33 @@ remotes::install_github("growthcharts/bdsreader")
 
 There is no CRAN release.
 
-## Examples
+## Example
 
-The following lines illustrate the main use of `bdsreader`.
+The following commands illustrate the main use of `bdsreader`.
 
 ```{r}
 library(bdsreader)
-fn <- system.file("examples", "client3.json", package = "bdsreader")
-read_bds(fn)
+fn <- system.file("examples", "maria.json", package = "bdsreader")
+xyz <- read_bds(fn)
+xyz
 ```
 
-The file `client3.json` contains child data coded in JSON format. Here's the contents of the file:
+Each row in the result `xyz` contains the measurement `yname`, the conditioning variable `xname` and the Z-score `zname`. Columns `y`, `x` and `z` store their values, respectively. The column named `refcode_z` holds the name of the growth reference (as defined in the `nlreference` package) used to calculate the Z-score. Decimal age (`age`) is age at which the measurement was done.
+
+The `person()` function returns the person-level information:
+
+```{r}
+persondata(xyz)
+```
+
+
+## Steps
+
+The examples file `maria.json` contains Maria's data coded in JSON format. Here's the contents of the file:
 
 ```
 {
-   "Referentie":"fa308134-069e-49ce-9847-ccdae380ed6f",
+   "Referentie":"Maria",
    "OrganisatieCode":1234,
    "ClientGegevens":{
       "Elementen":[
@@ -67,7 +79,7 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
          },
          {
             "Bdsnummer":82,
-            "Waarde":"189"
+            "Waarde":189
          },
          {
             "Bdsnummer":91,
@@ -75,15 +87,15 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
          },
          {
             "Bdsnummer":110,
-            "Waarde":"990"
+            "Waarde":990
          },
          {
             "Bdsnummer":238,
-            "Waarde":"1670"
+            "Waarde":1670
          },
          {
             "Bdsnummer":240,
-            "Waarde":"1900"
+            "Waarde":1900
          }
       ],
       "Groepen":[
@@ -95,7 +107,7 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
                },
                {
                   "Bdsnummer":71,
-                  "Waarde":"6030"
+                  "Waarde":6030
                },
                {
                   "Bdsnummer":62,
@@ -111,7 +123,7 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
                },
                {
                   "Bdsnummer":71,
-                  "Waarde":"6030"
+                  "Waarde":6030
                },
                {
                   "Bdsnummer":62,
@@ -127,15 +139,15 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
          "Elementen":[
             {
                "Bdsnummer":235,
-               "Waarde":"380"
+               "Waarde":380
             },
             {
                "Bdsnummer":245,
-               "Waarde":"1250"
+               "Waarde":1250
             },
             {
                "Bdsnummer":252,
-               "Waarde":"270"
+               "Waarde":270
             }
          ]
       },
@@ -144,15 +156,15 @@ The file `client3.json` contains child data coded in JSON format. Here's the con
          "Elementen":[
             {
                "Bdsnummer":235,
-               "Waarde":"435"
+               "Waarde":435
             },
             {
                "Bdsnummer":245,
-               "Waarde":"2100"
+               "Waarde":2100
             },
             {
                "Bdsnummer":252,
-               "Waarde":"305"
+               "Waarde":305
             }
          ]
       }

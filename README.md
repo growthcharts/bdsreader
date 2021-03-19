@@ -11,20 +11,20 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The `bdsreader` package is a lightweight package that
 
--   Reads JSON files with data coded according to the Basisdataset JGZ
+-   Reads and parses JSON data coded according to the Basisdataset JGZ
     protocol;
--   Validates the data against a JSON schema;
--   Calculates the child’s D-score from individual Van Wiechen Schema
-    (DDI) response;
+-   Validates the data against the JSON schema;
+-   Calculates the child’s D-score from the Van Wiechen Schema (DDI)
+    responses;
 -   Adds Z-scores for height, weight, head circumference, BMI,
-    weight-for-height and D-score measurements;
+    weight-for-height and D-score;
 -   Stores the result as a structured `tibble`.
 
-The main use of the `bdsreader` is to translate incoming API request
-that contain child data into data objects useful for `R` processing. The
+The main use of the `bdsreader` is to translate child data (incoming via
+an API request) into a data object useful for `R` processing. The
 package is part of Joint Automatic Measurement and Evaluation System
-(JAMES) as developed by the Netherlands Organisation for Applied
-Scientific Research TNO.
+(JAMES) developed by the Netherlands Organisation for Applied Scientific
+Research TNO.
 
 ## Installation
 
@@ -37,35 +37,55 @@ remotes::install_github("growthcharts/bdsreader")
 
 There is no CRAN release.
 
-## Examples
+## Example
 
-The following lines illustrate the main use of `bdsreader`.
+The following commands illustrate the main use of `bdsreader`.
 
 ``` r
 library(bdsreader)
-fn <- system.file("examples", "client3.json", package = "bdsreader")
-read_bds(fn)
+fn <- system.file("examples", "maria.json", package = "bdsreader")
+xyz <- read_bds(fn)
+xyz
 #> # A tibble: 11 x 8
-#>    xname yname zname       x      y      z    age refcode_z            
-#>    <chr> <chr> <chr>   <dbl>  <dbl>  <dbl>  <dbl> <chr>                
-#>  1 age   hgt   hgt_z  0.0849  38    -0.158 0.0849 nl_2012_hgt_female_27
-#>  2 age   hgt   hgt_z  0.167   43.5   0.047 0.167  nl_2012_hgt_female_27
-#>  3 age   wgt   wgt_z  0.0849   1.25 -0.203 0.0849 nl_2012_wgt_female_27
-#>  4 age   wgt   wgt_z  0.167    2.1   0.015 0.167  nl_2012_wgt_female_27
-#>  5 age   hdc   hdc_z  0.0849  27    -0.709 0.0849 nl_2012_hdc_female_27
-#>  6 age   hdc   hdc_z  0.167   30.5  -0.913 0.167  nl_2012_hdc_female_27
-#>  7 age   bmi   bmi_z  0.0849  86.6  19.1   0.0849 nl_1997_bmi_female_nl
-#>  8 age   bmi   bmi_z  0.167  111.   19.0   0.167  nl_1997_bmi_female_nl
-#>  9 hgt   wfh   wfh_z 38        1.25 -0.001 0.0849 nl_2012_wfh_female_  
-#> 10 hgt   wfh   wfh_z 43.5      2.1   0.326 0.167  nl_2012_wfh_female_  
-#> 11 age   wgt   wgt_z  0        0.99  0.19  0      nl_2012_wgt_female_27
+#>       age xname yname zname       x      y      z refcode_z            
+#>     <dbl> <chr> <chr> <chr>   <dbl>  <dbl>  <dbl> <chr>                
+#>  1 0.0849 age   hgt   hgt_z  0.0849  38    -0.158 nl_2012_hgt_female_27
+#>  2 0.167  age   hgt   hgt_z  0.167   43.5   0.047 nl_2012_hgt_female_27
+#>  3 0.0849 age   wgt   wgt_z  0.0849   1.25 -0.203 nl_2012_wgt_female_27
+#>  4 0.167  age   wgt   wgt_z  0.167    2.1   0.015 nl_2012_wgt_female_27
+#>  5 0.0849 age   hdc   hdc_z  0.0849  27    -0.709 nl_2012_hdc_female_27
+#>  6 0.167  age   hdc   hdc_z  0.167   30.5  -0.913 nl_2012_hdc_female_27
+#>  7 0.0849 age   bmi   bmi_z  0.0849  86.6  19.1   nl_1997_bmi_female_nl
+#>  8 0.167  age   bmi   bmi_z  0.167  111.   19.0   nl_1997_bmi_female_nl
+#>  9 0.0849 hgt   wfh   wfh_z 38        1.25 -0.001 nl_2012_wfh_female_  
+#> 10 0.167  hgt   wfh   wfh_z 43.5      2.1   0.326 nl_2012_wfh_female_  
+#> 11 0      age   wgt   wgt_z  0        0.99  0.19  nl_2012_wgt_female_27
 ```
 
-The file `client3.json` contains child data coded in JSON format. Here’s
-the contents of the file:
+Each row in the result `xyz` contains the measurement `yname`, the
+conditioning variable `xname` and the Z-score `zname`. Columns `y`, `x`
+and `z` store their values, respectively. The column named `refcode_z`
+holds the name of the growth reference (as defined in the `nlreference`
+package) used to calculate the Z-score. Decimal age (`age`) is age at
+which the measurement was done.
+
+The `person()` function returns the person-level information:
+
+``` r
+persondata(xyz)
+#> # A tibble: 1 x 13
+#>      id name  src   dnr   sex      gad    ga   smo    bw  hgtm  hgtf  agem etn  
+#>   <int> <chr> <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <chr>
+#> 1    -1 Maria 1234  <NA>  female   189    27     0   990   167   190    27 NL
+```
+
+## Steps
+
+The examples file `maria.json` contains Maria’s data coded in JSON
+format. Here’s the contents of the file:
 
     {
-       "Referentie":"fa308134-069e-49ce-9847-ccdae380ed6f",
+       "Referentie":"Maria",
        "OrganisatieCode":1234,
        "ClientGegevens":{
           "Elementen":[
@@ -79,7 +99,7 @@ the contents of the file:
              },
              {
                 "Bdsnummer":82,
-                "Waarde":"189"
+                "Waarde":189
              },
              {
                 "Bdsnummer":91,
@@ -87,15 +107,15 @@ the contents of the file:
              },
              {
                 "Bdsnummer":110,
-                "Waarde":"990"
+                "Waarde":990
              },
              {
                 "Bdsnummer":238,
-                "Waarde":"1670"
+                "Waarde":1670
              },
              {
                 "Bdsnummer":240,
-                "Waarde":"1900"
+                "Waarde":1900
              }
           ],
           "Groepen":[
@@ -107,7 +127,7 @@ the contents of the file:
                    },
                    {
                       "Bdsnummer":71,
-                      "Waarde":"6030"
+                      "Waarde":6030
                    },
                    {
                       "Bdsnummer":62,
@@ -123,7 +143,7 @@ the contents of the file:
                    },
                    {
                       "Bdsnummer":71,
-                      "Waarde":"6030"
+                      "Waarde":6030
                    },
                    {
                       "Bdsnummer":62,
@@ -139,15 +159,15 @@ the contents of the file:
              "Elementen":[
                 {
                    "Bdsnummer":235,
-                   "Waarde":"380"
+                   "Waarde":380
                 },
                 {
                    "Bdsnummer":245,
-                   "Waarde":"1250"
+                   "Waarde":1250
                 },
                 {
                    "Bdsnummer":252,
-                   "Waarde":"270"
+                   "Waarde":270
                 }
              ]
           },
@@ -156,15 +176,15 @@ the contents of the file:
              "Elementen":[
                 {
                    "Bdsnummer":235,
-                   "Waarde":"435"
+                   "Waarde":435
                 },
                 {
                    "Bdsnummer":245,
-                   "Waarde":"2100"
+                   "Waarde":2100
                 },
                 {
                    "Bdsnummer":252,
-                   "Waarde":"305"
+                   "Waarde":305
                 }
              ]
           }
