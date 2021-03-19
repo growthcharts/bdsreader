@@ -47,19 +47,19 @@ fn <- system.file("examples", "maria.json", package = "bdsreader")
 xyz <- read_bds(fn)
 xyz
 #> # A tibble: 11 x 8
-#>       age xname yname zname       x      y      z refcode_z            
-#>     <dbl> <chr> <chr> <chr>   <dbl>  <dbl>  <dbl> <chr>                
-#>  1 0.0849 age   hgt   hgt_z  0.0849  38    -0.158 nl_2012_hgt_female_27
-#>  2 0.167  age   hgt   hgt_z  0.167   43.5   0.047 nl_2012_hgt_female_27
-#>  3 0.0849 age   wgt   wgt_z  0.0849   1.25 -0.203 nl_2012_wgt_female_27
-#>  4 0.167  age   wgt   wgt_z  0.167    2.1   0.015 nl_2012_wgt_female_27
-#>  5 0.0849 age   hdc   hdc_z  0.0849  27    -0.709 nl_2012_hdc_female_27
-#>  6 0.167  age   hdc   hdc_z  0.167   30.5  -0.913 nl_2012_hdc_female_27
-#>  7 0.0849 age   bmi   bmi_z  0.0849  86.6  19.1   nl_1997_bmi_female_nl
-#>  8 0.167  age   bmi   bmi_z  0.167  111.   19.0   nl_1997_bmi_female_nl
-#>  9 0.0849 hgt   wfh   wfh_z 38        1.25 -0.001 nl_2012_wfh_female_  
-#> 10 0.167  hgt   wfh   wfh_z 43.5      2.1   0.326 nl_2012_wfh_female_  
-#> 11 0      age   wgt   wgt_z  0        0.99  0.19  nl_2012_wgt_female_27
+#>       age xname yname zname       x     y      z refcode_z            
+#>     <dbl> <chr> <chr> <chr>   <dbl> <dbl>  <dbl> <chr>                
+#>  1 0.0849 age   hgt   hgt_z  0.0849 38    -0.158 nl_2012_hgt_female_27
+#>  2 0.167  age   hgt   hgt_z  0.167  43.5   0.047 nl_2012_hgt_female_27
+#>  3 0.0849 age   wgt   wgt_z  0.0849  1.25 -0.203 nl_2012_wgt_female_27
+#>  4 0.167  age   wgt   wgt_z  0.167   2.1   0.015 nl_2012_wgt_female_27
+#>  5 0.0849 age   hdc   hdc_z  0.0849 27    -0.709 nl_2012_hdc_female_27
+#>  6 0.167  age   hdc   hdc_z  0.167  30.5  -0.913 nl_2012_hdc_female_27
+#>  7 0.0849 age   bmi   bmi_z  0.0849  8.66 -5.72  nl_1997_bmi_female_nl
+#>  8 0.167  age   bmi   bmi_z  0.167  11.1  -3.77  nl_1997_bmi_female_nl
+#>  9 0.0849 hgt   wfh   wfh_z 38       1.25 -0.001 nl_2012_wfh_female_  
+#> 10 0.167  hgt   wfh   wfh_z 43.5     2.1   0.326 nl_2012_wfh_female_  
+#> 11 0      age   wgt   wgt_z  0       0.99  0.19  nl_2012_wgt_female_27
 ```
 
 Each row in the result `xyz` contains the measurement `yname`, the
