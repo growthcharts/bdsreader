@@ -52,16 +52,19 @@ xyz
 
 Each row in the result `xyz` contains the measurement `yname`, the conditioning variable `xname` and the Z-score `zname`. Columns `y`, `x` and `z` store their values, respectively. The column named `refcode_z` holds the name of the growth reference (as defined in the `nlreference` package) used to calculate the Z-score. Decimal age (`age`) is age at which the measurement was done.
 
-The `person()` function returns the person-level information:
+The `persondata()` function returns the person-level information:
 
 ```{r}
 persondata(xyz)
 ```
 
+The result of `read_bds()` feeds into further data processing in `R`.
 
-## Steps
+## Breakdown in steps
 
-The examples file `maria.json` contains Maria's data coded in JSON format. Here's the contents of the file:
+### JSON Input Data
+
+The example file `maria.json` contains Maria's data coded in JSON format. Here's the contents of the file:
 
 ```
 {
@@ -171,4 +174,20 @@ The examples file `maria.json` contains Maria's data coded in JSON format. Here'
    ]
 }
 ```
+
+JSON is a lightweight format to exchange data between electronic systems. `"Bdsnummer"` fields refer to the numbers defined in the Basisdataset JGZ, whereas `"Waarde"` fields contain the value. You can find the exact specification [here](here). 
+
+### Read and parse input data
+
+### Validate input data
+
+### Age calculation
+
+### D-score calculation
+
+### Z-score calculation
+
+### Structure of result
+
+## Further information
 

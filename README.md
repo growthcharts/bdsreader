@@ -69,7 +69,7 @@ holds the name of the growth reference (as defined in the `nlreference`
 package) used to calculate the Z-score. Decimal age (`age`) is age at
 which the measurement was done.
 
-The `person()` function returns the person-level information:
+The `persondata()` function returns the person-level information:
 
 ``` r
 persondata(xyz)
@@ -79,9 +79,13 @@ persondata(xyz)
 #> 1    -1 Maria 1234  <NA>  female   189    27     0   990   167   190    27 NL
 ```
 
-## Steps
+The result of `read_bds()` feeds into further data processing in `R`.
 
-The examples file `maria.json` contains Maria’s data coded in JSON
+## Breakdown in steps
+
+### JSON Input Data
+
+The example file `maria.json` contains Maria’s data coded in JSON
 format. Here’s the contents of the file:
 
     {
@@ -190,3 +194,22 @@ format. Here’s the contents of the file:
           }
        ]
     }
+
+JSON is a lightweight format to exchange data between electronic
+systems. `"Bdsnummer"` fields refer to the numbers defined in the
+Basisdataset JGZ, whereas `"Waarde"` fields contain the value. You can
+find the exact specification [here](here).
+
+### Read and parse input data
+
+### Validate input data
+
+### Age calculation
+
+### D-score calculation
+
+### Z-score calculation
+
+### Structure of result
+
+## Further information
