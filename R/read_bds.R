@@ -66,18 +66,18 @@ read_bds <- function(txt = NULL, schema = NULL,
       ga = (!!x)$persondata$ga
     ) %>%
     mutate(
-      refcode_z = set_refcodes(.),
-      refcode_z = ifelse(nchar(.data$yname) == 3L, .data$refcode_z, NA_character_),
+      zref = set_refcodes(.),
+      zref = ifelse(nchar(.data$yname) == 3L, .data$zref, NA_character_),
       zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"), NA_character_),
       z = y2z(
         y = .data$y,
         x = .data$x,
-        refcode = .data$refcode_z,
+        refcode = .data$zref,
         pkg = "nlreferences",
         verbose = verbose
       )
     ) %>%
-    select(all_of(c("age", "xname", "yname", "zname", "x", "y", "z", "refcode_z")))
+    select(all_of(c("age", "xname", "yname", "zname", "zref", "x", "y", "z")))
 
   attr(xyz, "person") <- x$persondata
   xyz

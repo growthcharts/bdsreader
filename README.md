@@ -47,27 +47,27 @@ fn <- system.file("examples", "maria.json", package = "bdsreader")
 xyz <- read_bds(fn)
 xyz
 #> # A tibble: 11 x 8
-#>       age xname yname zname       x     y      z refcode_z            
-#>     <dbl> <chr> <chr> <chr>   <dbl> <dbl>  <dbl> <chr>                
-#>  1 0.0849 age   hgt   hgt_z  0.0849 38    -0.158 nl_2012_hgt_female_27
-#>  2 0.167  age   hgt   hgt_z  0.167  43.5   0.047 nl_2012_hgt_female_27
-#>  3 0.0849 age   wgt   wgt_z  0.0849  1.25 -0.203 nl_2012_wgt_female_27
-#>  4 0.167  age   wgt   wgt_z  0.167   2.1   0.015 nl_2012_wgt_female_27
-#>  5 0.0849 age   hdc   hdc_z  0.0849 27    -0.709 nl_2012_hdc_female_27
-#>  6 0.167  age   hdc   hdc_z  0.167  30.5  -0.913 nl_2012_hdc_female_27
-#>  7 0.0849 age   bmi   bmi_z  0.0849  8.66 -5.72  nl_1997_bmi_female_nl
-#>  8 0.167  age   bmi   bmi_z  0.167  11.1  -3.77  nl_1997_bmi_female_nl
-#>  9 0.0849 hgt   wfh   wfh_z 38       1.25 -0.001 nl_2012_wfh_female_  
-#> 10 0.167  hgt   wfh   wfh_z 43.5     2.1   0.326 nl_2012_wfh_female_  
-#> 11 0      age   wgt   wgt_z  0       0.99  0.19  nl_2012_wgt_female_27
+#>       age xname yname zname zref                        x     y      z
+#>     <dbl> <chr> <chr> <chr> <chr>                   <dbl> <dbl>  <dbl>
+#>  1 0.0849 age   hgt   hgt_z nl_2012_hgt_female_27  0.0849 38    -0.158
+#>  2 0.167  age   hgt   hgt_z nl_2012_hgt_female_27  0.167  43.5   0.047
+#>  3 0.0849 age   wgt   wgt_z nl_2012_wgt_female_27  0.0849  1.25 -0.203
+#>  4 0.167  age   wgt   wgt_z nl_2012_wgt_female_27  0.167   2.1   0.015
+#>  5 0.0849 age   hdc   hdc_z nl_2012_hdc_female_27  0.0849 27    -0.709
+#>  6 0.167  age   hdc   hdc_z nl_2012_hdc_female_27  0.167  30.5  -0.913
+#>  7 0.0849 age   bmi   bmi_z nl_1997_bmi_female_nl  0.0849  8.66 -5.72 
+#>  8 0.167  age   bmi   bmi_z nl_1997_bmi_female_nl  0.167  11.1  -3.77 
+#>  9 0.0849 hgt   wfh   wfh_z nl_2012_wfh_female_   38       1.25 -0.001
+#> 10 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326
+#> 11 0      age   wgt   wgt_z nl_2012_wgt_female_27  0       0.99  0.19
 ```
 
-Each row in the result `xyz` contains the measurement `yname`, the
-conditioning variable `xname` and the Z-score `zname`. Columns `y`, `x`
-and `z` store their values, respectively. The column named `refcode_z`
-holds the name of the growth reference (as defined in the `nlreference`
-package) used to calculate the Z-score. Decimal age (`age`) is age at
-which the measurement was done.
+Column `age` in the result `xyz` holds decimal age for the measurement.
+Every row contains a measurement `yname`, the conditioning variable
+`xname` and the Z-score `zname`. The column named `zref` holds the name
+of the growth reference (as defined in the `nlreference` package) used
+to calculate the Z-score. Columns `y`, `x` and `z` store their values,
+respectively.
 
 The `persondata()` function returns the person-level information:
 

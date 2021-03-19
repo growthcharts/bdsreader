@@ -50,7 +50,7 @@ xyz <- read_bds(fn)
 xyz
 ```
 
-Each row in the result `xyz` contains the measurement `yname`, the conditioning variable `xname` and the Z-score `zname`. Columns `y`, `x` and `z` store their values, respectively. The column named `refcode_z` holds the name of the growth reference (as defined in the `nlreference` package) used to calculate the Z-score. Decimal age (`age`) is age at which the measurement was done.
+Column `age` in the result `xyz` holds decimal age for the measurement. Every row contains a measurement `yname`, the conditioning variable `xname` and the Z-score `zname`. The column named `zref` holds the name of the growth reference (as defined in the `nlreference` package) used to calculate the Z-score. Columns `y`, `x` and `z` store their values, respectively. 
 
 The `persondata()` function returns the person-level information:
 
