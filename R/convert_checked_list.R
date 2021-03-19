@@ -63,7 +63,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
           r$hgt / 10,
           r$wgt / 1000,
           r$hdc / 10,
-          r$wgt / (r$hgt / 100)^2,
+          (r$wgt / 1000) / (r$hgt / 1000)^2,
           ds$d,
           r$wgt / 1000
         )
