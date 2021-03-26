@@ -363,7 +363,7 @@ pre code {
 
 <h1 class="title toc-ignore">Extreme D-scores</h1>
 <h4 class="author">Stef van Buuren</h4>
-<h4 class="date">3/16/2021</h4>
+<h4 class="date">3/26/2021</h4>
 
 </div>
 
@@ -381,94 +381,55 @@ suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(dplyr))
 
 fn  &lt;- system.file(&quot;extdata&quot;, &quot;test&quot;, &quot;test25.json&quot;, package = &quot;jamestest&quot;)
-tgt &lt;- suppressMessages(read_bds(fn))
-tgt$time</code></pre>
-<pre><code>## # A tibble: 7 x 12
-##      age   hgt   wgt   hdc   dsc   bmi hgt_z wgt_z hdc_z  dsc_z bmi_z wfh_z
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.0903    NA    NA    NA  26      NA    NA    NA    NA  4.84     NA    NA
-## 2 0.162     NA    NA    NA  13.7    NA    NA    NA    NA -1.43     NA    NA
-## 3 0.260     NA    NA    NA  26.5    NA    NA    NA    NA  0.59     NA    NA
-## 4 0.416     NA    NA    NA  34.3    NA    NA    NA    NA  0.777    NA    NA
-## 5 0.663     NA    NA    NA  43.4    NA    NA    NA    NA  0.964    NA    NA
-## 6 0.931     NA    NA    NA  50.6    NA    NA    NA    NA  1.05     NA    NA
-## 7 1.16      NA    NA    NA  62.5    NA    NA    NA    NA  3.56     NA    NA</code></pre>
+tgt &lt;- suppressMessages(read_bds(fn, append_ddi = TRUE))
+tgt %&gt;% 
+  filter(yname == &quot;dsc&quot;)</code></pre>
+<pre><code>## # A tibble: 7 x 8
+##      age xname yname zname zref                       x     y      z
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 0.0903 age   dsc   dsc_z nl_2014_dsc_female_40 0.0903  26    4.84 
+## 2 0.162  age   dsc   dsc_z nl_2014_dsc_female_40 0.162   13.7 -1.43 
+## 3 0.260  age   dsc   dsc_z nl_2014_dsc_female_40 0.260   26.5  0.59 
+## 4 0.416  age   dsc   dsc_z nl_2014_dsc_female_40 0.416   34.3  0.777
+## 5 0.663  age   dsc   dsc_z nl_2014_dsc_female_40 0.663   43.4  0.964
+## 6 0.931  age   dsc   dsc_z nl_2014_dsc_female_40 0.931   50.6  1.05 
+## 7 1.16   age   dsc   dsc_z nl_2014_dsc_female_40 1.16    62.5  3.56</code></pre>
 <p>The value of 26 is far higher than we would expect. Also the DAZ value of 4.84 indicates an out-of-range value. Incidentically, also note that the D-score of 62.5 (SDS 3.56) at the age of 1.16 years is higher than expected.</p>
 </div>
 <div id="inspection" class="section level2">
 <h2>Inspection</h2>
-<p>The 28 individual scores for this child can be found as</p>
-<pre class="r"><code>data &lt;- pivot_longer(tgt$ddi, cols = starts_with(&quot;ddi&quot;), names_to = &quot;item&quot;, values_to = &quot;response&quot;) %&gt;% 
-  drop_na(response) %&gt;% 
-  print(n = Inf)</code></pre>
-<pre><code>## # A tibble: 28 x 3
-##       age item      response
-##     &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;
-##  1 0.0903 ddifmd001        1
-##  2 0.0903 ddicmm029        1
-##  3 0.0903 ddigmd055        1
-##  4 0.162  ddifmd002        0
-##  5 0.162  ddicmm030        1
-##  6 0.162  ddigmd056        1
-##  7 0.260  ddifmm004        1
-##  8 0.260  ddicmm031        1
-##  9 0.416  ddifmd005        1
-## 10 0.416  ddicmm032        1
-## 11 0.416  ddigmd055        1
-## 12 0.416  ddigmd058        1
-## 13 0.663  ddifmm009        0
-## 14 0.663  ddicmm033        1
-## 15 0.663  ddigmm064        1
-## 16 0.663  ddigmm065        1
-## 17 0.931  ddicmm034        1
-## 18 0.931  ddicmm035        1
-## 19 0.931  ddicmm036        1
-## 20 0.931  ddigmm067        1
-## 21 1.16   ddifmm012        1
-## 22 1.16   ddifmm014        1
-## 23 1.16   ddifmm016        1
-## 24 1.16   ddicmm037        1
-## 25 1.16   ddicmm039        1
-## 26 1.16   ddigmd068        1
-## 27 1.16   ddigmd168        1
-## 28 1.16   ddigmd268        1</code></pre>
-<p>The corresponding item descriptions and difficulties are</p>
-<pre class="r"><code>itembank &lt;- dscore::builtin_itembank %&gt;% 
-  filter(key == &quot;dutch&quot;) %&gt;% 
-  select(item, tau, label)
-dplyr::left_join(data, itembank, by = &quot;item&quot;) %&gt;% 
-  print(n = Inf)</code></pre>
+<p>The 28 individual scores for this child and the corresponding item descriptions and difficulties are</p>
 <pre><code>## # A tibble: 28 x 5
-##       age item      response   tau label                                        
-##     &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                                        
-##  1 0.0903 ddifmd001        1   5.4 &quot;Eyes fixate&quot;                                
-##  2 0.0903 ddicmm029        1   1.7 &quot;Reacts when spoken to&quot;                      
-##  3 0.0903 ddigmd055        1  26   &quot;No head lag if pulled to sitting&quot;           
-##  4 0.162  ddifmd002        0  14.5 &quot;Follows with eyes and head 30d  &lt; 0 &gt; 30d &quot; 
-##  5 0.162  ddicmm030        1  11.3 &quot;Smiles in response (M; can ask parents)&quot;    
-##  6 0.162  ddigmd056        1   5.2 &quot;Lifts chin off table for a moment&quot;          
-##  7 0.260  ddifmm004        1  20.7 &quot;Watches own hands&quot;                          
-##  8 0.260  ddicmm031        1  14.5 &quot;vocalizes in response&quot;                      
-##  9 0.416  ddifmd005        1  28.2 &quot;Plays with hands in midline&quot;                
-## 10 0.416  ddicmm032        1  NA    &lt;NA&gt;                                        
-## 11 0.416  ddigmd055        1  26   &quot;No head lag if pulled to sitting&quot;           
-## 12 0.416  ddigmd058        1  27.8 &quot;Looks around to side with angle face-table …
-## 13 0.663  ddifmm009        0  33.2 &quot;Plays with both feet&quot;                       
-## 14 0.663  ddicmm033        1  36   &quot;Says dada, baba, gaga&quot;                      
-## 15 0.663  ddigmm064        1  43.1 &quot;Crawls forward, abdomen on the floor&quot;       
-## 16 0.663  ddigmm065        1  44.3 &quot;Pulls up to standing position&quot;              
-## 17 0.931  ddicmm034        1  40.9 &quot;Babbles while playing&quot;                      
-## 18 0.931  ddicmm035        1  NA    &lt;NA&gt;                                        
-## 19 0.931  ddicmm036        1  43.1 &quot;Waves &#39;bye-bye&#39; (M; can ask parents)&quot;       
-## 20 0.931  ddigmm067        1  46.1 &quot;Walks while holding onto play-pen or furnit…
-## 21 1.16   ddifmm012        1  46.5 &quot;Plays &#39;give and take&#39; (M; can ask parents)&quot; 
-## 22 1.16   ddifmm014        1  46.9 &quot;Explores environment energetically (M; can …
-## 23 1.16   ddifmm016        1  52.3 &quot;Imitates everyday activities (M; can ask pa…
-## 24 1.16   ddicmm037        1  50.1 &quot;Uses two words with comprehension&quot;          
-## 25 1.16   ddicmm039        1  53.2 &quot;Says three &#39;words&#39;&quot;                         
-## 26 1.16   ddigmd068        1  51.9 &quot;Walks alone&quot;                                
-## 27 1.16   ddigmd168        1  55.5 &quot;Walks well&quot;                                 
-## 28 1.16   ddigmd268        1  61.8 &quot;Walks well alone/walks smoothly&quot;</code></pre>
+##       age item          y   tau label                                           
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                                           
+##  1 0.0903 ddifmd001     1   5.4 &quot;Eyes fixate&quot;                                   
+##  2 0.0903 ddicmm029     1   1.7 &quot;Reacts when spoken to&quot;                         
+##  3 0.0903 ddigmd055     1  26   &quot;No head lag if pulled to sitting&quot;              
+##  4 0.162  ddifmd002     0  14.5 &quot;Follows with eyes and head 30d  &lt; 0 &gt; 30d &quot;    
+##  5 0.162  ddicmm030     1  11.3 &quot;Smiles in response (M; can ask parents)&quot;       
+##  6 0.162  ddigmd056     1   5.2 &quot;Lifts chin off table for a moment&quot;             
+##  7 0.260  ddifmm004     1  20.7 &quot;Watches own hands&quot;                             
+##  8 0.260  ddicmm031     1  14.5 &quot;vocalizes in response&quot;                         
+##  9 0.416  ddifmd005     1  28.2 &quot;Plays with hands in midline&quot;                   
+## 10 0.416  ddicmm032     1  NA    &lt;NA&gt;                                           
+## 11 0.416  ddigmd055     1  26   &quot;No head lag if pulled to sitting&quot;              
+## 12 0.416  ddigmd058     1  27.8 &quot;Looks around to side with angle face-table 90 &quot;
+## 13 0.663  ddifmm009     0  33.2 &quot;Plays with both feet&quot;                          
+## 14 0.663  ddicmm033     1  36   &quot;Says dada, baba, gaga&quot;                         
+## 15 0.663  ddigmm064     1  43.1 &quot;Crawls forward, abdomen on the floor&quot;          
+## 16 0.663  ddigmm065     1  44.3 &quot;Pulls up to standing position&quot;                 
+## 17 0.931  ddicmm034     1  40.9 &quot;Babbles while playing&quot;                         
+## 18 0.931  ddicmm035     1  NA    &lt;NA&gt;                                           
+## 19 0.931  ddicmm036     1  43.1 &quot;Waves &#39;bye-bye&#39; (M; can ask parents)&quot;          
+## 20 0.931  ddigmm067     1  46.1 &quot;Walks while holding onto play-pen or furniture&quot;
+## 21 1.16   ddifmm012     1  46.5 &quot;Plays &#39;give and take&#39; (M; can ask parents)&quot;    
+## 22 1.16   ddifmm014     1  46.9 &quot;Explores environment energetically (M; can ask…
+## 23 1.16   ddifmm016     1  52.3 &quot;Imitates everyday activities (M; can ask paren…
+## 24 1.16   ddicmm037     1  50.1 &quot;Uses two words with comprehension&quot;             
+## 25 1.16   ddicmm039     1  53.2 &quot;Says three &#39;words&#39;&quot;                            
+## 26 1.16   ddigmd068     1  51.9 &quot;Walks alone&quot;                                   
+## 27 1.16   ddigmd168     1  55.5 &quot;Walks well&quot;                                    
+## 28 1.16   ddigmd268     1  61.8 &quot;Walks well alone/walks smoothly&quot;</code></pre>
 <p>There are several interesting things to observe:</p>
 <ol style="list-style-type: decimal">
 <li>Item <code>ddigmd055</code> has a difficulty of 26, and is very difficult for babies aged four weeks. A positive score on this item dominates the D-score, resulting in an extreme score;</li>
@@ -483,6 +444,12 @@ dplyr::left_join(data, itembank, by = &quot;item&quot;) %&gt;%
 <li>Is administration of <code>ddigmd055</code> at the age of four week correct? Or does the evaluation perhaps depend on age, so it is actually easier at four weeks? In the latter case, the item needs to be split into separate items to obtain a valid D-score.</li>
 <li>Should <code>ddicmm032</code> and <code>ddicmm035</code> be added?</li>
 <li>Is this really one response on <code>ddigmd068</code> only? If so, JAMES seems to fail separating BDS 986 according age.</li>
+</ol>
+</div>
+<div id="actions" class="section level2">
+<h2>Actions</h2>
+<ol style="list-style-type: decimal">
+<li>Administration of <code>ddigmd055</code> of happen at four different visits (4 weeks, 8 weeks, 13 week, 26 weeks). The evaluation depends on age, so effectively there are four different items, each with its own difficulty. We estimate the difficulty of the item from the SMOCC data, collected in 1989/1990. At that time, the Van Wiechenschema registered head lag at only the age of 26 weeks. Hence, we have no difficulty estimates for 4/8/13 weeks. As a fix, we split BDS (<code>ddigmd055</code>) into four items: <code>ddigmd155</code> (4 weeks), <code>ddigmd255</code> (8 weeks), <code>ddigmd355</code> (13 weeks) and <code>ddigmd055</code> (26 weeks) based on age. We define the age intervals between visits as (in days) [1, 42] (= 4 weeks), [43-102] (= 8 weeks), [103-146] (= 13 weeks) and [147-366] (= 26 weeks). In the future, we need tau’s for the earlier occasions to obtain a more informative D-score estimate.</li>
 </ol>
 </div>
 
