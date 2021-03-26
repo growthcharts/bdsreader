@@ -7,7 +7,7 @@ test_that("handles the empty individual object", {
   )
 })
 
-jtf <- system.file("extdata", "test", paste0("test", 1:24, ".json"), package = "jamestest")
+jtf <- system.file("extdata", "test", paste0("test", 1:25, ".json"), package = "jamestest")
 
 test_that("test1.json (client3.json) passes read_bds()", {
   expect_equal(
@@ -195,5 +195,29 @@ test_that("http400.json proceeds silent - no biological mother", {
 # Kevin S: Check D-score and DAZ
 fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamestest")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-
 ind <- read_bds(js)
+
+# Check proper splitting of had lag item
+fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
+tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+tgt %>%
+  filter(substr(yname, 1, 3) == "ddi") %>%
+  select(age, yname, y)
+
+test_that("uses had lag item only from age x (test25.json)", {
+  expect_silent(read_bds(jtf[25]))
+})
+
+# Check proper splitting of had lag item
+fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
+tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+tgt %>%
+  filter(substr(yname, 1, 3) == "ddi") %>%
+  select(age, yname, y) %>%
+  print(n = Inf)
+
+test_that("uses had lag item only from age x (test25.json)", {
+  expect_silent(read_bds(jtf[25]))
+})
+
+
