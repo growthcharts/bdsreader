@@ -45,5 +45,16 @@ convert_ddi_gsed <- function(d, r) {
       stop("Unrecognized type ", type, " for item ", item)
     )
   }
+
+  # remove scores that map onto the same BDS number at multiple ages (962, 986)
+  w[w$age < 0.5   / 365.25 | w$age > 42.5  / 365.25, "ddigmd155"] <- NA_real_
+  w[w$age < 42.5  / 365.25 | w$age > 102.5 / 365.25, "ddigmd255"] <- NA_real_
+  w[w$age < 102.5 / 365.25 | w$age > 146.5 / 365.25, "ddigmd355"] <- NA_real_
+  w[w$age < 146.5 / 365.25 | w$age > 1 , "ddigmd055"] <- NA_real_
+
+  w[w$age < 0.75 | w$age >= 1.75, "ddigmd068"] <- NA_real_
+  w[w$age < 1.75 | w$age >= 2.50, "ddigmd168"] <- NA_real_
+  w[w$age < 2.5  | w$age >= 3.50, "ddigmd268"] <- NA_real_
+
   w[, c("age", items)]
 }
