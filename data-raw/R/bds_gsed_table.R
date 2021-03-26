@@ -2,7 +2,7 @@
 
 # append Van Wiechen BDS definition
 project <- path.expand("~/Package/dscore/dscore")
-fn <- file.path(project, "data-raw/data/bds_edited.csv")
+fn <- file.path(project, "data-raw/data/bds_edited_2.csv")
 ib <- read.csv2(file = fn, stringsAsFactors = FALSE)
 idx <- !is.na(ib$bds) | !is.na(ib$bdsr)
 bds_gsed <- ib[idx, c(
