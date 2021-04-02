@@ -176,6 +176,13 @@ test_that("http400.json proceeds silent - no biological mother", {
   expect_silent(read_bds(js))
 })
 
+# Check proper splitting of head lag item
+fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
+tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
+  expect_equal(tgt$y[1], 14.14)
+})
+
 # test battery - comment out to activate
 # path <- system.file("extdata", package = "jamestest")
 # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
@@ -192,32 +199,13 @@ test_that("http400.json proceeds silent - no biological mother", {
 #   }
 # }
 
+# other stuff
+
 # Kevin S: Check D-score and DAZ
-fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamestest")
-js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-ind <- read_bds(js)
+#fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamestest")
+#ind <- read_bds(fn)
 
-# Check proper splitting of had lag item
-fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
-tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
-tgt %>%
-  filter(substr(yname, 1, 3) == "ddi") %>%
-  select(age, yname, y)
-
-test_that("uses had lag item only from age x (test25.json)", {
-  expect_silent(read_bds(jtf[25]))
-})
-
-# Check proper splitting of had lag item
-fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
-tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
-tgt %>%
-  filter(substr(yname, 1, 3) == "ddi") %>%
-  select(age, yname, y) %>%
-  print(n = Inf)
-
-test_that("uses had lag item only from age x (test25.json)", {
-  expect_silent(read_bds(jtf[25]))
-})
-
+# tgt %>%
+#   dplyr::filter(substr(.data$yname, 1, 3) == "ddi") %>%
+#   dplyr::select(age, yname, y)
 

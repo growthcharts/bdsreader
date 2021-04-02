@@ -6,7 +6,7 @@ convert_ddi_gsed <- function(d, r) {
   items <- bdsreader::bds_gsed$lex_gsed[bdsreader::bds_gsed$lex_gsed != ""]
 
   # premature return if there are no data
-  if (length(d$Contactmomenten) == 0L) {
+  if (!length(d$Contactmomenten)) {
     return(data.frame(age = numeric(0)))
   }
 
@@ -46,15 +46,22 @@ convert_ddi_gsed <- function(d, r) {
     )
   }
 
-  # remove scores that map onto the same BDS number at multiple ages (962, 986)
-  w[w$age < 0.5   / 365.25 | w$age > 42.5  / 365.25, "ddigmd155"] <- NA_real_
-  w[w$age < 42.5  / 365.25 | w$age > 102.5 / 365.25, "ddigmd255"] <- NA_real_
-  w[w$age < 102.5 / 365.25 | w$age > 146.5 / 365.25, "ddigmd355"] <- NA_real_
-  w[w$age < 146.5 / 365.25 | w$age > 1 , "ddigmd055"] <- NA_real_
+  # age-dependent post-processing to split items that map onto the same BDS number
+  # we must remove scores that map onto the same BDS number at multiple ages (962, 986)
 
-  w[w$age < 0.75 | w$age >= 1.75, "ddigmd068"] <- NA_real_
-  w[w$age < 1.75 | w$age >= 2.50, "ddigmd168"] <- NA_real_
-  w[w$age < 2.5  | w$age >= 3.50, "ddigmd268"] <- NA_real_
+  # if age is missing, temporarily set it to -1 to evade error
+  # "missing values are not allowed in subscripted assignments of data frames"
+  age <- w$age
+  age[is.na(age)] <- -1
+
+  w[age < 0.5   / 365.25 | age > 42.5  / 365.25, "ddigmd155"] <- NA_real_
+  w[age < 42.5  / 365.25 | age > 102.5 / 365.25, "ddigmd255"] <- NA_real_
+  w[age < 102.5 / 365.25 | age > 146.5 / 365.25, "ddigmd355"] <- NA_real_
+  w[age < 146.5 / 365.25 | age > 1 , "ddigmd055"] <- NA_real_
+
+  w[age < 0.75 | age >= 1.75, "ddigmd068"] <- NA_real_
+  w[age < 1.75 | age >= 2.50, "ddigmd168"] <- NA_real_
+  w[age < 2.5  | age >= 3.50, "ddigmd268"] <- NA_real_
 
   w[, c("age", items)]
 }
