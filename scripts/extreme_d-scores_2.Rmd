@@ -1,0 +1,72 @@
+---
+title: "Extreme D-scores 2"
+author: "Stef van Buuren"
+date: "2/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Problem
+
+On March 11, 2021, we received a report that showed implausible extreme D-scores for very young children. According to the client, this case does not stand on its own. The pattern also occurs for other children.
+
+## Example
+
+The following code reproduces the problem.
+
+```{r}
+library(bdsreader)
+library(jsonlite)
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+
+fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
+tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+tgt %>% 
+  filter(yname == "dsc")
+```
+
+The value of 26 is far higher than we would expect. Also the DAZ value of 4.84 indicates an out-of-range value. Incidentically, also note that the D-score of 62.5 (SDS 3.56) at the age of 1.16 years is higher than expected.
+
+## Inspection
+
+The 28 individual scores for this child and the corresponding item descriptions and difficulties are
+
+```{r pressure, echo = FALSE}
+itembank <- dscore::builtin_itembank %>% 
+  filter(key == "dutch") %>% 
+  select(item, tau, label)
+data <- tgt %>% 
+  filter(substr(yname, 1, 3) == "ddi") %>% 
+  select(age, yname, y) %>% 
+  rename(item = yname) %>% 
+  dplyr::left_join(itembank, by = "item") %>% 
+  print(n = Inf)  
+```
+
+There are several interesting things to observe:
+
+1. Item `ddigmd055` has a difficulty of 26, and is very difficult for babies aged four weeks. A positive score on this item dominates the D-score, resulting in an extreme score; 
+2. Items `ddicmm032` (Maakt Gevarieerde Geluiden) and `ddicmm035` (Reageert Op Mondeling Verzoek) have no difficulty estimate, so the D-score calculation ignores both responses;
+3. Items `ddigmd068`, `ddigmd168` and `ddigmd268` all receive a positive score at 14 month. Only `ddigmd068` is indicated for that age, and `ddigmd168` and `ddigmd268` should not be considered to be administered.
+
+
+## Open issues
+
+All issues relate to problems in the mapping between BDS numbers and itembank 
+
+1. Is administration of `ddigmd055` at the age of four week correct? Or does the evaluation perhaps depend on age, so it is actually easier at four weeks? In the latter case, the item needs to be split into separate items to obtain a valid D-score.
+2. Should `ddicmm032` and `ddicmm035` be added?
+3. Is this really one response on `ddigmd068` only? If so, JAMES seems to fail separating BDS 986 according age.
+
+
+## Actions
+
+1. Administration of `ddigmd055` of happen at four different visits (4 weeks, 8 weeks, 13 week, 26 weeks). The evaluation depends on age, so effectively there are four different items, each with its own difficulty. We estimate the difficulty of the item from the SMOCC data, collected in 1989/1990. At that time, the Van Wiechenschema registered head lag at only the age of 26 weeks. Hence, we have no difficulty estimates for 4/8/13 weeks. As a fix, we split BDS (`ddigmd055`) into four items: `ddigmd155` (4 weeks), `ddigmd255` (8 weeks), `ddigmd355` (13 weeks) and `ddigmd055` (26 weeks) based on age. We define the age intervals between visits as (in days) [1, 42] (= 4 weeks), [43-102] (= 8 weeks), [103-146] (= 13 weeks) and [147-366] (= 26 weeks). In the future, we need tau's for the earlier occasions to obtain a more informative D-score estimate.
+2. The procedure for item splitting of BDS 986 was incomplete. We now use age intervals [0.75, 1.75) (`ddigmd068`), [1.75, 2.5) (`ddigmd168`) and [2.5, 3.5) (`ddigmd168`).
+3. The following items do not have a difficulty estimate, and hence are ignored in D-score estimation: `ddigmd155`, `ddigmd255`, `ddigmd355`,  `ddicmm032`, `ddicmm035`.
+
