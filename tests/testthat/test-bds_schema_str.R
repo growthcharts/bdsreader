@@ -84,7 +84,7 @@ test_that("minimal test21.json passes bds_schema_str.json", {
   expect_true(validate_json(jtf[21]))
 })
 
-fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
+fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Laura_S.json passes bds_schema_str.json", {
@@ -97,3 +97,4 @@ js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 test_that("Bas_G.json (Bdsnummer 19 missing) FAILS bds_schema_str.json", {
   expect_false(validate_json(fn))
 })
+
