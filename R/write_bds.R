@@ -70,7 +70,7 @@ as_bds_clientdata <- function(tgt, type) {
       ),
       list(
         Bdsnummer = 20,
-        Waarde = format(as.Date(get_dob(tgt), format = "%Y%m%d"))
+        Waarde = format(as.Date(get_dob(tgt)), format = "%Y%m%d")
       ),
       list(
         Bdsnummer = 82,
@@ -97,13 +97,13 @@ as_bds_clientdata <- function(tgt, type) {
       rbind(
         list(Elementen = data.frame(
           Bdsnummer = as.integer(c(63, 71, 62)),
-          Waarde = c(format(as.Date(get_dob(tgt, which = "01"), format = "%Y%m%d")),
+          Waarde = c(format(as.Date(get_dob(tgt, which = "01")), format = "%Y%m%d"),
                      NA_character_,
                      "01"))
         ),
         list(Elementen = data.frame(
           Bdsnummer = as.integer(c(63, 71, 62)),
-          Waarde = c(format(as.Date(get_dob(tgt, which = "02"), format = "%Y%m%d")),
+          Waarde = c(format(as.Date(get_dob(tgt, which = "02")), format = "%Y%m%d"),
                      NA_character_,
                      "02"))
         )
