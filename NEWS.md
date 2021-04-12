@@ -1,3 +1,7 @@
+# bdsreader 0.2.1
+
+* Reads example json from `bdsreader` package
+
 # bdsreader 0.2.0
 
 * Adds item splitting code for two BDS fields (head lag, walking)

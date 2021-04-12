@@ -26,7 +26,7 @@ This function takes data from a json source, calcuates the D-score,
 calculates Z-scores and transforms the data as a tibble.
 }
 \examples{
-fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
 q <- read_bds(fn)
 q
 }

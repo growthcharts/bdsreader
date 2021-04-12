@@ -1,8 +1,8 @@
 #' @importFrom centile         y2z
-#' @importFrom dplyr           %>% all_of bind_cols bind_rows mutate
-#'                             recode rename select
+#' @importFrom dplyr           %>% all_of arrange bind_cols bind_rows
+#'                             filter mutate recode rename select
 #' @importFrom dscore          dscore
-#' @importFrom jsonlite        fromJSON
+#' @importFrom jsonlite        fromJSON toJSON validate
 #' @importFrom jsonvalidate    json_validate
 #' @importFrom lubridate       ymd
 #' @importFrom nlreferences    set_refcodes

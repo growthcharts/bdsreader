@@ -13,7 +13,9 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
   persondata <- tibble(
     id = -1L,
     name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
-    dob = extract_dob(d),
+    dob  = extract_dob(d, which = "00"),
+    dobf = extract_dob(d, which = "01"),
+    dobm = extract_dob(d, which = "02"),
     src = src,
     dnr = NA_character_,
     sex = extract_sex(b),
@@ -23,7 +25,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     ga = trunc(r$gad / 7),
 
     # 1 = Nee, volgens BDS 1 = Ja, 2 = Nee
-    smo = extract_field2(d, 91L, "ClientGegevens", "Elementen") - 1L,
+    # FIXME
+    smo = as.numeric(extract_field2(d, 91L, "ClientGegevens", "Elementen")) - 1L,
 
     # in grammen, conform BSD
     bw = r$bw,
@@ -37,7 +40,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     # 510, passief roken, 1 = Nee, 2 = niet als..
 
     # agem (63 geboortedatum moeder, 62==2)
-    agem = extract_agep(d, which_parent = "02"),
+    agem = extract_agep(.data$dob, .data$dobm),
 
     # etn (71?)
     # etn = as.character(b[b$Bdsnummer == 71, 2])

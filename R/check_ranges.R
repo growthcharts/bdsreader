@@ -26,7 +26,7 @@ check_ranges <- function(d) {
     )
   }
 
-  gad <- extract_field2(d, 82L, "ClientGegevens", "Elementen")
+  gad <- as.numeric(extract_field2(d, 82L, "ClientGegevens", "Elementen"))
   if (is.na(gad)) {
     message("BDS 82 (",
       lex[lex$bdsnummer == 82, "description"],
@@ -42,7 +42,7 @@ check_ranges <- function(d) {
     )
     gad <- NA_real_
   }
-  bw <- extract_field2(d, 110L, "ClientGegevens", "Elementen")
+  bw <- as.numeric(extract_field2(d, 110L, "ClientGegevens", "Elementen"))
   if (is.na(bw)) {
     message("BDS 110 (",
       lex[lex$bdsnummer == 110, "description"],
@@ -58,7 +58,7 @@ check_ranges <- function(d) {
     )
   }
 
-  hgtm <- extract_field2(d, 238L, "ClientGegevens", "Elementen")
+  hgtm <- as.numeric(extract_field2(d, 238L, "ClientGegevens", "Elementen"))
   if (is.na(hgtm)) {
     message("BDS 238 (",
       lex[lex$bdsnummer == 238, "description"],
@@ -74,7 +74,7 @@ check_ranges <- function(d) {
     )
   }
 
-  hgtf <- extract_field2(d, 240L, "ClientGegevens", "Elementen")
+  hgtf <- as.numeric(extract_field2(d, 240L, "ClientGegevens", "Elementen"))
   if (is.na(hgtm)) {
     message("BDS 240 (",
       lex[lex$bdsnummer == 240, "description"],

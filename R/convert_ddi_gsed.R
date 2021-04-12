@@ -2,7 +2,7 @@
 convert_ddi_gsed <- function(d, r) {
 
   # get BDS numbers and names of items
-  bds <- sort(unique(bdsreader::bds_gsed$bds))
+  bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
   items <- bdsreader::bds_gsed$lex_gsed[bdsreader::bds_gsed$lex_gsed != ""]
 
   # premature return if there are no data
@@ -14,13 +14,13 @@ convert_ddi_gsed <- function(d, r) {
   age <- as.numeric(round((r$dom - r$dob) / 365.25, 4L))
   w <- data.frame(
     age = age,
-    matrix(NA, nrow = length(age), ncol = length(bds) + length(items))
+    matrix(NA, nrow = length(age), ncol = length(bdsnum) + length(items))
   )
-  names(w) <- c("age", bds, items)
+  names(w) <- c("age", bdsnum, items)
 
   # extract ddi data from bds-message
   # and convert to 0/1 scores
-  for (i in bds) w[, as.character(i)] <- extract_field(d, i)
+  for (i in bdsnum) w[, as.character(i)] <- extract_field(d, i)
   for (item in items) {
     n <- which(bdsreader::bds_gsed$lex_gsed == item)
     type <- bdsreader::bds_gsed[n, "type"]
@@ -63,5 +63,7 @@ convert_ddi_gsed <- function(d, r) {
   w[age < 1.75 | age >= 2.50, "ddigmd168"] <- NA_real_
   w[age < 2.5  | age >= 3.50, "ddigmd268"] <- NA_real_
 
-  w[, c("age", items)]
+  # rename bds variables to bds_xxx
+  names(w) <- c("age", paste0("bds", bdsnum), items)
+  w
 }

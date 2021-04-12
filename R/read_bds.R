@@ -12,7 +12,7 @@
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
 #' q <- read_bds(fn)
 #' q
 #' @export
@@ -32,6 +32,8 @@ read_bds <- function(txt = NULL, schema = NULL,
       id = -1L,
       name = NA_character_,
       dob = as.Date(NA),
+      dobm = as.Date(NA),
+      dobf = as.Date(NA),
       src = NA_character_,
       dnr = NA_character_,
       sex = NA_character_,
