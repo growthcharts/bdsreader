@@ -26,9 +26,9 @@ write_bds <- function(x = NULL, schema = NULL, ...) {
     stop("Found no person attribute.")
   }
 
-  # character or numeric
-  type <- ifelse(is.null(schema) || schema == "bds_schema_str.json",
-                 "character", "numeric"
+  # character or numeric, numeric is default
+  type <- ifelse(is.null(schema) || schema == "bds_schema.json",
+                 "numeric", "character"
   )
 
   # required elements

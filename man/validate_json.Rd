@@ -9,8 +9,8 @@ validate_json(txt = NULL, schema = NULL, verbose = TRUE)
 \arguments{
 \item{txt}{A JSON string, URL or file to be compared to the schema.}
 
-\item{schema}{The name of one the the built-in schema's.
-The default (\code{NULL}) loads \code{"bds_schema_str.json"}.}
+\item{schema}{The name of one the built-in schema's.
+The default (\code{NULL}) loads \code{"bds_schema.json"}.}
 
 \item{verbose}{include an error message when validation fails.}
 }

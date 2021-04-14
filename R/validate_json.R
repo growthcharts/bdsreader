@@ -4,8 +4,8 @@
 #' object. A `boolean` is returned indicating whether or not the provided
 #' JSON data matches the schema.
 #' @param txt A JSON string, URL or file to be compared to the schema.
-#' @param schema The name of one the the built-in schema's.
-#' The default (`NULL`) loads `"bds_schema_str.json"`.
+#' @param schema The name of one the built-in schema's.
+#' The default (`NULL`) loads `"bds_schema.json"`.
 #' @param verbose include an error message when validation fails.
 #' @return A `boolean` with optional `errors` attribute.
 #' @author Arjan Huizing 2019
@@ -13,7 +13,7 @@
 validate_json <- function(txt = NULL, schema = NULL,
                           verbose = TRUE) {
   if (is.null(schema)) {
-    schemajs <- system.file("json", "bds_schema_str.json", package = "bdsreader")
+    schemajs <- system.file("json", "bds_schema.json", package = "bdsreader")
   } else {
     schemajs <- system.file("json", schema, package = "bdsreader")
   }

@@ -9,8 +9,8 @@ write_bds(x = NULL, schema = NULL, ...)
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
-\item{schema}{The name of one the the built-in schema's.
-The default (\code{NULL}) loads \code{"bds_schema_str.json"}.}
+\item{schema}{The name of one the built-in schema's.
+The default (\code{NULL}) loads \code{"bds_schema.json"}.}
 
 \item{\dots}{Additional parameters. Currently ignored.}
 }
