@@ -1,6 +1,6 @@
 extract_dob <- function(d, which = "00") {
 
-  if (which == "0") {
+  if (which == "00") {
     b <- d$ClientGegevens$Elementen
     dob <- ymd(b[b$Bdsnummer == 20, 2])
     if (!length(dob)) {

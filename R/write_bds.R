@@ -149,12 +149,12 @@ as_bds_contacts <- function(tgt, type) {
   # sort according to time
   d <- d %>%
     drop_na(.data$bds) %>%
-    arrange(.data$time, .data$bds) %>%
     mutate(
+      chr = type == "character",
       Bdsnummer = as.integer(.data$bds),
-      Waarde = ifelse(type == "character", as.character(.data$y), .data$y)
-    ) %>%
-    select(all_of(c("time", "Bdsnummer", "Waarde")))
+      Waarde = ifelse(.data$chr, as.character(.data$y), .data$y)) %>%
+    select(all_of(c("time", "Bdsnummer", "Waarde"))) %>%
+    arrange(.data$time, .data$Bdsnummer)
 
   # extract raw responses from DDI
   ddi <- tgt %>%
