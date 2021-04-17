@@ -24,10 +24,10 @@ read_bds <- function(txt = NULL, schema = NULL,
       xname = character(0),
       yname = character(0),
       zname = character(0),
+      zref = character(0),
       x = numeric(0),
       y = numeric(0),
-      z = numeric(0),
-      refcode_z = character(0))
+      z = numeric(0))
     attr(xyz, "persondata") <- tibble(
       id = -1L,
       name = NA_character_,
