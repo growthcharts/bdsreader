@@ -1,6 +1,9 @@
-# bdsreader 0.2.1
+# bdsreader 0.3.0
 
-* Reads example json from `bdsreader` package
+* Adds new `bds_write()` function
+* Sets tighter ranges in `bds_schema.json`
+* Changes the default JSON validation schema to `bds_schema.json`
+* Adds example json from `bdsreader` package
 
 # bdsreader 0.2.0
 
