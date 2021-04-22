@@ -1,10 +1,14 @@
 #' Reads selected BDS data of a person
 #'
-#' This function takes data from a json source, calcuates the D-score,
-#' calculates Z-scores and transforms the data as a tibble.
+#' This function takes data from a json source, validates the contents against
+#' a JSON validation schema, perform checks, calcuates the D-score,
+#' calculates Z-scores and transforms the data as a tibble with a `person`
+#' attribute.
 #' @param txt A JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
-#' schema.
+#' schema. The default corresponds to `schema = bds_schema.json` and loads
+#' `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
+#' expects that numeric BDS values are specified as characters.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show warnings of missing references
 #' @param \dots Additional parameter passed down to
@@ -16,7 +20,7 @@
 #' q <- read_bds(fn)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = NULL,
+read_bds <- function(txt = NULL, schema = "bds_schema.json",
                      append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(

@@ -17,7 +17,7 @@
 #' @seealso [jsonlite::toJSON()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' tgt <- read_bds(fn, append_ddi = TRUE)
+#' tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
 #' js <- write_bds(tgt)
 #' @export
 write_bds <- function(x = NULL, schema = NULL, ...) {
