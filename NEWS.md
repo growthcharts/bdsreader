@@ -1,3 +1,7 @@
+# bdsreader 0.3.1
+
+* Removes the `appendLF = FALSE` argument from `message`
+
 # bdsreader 0.3.0
 
 * Adds new `bds_write()` function
