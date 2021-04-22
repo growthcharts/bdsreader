@@ -8,7 +8,10 @@
 #' If the date of birth is not known, the conversion uses the
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
-#' @param x Tibble with an attribute called `person`
+#' @param x      Tibble with an attribute called `person`
+#' @param indent Integer. Number of spaces to indent when using
+#' `jsonlite::prettify()`. When not specified, the function writes
+#' minified json.
 #' @param \dots Additional parameters. Currently ignored.
 #' @inheritParams validate_json
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
@@ -20,7 +23,7 @@
 #' tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
 #' js <- write_bds(tgt)
 #' @export
-write_bds <- function(x = NULL, schema = NULL, ...) {
+write_bds <- function(x = NULL, schema = NULL, indent = NULL, ...) {
   p <- attr(x, "person")
   if (is.null(p)) {
     stop("Found no person attribute.")
@@ -41,15 +44,18 @@ write_bds <- function(x = NULL, schema = NULL, ...) {
   bds$Referentie <- as_bds_reference(x)
   bds$Contactmomenten <- as_bds_contacts(x, type)
 
-  result <- toJSON(bds, auto_unbox = TRUE)
-  if (!validate(result)) {
+  js <- toJSON(bds, auto_unbox = TRUE)
+  if (!validate(js)) {
     warning("Cannot create valid JSON")
     return(NULL)
   }
 
   # throw messages if data deviate from schema
-  v <- verify(result, schema = schema)
-  result
+  v <- verify(js, schema = schema)
+
+  # prettify
+  if (!is.null(indent)) js <- prettify(js, indent = indent)
+  js
 }
 
 as_bds_reference <- function(tgt) {

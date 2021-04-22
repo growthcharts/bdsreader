@@ -4,13 +4,17 @@
 \alias{write_bds}
 \title{Write target data as bds-formatted JSON file}
 \usage{
-write_bds(x = NULL, schema = NULL, ...)
+write_bds(x = NULL, schema = NULL, indent = NULL, ...)
 }
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
 \item{schema}{The name of one the built-in schema's.
 The default (\code{NULL}) loads \code{"bds_schema.json"}.}
+
+\item{indent}{Integer. Number of spaces to indent when using
+\code{jsonlite::prettify()}. When not specified, the function writes
+minified json.}
 
 \item{\dots}{Additional parameters. Currently ignored.}
 }

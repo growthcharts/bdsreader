@@ -2,7 +2,7 @@
 #' @importFrom dplyr           %>% all_of arrange bind_cols bind_rows
 #'                             filter mutate recode rename select
 #' @importFrom dscore          dscore
-#' @importFrom jsonlite        fromJSON toJSON validate
+#' @importFrom jsonlite        fromJSON prettify toJSON validate
 #' @importFrom jsonvalidate    json_validate
 #' @importFrom lubridate       ymd
 #' @importFrom nlreferences    set_refcodes
