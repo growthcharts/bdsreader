@@ -22,16 +22,16 @@ expects that numeric BDS values are specified as characters.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 
-\item{verbose}{Show warnings of missing references}
+\item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
-\item{\dots}{Additional parameter passed down to}
+\item{\dots}{Pass down to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
 }
 \value{
 A tibble with 8 columns with a \code{person} attribute
 }
 \description{
 This function takes data from a json source, validates the contents against
-a JSON validation schema, perform checks, calcuates the D-score,
+a JSON validation schema, perform checks, calculates the D-score,
 calculates Z-scores and transforms the data as a tibble with a \code{person}
 attribute.
 }
@@ -41,7 +41,7 @@ q <- read_bds(fn)
 q
 }
 \seealso{
-\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}
+\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}
 }
 \author{
 Stef van Buuren 2021

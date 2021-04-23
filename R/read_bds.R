@@ -1,7 +1,7 @@
 #' Reads selected BDS data of a person
 #'
 #' This function takes data from a json source, validates the contents against
-#' a JSON validation schema, perform checks, calcuates the D-score,
+#' a JSON validation schema, perform checks, calculates the D-score,
 #' calculates Z-scores and transforms the data as a tibble with a `person`
 #' attribute.
 #' @param txt A JSON string, URL or file
@@ -10,11 +10,11 @@
 #' `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
 #' expects that numeric BDS values are specified as characters.
 #' @param append_ddi Should DDI measures be appended?
-#' @param verbose Show warnings of missing references
-#' @param \dots Additional parameter passed down to
+#' @param verbose Show verbose output for [centile::y2z()]
+#' @param \dots Pass down to [jsonlite::fromJSON()]
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
-#' @seealso [jsonlite::fromJSON()]
+#' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
 #' q <- read_bds(fn)
