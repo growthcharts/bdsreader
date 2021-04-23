@@ -9,10 +9,12 @@
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
 #' @param x      Tibble with an attribute called `person`
+#' @param file   File name. The default (`NULL`) does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes
 #' minified json.
-#' @param \dots Additional parameters. Currently ignored.
+#' @param quiet Logical. Print file message?
+#' @param \dots Passed down to [jsonlite::toJSON()].
 #' @inheritParams validate_json
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
 #' JSON
@@ -23,10 +25,16 @@
 #' tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
 #' js <- write_bds(tgt)
 #' @export
-write_bds <- function(x = NULL, schema = NULL, indent = NULL, ...) {
+write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
+                      quiet = FALSE, ...) {
   p <- attr(x, "person")
   if (is.null(p)) {
     stop("Found no person attribute.")
+  }
+
+  # signal processing file
+  if (!is.null(file) && !quiet) {
+    message("Processing file: ", file)
   }
 
   # character or numeric, numeric is default
@@ -44,7 +52,7 @@ write_bds <- function(x = NULL, schema = NULL, indent = NULL, ...) {
   bds$Referentie <- as_bds_reference(x)
   bds$Contactmomenten <- as_bds_contacts(x, type)
 
-  js <- toJSON(bds, auto_unbox = TRUE)
+  js <- toJSON(bds, auto_unbox = TRUE, ...)
   if (!validate(js)) {
     warning("Cannot create valid JSON")
     return(NULL)
@@ -55,6 +63,12 @@ write_bds <- function(x = NULL, schema = NULL, indent = NULL, ...) {
 
   # prettify
   if (!is.null(indent)) js <- prettify(js, indent = indent)
+
+  # write to file
+  if (!is.null(file)) {
+    writeLines(text = js, con = file)
+    return(invisible(js))
+  }
   js
 }
 

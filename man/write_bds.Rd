@@ -4,10 +4,19 @@
 \alias{write_bds}
 \title{Write target data as bds-formatted JSON file}
 \usage{
-write_bds(x = NULL, schema = NULL, indent = NULL, ...)
+write_bds(
+  x = NULL,
+  file = NULL,
+  schema = NULL,
+  indent = NULL,
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
+
+\item{file}{File name. The default (\code{NULL}) does not write to a file.}
 
 \item{schema}{The name of one the built-in schema's.
 The default (\code{NULL}) loads \code{"bds_schema.json"}.}
@@ -16,7 +25,9 @@ The default (\code{NULL}) loads \code{"bds_schema.json"}.}
 \code{jsonlite::prettify()}. When not specified, the function writes
 minified json.}
 
-\item{\dots}{Additional parameters. Currently ignored.}
+\item{quiet}{Logical. Print file message?}
+
+\item{\dots}{Passed down to \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}.}
 }
 \value{
 A string with bds-formatted JSON codes, or \code{NULL} for invalid
