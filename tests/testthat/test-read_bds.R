@@ -1,5 +1,9 @@
+schema <- "bds_schema.json"
 schema <- "bds_schema_str.json"
-# schema <- "bds_schema.json"
+pad <- ifelse(schema == "bds_schema_str.json", "_str", "")
+jtf <- system.file("extdata", paste0("bds", pad), "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
+
+
 
 # test the empty object
 js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
@@ -9,8 +13,6 @@ test_that("handles the empty individual object", {
     "should have required property 'Elementen'"
   )
 })
-
-jtf <- system.file("extdata", "test", paste0("test", 1:25, ".json"), package = "jamestest")
 
 test_that("test1.json (client3.json) passes read_bds()", {
   expect_equal(
@@ -28,7 +30,7 @@ test_that("test2.json (missing Referentie) PASSES", {
 
 test_that("test3.json (missing OrganisatieCode) MESS", {
   expect_message(
-    read_bds(jtf[3], schema = schema),
+    tgt <- read_bds(jtf[3], schema = schema),
     "should have required property 'OrganisatieCode'"
   )
 })
@@ -153,7 +155,10 @@ test_that("test24.json (new DDI fields) SILENT", {
   expect_silent(read_bds(jtf[24], schema = schema))
 })
 
-fn <- system.file("extdata", "smocc", "Laura_S.json", package = "jamestest")
+
+
+
+fn <- system.file("extdata", paste0("bds", pad), "smocc", "Laura_S.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Laura_S.json is silent with GA in days", {
@@ -161,7 +166,7 @@ test_that("Laura_S.json is silent with GA in days", {
 })
 
 # 2 problematic json files identified by Allegro Sultum - Feb 2020
-fn <- system.file("extdata", "test", "not_a_vector.json", package = "jamestest")
+fn <- system.file("extdata", paste0("bds", pad), "test", "not_a_vector.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("not_a_vector.json produces messages", {
@@ -172,7 +177,7 @@ test_that("not_a_vector.json produces messages", {
 })
 
 # problematic json file http400.json identified by Allegro Sultum - Feb 2020
-fn <- system.file("extdata", "test", "http400.json", package = "jamestest")
+fn <- system.file("extdata", paste0("bds", pad), "test", "http400.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("http400.json proceeds silent - no biological mother", {
@@ -180,21 +185,21 @@ test_that("http400.json proceeds silent - no biological mother", {
 })
 
 # Check proper splitting of head lag item
-fn  <- system.file("extdata", "test", "test25.json", package = "jamestest")
+fn  <- system.file("extdata", paste0("bds", pad), "test", "test25.json", package = "jamesdemodata")
 tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
 test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
   expect_equal(tgt$y[1], 14.14)
 })
 
 # test battery - comment out to activate
-# path <- system.file("extdata", package = "jamestest")
+# path <- system.file("extdata", package = "jamesdemodata")
 # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
 # for (lib in libs) {
 #   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
 #   for (file in files) {
 #     cat("File ", file, "\n")
-#     if (file == "/Users/buurensv/Library/R/4.0/library/jamestest/extdata/test/test14.json") next
-#     if (file == "/Users/buurensv/Library/R/4.0/library/jamestest/extdata/test/test8.json") next
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
 #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
 #     test_that(paste(file, "passes"), {
 #       expect_silent(suppressMessages(read_bds(txt = js)))
@@ -205,7 +210,7 @@ test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
 # other stuff
 
 # Kevin S: Check D-score and DAZ
-#fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamestest")
+#fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamesdemodata")
 #ind <- read_bds(fn)
 
 # tgt %>%
