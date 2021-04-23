@@ -73,10 +73,11 @@ The `persondata()` function returns the person-level information:
 
 ``` r
 persondata(xyz)
-#> # A tibble: 1 x 13
-#>      id name  src   dnr   sex      gad    ga   smo    bw  hgtm  hgtf  agem etn  
-#>   <int> <chr> <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <chr>
-#> 1    -1 Maria 1234  <NA>  female   189    27     0   990   167   190    27 NL
+#> # A tibble: 1 x 15
+#>      id name  dobf       dobm       src   dnr   sex      gad    ga   smo    bw
+#>   <int> <chr> <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl>
+#> 1    -1 Maria 1995-07-04 1990-12-02 1234  <NA>  female   189    27     0   990
+#> # … with 4 more variables: hgtm <dbl>, hgtf <dbl>, agem <dbl>, etn <chr>
 ```
 
 The result of `read_bds()` feeds into further data processing in `R`.
