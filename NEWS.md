@@ -1,3 +1,11 @@
+# bdsreader 0.4.0
+
+* Set `bds_schema.json` as default!! (not all testfile yet work)
+* Replaces the `jamestest` package by `jamesdemodata`
+* Supports (testing of) `bds_schema_str.json` (old) and `bds_schema.json` (new)
+* Adds a `file` argument to `write_bds()`
+* Updates scripts to account for double schema
+
 # bdsreader 0.3.1
 
 * Removes the `appendLF = FALSE` argument from `message`
