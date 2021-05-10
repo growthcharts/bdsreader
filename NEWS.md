@@ -1,3 +1,10 @@
+# bdsreader 0.5.0
+
+* Switches on continuous integration
+* Adds Github action `pkgdown`
+* Adds Github action `R-CMD-check`
+* Replaces `docs` folder by `gh-pages` branch
+
 # bdsreader 0.4.0
 
 * Set `bds_schema.json` as default!! (not all testfile yet work)
