@@ -1,3 +1,8 @@
+# bdsreader 0.6.0
+
+* Adds GHA R-CMD-check for Ubuntu 18.04
+* Tweaks package description
+
 # bdsreader 0.5.0
 
 * Switches on continuous integration

@@ -1,12 +1,12 @@
 Package: bdsreader
 Type: Package
 Title: Read Data from the Basisdataset Jeugdgezondheidszorg
-Version: 0.5.1
+Version: 0.6.0
 Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
              person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
-Description: A light package to read and validate JSON files with
+Description: Read and validate JSON files with
      individual data coded according to the Basisdataset (BDS) 
-     Jeugdgezondheidszorg. This version supports fields related to 
+     Jeugdgezondheidszorg. Currently supports BDS-fields related to 
      child growth and development.
 License: AGPL (>= 3)
 Encoding: UTF-8
