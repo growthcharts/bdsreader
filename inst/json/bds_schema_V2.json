@@ -1,0 +1,621 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://groeidiagrammen.nl/schema/EPremDossier_string.json",
+  "type": "object",
+  "title": "EPremDossier",
+  "required": [
+  	"OrganisatieCode",
+  	"ClientGegevens"
+  ],
+  "properties": {
+    "Referentie": {
+      "title": "Request identification",
+      "$id": "#/properties/Referentie",
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "OrganisatieCode": {
+      "title": "Care organisation code",
+      "$id": "#/properties/OrganisatieCode",
+      "type": "integer"
+    },
+    "ClientGegevens": {
+      "title": "Child data object",
+      "$id": "#/properties/ClientGegevens",
+      "type": "array",
+      "allOf": [
+            {"contains": {
+            	"properties": {"ElementNummer": {"const": 19}}
+          				}
+            },
+            {"contains": {
+            	"properties": {"ElementNummer": {"const": 20}}
+          				}
+            }
+          ],
+      "items": {
+      		"$id": "#/properties/ClientGegevens/properties/items",
+            "type": "object",
+            "title": "Observed items",
+            "required": [
+              "ElementNummer",
+            ],
+			"properties": {
+              "GenesteElementen": {
+                  "items": {
+                      "$ref": "#/properties/ClientGegevens/properties/items"
+                  }
+              }
+            },
+            "if": {
+              "properties": {
+                "ElementNummer": {
+                  "enum": [
+                    19,20,62,63,66,71,82,91,
+                    110,235,238,240,245,252,510,
+                    879,881,883,884,885,886,887,888,889,
+                    890,891,892,893,894,896,897,898,
+                    900,902,903,905,906,907,909,911,913,914,916,917,918,
+                    920,921,922,923,926,927,928,
+                    930,931,932,933,934,935,936,937,938,939,
+                    940,941,942,944,947,948,949,
+                    950,951,953,954,955,956,958,959,
+                    960,962,964,965,968,
+                    970,971,972,975,977,978,
+                    980,982,984,986,989,
+                    991,993,994,996,998,999,
+                    1001,1002,1278]
+                }
+              }
+            },
+            "then": {
+              "anyOf": [
+              {"properties": {
+                    "ElementNummer": {"const": 19},
+                    "Waarde": {"enum": ["0", "1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 20},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 62},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 63},
+                    "Waarde": {"pattern": "^([0-9]{8})$"}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 66},
+                    "Waarde": {"enum": ["01","02","03","04","05","06","07","08","98","00"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 71},
+                    "Waarde": {"type": "integer", "minimum": 1000, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 82},
+                    "Waarde": {"type": "number", "minimum": 50, "maximum": 350}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 91},
+                    "Waarde": {"enum": ["1", "2", "99"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 110},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 235},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 245},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 252},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 238},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 240},
+                    "Waarde": {"type": "number", "minimum": 0, "maximum": 9999}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 510},
+                    "Waarde": {"enum": ["01", "02", "03", "04"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 879},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 881},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 883},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 884},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 885},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 886},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 887},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 888},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 889},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 890},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 891},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 892},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 893},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 894},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 896},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 897},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 898},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 900},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 902},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 903},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 905},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 906},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 907},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 909},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 910},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 911},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 913},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 914},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 916},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 917},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 918},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 920},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 921},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 922},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 923},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 926},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 927},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 928},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 930},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 931},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 932},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 933},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 934},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 935},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 936},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 937},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 938},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 939},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 940},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 941},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 942},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 944},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 947},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 948},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 949},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 950},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 951},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 953},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 954},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 955},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 956},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 958},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 959},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 960},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 962},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 964},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 965},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 968},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 970},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 971},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 972},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 975},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 977},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 978},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 980},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 982},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 984},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 986},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 989},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 991},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 993},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 994},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 996},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 998},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 999},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 1001},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 1002},
+                    "Waarde": {"enum": ["1", "2"]}
+                    }
+                },
+                {"properties": {
+                    "ElementNummer": {"const": 1278},
+                    "Waarde": {"enum": ["1", "2", "3"]}
+                    }
+                }
+              ]
+            }
+
+      }
+    },
+    "ContactMomenten": {
+      "title": "Child data per visit",
+      "$id": "#/properties/Contactmomenten",
+      "type": "array",
+      "items": {
+        "title": "Observed items",
+        "$id": "#/properties/Contactmomenten/items",
+        "type": "object",
+        "required": [
+          "Tijdstip",
+          "Elementen"
+        ],
+        "properties": {
+          "Tijdstip": {
+            "title": "Date observation",
+            "$id": "#/properties/Contactmomenten/items/properties/Tijdstip",
+            "type": "string",
+            "pattern": "^([0-9]{8})$"
+          },
+          "Elementen": {
+            "items": {
+            "$ref": "#/properties/ClientGegevens/properties/items"
+            }
+          }
+        }
+      }
+    }
+  }
+}
