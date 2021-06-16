@@ -11,14 +11,29 @@ parse_valid <- function(valid) {
   w <- attr(valid, "error")
 
   # Error messages for errors outside of BDS values
-  mess$required <- w[w$keyword == "required", "message"]
+  # required field error
+  if (any(!grepl("contains", w[w$keyword == "required", "schemaPath"]))) {
+    mess$required <- w[w$keyword == "required" &
+                         !grepl("contains", w$schemaPath), "message"]
+
+  }
+
+  # date errors
+  if (any(!grepl("anyOf", w[w$keyword == "pattern", "schemaPath"]))) {
+    mess$required <- c(
+      mess$required,
+      paste("Tijdstip is verkeerd ingevoerd:",
+            w[w$keyword == "pattern" & !grepl("anyOf", w$schemaPath), "data"],
+            collapse = " ")
+    )
+  }
 
   # type errors
-  if (any(!grepl("Elementen", w[w$keyword == "type", "dataPath"]))) {
+  if (any(!grepl("anyOf", w[w$keyword == "type", "schemaPath"]))) {
     mess$required <- c(
-      w[w$keyword == "required", "message"],
+      mess$required,
       paste(w[
-        w$keyword == "type" & !grepl("Elementen", w$dataPath),
+        w$keyword == "type" & !grepl("anyOf", w$schemaPath),
         c("dataPath", "message")
       ], collapse = " ")
     )
@@ -30,9 +45,9 @@ parse_valid <- function(valid) {
       mess$required,
       paste(
         "verplicht BDS nummer ontbreekt:",
-        unlist(w[w$keyword == "contains", "schema"])
+        ((unlist(w[w$keyword == "contains", "schema"])))
+        [grep("[0-9].*", ((unlist(w[w$keyword == "contains", "schema"]))))]) # remove non-numbers
       )
-    )
   }
 
   # For misspecified BDS values
