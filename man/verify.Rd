@@ -4,13 +4,15 @@
 \alias{verify}
 \title{Verify validity of incoming JSON data}
 \usage{
-verify(txt = NULL, schema = NULL, ...)
+verify(txt = NULL, schema = NULL, v = 1, ...)
 }
 \arguments{
 \item{txt}{a JSON string, URL or file}
 
 \item{schema}{A JSON string, URL or file that selects the JSON validation
 schema.}
+
+\item{v}{version number for schema.}
 
 \item{\dots}{Additional parameter passed down to
 \code{fromJSON(txt, ...)}.}

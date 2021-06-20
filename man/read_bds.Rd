@@ -7,6 +7,7 @@
 read_bds(
   txt = NULL,
   schema = "bds_schema.json",
+  version = 1,
   append_ddi = FALSE,
   verbose = FALSE,
   ...
@@ -20,6 +21,9 @@ schema. The default corresponds to \code{schema = bds_schema.json} and loads
 \code{inst/json/bds_schema.json}. The older \code{schema = bds_schema_str.json}
 expects that numeric BDS values are specified as characters.}
 
+\item{version}{JSON schema version number. There are currently two schemas in
+use, versions \code{1} and \code{2}.}
+
 \item{append_ddi}{Should DDI measures be appended?}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
@@ -30,10 +34,9 @@ expects that numeric BDS values are specified as characters.}
 A tibble with 8 columns with a \code{person} attribute
 }
 \description{
-This function takes data from a json source, validates the contents against
-a JSON validation schema, perform checks, calculates the D-score,
-calculates Z-scores and transforms the data as a tibble with a \code{person}
-attribute.
+This function takes data from a json source, validates the contents against a
+JSON validation schema, perform checks, calculates the D-score, calculates
+Z-scores and transforms the data as a tibble with a \code{person} attribute.
 }
 \examples{
 fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")

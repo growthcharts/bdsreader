@@ -6,7 +6,7 @@ convert_ddi_gsed <- function(d, r) {
   items <- bdsreader::bds_gsed$lex_gsed[bdsreader::bds_gsed$lex_gsed != ""]
 
   # premature return if there are no data
-  if (!length(d$Contactmomenten)) {
+  if (!length(d$Contactmomenten) & !length(d$ContactMomenten)) {
     return(data.frame(age = numeric(0)))
   }
 

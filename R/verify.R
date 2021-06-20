@@ -5,6 +5,7 @@
 #' @param txt a JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #' schema.
+#' @param v version number for schema.
 #' @param \dots Additional parameter passed down to
 #'   `fromJSON(txt, ...)`.
 #' @return A list of processed input data. Side effect: messages are
@@ -16,7 +17,7 @@
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
 #' p <- verify(fn)
 #' @export
-verify <- function(txt = NULL, schema = NULL, ...) {
+verify <- function(txt = NULL, schema = NULL, v = 1, ...) {
 
   # PHASE 1: check JSON syntax: if needed, warn and exit
   err <- catch_cnd(data <- fromJSON(txt, ...))
@@ -36,7 +37,7 @@ verify <- function(txt = NULL, schema = NULL, ...) {
   throw_messages(mess$supplied)
 
   # PHASE 3: Range checks
-  ranges <- check_ranges(data)
+  ranges <- check_ranges(data, v)
 
   list(input = txt, data = data, ranges = ranges)
 }

@@ -1,14 +1,15 @@
 #' Reads selected BDS data of a person
 #'
-#' This function takes data from a json source, validates the contents against
-#' a JSON validation schema, perform checks, calculates the D-score,
-#' calculates Z-scores and transforms the data as a tibble with a `person`
-#' attribute.
+#' This function takes data from a json source, validates the contents against a
+#' JSON validation schema, perform checks, calculates the D-score, calculates
+#' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
-#' schema. The default corresponds to `schema = bds_schema.json` and loads
-#' `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
-#' expects that numeric BDS values are specified as characters.
+#'   schema. The default corresponds to `schema = bds_schema.json` and loads
+#'   `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
+#'   expects that numeric BDS values are specified as characters.
+#' @param version JSON schema version number. There are currently two schemas in
+#'   use, versions \code{1} and \code{2}.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Pass down to [jsonlite::fromJSON()]
@@ -20,7 +21,7 @@
 #' q <- read_bds(fn)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = "bds_schema.json",
+read_bds <- function(txt = NULL, schema = "bds_schema.json", version = 1,
                      append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(
@@ -55,14 +56,14 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json",
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
   checked <- tryCatch(
-    expr = verify(txt, schema = schema, ...),
+    expr = verify(txt, schema = schema, v = version, ...),
     error = function(cnd) {
       stop(conditionMessage(cnd))
     }
   )
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(checked, append_ddi = append_ddi)
+  x <- convert_checked_list(checked, append_ddi = append_ddi, v = version)
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters
