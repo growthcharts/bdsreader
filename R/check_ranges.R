@@ -143,7 +143,7 @@ check_ranges <- function(d, v = 1) {
       message("Missing 'ClientGegevens$Groepen'")
     }
   } else if (v == 2) {
-    if (all(unlist(lapply(ddd$ClientGegevens$GenesteElementen, is.null)))) {
+    if (all(unlist(lapply(d$ClientGegevens$GenesteElementen, is.null)))) {
       message("Missing 'ClientGegevens$GenesteElementen'")
     }
   }
