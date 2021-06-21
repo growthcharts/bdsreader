@@ -9,7 +9,8 @@
 #'   `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
 #'   expects that numeric BDS values are specified as characters.
 #' @param version JSON schema version number. There are currently two schemas in
-#'   use, versions \code{1} and \code{2}.
+#'   use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
+#'   correct version will be determined by the selected schema.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Pass down to [jsonlite::fromJSON()]
@@ -21,7 +22,7 @@
 #' q <- read_bds(fn)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = "bds_schema.json", version = 1,
+read_bds <- function(txt = NULL, schema = "bds_schema.json", version = NULL,
                      append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(
@@ -51,6 +52,20 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json", version = 1,
       agem = NA_real_,
       etn = NA_character_)
     return(xyz)
+  }
+  if (is.null(version)) {
+    switch(schema,
+           bds_schema_str.json = {
+             version <- 1
+           },
+           bds_schema_V2.json = {
+             # case 'bar' here...
+             version <- 2
+           },
+           {
+             version <- 1
+           }
+    )
   }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a

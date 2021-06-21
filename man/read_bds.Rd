@@ -7,7 +7,7 @@
 read_bds(
   txt = NULL,
   schema = "bds_schema.json",
-  version = 1,
+  version = NULL,
   append_ddi = FALSE,
   verbose = FALSE,
   ...
@@ -22,7 +22,8 @@ schema. The default corresponds to \code{schema = bds_schema.json} and loads
 expects that numeric BDS values are specified as characters.}
 
 \item{version}{JSON schema version number. There are currently two schemas in
-use, versions \code{1} and \code{2}.}
+use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
+correct version will be determined by the selected schema.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 
