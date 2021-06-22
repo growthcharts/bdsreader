@@ -37,7 +37,7 @@ verify <- function(txt = NULL, schema = NULL, v = 1, ...) {
   throw_messages(mess$supplied)
 
   # PHASE 3: Range checks
-  ranges <- check_ranges(data, v)
+  ranges <- suppressWarnings(check_ranges(data, v))
 
   list(input = txt, data = data, ranges = ranges)
 }

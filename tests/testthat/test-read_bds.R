@@ -12,7 +12,6 @@ jtf <- system.file("extdata", path, "test",
                    package = "jamesdemodata")
 
 # test the empty object
-# FIXME: V2 should not error
 js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
 test_that("handles the empty individual object", {
   expect_message(
@@ -66,7 +65,7 @@ if (version == 2) {  # other messages are OK
   })
 }
 
-# FIXME: V2 should not produce warnings
+# FIXME: V2 should not produce warnings. AHJ: supressed for now.
 test_that("test5.json (missing ClientGegevens) MESS", {
   expect_message(
     read_bds(jtf[5], schema = schema)

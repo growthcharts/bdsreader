@@ -4,6 +4,9 @@ extract_dob <- function(d, which = "00", version = 1) {
            b <- d$ClientGegevens$Elementen,
            b <- d$ClientGegevens
     )
+    if (!length(b)) {
+      return(as.Date(NA))
+    }
     switch(version,
            dob <- ymd(b[b$Bdsnummer == 20, 2]),
            dob <- ymd(b[b$ElementNummer == 20 & !is.na(b$ElementNummer), 2])
@@ -18,7 +21,7 @@ extract_dob <- function(d, which = "00", version = 1) {
          p <- d$ClientGegevens$Groepen[[1]],
          p <- d$ClientGegevens$GenesteElementen
   )
-  if (is.null(p)) {
+  if (!length(p)) {
     return(return(as.Date(NA)))
   }
   for (i in 1L:length(p)) {
@@ -45,6 +48,9 @@ extract_dob <- function(d, which = "00", version = 1) {
 
 extract_sex <- function(b, version = 1) {
 
+  if (length(b) == 0L) {
+    return(NA_character_)
+  }
   switch(version,
          s <- b[b$Bdsnummer == 19L, 2L],
          s <- b[b$ElementNummer == 19L & !is.na(b$ElementNummer), 2L]
@@ -101,9 +107,11 @@ extract_field <- function(d, f = 245L, version = 1) {
 extract_field2 <- function(d, f, version = 1) {
   if (version == 1) {
     b <- d[["ClientGegevens"]][["Elementen"]]
+    if (!length(b)) return(NA_real_)
     v <- b[b$Bdsnummer == f, "Waarde"]
   } else if (version == 2) {
     b <- d[["ClientGegevens"]]
+    if (!length(b)) return(NA_real_)
     v <- b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"]
   }
   ifelse(!length(v), NA_real_, v)
@@ -114,7 +122,7 @@ extract_field3 <- function(d, f, which_parent = "02", version = 1) {
   switch(version,
          p <- d[["ClientGegevens"]][["Groepen"]][["Elementen"]],
          p <- d[["ClientGegevens"]][["GenesteElementen"]])
-  if (is.null(p)) {
+  if (length(p) == 0) {
     return(NA)
   }
   for (i in 1L:length(p)) {
