@@ -9,7 +9,7 @@ write_bds(
   file = NULL,
   schema = NULL,
   indent = NULL,
-  quiet = FALSE,
+  verbose = FALSE,
   ...
 )
 }
@@ -25,7 +25,7 @@ The default (\code{NULL}) loads \code{"bds_schema.json"}.}
 \code{jsonlite::prettify()}. When not specified, the function writes
 minified json.}
 
-\item{quiet}{Logical. Print file message?}
+\item{verbose}{Logical. Print file message?}
 
 \item{\dots}{Passed down to \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}.}
 }

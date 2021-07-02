@@ -13,7 +13,7 @@
 #' @param indent Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes
 #' minified json.
-#' @param quiet Logical. Print file message?
+#' @param verbose Logical. Print file message?
 #' @param \dots Passed down to [jsonlite::toJSON()].
 #' @inheritParams validate_json
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
@@ -26,14 +26,14 @@
 #' js <- write_bds(tgt)
 #' @export
 write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
-                      quiet = FALSE, ...) {
+                      verbose = FALSE, ...) {
   p <- attr(x, "person")
   if (is.null(p)) {
     stop("Found no person attribute.")
   }
 
   # signal processing file
-  if (!is.null(file) && !quiet) {
+  if (!is.null(file) && !verbose) {
     message("Processing file: ", file)
   }
 
