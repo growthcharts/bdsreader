@@ -1,6 +1,6 @@
 schema <- "bds_schema.json"
-schema <- "bds_schema_str.json"
-pad <- ifelse(schema == "bds_schema_str.json", "_str", "")
+schema <- "bds_schema_v1.0.json"
+pad <- ifelse(schema == "bds_schema_v1.0.json", "_v1.0", "")
 jtf <- system.file("extdata", paste0("bds", pad), "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
 
 # test the empty object

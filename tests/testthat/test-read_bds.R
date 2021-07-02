@@ -1,6 +1,6 @@
-schemas <- c("bds_schema_str.json",      # keep for backward compatibility
+schemas <- c("bds_schema_v1.0.json",      # keep for backward compatibility
              "bds_schema_v2.0.json")       # new schema - June 2021)
-paths <-   c("bds_str",
+paths <-   c("bds_v1.0",
              "bds_v2.0")
 
 version <- 2                            # set to either 1 or 2

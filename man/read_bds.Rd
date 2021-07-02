@@ -18,7 +18,7 @@ read_bds(
 
 \item{schema}{A JSON string, URL or file that selects the JSON validation
 schema. The default corresponds to \code{schema = bds_schema.json} and loads
-\code{inst/json/bds_schema.json}. The older \code{schema = bds_schema_str.json}
+\code{inst/json/bds_schema.json}. The older \code{schema = bds_schema_v1.0.json}
 expects that numeric BDS values are specified as characters.}
 
 \item{version}{JSON schema version number. There are currently two schemas in

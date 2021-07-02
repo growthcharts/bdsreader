@@ -46,7 +46,7 @@ dates from age.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
+tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_v1.0.json")
 js <- write_bds(tgt)
 }
 \seealso{

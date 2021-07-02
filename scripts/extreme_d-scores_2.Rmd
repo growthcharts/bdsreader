@@ -24,8 +24,8 @@ library(jsonlite)
 suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(dplyr))
 
-fn  <- system.file("extdata", "bds_str", "test", "test25.json", package = "jamesdemodata")
-tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json"))
+fn  <- system.file("extdata", "bds_v1.0", "test", "test25.json", package = "jamesdemodata")
+tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE, schema = "bds_schema_v1.0.json"))
 tgt %>% 
   filter(yname == "dsc")
 ```

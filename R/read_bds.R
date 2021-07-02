@@ -6,7 +6,7 @@
 #' @param txt A JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
 #'   schema. The default corresponds to `schema = bds_schema.json` and loads
-#'   `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
+#'   `inst/json/bds_schema.json`. The older `schema = bds_schema_v1.0.json`
 #'   expects that numeric BDS values are specified as characters.
 #' @param version JSON schema version number. There are currently two schemas in
 #'   use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
@@ -55,7 +55,7 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json", version = NULL,
   }
   if (is.null(version)) {
     switch(schema,
-           bds_schema_str.json = {
+           bds_schema_v1.0.json = {
              version <- 1
            },
            bds_schema_v2.0.json = {
