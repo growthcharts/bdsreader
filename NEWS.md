@@ -12,9 +12,9 @@
 
 # bdsreader 0.4.0
 
-* Set `bds_schema.json` as default!! (not all testfile yet work)
+* Set `bds_schema_v1.1.json` as default!! (not all testfile yet work)
 * Replaces the `jamestest` package by `jamesdemodata`
-* Supports (testing of) `bds_schema_v1.0.json` (old) and `bds_schema.json` (new)
+* Supports (testing of) `bds_schema_v1.0.json` (old) and `bds_schema_v1.1.json` (new)
 * Adds a `file` argument to `write_bds()`
 * Updates scripts to account for double schema
 
@@ -25,8 +25,8 @@
 # bdsreader 0.3.0
 
 * Adds new `bds_write()` function
-* Sets tighter ranges in `bds_schema.json`
-* Changes the default JSON validation schema to `bds_schema.json`
+* Sets tighter ranges in `bds_schema_v1.1.json`
+* Changes the default JSON validation schema to `bds_schema_v1.1.json`
 * Adds example json from `bdsreader` package
 
 # bdsreader 0.2.0

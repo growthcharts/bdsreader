@@ -1,7 +1,5 @@
-schema <- "bds_schema.json"
 schema <- "bds_schema_v1.0.json"
-pad <- ifelse(schema == "bds_schema_v1.0.json", "_v1.0", "")
-jtf <- system.file("extdata", paste0("bds", pad), "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
+jtf <- system.file("extdata/bds_v1.0/test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
 
 test_that("test1.json (client3.json) PASSES bds_schema_v1.0.json", {
   expect_true(validate_json(jtf[1], schema = schema))
@@ -94,7 +92,7 @@ test_that("Laura_S.json passes bds_schema_v1.0.json", {
   expect_true(validate_json(fn, schema = schema))
 })
 
-fn <- system.file("extdata", paste0("bds", pad), "graham", "Bas_G.json", package = "jamesdemodata")
+fn <- system.file("extdata", "bds_v1.0", "graham", "Bas_G.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Bas_G.json (Bdsnummer 19 missing) FAILS bds_schema_v1.0.json", {

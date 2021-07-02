@@ -38,7 +38,7 @@ write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
   }
 
   # character or numeric, numeric is default
-  type <- ifelse(is.null(schema) || schema == "bds_schema.json",
+  type <- ifelse(is.null(schema) || schema == "bds_schema_v1.1.json",
                  "numeric", "character"
   )
 

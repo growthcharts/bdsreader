@@ -5,8 +5,8 @@
 #' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
 #' @param schema A JSON string, URL or file that selects the JSON validation
-#'   schema. The default corresponds to `schema = bds_schema.json` and loads
-#'   `inst/json/bds_schema.json`. The older `schema = bds_schema_v1.0.json`
+#'   schema. The default corresponds to `schema = bds_schema_v1.1.json` and loads
+#'   `inst/json/bds_schema_v1.1.json`. The older `schema = bds_schema_v1.0.json`
 #'   expects that numeric BDS values are specified as characters.
 #' @param version JSON schema version number. There are currently two schemas in
 #'   use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
@@ -22,7 +22,7 @@
 #' q <- read_bds(fn)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = "bds_schema.json", version = NULL,
+read_bds <- function(txt = NULL, schema = "bds_schema_v1.1.json", version = NULL,
                      append_ddi = FALSE, verbose = FALSE, ...) {
   if (is.null(txt)) {
     xyz <- tibble(

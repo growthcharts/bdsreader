@@ -19,7 +19,7 @@ write_bds(
 \item{file}{File name. The default (\code{NULL}) does not write to a file.}
 
 \item{schema}{The name of one the built-in schema's.
-The default (\code{NULL}) loads \code{"bds_schema.json"}.}
+The default (\code{NULL}) loads \code{"bds_schema_v1.1.json"}.}
 
 \item{indent}{Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes
