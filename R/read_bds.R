@@ -58,7 +58,7 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json", version = NULL,
            bds_schema_str.json = {
              version <- 1
            },
-           bds_schema_V2.json = {
+           bds_schema_v2.0.json = {
              # case 'bar' here...
              version <- 2
            },

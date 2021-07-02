@@ -1,7 +1,7 @@
 schemas <- c("bds_schema_str.json",      # keep for backward compatibility
-             "bds_schema_V2.json")       # new schema - June 2021)
+             "bds_schema_v2.0.json")       # new schema - June 2021)
 paths <-   c("bds_str",
-             "bds_V2")
+             "bds_v2.0")
 
 version <- 2                            # set to either 1 or 2
 schema <- schemas[version]
@@ -65,7 +65,7 @@ if (version == 2) {  # other messages are OK
   })
 }
 
-# FIXME: V2 should not produce warnings. AHJ: supressed for now.
+# FIXME: v2.0 should not produce warnings. AHJ: supressed for now.
 test_that("test5.json (missing ClientGegevens) MESS", {
   expect_message(
     read_bds(jtf[5], schema = schema)
@@ -87,7 +87,7 @@ if (version == 1) {
 }
 
 
-if (version == 2) {  # V2: silent is OK
+if (version == 2) {  # v2.0: silent is OK
   test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
     expect_silent(
       read_bds(jtf[7], schema = schema))
@@ -111,7 +111,7 @@ if (version == 1) {
   })
 }
 
-if (version == 2) {  #  V2: Silent is OK
+if (version == 2) {  #  v2.0: Silent is OK
   test_that("test9.json (Bdsnummer 19 missing) MESS", {
     expect_silent(
       read_bds(jtf[9], schema = schema))
@@ -128,7 +128,7 @@ if (version == 1) {
   })
 }
 
-if (version == 2) {  # V2: Other message OK
+if (version == 2) {  # v2.0: Other message OK
   test_that("test10.json (Bdsnummer 20 missing) MESS", {
     expect_message(
       read_bds(jtf[10], schema = schema),
@@ -138,7 +138,7 @@ if (version == 2) {  # V2: Other message OK
 }
 
 
-# FIXME: V2 should not produce warnings
+# FIXME: v2.0 should not produce warnings
 test_that("test11.json (Bdsnummer 82 missing) MESS", {
   expect_message(read_bds(jtf[11], schema = schema)
   )
@@ -148,7 +148,7 @@ test_that("test12.json (Bdsnummer 91 missing) PASSES", {
   expect_silent(read_bds(jtf[12], schema = schema))
 })
 
-# FIXME: V2 should not produce warnings
+# FIXME: v2.0 should not produce warnings
 test_that("test13.json (Bdsnummer 110 missing) MESS", {
   expect_message(read_bds(jtf[13], schema = schema),
                  "BDS 110 (Geboortegewicht in grammen: heeft geen waarde",
@@ -166,7 +166,7 @@ if (version == 1) {
   })
 }
 
-if (version == 2) {  # V2: silent is OK
+if (version == 2) {  # v2.0: silent is OK
   test_that("test15.json (Bdsnummer 62 numeric) MESS", {
     expect_silent(read_bds(jtf[15], schema = schema))
   })
@@ -189,7 +189,7 @@ if (version == 1) {
   })
 }
 
-if (version == 2) {  # V2: Silent is OK
+if (version == 2) {  # v2.0: Silent is OK
   test_that("test18.json (Bdsnummer 91 numeric) MESS", {
     expect_silent(
       read_bds(jtf[18], schema = schema)
@@ -216,18 +216,18 @@ if (version == 1) {
   })
 }
 
-if (version == 2) {  # V2: Other messages
+if (version == 2) {  # v2.0: Other messages
   test_that("test21.json (minimal data) MESS", {
     expect_message(read_bds(jtf[21], schema = schema))
   })
 }
 
-# FIXME: V2 should not produce warnings
+# FIXME: v2.0 should not produce warnings
 test_that("test22.json (gad (=49) out of range 50-350: set to NA)", {
   expect_message(read_bds(jtf[22], schema = schema))
 })
 
-# FIXME: V2 should not produce warnings
+# FIXME: v2.0 should not produce warnings
 test_that("test23.json (multiple messages) MESS", {
   expect_message(read_bds(jtf[23], schema = schema))
 })
