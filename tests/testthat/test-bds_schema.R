@@ -65,7 +65,6 @@ if (version == 2) {  # other messages are OK
   })
 }
 
-# FIXME: v2.0 should not produce warnings. AHJ: supressed for now.
 test_that("test5.json (missing ClientGegevens) MESS", {
   expect_message(
     read_bds(jtf[5], schema = schema)
@@ -138,7 +137,6 @@ if (version == 2) {  # v2.0: Other message OK
 }
 
 
-# FIXME: v2.0 should not produce warnings
 test_that("test11.json (Bdsnummer 82 missing) MESS", {
   expect_message(read_bds(jtf[11], schema = schema)
   )
@@ -148,7 +146,6 @@ test_that("test12.json (Bdsnummer 91 missing) PASSES", {
   expect_silent(read_bds(jtf[12], schema = schema))
 })
 
-# FIXME: v2.0 should not produce warnings
 test_that("test13.json (Bdsnummer 110 missing) MESS", {
   expect_message(read_bds(jtf[13], schema = schema),
                  "BDS 110 (Geboortegewicht in grammen: heeft geen waarde",
@@ -222,12 +219,10 @@ if (version == 2) {  # v2.0: Other messages
   })
 }
 
-# FIXME: v2.0 should not produce warnings
 test_that("test22.json (gad (=49) out of range 50-350: set to NA)", {
   expect_message(read_bds(jtf[22], schema = schema))
 })
 
-# FIXME: v2.0 should not produce warnings
 test_that("test23.json (multiple messages) MESS", {
   expect_message(read_bds(jtf[23], schema = schema))
 })
