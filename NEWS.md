@@ -1,3 +1,9 @@
+# bdsreader 0.6.0.9000
+
+* Introduces schema versioning
+* Simplifies the use of `bdsreader` with the `version` argument
+* Uses consistent arguments names for `read_bds()` and `write_bds()`
+
 # bdsreader 0.6.0
 
 * Adds GHA R-CMD-check for Ubuntu 18.04

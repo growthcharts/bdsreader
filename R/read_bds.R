@@ -68,6 +68,9 @@ read_bds <- function(txt = NULL,
   if (is.null(schema)) {
     stop("No schema specified.")
   }
+  if (!file.exists(schema)) {
+    stop("File ", schema, " not found.")
+  }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
