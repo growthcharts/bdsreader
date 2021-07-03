@@ -1,5 +1,7 @@
-schemas <- c("bds_schema_v1.0.json",      # keep for backward compatibility
-             "bds_schema_v2.0.json")       # new schema - June 2021)
+# v1.0 keep for backward compatibility
+# v2.0 new schema - June 2021 - compatibility with Eaglescience
+schemas <- c(system.file("json/bds_schema_v1.0.json", package = "bdsreader", mustWork = TRUE),
+             system.file("json/bds_schema_v2.0.json", package = "bdsreader", mustWork = TRUE))
 paths <-   c("bds_v1.0",
              "bds_v2.0")
 

@@ -4,26 +4,27 @@
 #' JSON validation schema, perform checks, calculates the D-score, calculates
 #' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
-#' @param schema A JSON string, URL or file that selects the JSON validation
-#'   schema. The default corresponds to `schema = bds_schema_v1.1.json` and loads
-#'   `inst/json/bds_schema_v1.1.json`. The older `schema = bds_schema_v1.0.json`
-#'   expects that numeric BDS values are specified as characters.
-#' @param version JSON schema version number. There are currently two schemas in
-#'   use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
-#'   correct version will be determined by the selected schema.
+#' @param version Integer. JSON schema version number. There are currently two
+#'   schemas supported, versions `1` and `2`.
+#' @param schema A JSON string, URL or file with the JSON validation
+#'   schema. The `schema` argument overrides `version`.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
-#' @param \dots Pass down to [jsonlite::fromJSON()]
+#' @param \dots Passed down to [jsonlite::fromJSON()]
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
-#' q <- read_bds(fn)
+#' q <- read_bds(fn, version = 1)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = "bds_schema_v1.1.json", version = NULL,
-                     append_ddi = FALSE, verbose = FALSE, ...) {
+read_bds <- function(txt = NULL,
+                     version = 2L,
+                     schema = NULL,
+                     append_ddi = FALSE,
+                     verbose = FALSE,
+                     ...) {
   if (is.null(txt)) {
     xyz <- tibble(
       age = numeric(0),
@@ -53,25 +54,25 @@ read_bds <- function(txt = NULL, schema = "bds_schema_v1.1.json", version = NULL
       etn = NA_character_)
     return(xyz)
   }
-  if (is.null(version)) {
-    switch(schema,
-           bds_schema_v1.0.json = {
-             version <- 1
-           },
-           bds_schema_v2.0.json = {
-             # case 'bar' here...
-             version <- 2
-           },
-           {
-             version <- 1
-           }
+  if (is.null(schema)) {
+    switch(
+      version,
+      {
+        schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader", mustWork = TRUE)
+      },
+      {
+        schema <- system.file("json/bds_schema_v2.0.json", package = "bdsreader", mustWork = TRUE)
+      }
     )
+  }
+  if (is.null(schema)) {
+    stop("No schema specified.")
   }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
   checked <- tryCatch(
-    expr = verify(txt, schema = schema, v = version, ...),
+    expr = verify(txt, schema = schema, ...),
     error = function(cnd) {
       stop(conditionMessage(cnd))
     }

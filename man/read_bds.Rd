@@ -6,8 +6,8 @@
 \usage{
 read_bds(
   txt = NULL,
-  schema = "bds_schema_v1.1.json",
-  version = NULL,
+  version = 2L,
+  schema = NULL,
   append_ddi = FALSE,
   verbose = FALSE,
   ...
@@ -16,20 +16,17 @@ read_bds(
 \arguments{
 \item{txt}{A JSON string, URL or file}
 
-\item{schema}{A JSON string, URL or file that selects the JSON validation
-schema. The default corresponds to \code{schema = bds_schema_v1.1.json} and loads
-\code{inst/json/bds_schema_v1.1.json}. The older \code{schema = bds_schema_v1.0.json}
-expects that numeric BDS values are specified as characters.}
+\item{version}{Integer. JSON schema version number. There are currently two
+schemas supported, versions \code{1} and \code{2}.}
 
-\item{version}{JSON schema version number. There are currently two schemas in
-use, versions \code{1} and \code{2}. The default is \code{NULL}, and the
-correct version will be determined by the selected schema.}
+\item{schema}{A JSON string, URL or file with the JSON validation
+schema. The \code{schema} argument overrides \code{version}.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
-\item{\dots}{Pass down to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+\item{\dots}{Passed down to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
 }
 \value{
 A tibble with 8 columns with a \code{person} attribute
@@ -41,7 +38,7 @@ Z-scores and transforms the data as a tibble with a \code{person} attribute.
 }
 \examples{
 fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
-q <- read_bds(fn)
+q <- read_bds(fn, version = 1)
 q
 }
 \seealso{

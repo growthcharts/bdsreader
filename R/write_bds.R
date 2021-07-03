@@ -9,24 +9,30 @@
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
 #' @param x      Tibble with an attribute called `person`
-#' @param file   File name. The default (`NULL`) does not write to a file.
+#' @param file   File name. The default (`NULL`) returns the json representation
+#' of the data and does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes
 #' minified json.
 #' @param verbose Logical. Print file message?
 #' @param \dots Passed down to [jsonlite::toJSON()].
-#' @inheritParams validate_json
+#' @inheritParams read_bds
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
 #' JSON
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::toJSON()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_v1.0.json")
-#' js <- write_bds(tgt)
+#' tgt <- read_bds(fn, version = 1, append_ddi = TRUE)
+#' # js <- write_bds(tgt)
 #' @export
-write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
-                      verbose = FALSE, ...) {
+write_bds <- function(x = NULL,
+                      version = 2L,
+                      schema = NULL,
+                      file = NULL,
+                      indent = NULL,
+                      verbose = FALSE,
+                      ...) {
   p <- attr(x, "person")
   if (is.null(p)) {
     stop("Found no person attribute.")
@@ -37,10 +43,26 @@ write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
     message("Processing file: ", file)
   }
 
-  # character or numeric, numeric is default
-  type <- ifelse(is.null(schema) || schema == "bds_schema_v1.1.json",
-                 "numeric", "character"
-  )
+  # set schema
+  if (is.null(schema)) {
+    switch(
+      version,
+      {
+        schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader", mustWork = TRUE)
+      },
+      {
+        schema <- system.file("json/bds_schema_v2.0.json", package = "bdsreader", mustWork = TRUE)
+      }
+    )
+  }
+  if (is.null(schema)) {
+    stop("No schema specified.")
+  }
+
+
+
+  # for version 1: distinguish between v1.0 and v1.1
+  type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
 
   # required elements
   bds <- list(

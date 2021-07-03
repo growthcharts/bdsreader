@@ -2,29 +2,28 @@
 #'
 #' This function checks the json input, runs it against a validation schema, and
 #' checks the input json for further processing.
-#' @param txt a JSON string, URL or file
-#' @param schema A JSON string, URL or file that selects the JSON validation
-#' schema.
-#' @param v version number for schema.
-#' @param \dots Additional parameter passed down to
-#'   `fromJSON(txt, ...)`.
+#' @param schema A JSON string, URL or file with the JSON validation
+#'   schema.
+#' @param \dots Additional parameter passed down to `fromJSON(txt, ...)`.
+#' @inheritParams read_bds
 #' @return A list of processed input data. Side effect: messages are
 #' thrown for input fields that do not conform to the expected
 #' data.
-#' @author Stef van Buuren 2020
+#' @author Stef van Buuren, Arjan Huizing 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' p <- verify(fn)
+#' txt <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader")
+#' p <- verify(txt, schema)
 #' @export
-verify <- function(txt = NULL, schema = NULL, v = 1, ...) {
+verify <- function(txt, schema, ...) {
 
   # PHASE 1: check JSON syntax: if needed, warn and exit
-  err <- catch_cnd(data <- fromJSON(txt, ...))
+  err <- rlang::catch_cnd(data <- fromJSON(txt, ...))
   if (!is.null(err)) stop(conditionMessage(err))
 
   # PHASE 2: JSON schema validation
-  valid <- validate_json(txt, schema)
+  valid <- jsonvalidate::json_validate(txt, schema, engine = "ajv", verbose = TRUE)
   mess <- parse_valid(valid)
 
   if (length(mess$required) > 0L) {
@@ -37,7 +36,9 @@ verify <- function(txt = NULL, schema = NULL, v = 1, ...) {
   throw_messages(mess$supplied)
 
   # PHASE 3: Range checks
-  ranges <- suppressWarnings(check_ranges(data, v))
+  version <- as.numeric(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
+  ranges <- suppressWarnings(check_ranges(data, version))
 
-  list(input = txt, data = data, ranges = ranges)
+  list(input = txt, data = data, ranges = ranges, pass = isTRUE(valid))
 }
+

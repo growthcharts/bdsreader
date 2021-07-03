@@ -1,13 +1,21 @@
-schema <- "bds_schema_v1.1.json"
-schema <- "bds_schema_v1.0.json"
-pad <- ifelse(schema == "bds_schema_v1.0.json", "_v1.0", "_v1.1")
-jtf <- system.file("extdata", paste0("bds", pad), "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
+schemas <- c(system.file("json/bds_schema_v1.0.json", package = "bdsreader", mustWork = TRUE),
+             system.file("json/bds_schema_v2.0.json", package = "bdsreader", mustWork = TRUE))
+paths <-   c("bds_v1.0",
+             "bds_v2.0")
+
+i <- 1
+
+schema <- schemas[i]
+path <- paths[i]
+
+jtf <- system.file("extdata", path, "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
+
 
 # test the empty object
 js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
 test_that("handles the empty individual object", {
   expect_message(
-    verify(js1),
+    verify(js1, schema = schema),
     "should have required property 'Elementen'"
   )
 })
@@ -150,7 +158,7 @@ test_that("test24.json (new DDI fields) PASSES", {
   expect_silent(verify(jtf[24], schema = schema))
 })
 
-fn <- system.file("extdata", paste0("bds", pad), "smocc", "Laura_S.json", package = "jamesdemodata")
+fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Laura_S.json is silent with GA in days", {
@@ -158,7 +166,7 @@ test_that("Laura_S.json is silent with GA in days", {
 })
 
 # 2 problematic json files identified by Allegro Sultum - Feb 2020
-fn <- system.file("extdata", paste0("bds", pad), "test", "not_a_vector.json", package = "jamesdemodata")
+fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("not_a_vector.json produces messages", {
@@ -166,7 +174,7 @@ test_that("not_a_vector.json produces messages", {
 })
 
 # problematic json file http400.json identified by Allegro Sultum - Feb 2020
-fn <- system.file("extdata", paste0("bds", pad), "test", "http400.json", package = "jamesdemodata")
+fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("http400.json proceeds silent - no biological mother", {
@@ -174,7 +182,7 @@ test_that("http400.json proceeds silent - no biological mother", {
 })
 
 # test battery - comment out to activate
-# path <- system.file("extdata", paste0("bds", pad), package = "jamesdemodata")
+# path <- system.file("extdata", path, package = "jamesdemodata")
 # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
 # for (lib in libs) {
 #   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)

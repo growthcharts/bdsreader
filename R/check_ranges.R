@@ -1,4 +1,4 @@
-check_ranges <- function(d, v = 1) {
+check_ranges <- function(d, v) {
   lex <- bdsreader::bds_lexicon
 
   e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, version = v)))

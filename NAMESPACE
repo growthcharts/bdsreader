@@ -2,7 +2,6 @@
 
 export(persondata)
 export(read_bds)
-export(validate_json)
 export(verify)
 export(write_bds)
 importFrom(centile,y2z)

@@ -17,5 +17,5 @@ Extract person-level information
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-persondata(read_bds(fn))
+persondata(read_bds(fn, version = 1))
 }

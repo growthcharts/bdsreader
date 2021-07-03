@@ -4,18 +4,15 @@
 \alias{verify}
 \title{Verify validity of incoming JSON data}
 \usage{
-verify(txt = NULL, schema = NULL, v = 1, ...)
+verify(txt, schema, ...)
 }
 \arguments{
-\item{txt}{a JSON string, URL or file}
+\item{txt}{A JSON string, URL or file}
 
-\item{schema}{A JSON string, URL or file that selects the JSON validation
+\item{schema}{A JSON string, URL or file with the JSON validation
 schema.}
 
-\item{v}{version number for schema.}
-
-\item{\dots}{Additional parameter passed down to
-\code{fromJSON(txt, ...)}.}
+\item{\dots}{Additional parameter passed down to \code{fromJSON(txt, ...)}.}
 }
 \value{
 A list of processed input data. Side effect: messages are
@@ -27,12 +24,13 @@ This function checks the json input, runs it against a validation schema, and
 checks the input json for further processing.
 }
 \examples{
-fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-p <- verify(fn)
+txt <- system.file("examples", "Laura_S.json", package = "bdsreader")
+schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader")
+p <- verify(txt, schema)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}
 }
 \author{
-Stef van Buuren 2020
+Stef van Buuren, Arjan Huizing 2021
 }

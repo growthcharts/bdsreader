@@ -6,8 +6,9 @@
 \usage{
 write_bds(
   x = NULL,
-  file = NULL,
+  version = 2L,
   schema = NULL,
+  file = NULL,
   indent = NULL,
   verbose = FALSE,
   ...
@@ -16,10 +17,14 @@ write_bds(
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
-\item{file}{File name. The default (\code{NULL}) does not write to a file.}
+\item{version}{Integer. JSON schema version number. There are currently two
+schemas supported, versions \code{1} and \code{2}.}
 
-\item{schema}{The name of one the built-in schema's.
-The default (\code{NULL}) loads \code{"bds_schema_v1.1.json"}.}
+\item{schema}{A JSON string, URL or file with the JSON validation
+schema. The \code{schema} argument overrides \code{version}.}
+
+\item{file}{File name. The default (\code{NULL}) returns the json representation
+of the data and does not write to a file.}
 
 \item{indent}{Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes
@@ -46,8 +51,8 @@ dates from age.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_v1.0.json")
-js <- write_bds(tgt)
+tgt <- read_bds(fn, version = 1, append_ddi = TRUE)
+# js <- write_bds(tgt)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}
