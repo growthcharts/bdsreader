@@ -19,8 +19,10 @@ read_bds(
 \item{version}{Integer. JSON schema version number. There are currently two
 schemas supported, versions \code{1} and \code{2}.}
 
-\item{schema}{A JSON string, URL or file with the JSON validation
-schema. The \code{schema} argument overrides \code{version}.}
+\item{schema}{A file name with the JSON validation schema.
+The \code{schema} argument overrides \code{version}. The function extracts the
+character following the string \code{"_v"} in the name, and overwrites the
+\code{version} argument by the integer representation of the found character.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 

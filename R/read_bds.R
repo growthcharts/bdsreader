@@ -6,8 +6,10 @@
 #' @param txt A JSON string, URL or file
 #' @param version Integer. JSON schema version number. There are currently two
 #'   schemas supported, versions `1` and `2`.
-#' @param schema A JSON string, URL or file with the JSON validation
-#'   schema. The `schema` argument overrides `version`.
+#' @param schema A file name with the JSON validation schema.
+#'   The `schema` argument overrides `version`. The function extracts the
+#'   character following the string `"_v"` in the name, and overwrites the
+#'   `version` argument by the integer representation of the found character.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Passed down to [jsonlite::fromJSON()]
@@ -64,9 +66,9 @@ read_bds <- function(txt = NULL,
         schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE)
       }
     )
-  }
-  if (is.null(schema)) {
-    stop("No schema specified.")
+  } else {
+    # overwrite version by file name extract
+    version <- as.integer(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
   }
   if (!file.exists(schema)) {
     stop("File ", schema, " not found.")
