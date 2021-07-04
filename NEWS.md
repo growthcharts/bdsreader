@@ -1,6 +1,8 @@
 # bdsreader 0.6.0.9000
 
 * Introduces schema versioning
+* Stores built-in schemas into new package level directory `schemas` 
+* Shortens names of schema files to `bds_v{x.y}.json`
 * Simplifies the use of `bdsreader` with the `version` argument
 * Uses consistent arguments names for `read_bds()` and `write_bds()`
 

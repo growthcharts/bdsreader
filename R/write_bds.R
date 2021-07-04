@@ -48,10 +48,10 @@ write_bds <- function(x = NULL,
     switch(
       version,
       {
-        schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader", mustWork = TRUE)
+        schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE)
       },
       {
-        schema <- system.file("json/bds_schema_v2.0.json", package = "bdsreader", mustWork = TRUE)
+        schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE)
       }
     )
   }

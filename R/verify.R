@@ -13,7 +13,7 @@
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
 #' txt <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' schema <- system.file("json/bds_schema_v1.0.json", package = "bdsreader")
+#' schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
 #' p <- verify(txt, schema)
 #' @export
 verify <- function(txt, schema, ...) {
