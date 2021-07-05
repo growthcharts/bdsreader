@@ -5,6 +5,7 @@
 * Shortens names of schema files to `bds_v{x.y}.json`
 * Simplifies the use of `bdsreader` with the `version` argument
 * Uses consistent arguments names for `read_bds()` and `write_bds()`
+* Extends `read_bds()` and `write_bds()` to version 2
 
 # bdsreader 0.6.0
 
