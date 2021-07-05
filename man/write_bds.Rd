@@ -9,7 +9,9 @@ write_bds(
   version = 2L,
   schema = NULL,
   file = NULL,
+  organisation = 0L,
   indent = NULL,
+  check = TRUE,
   verbose = FALSE,
   ...
 )
@@ -28,9 +30,13 @@ character following the string \code{"_v"} in the name, and overwrites the
 \item{file}{File name. The default (\code{NULL}) returns the json representation
 of the data and does not write to a file.}
 
+\item{organisation}{Integer. Organisation number of the caller. Optional.}
+
 \item{indent}{Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes
 minified json.}
+
+\item{check}{Logical. Should function check json to conform to schema?}
 
 \item{verbose}{Logical. Print file message?}
 
@@ -53,8 +59,9 @@ dates from age.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-tgt <- read_bds(fn, version = 1, append_ddi = TRUE)
-# js <- write_bds(tgt)
+tgt <- read_bds(fn, version = 1, append_ddi = FALSE)
+js1 <- write_bds(tgt, version = 1)
+js2 <- write_bds(tgt)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}
