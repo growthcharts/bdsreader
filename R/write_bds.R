@@ -69,6 +69,7 @@ write_bds <- function(x = NULL,
 
   # for version 1: distinguish between v1.0 and v1.1
   type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
+  if (version == 2L) type <- "numeric"
 
   # required elements
   bds <- list(
@@ -78,10 +79,16 @@ write_bds <- function(x = NULL,
 
   # optional elements
   bds$Referentie <- as_bds_reference(x)
-  bds$ContactMomenten <- as_bds_contacts(x, version, type)
-  if (version == 1L) names(bds)[4] <- "Contactmomenten"
+  bds$ContactMomenten <- as_bds_contacts(x, type)
+  if (version == 1L) {
+    names(bds)[4] <- "Contactmomenten"
+  }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
+  js <- gsub("Waarde2", "Waarde", js)
+  if (version == 1L) {
+    js <- gsub("ElementNummer", "Bdsnummer", js)
+  }
   if (!check) {
     return(js)
   }
@@ -245,79 +252,8 @@ as_bds_clientdata_v2 <- function(tgt) {
   x
 }
 
-as_bds_contacts <- function(tgt, version, type) {
-  if (version == 2L)
-    return(as_bds_contacts_v2(tgt))
-  as_bds_contacts_v1(tgt, type)
-}
 
-as_bds_contacts_v1 <- function(tgt, type) {
-  # this function produces a JSON string with data coded according
-  # to the BDS schema
-
-  # extract measurements, only take age-related
-  # remove duplicates, and NA's on y
-  d <- tgt %>%
-    filter(.data$xname == "age") %>%
-    filter(!duplicated(.data)) %>%
-    drop_na(.data$y)
-
-  # return NULL if there are no measurements
-  if (!nrow(d)) {
-    return(NULL)
-  }
-
-  # back-calculate measurement dates
-  d$time <- age_to_time(tgt, d$x)
-
-  # set proper units
-  d[d$yname %in% c("hgt", "hdc"), "y"] <-
-    d[d$yname %in% c("hgt", "hdc"), "y"] * 10
-  d[d$yname == "wgt", "y"] <-
-    d[d$yname == "wgt", "y"] * 1000
-
-  # set BDS numbers
-  d$bds <- recode(d$yname,
-                  hgt = "235", wgt = "245", hdc = "252",
-                  .default = NA_character_
-  )
-
-  # sort according to time
-  d <- d %>%
-    drop_na(.data$bds) %>%
-    mutate(
-      chr = type == "character",
-      Bdsnummer = as.integer(.data$bds),
-      Waarde = ifelse(.data$chr, as.character(.data$y), .data$y)) %>%
-    select(all_of(c("time", "Bdsnummer", "Waarde"))) %>%
-    arrange(.data$time, .data$Bdsnummer)
-
-  # extract raw responses from DDI
-  ddi <- tgt %>%
-    filter(substr(.data$yname, 1L, 3L) == "bds") %>%
-    mutate(
-      time = age_to_time(!!tgt, .data$age),
-      Bdsnummer = as.integer(substring(.data$yname, 4L)),
-      Waarde = ifelse(type == "character", as.character(.data$y), .data$y)
-    ) %>%
-    select(all_of(c("time", "Bdsnummer", "Waarde")))
-
-  # merge measurements
-  d <- bind_rows(d, ddi) %>%
-    arrange(.data$time, .data$Bdsnummer)
-
-  # split by time, and return
-  f <- as.factor(d$time)
-  d <- split(d[, c("Bdsnummer", "Waarde")], f)
-
-  data.frame(
-    Tijdstip = names(d),
-    Elementen = I(d),
-    stringsAsFactors = FALSE
-  )
-}
-
-as_bds_contacts_v2 <- function(tgt) {
+as_bds_contacts <- function(tgt, type) {
   # this function produces a JSON string with data coded according
   # to the BDS schema
 
@@ -353,9 +289,14 @@ as_bds_contacts_v2 <- function(tgt) {
     drop_na(.data$bds) %>%
     mutate(
       ElementNummer = as.integer(.data$bds),
-      Waarde = .data$y) %>%
-    select(all_of(c("time", "ElementNummer", "Waarde"))) %>%
+      Waarde = as.integer(.data$y),
+      Waarde2 = as.character(.data$y)) %>%
+    select(all_of(c("time", "ElementNummer", "Waarde", "Waarde2"))) %>%
     arrange(.data$time, .data$ElementNummer)
+
+  # set proper type
+  if (type == "character") d$Waarde <- NA_integer_
+  if (type == "numeric") d$Waarde2 <- NA_character_
 
   # extract raw responses from DDI
   ddi <- tgt %>%
@@ -363,8 +304,9 @@ as_bds_contacts_v2 <- function(tgt) {
     mutate(
       time = age_to_time(!!tgt, .data$age),
       ElementNummer = as.integer(substring(.data$yname, 4L)),
-      Waarde = .data$y) %>%
-    select(all_of(c("time", "ElementNummer", "Waarde")))
+      Waarde = NA_integer_,
+      Waarde2 = as.character(.data$y)) %>%
+    select(all_of(c("time", "ElementNummer", "Waarde", "Waarde2")))
 
   # merge measurements
   d <- bind_rows(d, ddi) %>%
@@ -372,7 +314,7 @@ as_bds_contacts_v2 <- function(tgt) {
 
   # split by time, and return
   f <- as.factor(d$time)
-  d <- split(d[, c("ElementNummer", "Waarde")], f)
+  d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f)
 
   data.frame(
     Tijdstip = names(d),

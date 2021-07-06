@@ -236,13 +236,13 @@ for (version in 1:2) {
 
 
 
-  # fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
-  # js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-  #
-  # test_that("Laura_S.json is silent with GA in days", {
-  #   expect_silent(read_bds(js, schema = schema))
-  # })
-  #
+#  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+#  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+#
+#  test_that("Laura_S.json is silent with GA in days", {
+#    expect_silent(read_bds(js, schema = schema))
+#  })
+#
   # # 2 problematic json files identified by Allegro Sultum - Feb 2020
   # fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
   # js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
