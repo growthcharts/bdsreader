@@ -81,7 +81,7 @@ write_bds <- function(x = NULL,
   bds$Referentie <- as_bds_reference(x)
   bds$ContactMomenten <- as_bds_contacts(x, type)
   if (version == 1L) {
-    names(bds)[4] <- "Contactmomenten"
+    names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
   }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
