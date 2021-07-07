@@ -18,7 +18,7 @@
 #' @param check Logical. Should function check json to conform to schema?
 #' @param verbose Logical. Print file message?
 #' @param \dots Passed down to [jsonlite::toJSON()].
-#' @inheritParams read_bds
+#' @inheritParams set_schema
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
 #' JSON
 #' @author Stef van Buuren 2021
@@ -48,21 +48,9 @@ write_bds <- function(x = NULL,
     message("Processing file: ", file)
   }
 
-  # set schema
-  if (is.null(schema)) {
-    switch(
-      version,
-      {
-        schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE)
-      },
-      {
-        schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE)
-      }
-    )
-  } else {
-    # overwrite version by file name extract
-    version <- as.integer(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
-  }
+  schema_list <- set_schema(version, schema)
+  schema <- schema_list$schema
+  version <- schema_list$version
   if (!file.exists(schema)) {
     stop("File ", schema, " not found.")
   }

@@ -4,20 +4,15 @@
 #' JSON validation schema, perform checks, calculates the D-score, calculates
 #' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
-#' @param version Integer. JSON schema version number. There are currently two
-#'   schemas supported, versions `1` and `2`.
-#' @param schema A file name with the JSON validation schema.
-#'   The `schema` argument overrides `version`. The function extracts the
-#'   character following the string `"_v"` in the name, and overwrites the
-#'   `version` argument by the integer representation of the found character.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Passed down to [jsonlite::fromJSON()]
+#' @inheritParams set_schema
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
-#' fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
+#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
 #' q <- read_bds(fn, version = 1)
 #' q
 #' @export
@@ -56,20 +51,9 @@ read_bds <- function(txt = NULL,
       etn = NA_character_)
     return(xyz)
   }
-  if (is.null(schema)) {
-    switch(
-      version,
-      {
-        schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE)
-      },
-      {
-        schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE)
-      }
-    )
-  } else {
-    # overwrite version by file name extract
-    version <- as.integer(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
-  }
+  schema_list <- set_schema(version, schema)
+  schema <- schema_list$schema
+  version <- schema_list$version
   if (!file.exists(schema)) {
     stop("File ", schema, " not found.")
   }
