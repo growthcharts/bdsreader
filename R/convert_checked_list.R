@@ -1,6 +1,8 @@
-convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
+convert_checked_list <- function(checked = NULL, append_ddi = FALSE, v = 1) {
   d <- checked$data
-  b <- d$ClientGegevens$Elementen
+  switch(v,
+         b <- d$ClientGegevens$Elementen,
+         b <- d$ClientGegevens)
   r <- checked$ranges
 
   # convert ddi, calculate D-score
@@ -13,12 +15,12 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
   persondata <- tibble(
     id = -1L,
     name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
-    dob  = extract_dob(d, which = "00"),
-    dobf = extract_dob(d, which = "01"),
-    dobm = extract_dob(d, which = "02"),
+    dob  = extract_dob(d, which = "00", format = v),
+    dobf = extract_dob(d, which = "01", format = v),
+    dobm = extract_dob(d, which = "02", format = v),
     src = src,
     dnr = NA_character_,
-    sex = extract_sex(b),
+    sex = extract_sex(b, format = v),
 
     # store GA in days and completed weeks
     gad = r$gad,
@@ -26,7 +28,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
 
     # 1 = Nee, volgens BDS 1 = Ja, 2 = Nee
     # FIXME
-    smo = as.numeric(extract_field2(d, 91L, "ClientGegevens", "Elementen")) - 1L,
+    smo = as.numeric(extract_field2(d, 91L, format = v)) - 1L,
 
     # in grammen, conform BSD
     bw = r$bw,
@@ -49,7 +51,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE) {
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (!length(d$Contactmomenten)) {
+  if (!length(d$Contactmomenten) & !length(d$ContactMomenten)) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),

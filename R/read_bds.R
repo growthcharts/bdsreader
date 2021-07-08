@@ -1,27 +1,27 @@
 #' Reads selected BDS data of a person
 #'
-#' This function takes data from a json source, validates the contents against
-#' a JSON validation schema, perform checks, calculates the D-score,
-#' calculates Z-scores and transforms the data as a tibble with a `person`
-#' attribute.
+#' This function takes data from a json source, validates the contents against a
+#' JSON validation schema, perform checks, calculates the D-score, calculates
+#' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
-#' @param schema A JSON string, URL or file that selects the JSON validation
-#' schema. The default corresponds to `schema = bds_schema.json` and loads
-#' `inst/json/bds_schema.json`. The older `schema = bds_schema_str.json`
-#' expects that numeric BDS values are specified as characters.
 #' @param append_ddi Should DDI measures be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
-#' @param \dots Pass down to [jsonlite::fromJSON()]
+#' @param \dots Passed down to [jsonlite::fromJSON()]
+#' @inheritParams set_schema
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
-#' fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
-#' q <- read_bds(fn)
+#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' q <- read_bds(fn, format = 1)
 #' q
 #' @export
-read_bds <- function(txt = NULL, schema = "bds_schema.json",
-                     append_ddi = FALSE, verbose = FALSE, ...) {
+read_bds <- function(txt = NULL,
+                     format = 2L,
+                     schema = NULL,
+                     append_ddi = FALSE,
+                     verbose = FALSE,
+                     ...) {
   if (is.null(txt)) {
     xyz <- tibble(
       age = numeric(0),
@@ -51,6 +51,12 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json",
       etn = NA_character_)
     return(xyz)
   }
+  schema_list <- set_schema(format, schema)
+  schema <- schema_list$schema
+  format <- schema_list$format
+  if (!file.exists(schema)) {
+    stop("File ", schema, " not found.")
+  }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
@@ -62,7 +68,7 @@ read_bds <- function(txt = NULL, schema = "bds_schema.json",
   )
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(checked, append_ddi = append_ddi)
+  x <- convert_checked_list(checked, append_ddi = append_ddi, v = format)
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters

@@ -6,7 +6,8 @@
 \usage{
 read_bds(
   txt = NULL,
-  schema = "bds_schema.json",
+  format = 2L,
+  schema = NULL,
   append_ddi = FALSE,
   verbose = FALSE,
   ...
@@ -15,29 +16,31 @@ read_bds(
 \arguments{
 \item{txt}{A JSON string, URL or file}
 
-\item{schema}{A JSON string, URL or file that selects the JSON validation
-schema. The default corresponds to \code{schema = bds_schema.json} and loads
-\code{inst/json/bds_schema.json}. The older \code{schema = bds_schema_str.json}
-expects that numeric BDS values are specified as characters.}
+\item{format}{Integer. JSON schema format number. There are currently two
+schemas supported, formats \code{1} and \code{2}.}
+
+\item{schema}{A file name (including path) with the JSON validation schema.
+The \code{schema} argument overrides \code{format}. The function extracts the
+character following the string \code{"_v"} in the base name, and overwrites the
+\code{format} argument by the integer representation of the found character.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
-\item{\dots}{Pass down to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+\item{\dots}{Passed down to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
 }
 \value{
 A tibble with 8 columns with a \code{person} attribute
 }
 \description{
-This function takes data from a json source, validates the contents against
-a JSON validation schema, perform checks, calculates the D-score,
-calculates Z-scores and transforms the data as a tibble with a \code{person}
-attribute.
+This function takes data from a json source, validates the contents against a
+JSON validation schema, perform checks, calculates the D-score, calculates
+Z-scores and transforms the data as a tibble with a \code{person} attribute.
 }
 \examples{
-fn <- system.file("examples", "Laura_S2.json", package = "bdsreader")
-q <- read_bds(fn)
+fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+q <- read_bds(fn, format = 1)
 q
 }
 \seealso{

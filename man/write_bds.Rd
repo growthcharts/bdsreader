@@ -6,26 +6,39 @@
 \usage{
 write_bds(
   x = NULL,
-  file = NULL,
+  format = 2L,
   schema = NULL,
+  file = NULL,
+  organisation = 0L,
   indent = NULL,
-  quiet = FALSE,
+  check = TRUE,
+  verbose = FALSE,
   ...
 )
 }
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
-\item{file}{File name. The default (\code{NULL}) does not write to a file.}
+\item{format}{Integer. JSON schema format number. There are currently two
+schemas supported, formats \code{1} and \code{2}.}
 
-\item{schema}{The name of one the built-in schema's.
-The default (\code{NULL}) loads \code{"bds_schema.json"}.}
+\item{schema}{A file name (including path) with the JSON validation schema.
+The \code{schema} argument overrides \code{format}. The function extracts the
+character following the string \code{"_v"} in the base name, and overwrites the
+\code{format} argument by the integer representation of the found character.}
+
+\item{file}{File name. The default (\code{NULL}) returns the json representation
+of the data and does not write to a file.}
+
+\item{organisation}{Integer. Organisation number of the caller. Optional.}
 
 \item{indent}{Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes
 minified json.}
 
-\item{quiet}{Logical. Print file message?}
+\item{check}{Logical. Should function check json to conform to schema?}
+
+\item{verbose}{Logical. Print file message?}
 
 \item{\dots}{Passed down to \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}.}
 }
@@ -46,8 +59,9 @@ dates from age.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
-js <- write_bds(tgt)
+tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
+js1 <- write_bds(tgt, format = 1)
+js2 <- write_bds(tgt)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}

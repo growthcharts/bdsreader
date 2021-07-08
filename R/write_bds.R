@@ -9,50 +9,77 @@
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
 #' @param x      Tibble with an attribute called `person`
-#' @param file   File name. The default (`NULL`) does not write to a file.
+#' @param file   File name. The default (`NULL`) returns the json representation
+#' of the data and does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes
 #' minified json.
-#' @param quiet Logical. Print file message?
+#' @param organisation Integer. Organisation number of the caller. Optional.
+#' @param check Logical. Should function check json to conform to schema?
+#' @param verbose Logical. Print file message?
 #' @param \dots Passed down to [jsonlite::toJSON()].
-#' @inheritParams validate_json
+#' @inheritParams set_schema
 #' @return A string with bds-formatted JSON codes, or `NULL` for invalid
 #' JSON
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::toJSON()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' tgt <- read_bds(fn, append_ddi = TRUE, schema = "bds_schema_str.json")
-#' js <- write_bds(tgt)
+#' tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
+#' js1 <- write_bds(tgt, format = 1)
+#' js2 <- write_bds(tgt)
 #' @export
-write_bds <- function(x = NULL, file = NULL, schema = NULL, indent = NULL,
-                      quiet = FALSE, ...) {
+write_bds <- function(x = NULL,
+                      format = 2L,
+                      schema = NULL,
+                      file = NULL,
+                      organisation = 0L,
+                      indent = NULL,
+                      check = TRUE,
+                      verbose = FALSE,
+                      ...) {
   p <- attr(x, "person")
   if (is.null(p)) {
     stop("Found no person attribute.")
   }
 
   # signal processing file
-  if (!is.null(file) && !quiet) {
+  if (!is.null(file) && !verbose) {
     message("Processing file: ", file)
   }
 
-  # character or numeric, numeric is default
-  type <- ifelse(is.null(schema) || schema == "bds_schema.json",
-                 "numeric", "character"
-  )
+  schema_list <- set_schema(format, schema)
+  schema <- schema_list$schema
+  format <- schema_list$format
+  if (!file.exists(schema)) {
+    stop("File ", schema, " not found.")
+  }
+
+  # for format 1: distinguish between v1.0 and v1.1
+  type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
+  if (format == 2L) type <- "numeric"
 
   # required elements
   bds <- list(
-    OrganisatieCode = 0L,
-    ClientGegevens = as_bds_clientdata(x, type)
+    OrganisatieCode = as.integer(organisation),
+    ClientGegevens = as_bds_clientdata(x, format, type)
   )
 
   # optional elements
   bds$Referentie <- as_bds_reference(x)
-  bds$Contactmomenten <- as_bds_contacts(x, type)
+  bds$ContactMomenten <- as_bds_contacts(x, type)
+  if (format == 1L) {
+    names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
+  }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
+  js <- gsub("Waarde2", "Waarde", js)
+  if (format == 1L) {
+    js <- gsub("ElementNummer", "Bdsnummer", js)
+  }
+  if (!check) {
+    return(js)
+  }
   if (!validate(js)) {
     warning("Cannot create valid JSON")
     return(NULL)
@@ -80,7 +107,13 @@ as_bds_reference <- function(tgt) {
   n
 }
 
-as_bds_clientdata <- function(tgt, type) {
+as_bds_clientdata <- function(tgt, format, type) {
+  if (format == 2L)
+    return(as_bds_clientdata_v2(tgt))
+  as_bds_clientdata_v1(tgt, type)
+}
+
+as_bds_clientdata_v1 <- function(tgt, type) {
   psn <- persondata(tgt)
   x <- list(
     Elementen = list(
@@ -135,6 +168,79 @@ as_bds_clientdata <- function(tgt, type) {
   x
 }
 
+as_bds_clientdata_v2 <- function(tgt) {
+  psn <- persondata(tgt)
+  x <- list(
+    list(
+      ElementNummer = 19,
+      Waarde = switch(psn$sex, "male" = "1", "female" = "2", "0")
+    ),
+    list(
+      ElementNummer = 20,
+      Waarde = format(as.Date(get_dob(tgt)), format = "%Y%m%d")
+    ),
+    list(
+      ElementNummer = 82,
+      Waarde = as.numeric(psn$gad)
+    ),
+    list(
+      ElementNummer = 91,
+      Waarde = ifelse(is.na(psn$smo), "99", as.character(2 - psn$smo))
+    ),
+    list(
+      ElementNummer = 110,
+      Waarde = as.numeric(psn$bw)
+    ),
+    list(
+      ElementNummer = 238,
+      Waarde = as.numeric(psn$hgtm * 10)
+    ),
+    list(
+      ElementNummer = 240,
+      Waarde = as.numeric(psn$hgtf * 10)
+    ),
+    list(
+      GenesteElementen =
+        list(
+          list(
+            ElementNummer = 63,
+            Waarde = format(as.Date(get_dob(tgt, which = "01")), format = "%Y%m%d")
+          ),
+          list(
+            ElementNummer = 71
+          ),
+          list(
+            ElementNummer = 62,
+            Waarde = "01"
+          )
+        )
+    ),
+    list(
+      GenesteElementen =
+        list(
+          list(
+            ElementNummer = 63,
+            Waarde = format(as.Date(get_dob(tgt, which = "02")), format = "%Y%m%d")
+          ),
+          list(
+            ElementNummer = 71
+          ),
+          list(
+            ElementNummer = 62,
+            Waarde = "02"
+          )
+        )
+    )
+  )
+
+  # if there are no parental birth dates, strip Groepen
+  # dobf <- x[["GenesteElementen"]][[8]][1, 2]
+  # dobm <- x[["GenesteElementen"]][[9]][1, 2]
+  # if (is.na(dobf) && is.na(dobm)) x$GenesteElementen <- NULL
+  x
+}
+
+
 as_bds_contacts <- function(tgt, type) {
   # this function produces a JSON string with data coded according
   # to the BDS schema
@@ -170,29 +276,33 @@ as_bds_contacts <- function(tgt, type) {
   d <- d %>%
     drop_na(.data$bds) %>%
     mutate(
-      chr = type == "character",
-      Bdsnummer = as.integer(.data$bds),
-      Waarde = ifelse(.data$chr, as.character(.data$y), .data$y)) %>%
-    select(all_of(c("time", "Bdsnummer", "Waarde"))) %>%
-    arrange(.data$time, .data$Bdsnummer)
+      ElementNummer = as.integer(.data$bds),
+      Waarde = as.integer(.data$y),
+      Waarde2 = as.character(.data$y)) %>%
+    select(all_of(c("time", "ElementNummer", "Waarde", "Waarde2"))) %>%
+    arrange(.data$time, .data$ElementNummer)
+
+  # set proper type
+  if (type == "character") d$Waarde <- NA_integer_
+  if (type == "numeric") d$Waarde2 <- NA_character_
 
   # extract raw responses from DDI
   ddi <- tgt %>%
     filter(substr(.data$yname, 1L, 3L) == "bds") %>%
     mutate(
       time = age_to_time(!!tgt, .data$age),
-      Bdsnummer = as.integer(substring(.data$yname, 4L)),
-      Waarde = ifelse(type == "character", as.character(.data$y), .data$y)
-    ) %>%
-    select(all_of(c("time", "Bdsnummer", "Waarde")))
+      ElementNummer = as.integer(substring(.data$yname, 4L)),
+      Waarde = NA_integer_,
+      Waarde2 = as.character(.data$y)) %>%
+    select(all_of(c("time", "ElementNummer", "Waarde", "Waarde2")))
 
   # merge measurements
   d <- bind_rows(d, ddi) %>%
-    arrange(.data$time, .data$Bdsnummer)
+    arrange(.data$time, .data$ElementNummer)
 
   # split by time, and return
   f <- as.factor(d$time)
-  d <- split(d[, c("Bdsnummer", "Waarde")], f)
+  d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f)
 
   data.frame(
     Tijdstip = names(d),
@@ -200,6 +310,7 @@ as_bds_contacts <- function(tgt, type) {
     stringsAsFactors = FALSE
   )
 }
+
 
 age_to_time <- function(tgt, age) {
   # back-calculate measurement dates

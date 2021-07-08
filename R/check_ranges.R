@@ -1,7 +1,7 @@
-check_ranges <- function(d) {
+check_ranges <- function(d, v) {
   lex <- bdsreader::bds_lexicon
 
-  e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, "ClientGegevens", "Elementen")))
+  e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, format = v)))
   if (length(dob) == 0L) {
     message("BDS  20 (",
       lex[lex$bdsnummer == 20, "description"],
@@ -15,7 +15,7 @@ check_ranges <- function(d) {
     )
   }
 
-  e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, "ClientGegevens", "Groepen", "Elementen")))
+  e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, format = v)))
   if (!is.null(e)) {
     message("BDS  63 (",
       lex[lex$bdsnummer == 63, "description"],
@@ -23,7 +23,7 @@ check_ranges <- function(d) {
     )
   }
 
-  gad <- as.numeric(extract_field2(d, 82L, "ClientGegevens", "Elementen"))
+  gad <- as.numeric(extract_field2(d, 82L, format = v))
   if (is.na(gad)) {
     message("BDS 82 (",
       lex[lex$bdsnummer == 82, "description"],
@@ -37,7 +37,7 @@ check_ranges <- function(d) {
     )
     gad <- NA_real_
   }
-  bw <- as.numeric(extract_field2(d, 110L, "ClientGegevens", "Elementen"))
+  bw <- as.numeric(extract_field2(d, 110L, format = v))
   if (is.na(bw)) {
     message("BDS 110 (",
       lex[lex$bdsnummer == 110, "description"],
@@ -51,7 +51,7 @@ check_ranges <- function(d) {
     )
   }
 
-  hgtm <- as.numeric(extract_field2(d, 238L, "ClientGegevens", "Elementen"))
+  hgtm <- as.numeric(extract_field2(d, 238L, format = v))
   if (is.na(hgtm)) {
     message("BDS 238 (",
       lex[lex$bdsnummer == 238, "description"],
@@ -65,7 +65,7 @@ check_ranges <- function(d) {
     )
   }
 
-  hgtf <- as.numeric(extract_field2(d, 240L, "ClientGegevens", "Elementen"))
+  hgtf <- as.numeric(extract_field2(d, 240L, format = v))
   if (is.na(hgtm)) {
     message("BDS 240 (",
       lex[lex$bdsnummer == 240, "description"],
@@ -81,15 +81,24 @@ check_ranges <- function(d) {
 
   hdc <- wgt <- hgt <- dom <- NULL
 
-  if (length(d$Contactmomenten) == 0L) {
-    message("Missing 'Contactmomenten'")
+  if (length(d$Contactmomenten) == 0L &
+      length(d$ContactMomenten) == 0L) {
+    switch(v,
+           message("Missing 'Contactmomenten'"),
+           message("Missing 'ContactMomenten'"))
   } else {
-    e <- catch_cnd(dom <- ymd(d$Contactmomenten[[1L]]))
-    if (!is.null(e)) warning("Meetdatum: Onjuist format: ", as.character(d$Contactmomenten[[1L]]))
+    if (v == 1) {
+      e <- catch_cnd(dom <- ymd(d$Contactmomenten[[1L]]))
+      if (!is.null(e)) warning("Meetdatum: Onjuist format: ", as.character(d$Contactmomenten[[1L]]))
+    } else if (v == 2) {
+      e <- catch_cnd(dom <- ymd(d$ContactMomenten[[1L]]))
+      if (!is.null(e)) warning("Meetdatum: Onjuist format: ", as.character(d$ContactMomenten[[1L]]))
+    }
 
-    hgt <- extract_field(d, 235L)
-    wgt <- extract_field(d, 245L)
-    hdc <- extract_field(d, 252L)
+
+    hgt <- extract_field(d, 235L, format = v)
+    wgt <- extract_field(d, 245L, format = v)
+    hdc <- extract_field(d, 252L, format = v)
 
     if (all(is.na(hgt))) {
       message("BDS 235 (",
@@ -129,9 +138,16 @@ check_ranges <- function(d) {
     }
   }
 
-  if (length(d$ClientGegevens$Groepen) == 0L) {
-    message("Missing 'ClientGegevens$Groepen'")
+  if (v == 1) {
+    if (length(d$ClientGegevens$Groepen) == 0L) {
+      message("Missing 'ClientGegevens$Groepen'")
+    }
+  } else if (v == 2) {
+    if (all(unlist(lapply(d$ClientGegevens$GenesteElementen, is.null)))) {
+      message("Missing 'ClientGegevens$GenesteElementen'")
+    }
   }
+
 
   list(
     dob = dob,
