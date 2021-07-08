@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -114,20 +114,30 @@
       <small>Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="bdsreader-0609000" class="section level1">
-<h1 class="page-header" data-toc-text="0.6.0.9000">
-<a href="#bdsreader-0609000" class="anchor"></a>bdsreader 0.6.0.9000</h1>
+    <div id="bdsreader-070" class="section level1">
+<h1 class="page-header" data-toc-text="0.7.0">
+<a href="#bdsreader-070" class="anchor"></a>bdsreader 0.7.0</h1>
+<p>This is a major update that introduces schema versioning for JAMES. Schema versioning allows input data to be formatted according to one of multiple JSON-schemas.</p>
 <ul>
-<li>Introduces schema versioning</li>
-<li>Stores built-in schemas into new package level directory <code>schemas</code>
+<li>Introduces schema versioning;</li>
+<li>Adds multi-version support to <code><a href="../reference/read_bds.html">read_bds()</a></code>, <code><a href="../reference/write_bds.html">write_bds()</a></code> and related functions;</li>
+<li>Makes <code>format</code> the most prominent user-facing argument. Alternatively, the user can also specify the schema file directly using the <code>schema</code> argument;</li>
+<li>Shortens names of schema files to <code>bds_v{x.y}.json</code>;</li>
+<li>Renamee existing schemas as follows:
+<ul>
+<li>
+<code>bds_schema_str.json</code> –&gt; <code>bds_v1.0.json</code> (format = 1)</li>
+<li>
+<code>bds_schema.json</code> –&gt; <code>bds_v1.1.json</code>
 </li>
-<li>Shortens names of schema files to <code>bds_v{x.y}.json</code>
-</li>
-<li>Simplifies the use of <code>bdsreader</code> with the <code>version</code> argument</li>
-<li>Uses consistent arguments names for <code><a href="../reference/read_bds.html">read_bds()</a></code> and <code><a href="../reference/write_bds.html">write_bds()</a></code>
-</li>
-<li>Extends <code><a href="../reference/read_bds.html">read_bds()</a></code> and <code><a href="../reference/write_bds.html">write_bds()</a></code> to version 2</li>
+<li>
+<code>bds_schema_V2.json</code> – <code>bds_v2.0.json</code> (format = 2)</li>
 </ul>
+</li>
+<li>For clarity, renames the path from <code>inst/json</code> to <code>inst/schemas</code>;</li>
+<li>Updates the <code>$id</code> field in the schema’s to their permanent locations.</li>
+</ul>
+<p>The default is <code>format = 2L</code>, which is incompatible with early users who code their data with <code>bds_schema_str.json</code>. To read/write with the older format, call <code><a href="../reference/read_bds.html">read_bds(..., format = 1L)</a></code> or <code><a href="../reference/write_bds.html">write_bds(..., format = 1L)</a></code>. The schema argument is primarily meant for development and testing.</p>
 </div>
     <div id="bdsreader-060" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">

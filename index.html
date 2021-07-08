@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -79,13 +79,13 @@
 
 <p>The <code>bdsreader</code> package is a lightweight package that</p>
 <ul>
-<li>Reads and parses JSON data coded according to the Basisdataset JGZ protocol;</li>
-<li>Validates the data against the JSON schema;</li>
+<li>Reads and parses child data coded according to the Basisdataset JGZ protocol;</li>
+<li>Compares the child data against one of two JSON validation schema;</li>
 <li>Calculates the child’s D-score from the Van Wiechen Schema (DDI) responses;</li>
 <li>Adds Z-scores for height, weight, head circumference, BMI, weight-for-height and D-score;</li>
-<li>Stores the result as a structured <code>tibble</code>.</li>
+<li>Converts the result into a structured <code>tibble</code> with a special <code>person</code> attribute;</li>
 </ul>
-<p>The main use of the <code>bdsreader</code> is to translate child data (incoming via an API request) into a data object useful for <code>R</code> processing. The package is part of Joint Automatic Measurement and Evaluation System (JAMES) developed by the Netherlands Organisation for Applied Scientific Research TNO.</p>
+<p>The <code>bdsreader</code> translates child data (incoming via an API request) into a data object useful for <code>R</code> processing. The package is part of Joint Automatic Measurement and Evaluation System (JAMES) developed by the Netherlands Organisation for Applied Scientific Research TNO.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -102,7 +102,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/growthcharts/bdsreader">bdsreader</a></span><span class="op">)</span>
 <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"maria.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span>
-<span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span>
+<span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span>, format <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">xyz</span>
 <span class="co">#&gt; # A tibble: 11 x 8</span>
 <span class="co">#&gt;       age xname yname zname zref                        x     y      z</span>
@@ -135,7 +135,7 @@
 <div id="json-input-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#json-input-data" class="anchor"></a>JSON Input Data</h3>
-<p>The example file <code>maria.json</code> contains Maria’s data coded in JSON format. Here’s the contents of the file:</p>
+<p>The example file <code>maria.json</code> contains Maria’s data coded in JSON format according to BDS-schema file <a href="https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v1.0.json">bds_1.0.json</a>. Here’s the contents of the file with the child data:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>{</span>
 <span id="cb4-2"><a href="#cb4-2"></a>   <span class="st">"Referentie"</span><span class="op">:</span><span class="st">"Maria"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3"></a>   <span class="st">"OrganisatieCode"</span><span class="op">:</span><span class="dv">1234</span>,</span>
