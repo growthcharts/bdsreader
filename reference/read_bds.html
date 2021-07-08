@@ -40,10 +40,9 @@
 
 
 <meta property="og:title" content="Reads selected BDS data of a person — read_bds" />
-<meta property="og:description" content="This function takes data from a json source, validates the contents against
-a JSON validation schema, perform checks, calculates the D-score,
-calculates Z-scores and transforms the data as a tibble with a person
-attribute." />
+<meta property="og:description" content="This function takes data from a json source, validates the contents against a
+JSON validation schema, perform checks, calculates the D-score, calculates
+Z-scores and transforms the data as a tibble with a person attribute." />
 
 
 
@@ -120,15 +119,15 @@ attribute." />
     </div>
 
     <div class="ref-description">
-    <p>This function takes data from a json source, validates the contents against
-a JSON validation schema, perform checks, calculates the D-score,
-calculates Z-scores and transforms the data as a tibble with a <code>person</code>
-attribute.</p>
+    <p>This function takes data from a json source, validates the contents against a
+JSON validation schema, perform checks, calculates the D-score, calculates
+Z-scores and transforms the data as a tibble with a <code>person</code> attribute.</p>
     </div>
 
     <pre class="usage"><span class='fu'>read_bds</span><span class='op'>(</span>
   txt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  schema <span class='op'>=</span> <span class='st'>"bds_schema.json"</span>,
+  format <span class='op'>=</span> <span class='fl'>2L</span>,
+  schema <span class='op'>=</span> <span class='cn'>NULL</span>,
   append_ddi <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
@@ -142,11 +141,16 @@ attribute.</p>
       <td><p>A JSON string, URL or file</p></td>
     </tr>
     <tr>
+      <th>format</th>
+      <td><p>Integer. JSON schema format number. There are currently two
+schemas supported, formats <code>1</code> and <code>2</code>.</p></td>
+    </tr>
+    <tr>
       <th>schema</th>
-      <td><p>A JSON string, URL or file that selects the JSON validation
-schema. The default corresponds to <code>schema = bds_schema.json</code> and loads
-<code>inst/json/bds_schema.json</code>. The older <code>schema = bds_schema_str.json</code>
-expects that numeric BDS values are specified as characters.</p></td>
+      <td><p>A file name (including path) with the JSON validation schema.
+The <code>schema</code> argument overrides <code>format</code>. The function extracts the
+character following the string <code>"_v"</code> in the base name, and overwrites the
+<code>format</code> argument by the integer representation of the found character.</p></td>
     </tr>
     <tr>
       <th>append_ddi</th>
@@ -158,7 +162,7 @@ expects that numeric BDS values are specified as characters.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Pass down to <code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::fromJSON()</a></code></p></td>
+      <td><p>Passed down to <code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::fromJSON()</a></code></p></td>
     </tr>
     </table>
 
@@ -173,28 +177,23 @@ expects that numeric BDS values are specified as characters.</p></td>
     <p>Stef van Buuren 2021</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples"</span>, <span class='st'>"Laura_S2.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span>
-<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>fn</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples"</span>, <span class='st'>"Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span>
+<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>fn</span>, format <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>q</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 16 x 8</span><span>
-#&gt;      age xname yname zname zref                        x     y      z
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl   0     48    -</span><span style='color: #BB0000;'>1.52</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl   0.101 53.5  -</span><span style='color: #BB0000;'>0.499</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl   2.04  90     0.67 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0     age   wgt   wgt_z nl_1997_wgt_female_nl   0      2.95 -</span><span style='color: #BB0000;'>1.06</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0.101 age   wgt   wgt_z nl_1997_wgt_female_nl   0.101  4.18 -</span><span style='color: #BB0000;'>0.162</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 2.04  age   wgt   wgt_z nl_1997_wgt_female_nl   2.04  13.9   0.989
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0.101 age   hdc   hdc_z nl_1997_hdc_female_nl   0.101 37.6   0.418
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 2.04  age   hdc   hdc_z nl_1997_hdc_female_nl   2.04  50     1.22 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0     age   bmi   bmi_z nl_1997_bmi_female_nl   0     12.8   0.259
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0.101 age   bmi   bmi_z nl_1997_bmi_female_nl   0.101 14.6   0.231
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> 2.04  age   bmi   bmi_z nl_1997_bmi_female_nl   2.04  17.2   0.825
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> 0.101 age   dsc   dsc_z nl_2014_dsc_female_40   0.101 16.4   0.668
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> 2.04  age   dsc   dsc_z nl_2014_dsc_female_40   2.04  70.2   2.10 
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> 0     hgt   wfh   wfh_z nl_1997_wfh_female_nla 48      2.95 </span><span style='color: #BB0000;'>NA</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> 0.101 hgt   wfh   wfh_z nl_1997_wfh_female_nla 53.5    4.18  0.215
-#&gt; </span><span style='color: #BCBCBC;'>16</span><span> 2.04  hgt   wfh   wfh_z nl_1997_wfh_female_nla 90     13.9   0.82 </div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 58 x 8</span>
+#&gt;      age xname yname zname zref                      x     y      z
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0      48   -<span style='color: #BB0000;'>1.52</span> 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl 0.101  53.5 -<span style='color: #BB0000;'>0.499</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> 0.159 age   hgt   hgt_z nl_1997_hgt_female_nl 0.159  56   -<span style='color: #BB0000;'>0.261</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> 0.236 age   hgt   hgt_z nl_1997_hgt_female_nl 0.236  59.5  0.163
+#&gt; <span style='color: #BCBCBC;'> 5</span> 0.485 age   hgt   hgt_z nl_1997_hgt_female_nl 0.485  65.5 -<span style='color: #BB0000;'>0.259</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> 0.753 age   hgt   hgt_z nl_1997_hgt_female_nl 0.753  71.5  0.131
+#&gt; <span style='color: #BCBCBC;'> 7</span> 1.02  age   hgt   hgt_z nl_1997_hgt_female_nl 1.02   75   -<span style='color: #BB0000;'>0.18</span> 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421
+#&gt; <span style='color: #BCBCBC;'> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527
+#&gt; <span style='color: #BCBCBC;'>10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 
+#&gt; <span style='color: #949494;'># … with 48 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

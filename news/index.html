@@ -114,6 +114,21 @@
       <small>Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="bdsreader-0609000" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.0.9000">
+<a href="#bdsreader-0609000" class="anchor"></a>bdsreader 0.6.0.9000</h1>
+<ul>
+<li>Introduces schema versioning</li>
+<li>Stores built-in schemas into new package level directory <code>schemas</code>
+</li>
+<li>Shortens names of schema files to <code>bds_v{x.y}.json</code>
+</li>
+<li>Simplifies the use of <code>bdsreader</code> with the <code>version</code> argument</li>
+<li>Uses consistent arguments names for <code><a href="../reference/read_bds.html">read_bds()</a></code> and <code><a href="../reference/write_bds.html">write_bds()</a></code>
+</li>
+<li>Extends <code><a href="../reference/read_bds.html">read_bds()</a></code> and <code><a href="../reference/write_bds.html">write_bds()</a></code> to version 2</li>
+</ul>
+</div>
     <div id="bdsreader-060" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">
 <a href="#bdsreader-060" class="anchor"></a>bdsreader 0.6.0</h1>
@@ -138,10 +153,10 @@
 <h1 class="page-header" data-toc-text="0.4.0">
 <a href="#bdsreader-040" class="anchor"></a>bdsreader 0.4.0</h1>
 <ul>
-<li>Set <code>bds_schema.json</code> as default!! (not all testfile yet work)</li>
+<li>Set <code>bds_schema_v1.1.json</code> as default!! (not all testfile yet work)</li>
 <li>Replaces the <code>jamestest</code> package by <code>jamesdemodata</code>
 </li>
-<li>Supports (testing of) <code>bds_schema_str.json</code> (old) and <code>bds_schema.json</code> (new)</li>
+<li>Supports (testing of) <code>bds_schema_v1.0.json</code> (old) and <code>bds_schema_v1.1.json</code> (new)</li>
 <li>Adds a <code>file</code> argument to <code><a href="../reference/write_bds.html">write_bds()</a></code>
 </li>
 <li>Updates scripts to account for double schema</li>
@@ -160,9 +175,9 @@
 <a href="#bdsreader-030" class="anchor"></a>bdsreader 0.3.0</h1>
 <ul>
 <li>Adds new <code>bds_write()</code> function</li>
-<li>Sets tighter ranges in <code>bds_schema.json</code>
+<li>Sets tighter ranges in <code>bds_schema_v1.1.json</code>
 </li>
-<li>Changes the default JSON validation schema to <code>bds_schema.json</code>
+<li>Changes the default JSON validation schema to <code>bds_schema_v1.1.json</code>
 </li>
 <li>Adds example json from <code>bdsreader</code> package</li>
 </ul>
