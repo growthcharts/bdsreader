@@ -36,8 +36,8 @@ verify <- function(txt, schema, ...) {
   throw_messages(mess$supplied)
 
   # PHASE 3: Range checks
-  version <- as.numeric(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
-  ranges <- suppressWarnings(check_ranges(data, version))
+  format <- as.numeric(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
+  ranges <- suppressWarnings(check_ranges(data, format))
 
   list(input = txt, data = data, ranges = ranges, pass = isTRUE(valid))
 }

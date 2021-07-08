@@ -25,12 +25,12 @@
 #' @seealso [jsonlite::toJSON()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' tgt <- read_bds(fn, version = 1, append_ddi = FALSE)
-#' js1 <- write_bds(tgt, version = 1)
+#' tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
+#' js1 <- write_bds(tgt, format = 1)
 #' js2 <- write_bds(tgt)
 #' @export
 write_bds <- function(x = NULL,
-                      version = 2L,
+                      format = 2L,
                       schema = NULL,
                       file = NULL,
                       organisation = 0L,
@@ -48,33 +48,33 @@ write_bds <- function(x = NULL,
     message("Processing file: ", file)
   }
 
-  schema_list <- set_schema(version, schema)
+  schema_list <- set_schema(format, schema)
   schema <- schema_list$schema
-  version <- schema_list$version
+  format <- schema_list$format
   if (!file.exists(schema)) {
     stop("File ", schema, " not found.")
   }
 
-  # for version 1: distinguish between v1.0 and v1.1
+  # for format 1: distinguish between v1.0 and v1.1
   type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
-  if (version == 2L) type <- "numeric"
+  if (format == 2L) type <- "numeric"
 
   # required elements
   bds <- list(
     OrganisatieCode = as.integer(organisation),
-    ClientGegevens = as_bds_clientdata(x, version, type)
+    ClientGegevens = as_bds_clientdata(x, format, type)
   )
 
   # optional elements
   bds$Referentie <- as_bds_reference(x)
   bds$ContactMomenten <- as_bds_contacts(x, type)
-  if (version == 1L) {
+  if (format == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
   }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
   js <- gsub("Waarde2", "Waarde", js)
-  if (version == 1L) {
+  if (format == 1L) {
     js <- gsub("ElementNummer", "Bdsnummer", js)
   }
   if (!check) {
@@ -107,8 +107,8 @@ as_bds_reference <- function(tgt) {
   n
 }
 
-as_bds_clientdata <- function(tgt, version, type) {
-  if (version == 2L)
+as_bds_clientdata <- function(tgt, format, type) {
+  if (format == 2L)
     return(as_bds_clientdata_v2(tgt))
   as_bds_clientdata_v1(tgt, type)
 }

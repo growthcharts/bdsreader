@@ -1,13 +1,13 @@
-extract_dob <- function(d, which = "00", version = 1) {
+extract_dob <- function(d, which = "00", format = 1) {
   if (which == "00") {
-    switch(version,
+    switch(format,
            b <- d$ClientGegevens$Elementen,
            b <- d$ClientGegevens
     )
     if (!length(b)) {
       return(as.Date(NA))
     }
-    switch(version,
+    switch(format,
            dob <- ymd(b[b$Bdsnummer == 20, 2]),
            dob <- ymd(b[b$ElementNummer == 20 & !is.na(b$ElementNummer), 2])
     )
@@ -17,7 +17,7 @@ extract_dob <- function(d, which = "00", version = 1) {
     return(dob)
   }
 
-  switch(version,
+  switch(format,
          p <- d$ClientGegevens$Groepen[[1]],
          p <- d$ClientGegevens$GenesteElementen
   )
@@ -26,13 +26,13 @@ extract_dob <- function(d, which = "00", version = 1) {
   }
   for (i in 1L:length(p)) {
     pp <- p[[i]]
-    switch(version,
+    switch(format,
            parent <- pp[pp$Bdsnummer == 62L, "Waarde"],
            parent <- pp[pp$ElementNummer == 62L, "Waarde"]
            )
     if (is.null(parent)) next
     if (parent == which) {
-      switch(version,
+      switch(format,
              dobp <- ymd(pp[pp$Bdsnummer == 63L, 2L]),
              dobp <- ymd(pp[pp$ElementNummer == 63L, 2L])
       )
@@ -46,12 +46,12 @@ extract_dob <- function(d, which = "00", version = 1) {
 }
 
 
-extract_sex <- function(b, version = 1) {
+extract_sex <- function(b, format = 1) {
 
   if (length(b) == 0L) {
     return(NA_character_)
   }
-  switch(version,
+  switch(format,
          s <- b[b$Bdsnummer == 19L, 2L],
          s <- b[b$ElementNummer == 19L & !is.na(b$ElementNummer), 2L]
   )
@@ -88,13 +88,13 @@ extract_agep_v2 <- function(dob, dobp) {
 }
 
 # For ContactMomenten
-extract_field <- function(d, f = 245L, version = 1) {
-  if (version == 1){
+extract_field <- function(d, f = 245L, format = 1) {
+  if (format == 1){
     z <- d$Contactmomenten[[2L]]
     as.numeric(unlist(lapply(z, function(x, f2 = f) {
       ifelse("Waarde" %in% names(x), x[x$Bdsnummer == f2, "Waarde"], NA)
     })))
-  } else if (version == 2) {
+  } else if (format == 2) {
     z <- d$ContactMomenten[[2L]]
     as.numeric(unlist(lapply(z, function(x, f2 = f) {
       ifelse("Waarde" %in% names(x),
@@ -104,12 +104,12 @@ extract_field <- function(d, f = 245L, version = 1) {
 }
 
 # For ClientGegevens
-extract_field2 <- function(d, f, version = 1) {
-  if (version == 1) {
+extract_field2 <- function(d, f, format = 1) {
+  if (format == 1) {
     b <- d[["ClientGegevens"]][["Elementen"]]
     if (!length(b)) return(NA_real_)
     v <- b[b$Bdsnummer == f, "Waarde"]
-  } else if (version == 2) {
+  } else if (format == 2) {
     b <- d[["ClientGegevens"]]
     if (!length(b)) return(NA_real_)
     v <- b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"]
@@ -118,8 +118,8 @@ extract_field2 <- function(d, f, version = 1) {
 }
 
 # For parent data
-extract_field3 <- function(d, f, which_parent = "02", version = 1) {
-  switch(version,
+extract_field3 <- function(d, f, which_parent = "02", format = 1) {
+  switch(format,
          p <- d[["ClientGegevens"]][["Groepen"]][["Elementen"]],
          p <- d[["ClientGegevens"]][["GenesteElementen"]])
   if (length(p) == 0) {
@@ -127,12 +127,12 @@ extract_field3 <- function(d, f, which_parent = "02", version = 1) {
   }
   for (i in 1L:length(p)) {
     pp <- p[[i]]
-    switch(version,
+    switch(format,
            parent <- pp[pp$Bdsnummer == 62L, "Waarde"],
            parent <- pp[pp$ElementNummer == 62L, "Waarde"])
     if (is.null(parent)) next
     if (parent == which_parent) {
-      switch(version,
+      switch(format,
              return(pp[pp$Bdsnummer == f, 2L]),
              return(pp[pp$ElementNummer == f, 2L]))
     }

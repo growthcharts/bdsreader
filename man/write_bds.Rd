@@ -6,7 +6,7 @@
 \usage{
 write_bds(
   x = NULL,
-  version = 2L,
+  format = 2L,
   schema = NULL,
   file = NULL,
   organisation = 0L,
@@ -19,13 +19,13 @@ write_bds(
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
-\item{version}{Integer. JSON schema version number. There are currently two
-schemas supported, versions \code{1} and \code{2}.}
+\item{format}{Integer. JSON schema format number. There are currently two
+schemas supported, formats \code{1} and \code{2}.}
 
 \item{schema}{A file name (including path) with the JSON validation schema.
-The \code{schema} argument overrides \code{version}. The function extracts the
+The \code{schema} argument overrides \code{format}. The function extracts the
 character following the string \code{"_v"} in the base name, and overwrites the
-\code{version} argument by the integer representation of the found character.}
+\code{format} argument by the integer representation of the found character.}
 
 \item{file}{File name. The default (\code{NULL}) returns the json representation
 of the data and does not write to a file.}
@@ -59,8 +59,8 @@ dates from age.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-tgt <- read_bds(fn, version = 1, append_ddi = FALSE)
-js1 <- write_bds(tgt, version = 1)
+tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
+js1 <- write_bds(tgt, format = 1)
 js2 <- write_bds(tgt)
 }
 \seealso{

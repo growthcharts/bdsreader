@@ -4,7 +4,7 @@
 #' @return A tibble with person-level data
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' persondata(read_bds(fn, version = 1))
+#' persondata(read_bds(fn, format = 1))
 #' @export
 persondata <- function(x) {
   p <- attr(x, "person")

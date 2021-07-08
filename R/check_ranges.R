@@ -1,7 +1,7 @@
 check_ranges <- function(d, v) {
   lex <- bdsreader::bds_lexicon
 
-  e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, version = v)))
+  e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, format = v)))
   if (length(dob) == 0L) {
     message("BDS  20 (",
       lex[lex$bdsnummer == 20, "description"],
@@ -15,7 +15,7 @@ check_ranges <- function(d, v) {
     )
   }
 
-  e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, version = v)))
+  e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, format = v)))
   if (!is.null(e)) {
     message("BDS  63 (",
       lex[lex$bdsnummer == 63, "description"],
@@ -23,7 +23,7 @@ check_ranges <- function(d, v) {
     )
   }
 
-  gad <- as.numeric(extract_field2(d, 82L, version = v))
+  gad <- as.numeric(extract_field2(d, 82L, format = v))
   if (is.na(gad)) {
     message("BDS 82 (",
       lex[lex$bdsnummer == 82, "description"],
@@ -37,7 +37,7 @@ check_ranges <- function(d, v) {
     )
     gad <- NA_real_
   }
-  bw <- as.numeric(extract_field2(d, 110L, version = v))
+  bw <- as.numeric(extract_field2(d, 110L, format = v))
   if (is.na(bw)) {
     message("BDS 110 (",
       lex[lex$bdsnummer == 110, "description"],
@@ -51,7 +51,7 @@ check_ranges <- function(d, v) {
     )
   }
 
-  hgtm <- as.numeric(extract_field2(d, 238L, version = v))
+  hgtm <- as.numeric(extract_field2(d, 238L, format = v))
   if (is.na(hgtm)) {
     message("BDS 238 (",
       lex[lex$bdsnummer == 238, "description"],
@@ -65,7 +65,7 @@ check_ranges <- function(d, v) {
     )
   }
 
-  hgtf <- as.numeric(extract_field2(d, 240L, version = v))
+  hgtf <- as.numeric(extract_field2(d, 240L, format = v))
   if (is.na(hgtm)) {
     message("BDS 240 (",
       lex[lex$bdsnummer == 240, "description"],
@@ -96,9 +96,9 @@ check_ranges <- function(d, v) {
     }
 
 
-    hgt <- extract_field(d, 235L, version = v)
-    wgt <- extract_field(d, 245L, version = v)
-    hdc <- extract_field(d, 252L, version = v)
+    hgt <- extract_field(d, 235L, format = v)
+    wgt <- extract_field(d, 245L, format = v)
+    hdc <- extract_field(d, 252L, format = v)
 
     if (all(is.na(hgt))) {
       message("BDS 235 (",

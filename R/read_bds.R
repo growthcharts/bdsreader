@@ -13,11 +13,11 @@
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
 #' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' q <- read_bds(fn, version = 1)
+#' q <- read_bds(fn, format = 1)
 #' q
 #' @export
 read_bds <- function(txt = NULL,
-                     version = 2L,
+                     format = 2L,
                      schema = NULL,
                      append_ddi = FALSE,
                      verbose = FALSE,
@@ -51,9 +51,9 @@ read_bds <- function(txt = NULL,
       etn = NA_character_)
     return(xyz)
   }
-  schema_list <- set_schema(version, schema)
+  schema_list <- set_schema(format, schema)
   schema <- schema_list$schema
-  version <- schema_list$version
+  format <- schema_list$format
   if (!file.exists(schema)) {
     stop("File ", schema, " not found.")
   }
@@ -68,7 +68,7 @@ read_bds <- function(txt = NULL,
   )
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(checked, append_ddi = append_ddi, v = version)
+  x <- convert_checked_list(checked, append_ddi = append_ddi, v = format)
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters

@@ -6,7 +6,7 @@
 \usage{
 read_bds(
   txt = NULL,
-  version = 2L,
+  format = 2L,
   schema = NULL,
   append_ddi = FALSE,
   verbose = FALSE,
@@ -16,13 +16,13 @@ read_bds(
 \arguments{
 \item{txt}{A JSON string, URL or file}
 
-\item{version}{Integer. JSON schema version number. There are currently two
-schemas supported, versions \code{1} and \code{2}.}
+\item{format}{Integer. JSON schema format number. There are currently two
+schemas supported, formats \code{1} and \code{2}.}
 
 \item{schema}{A file name (including path) with the JSON validation schema.
-The \code{schema} argument overrides \code{version}. The function extracts the
+The \code{schema} argument overrides \code{format}. The function extracts the
 character following the string \code{"_v"} in the base name, and overwrites the
-\code{version} argument by the integer representation of the found character.}
+\code{format} argument by the integer representation of the found character.}
 
 \item{append_ddi}{Should DDI measures be appended?}
 
@@ -40,7 +40,7 @@ Z-scores and transforms the data as a tibble with a \code{person} attribute.
 }
 \examples{
 fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-q <- read_bds(fn, version = 1)
+q <- read_bds(fn, format = 1)
 q
 }
 \seealso{
