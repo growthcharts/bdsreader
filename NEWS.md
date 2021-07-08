@@ -1,11 +1,19 @@
-# bdsreader 0.6.0.9000
+# bdsreader 0.7.0
 
-* Introduces schema versioning
-* Stores built-in schemas into new package level directory `schemas` 
-* Shortens names of schema files to `bds_v{x.y}.json`
-* Simplifies the use of `bdsreader` with the `version` argument
-* Uses consistent arguments names for `read_bds()` and `write_bds()`
-* Extends `read_bds()` and `write_bds()` to version 2
+This is a major update that introduces schema versioning for JAMES. Schema versioning allows input data to be formatted according to one of multiple JSON-schemas.
+
+- Introduces schema versioning;
+- Adds multi-version support to `read_bds()`, `write_bds()` and related functions;
+- Makes `format` the most prominent user-facing argument. Alternatively, the user can also specify the schema file directly using the `schema` argument;
+- Shortens names of schema files to `bds_v{x.y}.json`;
+- Renamee existing schemas as follows: 
+  * `bds_schema_str.json` --> `bds_v1.0.json` (format = 1)
+  * `bds_schema.json` --> `bds_v1.1.json`
+  * `bds_schema_V2.json` -- `bds_v2.0.json` (format = 2)
+- For clarity, renames the path from `inst/json` to `inst/schemas`;
+- Updates the `$id` field in the schema's to their permanent locations.
+
+The default is `format = 2L`, which is incompatible with early users who code their data with `bds_schema_str.json`. To read/write with the older format, call `read_bds(..., format = 1L)` or `write_bds(..., format = 1L)`. The schema argument is primarily meant for development and testing.
 
 # bdsreader 0.6.0
 

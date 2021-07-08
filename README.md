@@ -12,20 +12,20 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The `bdsreader` package is a lightweight package that
 
--   Reads and parses JSON data coded according to the Basisdataset JGZ
+-   Reads and parses child data coded according to the Basisdataset JGZ
     protocol;
--   Validates the data against the JSON schema;
+-   Compares the child data against one of two JSON validation schema;
 -   Calculates the child’s D-score from the Van Wiechen Schema (DDI)
     responses;
 -   Adds Z-scores for height, weight, head circumference, BMI,
     weight-for-height and D-score;
--   Stores the result as a structured `tibble`.
+-   Converts the result into a structured `tibble` with a special
+    `person` attribute;
 
-The main use of the `bdsreader` is to translate child data (incoming via
-an API request) into a data object useful for `R` processing. The
-package is part of Joint Automatic Measurement and Evaluation System
-(JAMES) developed by the Netherlands Organisation for Applied Scientific
-Research TNO.
+The `bdsreader` translates child data (incoming via an API request) into
+a data object useful for `R` processing. The package is part of Joint
+Automatic Measurement and Evaluation System (JAMES) developed by the
+Netherlands Organisation for Applied Scientific Research TNO.
 
 ## Installation
 
@@ -45,7 +45,7 @@ The following commands illustrate the main use of `bdsreader`.
 ``` r
 library(bdsreader)
 fn <- system.file("examples", "maria.json", package = "bdsreader")
-xyz <- read_bds(fn)
+xyz <- read_bds(fn, format = 1)
 xyz
 #> # A tibble: 11 x 8
 #>       age xname yname zname zref                        x     y      z
@@ -87,8 +87,10 @@ The result of `read_bds()` feeds into further data processing in `R`.
 
 ### JSON Input Data
 
-The example file `maria.json` contains Maria’s data coded in JSON
-format. Here’s the contents of the file:
+The example file `maria.json` contains Maria’s data coded in JSON format
+according to BDS-schema file
+[bds\_1.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v1.0.json).
+Here’s the contents of the file with the child data:
 
     {
        "Referentie":"Maria",
