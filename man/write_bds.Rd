@@ -58,7 +58,7 @@ artificial birth date \verb{01 Jan 2000} to calculate measurement
 dates from age.
 }
 \examples{
-fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
 tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
 js1 <- write_bds(tgt, format = 1)
 js2 <- write_bds(tgt)

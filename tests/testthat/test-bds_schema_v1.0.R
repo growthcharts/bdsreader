@@ -85,7 +85,7 @@ test_that("minimal test21.json passes bds_v1.0.json", {
   expect_true(verify(jtf[21], schema = schema)$pass)
 })
 
-fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
+fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
 js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
 test_that("Laura_S.json passes bds_v1.0.json", {

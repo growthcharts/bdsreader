@@ -12,7 +12,7 @@
 #' @author Stef van Buuren, Arjan Huizing 2021
 #' @seealso [jsonlite::fromJSON()]
 #' @examples
-#' txt <- system.file("examples", "Laura_S.json", package = "bdsreader")
+#' txt <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
 #' schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
 #' p <- verify(txt, schema)
 #' @export
