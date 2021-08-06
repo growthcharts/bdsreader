@@ -46,14 +46,14 @@ The following commands illustrate the main use of `bdsreader`.
 
 ```{r}
 library(bdsreader)
-fn <- system.file("examples", "maria.json", package = "bdsreader")
-xyz <- read_bds(fn, format = 1)
+fn <- system.file("examples", "maria2.json", package = "bdsreader")
+xyz <- read_bds(fn)
 xyz
 ```
 
 Column `age` in the result `xyz` holds decimal age for the measurement. Every row contains a measurement `yname`, the conditioning variable `xname` and the Z-score `zname`. The column named `zref` holds the name of the growth reference (as defined in the `nlreference` package) used to calculate the Z-score. Columns `y`, `x` and `z` store their values, respectively. 
 
-The `persondata()` function returns the person-level information:
+The `persondata()` function extracts the person-level information:
 
 ```{r}
 persondata(xyz)
@@ -65,118 +65,121 @@ The result of `read_bds()` feeds into further data processing in `R`.
 
 ### JSON Input Data
 
-The example file `maria.json` contains Maria's data coded in JSON format according to BDS-schema file [bds_1.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v1.0.json). Here's the contents of the file with the child data:
+The example file `maria2.json` contains Maria's data coded in JSON format according to BDS-schema file [bds_v2.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v2.0.json). Here's the contents of the file with the child data:
 
 ```
 {
-   "Referentie":"Maria",
-   "OrganisatieCode":1234,
-   "ClientGegevens":{
-      "Elementen":[
-         {
-            "Bdsnummer":19,
-            "Waarde":"2"
-         },
-         {
-            "Bdsnummer":20,
-            "Waarde":"20181011"
-         },
-         {
-            "Bdsnummer":82,
-            "Waarde":189
-         },
-         {
-            "Bdsnummer":91,
-            "Waarde":"1"
-         },
-         {
-            "Bdsnummer":110,
-            "Waarde":990
-         },
-         {
-            "Bdsnummer":238,
-            "Waarde":1670
-         },
-         {
-            "Bdsnummer":240,
-            "Waarde":1900
-         }
-      ],
-      "Groepen":[
-         {
-            "Elementen":[
-               {
-                  "Bdsnummer":63,
-                  "Waarde":"19950704"
-               },
-               {
-                  "Bdsnummer":71,
-                  "Waarde":6030
-               },
-               {
-                  "Bdsnummer":62,
-                  "Waarde":"01"
-               }
+    "Referentie": "Maria2",
+    "OrganisatieCode": 1234,
+    "ClientGegevens": [
+        {
+            "ElementNummer": 19,
+            "Waarde": "2"
+        },
+        {
+            "ElementNummer": 20,
+            "Waarde": "20181011"
+        },
+        {
+            "ElementNummer": 82,
+            "Waarde": 189
+        },
+        {
+            "ElementNummer": 91,
+            "Waarde": "2"
+        },
+        {
+            "ElementNummer": 110,
+            "Waarde": 990
+        },
+        {
+            "ElementNummer": 238,
+            "Waarde": 1670
+        },
+        {
+            "ElementNummer": 240,
+            "Waarde": 1900
+        },
+        {
+            "GenesteElementen": [
+                {
+                    "ElementNummer": 63,
+                    "Waarde": "19950704"
+                },
+                {
+                    "ElementNummer": 71
+                },
+                {
+                    "ElementNummer": 62,
+                    "Waarde": "01"
+                }
             ]
-         },
-         {
-            "Elementen":[
-               {
-                  "Bdsnummer":63,
-                  "Waarde":"19901202"
-               },
-               {
-                  "Bdsnummer":71,
-                  "Waarde":6030
-               },
-               {
-                  "Bdsnummer":62,
-                  "Waarde":"02"
-               }
+        },
+        {
+            "GenesteElementen": [
+                {
+                    "ElementNummer": 63,
+                    "Waarde": "19901202"
+                },
+                {
+                    "ElementNummer": 71
+                },
+                {
+                    "ElementNummer": 62,
+                    "Waarde": "02"
+                }
             ]
-         }
-      ]
-   },
-   "Contactmomenten":[
-      {
-         "Tijdstip":"20181111",
-         "Elementen":[
-            {
-               "Bdsnummer":235,
-               "Waarde":380
-            },
-            {
-               "Bdsnummer":245,
-               "Waarde":1250
-            },
-            {
-               "Bdsnummer":252,
-               "Waarde":270
-            }
-         ]
-      },
-      {
-         "Tijdstip":"20181211",
-         "Elementen":[
-            {
-               "Bdsnummer":235,
-               "Waarde":435
-            },
-            {
-               "Bdsnummer":245,
-               "Waarde":2100
-            },
-            {
-               "Bdsnummer":252,
-               "Waarde":305
-            }
-         ]
-      }
-   ]
+        }
+    ],
+    "ContactMomenten": [
+        {
+            "Tijdstip": "20181011",
+            "Elementen": [
+                {
+                    "ElementNummer": 245,
+                    "Waarde": 990
+                }
+            ]
+        },
+        {
+            "Tijdstip": "20181111",
+            "Elementen": [
+                {
+                    "ElementNummer": 235,
+                    "Waarde": 380
+                },
+                {
+                    "ElementNummer": 245,
+                    "Waarde": 1250
+                },
+                {
+                    "ElementNummer": 252,
+                    "Waarde": 270
+                }
+            ]
+        },
+        {
+            "Tijdstip": "20181211",
+            "Elementen": [
+                {
+                    "ElementNummer": 235,
+                    "Waarde": 435
+                },
+                {
+                    "ElementNummer": 245,
+                    "Waarde": 2100
+                },
+                {
+                    "ElementNummer": 252,
+                    "Waarde": 305
+                }
+            ]
+        }
+    ]
 }
 ```
 
-JSON is a lightweight format to exchange data between electronic systems. `"Bdsnummer"` fields refer to the numbers defined in the Basisdataset JGZ, whereas `"Waarde"` fields contain the value. You can find the exact specification [here](here). 
+JSON is a lightweight format to exchange data between electronic systems. `"ElementNummer"` fields refer to the numbers defined in the Basisdataset JGZ, whereas `"Waarde"` fields contain the value. You can find the exact specification [here](https://www.ncj.nl/themadossiers/informatisering/basisdataset/documentatie/). 
 
 ### Read and parse input data
 
