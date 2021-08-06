@@ -1,3 +1,10 @@
+# bdsreader 0.8.0
+
+- Use `jamesdemodata` package for testing and demo's
+- Removes some example files from `inst/examples`
+- Adds examples `maria1.json` and `maria2.json`
+- Updates README
+
 # bdsreader 0.7.0
 
 This is a major update that introduces schema versioning for JAMES. Schema versioning allows input data to be formatted according to one of multiple JSON-schemas.
