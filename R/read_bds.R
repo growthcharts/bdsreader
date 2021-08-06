@@ -10,11 +10,42 @@
 #' @inheritParams set_schema
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
+#' @details
+#' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
+#'
+#' The `format` and `schema` arguments specify the format of the JSON input
+#' data argument `txt`. The default is `format = 2` expects that the JSON
+#' input data conform to the schema specified in
+#' `system.file("schemas/bds_v2.0.json", package = "bdsreader")`. The alternative
+#' is `format = 1` expects data coded according to
+#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`.
+#' If you erroneously read a JSON file of format 1 with (default) format 2
+#' you may see `Error in value[[3L]](cond) : object 'dob' not found`. In that
+#' case specify the `format = 1` argument.
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
-#' fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-#' q <- read_bds(fn, format = 1)
+#' # Assume that jamesdemodata is installed locally.
+#' # If not use remotes::install_github("growthcharts/jamesdemodata")
+#'
+#' # Read file with input data according to format 2.
+#' data2 <- system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' q <- read_bds(data2)
 #' q
+#'
+#' # Equivalent, but specifying the built-in schema file bds_v2.0.json
+#' schema2 <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
+#' r <- read_bds(data2, schema = schema2)
+#' identical(q, r)
+#'
+#' # Reading data with older format (bds_v1.0)
+#' data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' s <- read_bds(data1, format = 1)
+#' s
+#'
+#' # same, but using a built-in schema file
+#' schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+#' t <- read_bds(data1, schema = schema1)
+#' identical(s, t)
 #' @export
 read_bds <- function(txt = NULL,
                      format = 2L,
@@ -55,7 +86,10 @@ read_bds <- function(txt = NULL,
   schema <- schema_list$schema
   format <- schema_list$format
   if (!file.exists(schema)) {
-    stop("File ", schema, " not found.")
+    stop("Schema file ", schema, " not found.")
+  }
+  if (txt == "") {
+    stop("Argument txt is an empty string.")
   }
 
   # Check. Tranform json errors (e.g. no file, invalid json) into a

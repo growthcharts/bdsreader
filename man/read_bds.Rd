@@ -38,10 +38,42 @@ This function takes data from a json source, validates the contents against a
 JSON validation schema, perform checks, calculates the D-score, calculates
 Z-scores and transforms the data as a tibble with a \code{person} attribute.
 }
+\details{
+If \code{txt} is unspecified or \code{NULL}, then the function return will have zero rows.
+
+The \code{format} and \code{schema} arguments specify the format of the JSON input
+data argument \code{txt}. The default is \code{format = 2} expects that the JSON
+input data conform to the schema specified in
+\code{system.file("schemas/bds_v2.0.json", package = "bdsreader")}. The alternative
+is \code{format = 1} expects data coded according to
+\code{system.file("schemas/bds_v1.0.json", package = "bdsreader")}.
+If you erroneously read a JSON file of format 1 with (default) format 2
+you may see \verb{Error in value[[3L]](cond) : object 'dob' not found}. In that
+case specify the \code{format = 1} argument.
+}
 \examples{
-fn <- system.file("examples", "Laura_S.json", package = "bdsreader")
-q <- read_bds(fn, format = 1)
+# Assume that jamesdemodata is installed locally.
+# If not use remotes::install_github("growthcharts/jamesdemodata")
+
+# Read file with input data according to format 2.
+data2 <- system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
+q <- read_bds(data2)
 q
+
+# Equivalent, but specifying the built-in schema file bds_v2.0.json
+schema2 <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
+r <- read_bds(data2, schema = schema2)
+identical(q, r)
+
+# Reading data with older format (bds_v1.0)
+data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+s <- read_bds(data1, format = 1)
+s
+
+# same, but using a built-in schema file
+schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+t <- read_bds(data1, schema = schema1)
+identical(s, t)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}
