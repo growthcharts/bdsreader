@@ -74,7 +74,7 @@ Z-scores and transforms the data as a tibble with a person attribute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -169,6 +169,18 @@ character following the string <code>"_v"</code> in the base name, and overwrite
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble with 8 columns with a <code>person</code> attribute</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If <code>txt</code> is unspecified or <code>NULL</code>, then the function return will have zero rows.</p>
+<p>The <code>format</code> and <code>schema</code> arguments specify the format of the JSON input
+data argument <code>txt</code>. The default is <code>format = 2</code> expects that the JSON
+input data conform to the schema specified in
+<code><a href='https://rdrr.io/r/base/system.file.html'>system.file("schemas/bds_v2.0.json", package = "bdsreader")</a></code>. The alternative
+is <code>format = 1</code> expects data coded according to
+<code><a href='https://rdrr.io/r/base/system.file.html'>system.file("schemas/bds_v1.0.json", package = "bdsreader")</a></code>.
+If you erroneously read a JSON file of format 1 with (default) format 2
+you may see <code>Error in value[[3L]](cond) : object 'dob' not found</code>. In that
+case specify the <code>format = 1</code> argument.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::fromJSON()</a></code>, <code><a href='https://rdrr.io/pkg/centile/man/y2z.html'>centile::y2z()</a></code></p></div>
@@ -177,10 +189,14 @@ character following the string <code>"_v"</code> in the base name, and overwrite
     <p>Stef van Buuren 2021</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples"</span>, <span class='st'>"Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span>
-<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>fn</span>, format <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Assume that jamesdemodata is installed locally.</span>
+<span class='co'># If not use remotes::install_github("growthcharts/jamesdemodata")</span>
+
+<span class='co'># Read file with input data according to format 2.</span>
+<span class='va'>data2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/bds_v2.0/smocc/Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"jamesdemodata"</span><span class='op'>)</span>
+<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>data2</span><span class='op'>)</span>
 <span class='va'>q</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 58 x 8</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 49 × 8</span>
 #&gt;      age xname yname zname zref                      x     y      z
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0      48   -<span style='color: #BB0000;'>1.52</span> 
@@ -193,7 +209,35 @@ character following the string <code>"_v"</code> in the base name, and overwrite
 #&gt; <span style='color: #BCBCBC;'> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421
 #&gt; <span style='color: #BCBCBC;'> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527
 #&gt; <span style='color: #BCBCBC;'>10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 
-#&gt; <span style='color: #949494;'># … with 48 more rows</span></div></pre>
+#&gt; <span style='color: #949494;'># … with 39 more rows</span></div><div class='input'>
+<span class='co'># Equivalent, but specifying the built-in schema file bds_v2.0.json</span>
+<span class='va'>schema2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"schemas/bds_v2.0.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span>
+<span class='va'>r</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>data2</span>, schema <span class='op'>=</span> <span class='va'>schema2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>r</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># Reading data with older format (bds_v1.0)</span>
+<span class='va'>data1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"jamesdemodata"</span><span class='op'>)</span>
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>data1</span>, format <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>s</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 58 × 8</span>
+#&gt;      age xname yname zname zref                      x     y      z
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0      48   -<span style='color: #BB0000;'>1.52</span> 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl 0.101  53.5 -<span style='color: #BB0000;'>0.499</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> 0.159 age   hgt   hgt_z nl_1997_hgt_female_nl 0.159  56   -<span style='color: #BB0000;'>0.261</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> 0.236 age   hgt   hgt_z nl_1997_hgt_female_nl 0.236  59.5  0.163
+#&gt; <span style='color: #BCBCBC;'> 5</span> 0.485 age   hgt   hgt_z nl_1997_hgt_female_nl 0.485  65.5 -<span style='color: #BB0000;'>0.259</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> 0.753 age   hgt   hgt_z nl_1997_hgt_female_nl 0.753  71.5  0.131
+#&gt; <span style='color: #BCBCBC;'> 7</span> 1.02  age   hgt   hgt_z nl_1997_hgt_female_nl 1.02   75   -<span style='color: #BB0000;'>0.18</span> 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421
+#&gt; <span style='color: #BCBCBC;'> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527
+#&gt; <span style='color: #BCBCBC;'>10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 
+#&gt; <span style='color: #949494;'># … with 48 more rows</span></div><div class='input'>
+<span class='co'># same, but using a built-in schema file</span>
+<span class='va'>schema1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"schemas/bds_v1.0.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'>read_bds</span><span class='op'>(</span><span class='va'>data1</span>, schema <span class='op'>=</span> <span class='va'>schema1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>s</span>, <span class='va'>t</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
