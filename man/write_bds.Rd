@@ -6,7 +6,8 @@
 \usage{
 write_bds(
   x = NULL,
-  format = 2L,
+  auto_format = TRUE,
+  format = "v2.0",
   schema = NULL,
   file = NULL,
   organisation = 0L,
@@ -19,13 +20,16 @@ write_bds(
 \arguments{
 \item{x}{Tibble with an attribute called \code{person}}
 
-\item{format}{Integer. JSON schema format number. There are currently two
-schemas supported, formats \code{1} and \code{2}.}
+\item{auto_format}{Logical. Should a field \code{Format} be written to the result?
+Default is \code{TRUE}.}
+
+\item{format}{String. JSON data schema version number. There are currently
+three schemas supported: \code{1.0}, \code{1.1} and \code{2.0}.}
 
 \item{schema}{A file name (including path) with the JSON validation schema.
 The \code{schema} argument overrides \code{format}. The function extracts the
-character following the string \code{"_v"} in the base name, and overwrites the
-\code{format} argument by the integer representation of the found character.}
+version number for the basename, and overwrites the
+\code{format} argument by version number.}
 
 \item{file}{File name. The default (\code{NULL}) returns the json representation
 of the data and does not write to a file.}
@@ -59,9 +63,9 @@ dates from age.
 }
 \examples{
 fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
-tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
-js1 <- write_bds(tgt, format = 1)
-js2 <- write_bds(tgt)
+tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
+js1 <- write_bds(tgt, format = "1.0")
+js2 <- write_bds(tgt, format = "2.0")
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}

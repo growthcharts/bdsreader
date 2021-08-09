@@ -14,31 +14,40 @@
 #' @examples
 #' txt <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
 #' schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
-#' p <- verify(txt, schema)
+#' p <- verify(txt, schema = schema)
 #' @export
-verify <- function(txt, schema, ...) {
+verify <- function(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...) {
 
   # PHASE 1: check JSON syntax: if needed, warn and exit
   err <- rlang::catch_cnd(data <- fromJSON(txt, ...))
   if (!is.null(err)) stop(conditionMessage(err))
 
-  # PHASE 2: JSON schema validation
+  # PHASE 2: determine format and schema
+  format <- ifelse(auto_format && !is.null(data$Format), data$Format, format)
+  schema_list <- set_schema(format, schema)
+  format <- schema_list$format
+  schema <- schema_list$schema
+  if (!file.exists(schema)) {
+    stop("Schema file ", schema, " not found.")
+  }
+
+  # PHASE 3: JSON schema validation
   valid <- jsonvalidate::json_validate(txt, schema, engine = "ajv", verbose = TRUE)
   mess <- parse_valid(valid)
 
   if (length(mess$required) > 0L) {
     if (any(grepl("required", mess$required)) ||
-      any(grepl("verplicht", mess$required)) ||
-      any(grepl("should", mess$required))) {
+        any(grepl("verplicht", mess$required)) ||
+        any(grepl("should", mess$required))) {
       throw_messages(mess$required)
     }
   }
   throw_messages(mess$supplied)
 
-  # PHASE 3: Range checks
-  format <- as.numeric(substr(strsplit(schema, "_v")[[1]][2], 1, 1))
+  # PHASE 4: Range checks
   ranges <- suppressWarnings(check_ranges(data, format))
 
-  list(input = txt, data = data, ranges = ranges, pass = isTRUE(valid))
+  list(input = txt, data = data, ranges = ranges, pass = isTRUE(valid),
+       schema_list = schema_list)
 }
 

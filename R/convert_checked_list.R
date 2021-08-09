@@ -1,4 +1,6 @@
-convert_checked_list <- function(checked = NULL, append_ddi = FALSE, v = 1) {
+convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1.0") {
+  v <- as.integer(substr(format, 1L, 1L))
+
   d <- checked$data
   switch(v,
          b <- d$ClientGegevens$Elementen,
@@ -15,12 +17,12 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, v = 1) {
   persondata <- tibble(
     id = -1L,
     name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
-    dob  = extract_dob(d, which = "00", format = v),
-    dobf = extract_dob(d, which = "01", format = v),
-    dobm = extract_dob(d, which = "02", format = v),
+    dob  = extract_dob(d, which = "00", v = v),
+    dobf = extract_dob(d, which = "01", v = v),
+    dobm = extract_dob(d, which = "02", v = v),
     src = src,
     dnr = NA_character_,
-    sex = extract_sex(b, format = v),
+    sex = extract_sex(b, v = v),
 
     # store GA in days and completed weeks
     gad = r$gad,
@@ -28,7 +30,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, v = 1) {
 
     # 1 = Nee, volgens BDS 1 = Ja, 2 = Nee
     # FIXME
-    smo = as.numeric(extract_field2(d, 91L, format = v)) - 1L,
+    smo = as.numeric(extract_field2(d, 91L, v = v)) - 1L,
 
     # in grammen, conform BSD
     bw = r$bw,

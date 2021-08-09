@@ -20,6 +20,7 @@ set_schema <- function(format = "1.0", schema = NULL) {
                           "1.1" = "bds_v1.1.json",
                           "2.0" = "bds_v2.0.json",
                           "-")
+    if (schema_base == "-") stop("Format ", format, " unknown.")
     schema <- system.file("schemas", schema_base, package = "bdsreader", mustWork = TRUE)
   } else {
     # extract format by file name extract
