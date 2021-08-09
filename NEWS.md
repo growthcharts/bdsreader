@@ -1,3 +1,7 @@
+# bdsreader 0.9.0
+
+- Implements `auto_format` that stores the format in the data file (#2)
+
 # bdsreader 0.8.0
 
 - Use `jamesdemodata` package for testing and demo's
