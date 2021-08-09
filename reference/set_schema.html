@@ -120,22 +120,22 @@
     <p>Set the schema from user input</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_schema</span><span class='op'>(</span>format <span class='op'>=</span> <span class='fl'>2L</span>, schema <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>set_schema</span><span class='op'>(</span>format <span class='op'>=</span> <span class='st'>"1.0"</span>, schema <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>format</th>
-      <td><p>Integer. JSON schema format number. There are currently two
-schemas supported, formats <code>1</code> and <code>2</code>.</p></td>
+      <td><p>String. JSON data schema version number. There are currently
+three schemas supported: <code>1.0</code>, <code>1.1</code> and <code>2.0</code>.</p></td>
     </tr>
     <tr>
       <th>schema</th>
       <td><p>A file name (including path) with the JSON validation schema.
 The <code>schema</code> argument overrides <code>format</code>. The function extracts the
-character following the string <code>"_v"</code> in the base name, and overwrites the
-<code>format</code> argument by the integer representation of the found character.</p></td>
+version number for the basename, and overwrites the
+<code>format</code> argument by version number.</p></td>
     </tr>
     </table>
 
@@ -144,24 +144,26 @@ character following the string <code>"_v"</code> in the base name, and overwrite
     <p>A list with components <code>format</code>, <code>schema</code> and <code>schema_base</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set_schema</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'>set_schema</span><span class='op'>(</span><span class='st'>"2.0"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $format
-#&gt; [1] 1
+#&gt; [1] "2.0"
 #&gt; 
 #&gt; $schema
-#&gt; [1] "/Users/runner/work/_temp/Library/bdsreader/schemas/bds_v1.0.json"
+#&gt; [1] "/Users/runner/work/_temp/Library/bdsreader/schemas/bds_v2.0.json"
 #&gt; 
 #&gt; $schema_base
-#&gt; [1] "bds_v1.0.json"
-#&gt; </div><div class='input'><span class='fu'>set_schema</span><span class='op'>(</span>schema <span class='op'>=</span> <span class='st'>"mydir/myschema_v1.0.json"</span><span class='op'>)</span>
+#&gt; [1] "bds_v2.0.json"
+#&gt; </div><div class='input'>
+<span class='co'># for development</span>
+<span class='fu'>set_schema</span><span class='op'>(</span>schema <span class='op'>=</span> <span class='st'>"mydir/bds_v3.0.json"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $format
-#&gt; [1] 1
+#&gt; [1] "3.0"
 #&gt; 
 #&gt; $schema
-#&gt; [1] "mydir/myschema_v1.0.json"
+#&gt; [1] "mydir/bds_v3.0.json"
 #&gt; 
 #&gt; $schema_base
-#&gt; [1] "myschema_v1.0.json"
+#&gt; [1] "bds_v3.0.json"
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
