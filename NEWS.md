@@ -1,3 +1,7 @@
+# bdsreader 0.9.1
+
+- Solves a problem with empty names in `bds_write()`
+
 # bdsreader 0.9.0
 
 - Implements `auto_format` that stores the format in the data file (#2)
