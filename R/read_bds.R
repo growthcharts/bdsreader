@@ -4,7 +4,8 @@
 #' JSON validation schema, perform checks, calculates the D-score, calculates
 #' Z-scores and transforms the data as a tibble with a `person` attribute.
 #' @param txt A JSON string, URL or file
-#' @param append_ddi Should DDI measures be appended?
+#' @param auto_format Logical. Should the format be read from the data? Default is `TRUE`.
+#' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Passed down to [jsonlite::fromJSON()]
 #' @inheritParams set_schema
@@ -14,22 +15,34 @@
 #' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
 #'
 #' The `format` and `schema` arguments specify the format of the JSON input
-#' data argument `txt`. The default is `format = 2` expects that the JSON
+#' data argument `txt`. The default is `format = "1.0"` expects that the JSON
 #' input data conform to the schema specified in
-#' `system.file("schemas/bds_v2.0.json", package = "bdsreader")`. The alternative
-#' is `format = 1` expects data coded according to
-#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`.
-#' If you erroneously read a JSON file of format 1 with (default) format 2
+#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. The alternative
+#' is `format = 2.0` expects data coded according to
+#' `system.file("schemas/bds_v2.0.json", package = "bdsreader")`. For new users,
+#' we recommend format `"2.0"`.
+#'
+#' Alternatively, the format can be specified in the JSON data file with an entry
+#' named `Format`. For `auto_format == TRUE`, the data specification overrides
+#' any `format` and `schema` arguments to the `read_bds()` function.
+#' The schema `bds_v2.0.json` schema requires
+#' the `Format` field, so the correct format is automatically set by the data.
+#'
+#' If you erroneously read a JSON file of format `"1.0"` using format `"2.0"`
 #' you may see `Error in value[[3L]](cond) : object 'dob' not found`. In that
-#' case specify the `format = 1` argument.
+#' case specify the `format = "1.0"` argument.
+#' Reversely, if you erroneously read a JSON file of format `"2.0"` using format
+#' `"1.0"` you may see `.ClientGegevens should be object` and
+#' `Missing 'ClientGegevens$Groepen'`. In that case, specify `format = "2.0"`.
+#'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
 #' # Assume that jamesdemodata is installed locally.
 #' # If not use remotes::install_github("growthcharts/jamesdemodata")
 #'
-#' # Read file with input data according to format 2.
+#' # Read file with input data according to format "2.0".
 #' data2 <- system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
-#' q <- read_bds(data2)
+#' q <- read_bds(data2, format = "2.0")
 #' q
 #'
 #' # Equivalent, but specifying the built-in schema file bds_v2.0.json
@@ -37,18 +50,23 @@
 #' r <- read_bds(data2, schema = schema2)
 #' identical(q, r)
 #'
+#' # Automatic detection of format 2.0
+#' # s <- read_bds(data2)
+#' # identical(q, s)
+#'
 #' # Reading data with older format (bds_v1.0)
 #' data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
-#' s <- read_bds(data1, format = 1)
-#' s
+#' t <- read_bds(data1)
+#' t
 #'
 #' # same, but using a built-in schema file
 #' schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
-#' t <- read_bds(data1, schema = schema1)
-#' identical(s, t)
+#' u <- read_bds(data1, schema = schema1)
+#' identical(t, u)
 #' @export
 read_bds <- function(txt = NULL,
-                     format = 2L,
+                     auto_format = TRUE,
+                     format = "1.0",
                      schema = NULL,
                      append_ddi = FALSE,
                      verbose = FALSE,
@@ -82,12 +100,7 @@ read_bds <- function(txt = NULL,
       etn = NA_character_)
     return(xyz)
   }
-  schema_list <- set_schema(format, schema)
-  schema <- schema_list$schema
-  format <- schema_list$format
-  if (!file.exists(schema)) {
-    stop("Schema file ", schema, " not found.")
-  }
+
   if (txt == "") {
     stop("Argument txt is an empty string.")
   }
@@ -95,14 +108,15 @@ read_bds <- function(txt = NULL,
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
   checked <- tryCatch(
-    expr = verify(txt, schema = schema, ...),
+    expr = verify(txt, auto_format, format, schema, ...),
     error = function(cnd) {
       stop(conditionMessage(cnd))
     }
   )
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(checked, append_ddi = append_ddi, v = format)
+  x <- convert_checked_list(checked, append_ddi = append_ddi,
+                            format = checked$schema_list$format)
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters

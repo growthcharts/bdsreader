@@ -4,16 +4,16 @@
 \alias{set_schema}
 \title{Set the schema from user input}
 \usage{
-set_schema(format = 2L, schema = NULL)
+set_schema(format = "1.0", schema = NULL)
 }
 \arguments{
-\item{format}{Integer. JSON schema format number. There are currently two
-schemas supported, formats \code{1} and \code{2}.}
+\item{format}{String. JSON data schema version number. There are currently
+three schemas supported: \code{1.0}, \code{1.1} and \code{2.0}.}
 
 \item{schema}{A file name (including path) with the JSON validation schema.
 The \code{schema} argument overrides \code{format}. The function extracts the
-character following the string \code{"_v"} in the base name, and overwrites the
-\code{format} argument by the integer representation of the found character.}
+version number for the basename, and overwrites the
+\code{format} argument by version number.}
 }
 \value{
 A list with components \code{format}, \code{schema} and \code{schema_base}.
@@ -22,6 +22,8 @@ A list with components \code{format}, \code{schema} and \code{schema_base}.
 Set the schema from user input
 }
 \examples{
-set_schema(1)
-set_schema(schema = "mydir/myschema_v1.0.json")
+set_schema("2.0")
+
+# for development
+set_schema(schema = "mydir/bds_v3.0.json")
 }

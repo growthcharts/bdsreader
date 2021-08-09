@@ -5,9 +5,10 @@ schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWor
 paths <-   c("bds_v1.0",
              "bds_v2.0")
 
-for (format in 1:2) {
-  schema <- schemas[format]
-  path <- paths[format]
+for (format in c("1.0", "2.0")) {
+  v <- as.integer(substr(format, 1L, 1L))
+  schema <- schemas[v]
+  path <- paths[v]
 
   jtf <- system.file("extdata", path, "test",
                      paste0("test", 1:25, ".json"),
@@ -37,7 +38,7 @@ for (format in 1:2) {
     )
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test3.json (missing OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[3], schema = schema),
@@ -53,7 +54,7 @@ for (format in 1:2) {
     })
   }
 
-  if (format == 2) {  # other messages are OK
+  if (v == 2) {  # other messages are OK
     test_that("test3.json (missing OrganisatieCode) MESS", {
       expect_silent(
         read_bds(jtf[3], schema = schema)
@@ -78,7 +79,7 @@ for (format in 1:2) {
     )
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[7], schema = schema),
@@ -88,7 +89,7 @@ for (format in 1:2) {
   }
 
 
-  if (format == 2) {  # v2.0: silent is OK
+  if (v == 2) {  # v2.0: silent is OK
     test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
       expect_silent(
         read_bds(jtf[7], schema = schema))
@@ -103,7 +104,7 @@ for (format in 1:2) {
     )
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test9.json (Bdsnummer 19 missing) MESS", {
       expect_message(
         read_bds(jtf[9], schema = schema),
@@ -112,7 +113,7 @@ for (format in 1:2) {
     })
   }
 
-  if (format == 2) {  #  v2.0: Silent is OK
+  if (v == 2) {  #  v2.0: Silent is OK
     test_that("test9.json (Bdsnummer 19 missing) MESS", {
       expect_silent(
         read_bds(jtf[9], schema = schema))
@@ -120,7 +121,7 @@ for (format in 1:2) {
   }
 
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test10.json (Bdsnummer 20 missing) MESS", {
       expect_message(
         read_bds(jtf[10], schema = schema),
@@ -129,7 +130,7 @@ for (format in 1:2) {
     })
   }
 
-  if (format == 2) {  # v2.0: Other message OK
+  if (v == 2) {  # v2.0: Other message OK
     test_that("test10.json (Bdsnummer 20 missing) MESS", {
       expect_message(
         read_bds(jtf[10], schema = schema),
@@ -159,13 +160,13 @@ for (format in 1:2) {
     expect_error(read_bds(jtf[14], schema = schema), "premature EOF")
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test15.json (Bdsnummer 62 numeric) MESS", {
       expect_message(read_bds(jtf[15], schema = schema))
     })
   }
 
-  if (format == 2) {  # v2.0: silent is OK
+  if (v == 2) {  # v2.0: silent is OK
     test_that("test15.json (Bdsnummer 62 numeric) MESS", {
       expect_silent(read_bds(jtf[15], schema = schema))
     })
@@ -179,7 +180,7 @@ for (format in 1:2) {
     expect_silent(read_bds(jtf[17], schema = schema))
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test18.json (Bdsnummer 91 numeric) MESS", {
       expect_message(
         read_bds(jtf[18], schema = schema),
@@ -188,7 +189,7 @@ for (format in 1:2) {
     })
   }
 
-  if (format == 2) {  # v2.0: Silent is OK
+  if (v == 2) {  # v2.0: Silent is OK
     test_that("test18.json (Bdsnummer 91 numeric) MESS", {
       expect_silent(
         read_bds(jtf[18], schema = schema)
@@ -206,7 +207,7 @@ for (format in 1:2) {
     )
   })
 
-  if (format == 1) {
+  if (v == 1) {
     test_that("test21.json (minimal data) MESS", {
       expect_message(read_bds(jtf[21], schema = schema),
                      "Missing 'Contactmomenten'",
@@ -215,7 +216,7 @@ for (format in 1:2) {
     })
   }
 
-  if (format == 2) {  # v2.0: Other messages
+  if (v == 2) {  # v2.0: Other messages
     test_that("test21.json (minimal data) MESS", {
       expect_message(read_bds(jtf[21], schema = schema))
     })

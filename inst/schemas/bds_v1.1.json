@@ -14,6 +14,12 @@
       "type": "string",
       "pattern": "^(.*)$"
     },
+    "Format": {
+      "title": "Schema version number",
+      "$id": "#/properties/Format",
+      "type": "string",
+      "pattern": "^(\d+\.)?(\d+)$"
+    },
     "OrganisatieCode": {
       "title": "Care organisation code",
       "$id": "#/properties/OrganisatieCode",

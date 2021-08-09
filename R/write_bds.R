@@ -9,6 +9,8 @@
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
 #' @param x      Tibble with an attribute called `person`
+#' @param auto_format Logical. Should a field `Format` be written to the result?
+#' Default is `TRUE`.
 #' @param file   File name. The default (`NULL`) returns the json representation
 #' of the data and does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
@@ -25,12 +27,13 @@
 #' @seealso [jsonlite::toJSON()]
 #' @examples
 #' fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
-#' tgt <- read_bds(fn, format = 1, append_ddi = FALSE)
-#' js1 <- write_bds(tgt, format = 1)
-#' js2 <- write_bds(tgt)
+#' tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
+#' js1 <- write_bds(tgt, format = "1.0")
+#' js2 <- write_bds(tgt, format = "2.0")
 #' @export
 write_bds <- function(x = NULL,
-                      format = 2L,
+                      auto_format = TRUE,
+                      format = "v2.0",
                       schema = NULL,
                       file = NULL,
                       organisation = 0L,
@@ -55,26 +58,29 @@ write_bds <- function(x = NULL,
     stop("File ", schema, " not found.")
   }
 
-  # for format 1: distinguish between v1.0 and v1.1
+  # for v = 1: distinguish between v1.0 and v1.1
   type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
-  if (format == 2L) type <- "numeric"
+  v <- as.integer(substr(format, 1L, 1L))
+  if (v == 2L) type <- "numeric"
 
-  # required elements
+  # administrative elements
   bds <- list(
+    Format = format,
     OrganisatieCode = as.integer(organisation),
-    ClientGegevens = as_bds_clientdata(x, format, type)
+    Referentie = as_bds_reference(x)
   )
+  if (!auto_format) bds$Format <- NULL
 
-  # optional elements
-  bds$Referentie <- as_bds_reference(x)
+  # data elements
+  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
   bds$ContactMomenten <- as_bds_contacts(x, type)
-  if (format == 1L) {
+  if (v == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
   }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
   js <- gsub("Waarde2", "Waarde", js)
-  if (format == 1L) {
+  if (v == 1L) {
     js <- gsub("ElementNummer", "Bdsnummer", js)
   }
   if (!check) {
@@ -107,8 +113,8 @@ as_bds_reference <- function(tgt) {
   n
 }
 
-as_bds_clientdata <- function(tgt, format, type) {
-  if (format == 2L)
+as_bds_clientdata <- function(tgt, v, type) {
+  if (v == 2L)
     return(as_bds_clientdata_v2(tgt))
   as_bds_clientdata_v1(tgt, type)
 }

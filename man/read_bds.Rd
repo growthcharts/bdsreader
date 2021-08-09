@@ -6,7 +6,8 @@
 \usage{
 read_bds(
   txt = NULL,
-  format = 2L,
+  auto_format = TRUE,
+  format = "1.0",
   schema = NULL,
   append_ddi = FALSE,
   verbose = FALSE,
@@ -16,15 +17,17 @@ read_bds(
 \arguments{
 \item{txt}{A JSON string, URL or file}
 
-\item{format}{Integer. JSON schema format number. There are currently two
-schemas supported, formats \code{1} and \code{2}.}
+\item{auto_format}{Logical. Should the format be read from the data? Default is \code{TRUE}.}
+
+\item{format}{String. JSON data schema version number. There are currently
+three schemas supported: \code{1.0}, \code{1.1} and \code{2.0}.}
 
 \item{schema}{A file name (including path) with the JSON validation schema.
 The \code{schema} argument overrides \code{format}. The function extracts the
-character following the string \code{"_v"} in the base name, and overwrites the
-\code{format} argument by the integer representation of the found character.}
+version number for the basename, and overwrites the
+\code{format} argument by version number.}
 
-\item{append_ddi}{Should DDI measures be appended?}
+\item{append_ddi}{Should the DDI responses be appended?}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
@@ -42,22 +45,33 @@ Z-scores and transforms the data as a tibble with a \code{person} attribute.
 If \code{txt} is unspecified or \code{NULL}, then the function return will have zero rows.
 
 The \code{format} and \code{schema} arguments specify the format of the JSON input
-data argument \code{txt}. The default is \code{format = 2} expects that the JSON
+data argument \code{txt}. The default is \code{format = "1.0"} expects that the JSON
 input data conform to the schema specified in
-\code{system.file("schemas/bds_v2.0.json", package = "bdsreader")}. The alternative
-is \code{format = 1} expects data coded according to
-\code{system.file("schemas/bds_v1.0.json", package = "bdsreader")}.
-If you erroneously read a JSON file of format 1 with (default) format 2
+\code{system.file("schemas/bds_v1.0.json", package = "bdsreader")}. The alternative
+is \code{format = 2.0} expects data coded according to
+\code{system.file("schemas/bds_v2.0.json", package = "bdsreader")}. For new users,
+we recommend format \code{"2.0"}.
+
+Alternatively, the format can be specified in the JSON data file with an entry
+named \code{Format}. For \code{auto_format == TRUE}, the data specification overrides
+any \code{format} and \code{schema} arguments to the \code{read_bds()} function.
+The schema \code{bds_v2.0.json} schema requires
+the \code{Format} field, so the correct format is automatically set by the data.
+
+If you erroneously read a JSON file of format \code{"1.0"} using format \code{"2.0"}
 you may see \verb{Error in value[[3L]](cond) : object 'dob' not found}. In that
-case specify the \code{format = 1} argument.
+case specify the \code{format = "1.0"} argument.
+Reversely, if you erroneously read a JSON file of format \code{"2.0"} using format
+\code{"1.0"} you may see \verb{.ClientGegevens should be object} and
+\verb{Missing 'ClientGegevens$Groepen'}. In that case, specify \code{format = "2.0"}.
 }
 \examples{
 # Assume that jamesdemodata is installed locally.
 # If not use remotes::install_github("growthcharts/jamesdemodata")
 
-# Read file with input data according to format 2.
+# Read file with input data according to format "2.0".
 data2 <- system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
-q <- read_bds(data2)
+q <- read_bds(data2, format = "2.0")
 q
 
 # Equivalent, but specifying the built-in schema file bds_v2.0.json
@@ -65,15 +79,19 @@ schema2 <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
 r <- read_bds(data2, schema = schema2)
 identical(q, r)
 
+# Automatic detection of format 2.0
+# s <- read_bds(data2)
+# identical(q, s)
+
 # Reading data with older format (bds_v1.0)
 data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
-s <- read_bds(data1, format = 1)
-s
+t <- read_bds(data1)
+t
 
 # same, but using a built-in schema file
 schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
-t <- read_bds(data1, schema = schema1)
-identical(s, t)
+u <- read_bds(data1, schema = schema1)
+identical(t, u)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}

@@ -4,10 +4,15 @@
 \alias{verify}
 \title{Verify validity of incoming JSON data}
 \usage{
-verify(txt, schema, ...)
+verify(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...)
 }
 \arguments{
 \item{txt}{A JSON string, URL or file}
+
+\item{auto_format}{Logical. Should the format be read from the data? Default is \code{TRUE}.}
+
+\item{format}{String. JSON data schema version number. There are currently
+three schemas supported: \code{1.0}, \code{1.1} and \code{2.0}.}
 
 \item{schema}{A JSON string, URL or file with the JSON validation
 schema.}
@@ -26,7 +31,7 @@ checks the input json for further processing.
 \examples{
 txt <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
 schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
-p <- verify(txt, schema)
+p <- verify(txt, schema = schema)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}

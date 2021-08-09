@@ -1,106 +1,114 @@
 {
-   "Referentie":"Maria1",
-   "OrganisatieCode":1234,
-   "ClientGegevens":{
-      "Elementen":[
-         {
-            "Bdsnummer":19,
-            "Waarde":"2"
-         },
-         {
-            "Bdsnummer":20,
-            "Waarde":"20181011"
-         },
-         {
-            "Bdsnummer":82,
-            "Waarde":189
-         },
-         {
-            "Bdsnummer":91,
-            "Waarde":"1"
-         },
-         {
-            "Bdsnummer":110,
-            "Waarde":990
-         },
-         {
-            "Bdsnummer":238,
-            "Waarde":1670
-         },
-         {
-            "Bdsnummer":240,
-            "Waarde":1900
-         }
-      ],
-      "Groepen":[
-         {
-            "Elementen":[
-               {
-                  "Bdsnummer":63,
-                  "Waarde":"19950704"
-               },
-               {
-                  "Bdsnummer":71,
-                  "Waarde":6030
-               },
-               {
-                  "Bdsnummer":62,
-                  "Waarde":"01"
-               }
-            ]
-         },
-         {
-            "Elementen":[
-               {
-                  "Bdsnummer":63,
-                  "Waarde":"19901202"
-               },
-               {
-                  "Bdsnummer":71,
-                  "Waarde":6030
-               },
-               {
-                  "Bdsnummer":62,
-                  "Waarde":"02"
-               }
-            ]
-         }
-      ]
-   },
-   "Contactmomenten":[
+  "OrganisatieCode": 1234,
+  "Referentie": "Maria2",
+  "ClientGegevens": {
+    "Elementen": [
       {
-         "Tijdstip":"20181111",
-         "Elementen":[
-            {
-               "Bdsnummer":235,
-               "Waarde":380
-            },
-            {
-               "Bdsnummer":245,
-               "Waarde":1250
-            },
-            {
-               "Bdsnummer":252,
-               "Waarde":270
-            }
-         ]
+        "Bdsnummer": 19,
+        "Waarde": "2"
       },
       {
-         "Tijdstip":"20181211",
-         "Elementen":[
-            {
-               "Bdsnummer":235,
-               "Waarde":435
-            },
-            {
-               "Bdsnummer":245,
-               "Waarde":2100
-            },
-            {
-               "Bdsnummer":252,
-               "Waarde":305
-            }
-         ]
+        "Bdsnummer": 20,
+        "Waarde": "20181011"
+      },
+      {
+        "Bdsnummer": 82,
+        "Waarde": "189"
+      },
+      {
+        "Bdsnummer": 91,
+        "Waarde": "2"
+      },
+      {
+        "Bdsnummer": 110,
+        "Waarde": "990"
+      },
+      {
+        "Bdsnummer": 238,
+        "Waarde": "1670"
+      },
+      {
+        "Bdsnummer": 240,
+        "Waarde": "1900"
       }
-   ]
+    ],
+    "Groepen": [
+      {
+        "Elementen": [
+          {
+            "Bdsnummer": 63,
+            "Waarde": "19950704"
+          },
+          {
+            "Bdsnummer": 71
+          },
+          {
+            "Bdsnummer": 62,
+            "Waarde": "01"
+          }
+        ]
+      },
+      {
+        "Elementen": [
+          {
+            "Bdsnummer": 63,
+            "Waarde": "19901202"
+          },
+          {
+            "Bdsnummer": 71
+          },
+          {
+            "Bdsnummer": 62,
+            "Waarde": "02"
+          }
+        ]
+      }
+    ]
+  },
+  "Contactmomenten": [
+    {
+      "Tijdstip": "20181011",
+      "Elementen": [
+        {
+          "Bdsnummer": 245,
+          "Waarde": "990"
+        }
+      ]
+    },
+    {
+      "Tijdstip": "20181111",
+      "Elementen": [
+        {
+          "Bdsnummer": 235,
+          "Waarde": "380"
+        },
+        {
+          "Bdsnummer": 245,
+          "Waarde": "1250"
+        },
+        {
+          "Bdsnummer": 252,
+          "Waarde": "270"
+        }
+      ]
+    },
+    {
+      "Tijdstip": "20181211",
+      "Elementen": [
+        {
+          "Bdsnummer": 235,
+          "Waarde": "435"
+        },
+        {
+          "Bdsnummer": 245,
+          "Waarde": "2100"
+        },
+        {
+          "Bdsnummer": 252,
+          "Waarde": "305"
+        }
+      ]
+    }
+  ]
 }
+
