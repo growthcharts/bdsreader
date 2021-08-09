@@ -108,7 +108,7 @@ write_bds <- function(x = NULL,
 as_bds_reference <- function(tgt) {
   n <- attr(tgt, "person")$name
   if (!length(n) || is.na(n)) {
-    return(NULL)
+    return("Unknown")
   }
   n
 }
