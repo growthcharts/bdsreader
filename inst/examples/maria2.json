@@ -1,6 +1,7 @@
 {
   "Format": "2.0",
-  "OrganisatieCode": 0,
+  "OrganisatieCode": 1234,
+  "Referentie": "Maria2",
   "ClientGegevens": [
     {
       "ElementNummer": 19,
@@ -16,7 +17,7 @@
     },
     {
       "ElementNummer": 91,
-      "Waarde": "1"
+      "Waarde": "2"
     },
     {
       "ElementNummer": 110,
@@ -61,7 +62,6 @@
       ]
     }
   ],
-  "Referentie": "Maria2",
   "ContactMomenten": [
     {
       "Tijdstip": "20181011",

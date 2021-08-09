@@ -63,16 +63,16 @@ write_bds <- function(x = NULL,
   v <- as.integer(substr(format, 1L, 1L))
   if (v == 2L) type <- "numeric"
 
-  # required elements
+  # administrative elements
   bds <- list(
     Format = format,
     OrganisatieCode = as.integer(organisation),
-    ClientGegevens = as_bds_clientdata(x, v, type)
+    Referentie = as_bds_reference(x)
   )
   if (!auto_format) bds$Format <- NULL
 
-  # optional elements
-  bds$Referentie <- as_bds_reference(x)
+  # data elements
+  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
   bds$ContactMomenten <- as_bds_contacts(x, type)
   if (v == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))

@@ -1,5 +1,6 @@
 {
-  "OrganisatieCode": 0,
+  "OrganisatieCode": 1234,
+  "Referentie": "Maria2",
   "ClientGegevens": {
     "Elementen": [
       {
@@ -16,7 +17,7 @@
       },
       {
         "Bdsnummer": 91,
-        "Waarde": "1"
+        "Waarde": "2"
       },
       {
         "Bdsnummer": 110,
@@ -64,7 +65,6 @@
       }
     ]
   },
-  "Referentie": "Maria2",
   "Contactmomenten": [
     {
       "Tijdstip": "20181011",
