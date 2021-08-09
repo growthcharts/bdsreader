@@ -75,9 +75,9 @@ The `persondata()` function extracts the person-level information:
 ``` r
 persondata(xyz)
 #> # A tibble: 1 x 15
-#>      id name  dobf       dobm       src   dnr   sex      gad    ga   smo    bw
-#>   <int> <chr> <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl>
-#> 1    -1 Maria 1995-07-04 1990-12-02 0     <NA>  female   189    27     1   990
+#>      id name   dobf       dobm       src   dnr   sex      gad    ga   smo    bw
+#>   <int> <chr>  <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl>
+#> 1    -1 Maria2 1995-07-04 1990-12-02 1234  <NA>  female   189    27     1   990
 #> # … with 4 more variables: hgtm <dbl>, hgtf <dbl>, agem <dbl>, etn <chr>
 ```
 
@@ -93,119 +93,121 @@ format according to BDS-schema file
 Here’s the contents of the file with the child data:
 
     {
-        "Referentie": "Maria2",
-        "OrganisatieCode": 1234,
-        "ClientGegevens": [
+      "Format": "2.0",
+      "OrganisatieCode": 1234,
+      "Referentie": "Maria2",
+      "ClientGegevens": [
+        {
+          "ElementNummer": 19,
+          "Waarde": "2"
+        },
+        {
+          "ElementNummer": 20,
+          "Waarde": "20181011"
+        },
+        {
+          "ElementNummer": 82,
+          "Waarde": 189
+        },
+        {
+          "ElementNummer": 91,
+          "Waarde": "2"
+        },
+        {
+          "ElementNummer": 110,
+          "Waarde": 990
+        },
+        {
+          "ElementNummer": 238,
+          "Waarde": 1670
+        },
+        {
+          "ElementNummer": 240,
+          "Waarde": 1900
+        },
+        {
+          "GenesteElementen": [
             {
-                "ElementNummer": 19,
-                "Waarde": "2"
+              "ElementNummer": 63,
+              "Waarde": "19950704"
             },
             {
-                "ElementNummer": 20,
-                "Waarde": "20181011"
+              "ElementNummer": 71
             },
             {
-                "ElementNummer": 82,
-                "Waarde": 189
-            },
-            {
-                "ElementNummer": 91,
-                "Waarde": "2"
-            },
-            {
-                "ElementNummer": 110,
-                "Waarde": 990
-            },
-            {
-                "ElementNummer": 238,
-                "Waarde": 1670
-            },
-            {
-                "ElementNummer": 240,
-                "Waarde": 1900
-            },
-            {
-                "GenesteElementen": [
-                    {
-                        "ElementNummer": 63,
-                        "Waarde": "19950704"
-                    },
-                    {
-                        "ElementNummer": 71
-                    },
-                    {
-                        "ElementNummer": 62,
-                        "Waarde": "01"
-                    }
-                ]
-            },
-            {
-                "GenesteElementen": [
-                    {
-                        "ElementNummer": 63,
-                        "Waarde": "19901202"
-                    },
-                    {
-                        "ElementNummer": 71
-                    },
-                    {
-                        "ElementNummer": 62,
-                        "Waarde": "02"
-                    }
-                ]
+              "ElementNummer": 62,
+              "Waarde": "01"
             }
-        ],
-        "ContactMomenten": [
+          ]
+        },
+        {
+          "GenesteElementen": [
             {
-                "Tijdstip": "20181011",
-                "Elementen": [
-                    {
-                        "ElementNummer": 245,
-                        "Waarde": 990
-                    }
-                ]
+              "ElementNummer": 63,
+              "Waarde": "19901202"
             },
             {
-                "Tijdstip": "20181111",
-                "Elementen": [
-                    {
-                        "ElementNummer": 235,
-                        "Waarde": 380
-                    },
-                    {
-                        "ElementNummer": 245,
-                        "Waarde": 1250
-                    },
-                    {
-                        "ElementNummer": 252,
-                        "Waarde": 270
-                    }
-                ]
+              "ElementNummer": 71
             },
             {
-                "Tijdstip": "20181211",
-                "Elementen": [
-                    {
-                        "ElementNummer": 235,
-                        "Waarde": 435
-                    },
-                    {
-                        "ElementNummer": 245,
-                        "Waarde": 2100
-                    },
-                    {
-                        "ElementNummer": 252,
-                        "Waarde": 305
-                    }
-                ]
+              "ElementNummer": 62,
+              "Waarde": "02"
             }
-        ]
+          ]
+        }
+      ],
+      "ContactMomenten": [
+        {
+          "Tijdstip": "20181011",
+          "Elementen": [
+            {
+              "ElementNummer": 245,
+              "Waarde": 990
+            }
+          ]
+        },
+        {
+          "Tijdstip": "20181111",
+          "Elementen": [
+            {
+              "ElementNummer": 235,
+              "Waarde": 380
+            },
+            {
+              "ElementNummer": 245,
+              "Waarde": 1250
+            },
+            {
+              "ElementNummer": 252,
+              "Waarde": 270
+            }
+          ]
+        },
+        {
+          "Tijdstip": "20181211",
+          "Elementen": [
+            {
+              "ElementNummer": 235,
+              "Waarde": 435
+            },
+            {
+              "ElementNummer": 245,
+              "Waarde": 2100
+            },
+            {
+              "ElementNummer": 252,
+              "Waarde": 305
+            }
+          ]
+        }
+      ]
     }
 
 JSON is a lightweight format to exchange data between electronic
 systems. `"ElementNummer"` fields refer to the numbers defined in the
-Basisdataset JGZ, whereas `"Waarde"` fields contain the value. You can
-find the exact specification
+Basisdataset JGZ, whereas `"Waarde"` fields contain the value. The
+element numbers and the value correspond to the Basisdataset JGZ, which
+you can find
 [here](https://www.ncj.nl/themadossiers/informatisering/basisdataset/documentatie/).
 
 ### Read and parse input data
