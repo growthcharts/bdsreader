@@ -8,12 +8,14 @@ check_ranges <- function(d, format) {
       lex[lex$bdsnummer == 20, "description"],
       ") Missing"
     )
+    dob <- NA
   }
   if (!is.null(e)) {
     message("BDS  20 (",
       lex[lex$bdsnummer == 20, "description"],
       ") Onjuist format"
     )
+    dob <- NA
   }
 
   e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, v = v)))
@@ -22,6 +24,7 @@ check_ranges <- function(d, format) {
       lex[lex$bdsnummer == 63, "description"],
       ") Onjuist format"
     )
+    dobm <- NA
   }
 
   gad <- as.numeric(extract_field2(d, 82L, v = v))

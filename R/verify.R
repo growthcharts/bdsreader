@@ -23,7 +23,8 @@ verify <- function(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...) 
   if (!is.null(err)) stop(conditionMessage(err))
 
   # PHASE 2: determine format and schema
-  format <- ifelse(auto_format && !is.null(data$Format), data$Format, format)
+  dfmt <- data$Format[1]
+  format <- ifelse(auto_format && !is.null(dfmt), dfmt, format)
   schema_list <- set_schema(format, schema)
   format <- schema_list$format
   schema <- schema_list$schema

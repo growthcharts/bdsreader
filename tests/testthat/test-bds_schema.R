@@ -202,10 +202,19 @@ for (format in c("1.0", "2.0")) {
     expect_silent(read_bds(jtf[19], schema = schema))
   })
 
-  test_that("test20.json (missing Groepen) MESS", {
-    expect_message(read_bds(jtf[20], schema = schema)
-    )
-  })
+  if (v == 1) {
+    test_that("test20.json (missing Groepen) MESS", {
+      expect_message(read_bds(jtf[20], schema = schema)
+      )
+    })
+  }
+
+  if (v == 2) {
+    test_that("test20.json (missing Groepen) MESS", {
+      expect_silent(read_bds(jtf[20], schema = schema)
+      )
+    })
+  }
 
   if (v == 1) {
     test_that("test21.json (minimal data) MESS", {

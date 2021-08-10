@@ -53,7 +53,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (!length(d$Contactmomenten) & !length(d$ContactMomenten)) {
+  if (!length(d$Contactmomenten) && !length(d$ContactMomenten)) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),

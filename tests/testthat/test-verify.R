@@ -214,10 +214,7 @@ for (i in 2:2) {
 
   if (i == 2) {
     test_that("test20.json (missing Groepen) produces message", {
-      expect_message(verify(jtf[20], schema = schema),
-                     "Missing 'ClientGegevens$GenesteElementen'",
-                     fixed = TRUE
-      )
+      expect_silent(verify(jtf[20], schema = schema))
     })
   }
 
@@ -254,7 +251,7 @@ for (i in 2:2) {
   js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
   test_that("not_a_vector.json produces messages", {
-    expect_message(verify(js, schema = schema))
+    expect_message(verify(js))
   })
 
   # problematic json file http400.json identified by Allegro Sultum - Feb 2020
@@ -263,13 +260,13 @@ for (i in 2:2) {
 
   if (i == 1) {
     test_that("http400.json proceeds silent - no biological mother", {
-      expect_silent(verify(js, schema = schema))
+      expect_silent(verify(js))
     })
   }
 
   if (i == 2) {
     test_that("http400.json proceeds silent - no biological mother", {
-      expect_message(verify(js, schema = schema))
+      expect_message(verify(js))
     })
   }
 
