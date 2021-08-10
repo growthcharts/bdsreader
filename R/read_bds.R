@@ -29,10 +29,11 @@
 #' the `Format` field, so the correct format is automatically set by the data.
 #'
 #' If you erroneously read a JSON file of format `"1.0"` using format `"2.0"`
-#' you may see `Error in value[[3L]](cond) : object 'dob' not found`. In that
-#' case specify the `format = "1.0"` argument.
+#' you may see an error:
+#' `Error in b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions`.
+#' In that make sure that you are reading with the `format = "1.0"` argument.
 #' Reversely, if you erroneously read a JSON file of format `"2.0"` using format
-#' `"1.0"` you may see `.ClientGegevens should be object` and
+#' `"1.0"` you may see messages `.ClientGegevens should be object` and
 #' `Missing 'ClientGegevens$Groepen'`. In that case, specify `format = "2.0"`.
 #'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]

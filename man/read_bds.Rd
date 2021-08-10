@@ -59,10 +59,11 @@ The schema \code{bds_v2.0.json} schema requires
 the \code{Format} field, so the correct format is automatically set by the data.
 
 If you erroneously read a JSON file of format \code{"1.0"} using format \code{"2.0"}
-you may see \verb{Error in value[[3L]](cond) : object 'dob' not found}. In that
-case specify the \code{format = "1.0"} argument.
+you may see an error:
+\verb{Error in b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions}.
+In that make sure that you are reading with the \code{format = "1.0"} argument.
 Reversely, if you erroneously read a JSON file of format \code{"2.0"} using format
-\code{"1.0"} you may see \verb{.ClientGegevens should be object} and
+\code{"1.0"} you may see messages \verb{.ClientGegevens should be object} and
 \verb{Missing 'ClientGegevens$Groepen'}. In that case, specify \code{format = "2.0"}.
 }
 \examples{
