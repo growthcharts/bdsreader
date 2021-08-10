@@ -1,3 +1,7 @@
+# bdsreader 0.9.2
+
+- Solves various runtime bugs
+
 # bdsreader 0.9.1
 
 - Solves a problem with empty names in `bds_write()`
