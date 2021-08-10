@@ -74,7 +74,7 @@ Z-scores and transforms the data as a tibble with a person attribute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
       </span>
     </div>
 
@@ -190,10 +190,11 @@ any <code>format</code> and <code>schema</code> arguments to the <code>read_bds(
 The schema <code>bds_v2.0.json</code> schema requires
 the <code>Format</code> field, so the correct format is automatically set by the data.</p>
 <p>If you erroneously read a JSON file of format <code>"1.0"</code> using format <code>"2.0"</code>
-you may see <code>Error in value[[3L]](cond) : object 'dob' not found</code>. In that
-case specify the <code>format = "1.0"</code> argument.
+you may see an error:
+<code>Error in b[b$ElementNummer == f &amp; !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions</code>.
+In that make sure that you are reading with the <code>format = "1.0"</code> argument.
 Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> using format
-<code>"1.0"</code> you may see <code>.ClientGegevens should be object</code> and
+<code>"1.0"</code> you may see messages <code>.ClientGegevens should be object</code> and
 <code>Missing 'ClientGegevens$Groepen'</code>. In that case, specify <code>format = "2.0"</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
