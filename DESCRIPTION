@@ -1,7 +1,7 @@
 Package: bdsreader
 Type: Package
 Title: Read Data from the Basisdataset Jeugdgezondheidszorg
-Version: 0.9.2
+Version: 0.9.3
 Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
              person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
 Description: Read and validate JSON files with
@@ -27,11 +27,11 @@ Suggests:
     openxlsx,
     jamesdemodata (>= 0.6.0),
     testthat (>= 3.0.0)
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-URL: https://github.com/growthcharts/bdsreader
-Config/testthat/edition: 3
 Remotes: 
     growthcharts/centile,
     growthcharts/nlreferences,
     growthcharts/jamesdemodata
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/growthcharts/bdsreader
+Config/testthat/edition: 3
+RoxygenNote: 7.1.2
