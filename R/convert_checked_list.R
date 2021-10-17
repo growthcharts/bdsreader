@@ -2,13 +2,15 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   v <- as.integer(substr(format, 1L, 1L))
 
   d <- checked$data
-  switch(v,
-         b <- d$ClientGegevens$Elementen,
-         b <- d$ClientGegevens)
+  if (v == 1) {
+    b <- d$ClientGegevens$Elementen
+  } else {
+    b <- d$ClientGegevens
+  }
   r <- checked$ranges
 
   # convert ddi, calculate D-score
-  ddi <- convert_ddi_gsed(d, r)
+  ddi <- convert_ddi_gsed(d, r, v)
   ds <- dscore::dscore(data = ddi, key = "dutch")
 
   # store requester code

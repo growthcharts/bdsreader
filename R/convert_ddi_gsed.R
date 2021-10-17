@@ -1,12 +1,12 @@
 
-convert_ddi_gsed <- function(d, r) {
+convert_ddi_gsed <- function(d, r, v) {
 
   # get BDS numbers and names of items
   bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
   items <- bdsreader::bds_gsed$lex_gsed[bdsreader::bds_gsed$lex_gsed != ""]
 
   # premature return if there are no data
-  if (!length(d$Contactmomenten) & !length(d$ContactMomenten)) {
+  if (!(length(d$Contactmomenten) || length(d$ContactMomenten))) {
     return(data.frame(age = numeric(0)))
   }
 
@@ -20,7 +20,7 @@ convert_ddi_gsed <- function(d, r) {
 
   # extract ddi data from bds-message
   # and convert to 0/1 scores
-  for (i in bdsnum) w[, as.character(i)] <- extract_field(d, i)
+  for (i in bdsnum) w[, as.character(i)] <- extract_field(d, i, v = v)
   for (item in items) {
     n <- which(bdsreader::bds_gsed$lex_gsed == item)
     type <- bdsreader::bds_gsed[n, "type"]
