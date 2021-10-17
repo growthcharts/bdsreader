@@ -1,3 +1,7 @@
+# bdsreader 0.10.0 
+
+- Solves a bug that prevented reading DDI under format = "2.0"
+
 # bdsreader 0.9.2
 
 - Solves various runtime bugs

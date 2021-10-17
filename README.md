@@ -47,7 +47,7 @@ library(bdsreader)
 fn <- system.file("examples", "maria2.json", package = "bdsreader")
 xyz <- read_bds(fn)
 xyz
-#> # A tibble: 11 x 8
+#> # A tibble: 11 × 8
 #>       age xname yname zname zref                        x     y      z
 #>     <dbl> <chr> <chr> <chr> <chr>                   <dbl> <dbl>  <dbl>
 #>  1 0.0849 age   hgt   hgt_z nl_2012_hgt_female_27  0.0849 38    -0.158
@@ -74,7 +74,7 @@ The `persondata()` function extracts the person-level information:
 
 ``` r
 persondata(xyz)
-#> # A tibble: 1 x 15
+#> # A tibble: 1 × 15
 #>      id name   dobf       dobm       src   dnr   sex      gad    ga   smo    bw
 #>   <int> <chr>  <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl>
 #> 1    -1 Maria2 1995-07-04 1990-12-02 1234  <NA>  female   189    27     1   990
@@ -89,7 +89,7 @@ The result of `read_bds()` feeds into further data processing in `R`.
 
 The example file `maria2.json` contains Maria’s data coded in JSON
 format according to BDS-schema file
-[bds\_v2.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v2.0.json).
+[bds_v2.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v2.0.json).
 Here’s the contents of the file with the child data:
 
     {
