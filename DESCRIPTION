@@ -1,7 +1,7 @@
 Package: bdsreader
 Type: Package
 Title: Read Data from the Basisdataset Jeugdgezondheidszorg
-Version: 0.10.2
+Version: 0.10.3
 Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
              person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
 Description: Read and validate JSON files with
@@ -18,7 +18,7 @@ Imports:
     dplyr (>= 1.0.0),
     dscore (>= 1.4.0),
     jsonlite,
-    jsonvalidate,
+    jsonvalidate (>= 1.3.2),
     lubridate,
     nlreferences,
     rlang (>= 0.4.0),

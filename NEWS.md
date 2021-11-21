@@ -1,3 +1,7 @@
+# bdsreader 0.10.3
+
+- Specify dependency on `jsonvalidate 1.3.2` 
+
 # bdsreader 0.10.2
 
 - Sets return value of `set_schema()$schema` to the long file name including path
