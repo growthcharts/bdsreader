@@ -48,7 +48,7 @@
             }
           ],
       "items": {
-        "$id": "/properties/ClientGegevens/items",
+        "$id": "#/properties/ClientGegevens/items",
         "type": "object",
         // If matching BDS number is found it has to be matched to the anyOf condition
         "if": {
@@ -596,7 +596,7 @@
           	"GenesteElementen": {
           	"type": "array",
             "items": {
-            	"$ref": "/properties/ClientGegevens/items"
+            	"$ref": "#/properties/ClientGegevens/items"
             }
           }
           }
@@ -622,7 +622,7 @@
           "Elementen": {
           	"type": "array",
             "items": {
-            	"$ref": "/properties/ClientGegevens/items"
+            	"$ref": "#/properties/ClientGegevens/items"
             }
           }
         }

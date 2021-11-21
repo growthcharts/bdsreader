@@ -42,14 +42,7 @@ for (format in c("1.0", "2.0")) {
     test_that("test3.json (missing OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[3], schema = schema),
-        "should have required property 'OrganisatieCode'"
-      )
-    })
-
-    test_that("test4.json (wrong type) MESS", {
-      expect_message(
-        read_bds(jtf[4], schema = schema),
-        ".OrganisatieCode should be integer"
+        "must have required property 'OrganisatieCode'"
       )
     })
   }
@@ -60,13 +53,13 @@ for (format in c("1.0", "2.0")) {
         read_bds(jtf[3], schema = schema)
       )
     })
-
-    test_that("test4.json (wrong type) MESS", {
-      expect_silent(
-        read_bds(jtf[4], schema = schema)
-      )
-    })
   }
+
+  test_that("test4.json (wrong type) MESS", {
+    expect_silent(
+      read_bds(jtf[4], schema = schema)
+    )
+  })
 
   test_that("test5.json (missing ClientGegevens) MESS", {
     expect_message(
@@ -83,7 +76,7 @@ for (format in c("1.0", "2.0")) {
     test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[7], schema = schema),
-        "should have required property 'OrganisatieCode'"
+        "must have required property 'OrganisatieCode'"
       )
     })
   }
@@ -246,13 +239,13 @@ for (format in c("1.0", "2.0")) {
 
 
 
-#  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
-#  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-#
-#  test_that("Laura_S.json is silent with GA in days", {
-#    expect_silent(read_bds(js, schema = schema))
-#  })
-#
+  #  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+  #  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+  #
+  #  test_that("Laura_S.json is silent with GA in days", {
+  #    expect_silent(read_bds(js, schema = schema))
+  #  })
+  #
   # # 2 problematic json files identified by Allegro Sultum - Feb 2020
   # fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
   # js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
