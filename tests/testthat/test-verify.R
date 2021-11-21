@@ -3,7 +3,7 @@ schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWor
 paths <-   c("bds_v1.0",
              "bds_v2.0")
 
-for (i in 2:2) {
+for (i in 1:2) {
   schema <- schemas[i]
   path <- paths[i]
 
@@ -15,7 +15,7 @@ for (i in 2:2) {
     test_that("handles the empty individual object", {
       expect_message(
         verify(js1, schema = schema),
-        "should have required property 'Elementen'"
+        "must have required property 'Elementen'"
       )
     })
   }
@@ -43,7 +43,7 @@ for (i in 2:2) {
     test_that("test3.json (missing OrganisatieCode) WARNS", {
       expect_message(
         verify(jtf[3], schema = schema),
-        "should have required property 'OrganisatieCode'"
+        "must have required property 'OrganisatieCode'"
       )
     })
   }
@@ -55,11 +55,9 @@ for (i in 2:2) {
   }
 
   if (i == 1) {
-    test_that("test4.json (wrong type) WARNS", {
-      expect_message(
-        verify(jtf[4], schema = schema),
-        ".OrganisatieCode should be integer"
-      )
+    test_that("test4.json (wrong type) - silent OK", {
+      expect_silent(
+        verify(jtf[4], schema = schema))
     })
   }
 
@@ -67,7 +65,7 @@ for (i in 2:2) {
     test_that("test5.json (missing ClientGegevens) WARNS", {
       expect_message(
         verify(jtf[5], schema = schema),
-        "should have required property 'ClientGegevens'"
+        "must have required property 'ClientGegevens'"
       )
     })
   }
@@ -103,7 +101,7 @@ for (i in 2:2) {
     test_that("test7.json (Missing Referentie & OrganisatieCode) WARNS", {
       expect_message(
         verify(jtf[7], schema = schema),
-        "should have required property 'OrganisatieCode'"
+        "must have required property 'OrganisatieCode'"
       )
     })
   }
