@@ -1,3 +1,7 @@
+# bdsreader 0.10.2
+
+- Sets return value of `set_schema()$schema` to the long file name including path
+
 # bdsreader 0.10.1
 
 - Repairs syntax errors in schema `bds_v2.0.json` as detected by `jsonvalidate::json_validate()`
