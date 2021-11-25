@@ -1,3 +1,9 @@
+# bdsreader 0.11.0
+
+- Repairs a problem with the validation of JSON string input (#4)
+- Updates the test files to more recent `jsonvalidate` output
+- Hacks away parts of `parse_valid()` that does not work under format 2.0
+
 # bdsreader 0.10.3
 
 - Specify dependency on `jsonvalidate 1.3.2` 
