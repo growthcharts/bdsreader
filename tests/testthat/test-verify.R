@@ -171,14 +171,9 @@ for (i in 1:2) {
     expect_error(verify(jtf[14], schema = schema), "premature EOF")
   })
 
-  if (i == 1) {
-    test_that("test15.json (Bdsnummer 19 numeric) returns message", {
-      expect_message(
-        verify(jtf[15], schema = schema),
-        '[{"bdsnummer":19,"description":"Sex of child","expected":"one of: 0, 1, 2, 3","supplied":"2","supplied_type":"numeric"},{"bdsnummer":62,"description":"Caretaker relation","expected":"one of: 01, 02, 03, 04, 05, 06, 07, 08, 98","supplied":"1","supplied_type":"numeric"}]'
-      )
-    })
-  }
+  test_that("test15.json (Bdsnummer 19 numeric) PASSES", {
+    expect_silent(verify(jtf[15], schema = schema))
+  })
 
   test_that("test16.json (Bdsnummer 20 numeric) PASSES", {
     expect_silent(verify(jtf[16], schema = schema))
@@ -188,14 +183,9 @@ for (i in 1:2) {
     expect_silent(verify(jtf[17], schema = schema))
   })
 
-  if (i == 1) {
-    test_that("test18.json (Bdsnummer 91 numeric) produces message", {
-      expect_message(
-        verify(jtf[18], schema = schema),
-        '[{"bdsnummer":91,"description":"Smoking during pregnancy","expected":"one of: 1, 2, 99","supplied":"1","supplied_type":"numeric"}]'
-      )
-    })
-  }
+  test_that("test18.json (Bdsnummer 91 numeric) PASSES", {
+    expect_silent(verify(jtf[18], schema = schema))
+  })
 
   test_that("test19.json (Bdsnummer 110 numeric) PASSES", {
     expect_silent(verify(jtf[19], schema = schema))
@@ -267,7 +257,7 @@ for (i in 1:2) {
       expect_message(verify(js))
     })
   }
-
+}
 
   # test battery - comment out to activate
   # path <- system.file("extdata", path, package = "jamesdemodata")
@@ -285,4 +275,4 @@ for (i in 1:2) {
   #   }
   # }
 
-}
+

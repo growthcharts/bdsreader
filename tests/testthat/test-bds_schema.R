@@ -153,17 +153,9 @@ for (format in c("1.0", "2.0")) {
     expect_error(read_bds(jtf[14], schema = schema), "premature EOF")
   })
 
-  if (v == 1) {
-    test_that("test15.json (Bdsnummer 62 numeric) MESS", {
-      expect_message(read_bds(jtf[15], schema = schema))
-    })
-  }
-
-  if (v == 2) {  # v2.0: silent is OK
-    test_that("test15.json (Bdsnummer 62 numeric) MESS", {
-      expect_silent(read_bds(jtf[15], schema = schema))
-    })
-  }
+  test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
+    expect_silent(read_bds(jtf[15], schema = schema))
+  })
 
   test_that("test16.json (Bdsnummer 20 numeric) PASSES", {
     expect_silent(read_bds(jtf[16], schema = schema))
@@ -173,23 +165,11 @@ for (format in c("1.0", "2.0")) {
     expect_silent(read_bds(jtf[17], schema = schema))
   })
 
-  if (v == 1) {
-    test_that("test18.json (Bdsnummer 91 numeric) MESS", {
-      expect_message(
-        read_bds(jtf[18], schema = schema),
-        '[{"bdsnummer":91,"description":"Smoking during pregnancy","expected":"one of: 1, 2, 99","supplied":"1","supplied_type":"numeric"}]'
-      )
-    })
-  }
-
-  if (v == 2) {  # v2.0: Silent is OK
-    test_that("test18.json (Bdsnummer 91 numeric) MESS", {
-      expect_silent(
-        read_bds(jtf[18], schema = schema)
-      )
-    })
-  }
-
+  test_that("test18.json (Bdsnummer 91 numeric) MESS", {
+    expect_silent(
+      read_bds(jtf[18], schema = schema)
+    )
+  })
 
   test_that("test19.json (Bdsnummer 110 numeric) PASSES", {
     expect_silent(read_bds(jtf[19], schema = schema))
@@ -235,66 +215,66 @@ for (format in c("1.0", "2.0")) {
   test_that("test24.json (new DDI fields) SILENT", {
     expect_silent(read_bds(jtf[24], schema = schema))
   })
-
-
-
-
-  #  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
-  #  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-  #
-  #  test_that("Laura_S.json is silent with GA in days", {
-  #    expect_silent(read_bds(js, schema = schema))
-  #  })
-  #
-  # # 2 problematic json files identified by Allegro Sultum - Feb 2020
-  # fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
-  # js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-  #
-  # test_that("not_a_vector.json produces messages", {
-  #   expect_message(read_bds(js, schema = schema),
-  #                  "BDS 82",
-  #                  fixed = TRUE
-  #   )
-  # })
-  #
-  # # problematic json file http400.json identified by Allegro Sultum - Feb 2020
-  # fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
-  # js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-  #
-  # test_that("http400.json proceeds silent - no biological mother", {
-  #   expect_silent(read_bds(js, schema = schema))
-  # })
-  #
-  # # Check proper splitting of head lag item
-  # fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
-  # tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
-  # test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
-  #   expect_equal(tgt$y[1], 14.14)
-  # })
-  #
-  # test battery - comment out to activate
-  # path <- system.file("extdata", package = "jamesdemodata")
-  # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
-  # for (lib in libs) {
-  #   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
-  #   for (file in files) {
-  #     cat("File ", file, "\n")
-  #     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
-  #     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
-  #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
-  #     test_that(paste(file, "passes"), {
-  #       expect_silent(suppressMessages(read_bds(txt = js)))
-  #     })
-  #   }
-  # }
-
-  # other stuff
-
-  # Kevin S: Check D-score and DAZ
-  #fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamesdemodata")
-  #ind <- read_bds(fn)
-
-  # tgt %>%
-  #   dplyr::filter(substr(.data$yname, 1, 3) == "ddi") %>%
-  #   dplyr::select(age, yname, y)
 }
+
+
+
+#  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+#  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+#
+#  test_that("Laura_S.json is silent with GA in days", {
+#    expect_silent(read_bds(js, schema = schema))
+#  })
+#
+# # 2 problematic json files identified by Allegro Sultum - Feb 2020
+# fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
+# js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+#
+# test_that("not_a_vector.json produces messages", {
+#   expect_message(read_bds(js, schema = schema),
+#                  "BDS 82",
+#                  fixed = TRUE
+#   )
+# })
+#
+# # problematic json file http400.json identified by Allegro Sultum - Feb 2020
+# fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
+# js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+#
+# test_that("http400.json proceeds silent - no biological mother", {
+#   expect_silent(read_bds(js, schema = schema))
+# })
+#
+# # Check proper splitting of head lag item
+# fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
+# tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+# test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
+#   expect_equal(tgt$y[1], 14.14)
+# })
+#
+# test battery - comment out to activate
+# path <- system.file("extdata", package = "jamesdemodata")
+# libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
+# for (lib in libs) {
+#   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
+#   for (file in files) {
+#     cat("File ", file, "\n")
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
+#     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
+#     test_that(paste(file, "passes"), {
+#       expect_silent(suppressMessages(read_bds(txt = js)))
+#     })
+#   }
+# }
+
+# other stuff
+
+# Kevin S: Check D-score and DAZ
+#fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamesdemodata")
+#ind <- read_bds(fn)
+
+# tgt %>%
+#   dplyr::filter(substr(.data$yname, 1, 3) == "ddi") %>%
+#   dplyr::select(age, yname, y)
+#}
