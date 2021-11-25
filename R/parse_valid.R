@@ -59,6 +59,15 @@ parse_valid <- function(valid) {
 
     # For misspecified values - return supplied and accepted values
     val.err <- t(simplify2array(w[w$keyword == "anyOf", "data"]))
+
+    # FIXME
+    # creating the warning data frame does not work for JSON string, format 2.0
+    # the hack below escape the creation of the supplied entry
+    if (length(val.err[1, 1][[1]] == 3)) {
+      return(mess)
+    }
+
+    # pick up normal processing
     if (ncol(val.err) >= 1L) {
       user.warning <- data.frame()
       for (i in 1L:nrow(val.err)) {
