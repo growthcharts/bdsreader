@@ -24,6 +24,7 @@ extract_dob <- function(d, which = "00", v = 1) {
   if (!length(p)) {
     return(return(as.Date(NA)))
   }
+  p <- p[sapply(p, length) > 0]
   for (i in 1L:length(p)) {
     pp <- p[[i]]
     switch(v,
