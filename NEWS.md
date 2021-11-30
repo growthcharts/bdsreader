@@ -1,3 +1,8 @@
+# bdsreader 0.12.0
+
+- Adds a small dataset `minidata` for demo purposes
+- Adds function `export_as_bds()` that converts donordata into JSON files
+
 # bdsreader 0.11.0
 
 - Repairs a problem with the validation of JSON string input (#4)
