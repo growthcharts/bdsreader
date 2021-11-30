@@ -1,0 +1,57 @@
+#' Minidata, infant growth of 0-2 years, three children
+#'
+#'Longitudinal height, weight, head circumference measurements
+#'during ages 0-2 years for a representative sample of 3
+#'Dutch children born in 1988-1989, including covariates.
+#'For demo purposes.
+#'
+#'@name minidata
+#'@docType data
+#'@format A list with two components:
+#'\describe{
+#'\item{child}{Tibble with 3 rows and 14 columns containing child-level covariates}
+#'\item{time}{Tibble with 30 rows and 78 columns containing growth data and developmental milestones per time point.}
+#'}
+#'The \code{child} tibble contains the following variables:
+#'\describe{
+#'\item{id}{ID, unique \code{id} of each child (numeric)}
+#'\item{src}{Source, here \code{"smocc"} (character)}
+#'\item{dob}{Data of birth \code{"smocc"} (character)}
+#'\item{sex}{Sex, \code{"male"} or \code{"female"} (character)}
+#'\item{etn}{Etnicity, \code{"MA"}, \code{"NL"}, or \code{"TU"} (character)}
+#'\item{edu}{Educational level (typically mother), \code{"low"}, \code{"middle"}, \code{"high"} (character)}#'
+#'\item{ga}{Gestational age in completed, weeks (numeric)}
+#'\item{bw}{Birth weight in grammes (numeric)}
+#'\item{twin}{Twin, 0 = no, 1 = yes (numeric)}
+#'\item{smo}{Mother smoked during pregnancy, 0 = no, 1 = yes (numeric)}
+#'\item{agem}{Mother age when giving birth (years) (numeric)}
+#'\item{hgtm}{Height of mother in cm (numeric) (numeric)}
+#'\item{hgtf}{Height of father in cm (numeric) (numeric)}
+#'\item{name}{Child nickname}
+#'}
+#'
+#'The \code{time} tibble contains the following variables:
+#'\describe{
+#'\item{src}{Source, here \code{"smocc"}}
+#'\item{id}{ID, unique \code{id} of each child}
+#'\item{rec}{Record number}
+#'\item{nrec}{Number of child records, 6+}
+#'\item{dob}{Data of birth (character)}
+#'\item{dob}{Data of measurement (character)}
+#'\item{age}{Decimal age}
+#'\item{sex}{Sex, \code{"male"} or \code{"female"}}
+#'\item{etn}{Etnicity, \code{"MA"}, \code{"NL"}, or \code{"TU"}}
+#'\item{ga}{Gestational age in completed weeks}
+#'\item{bw}{Birth weight in grammes}
+#'\item{hgt}{Height measurement in cm}
+#'\item{wgt}{Weight measurement in kg}
+#'\item{hdc}{Head circ measurement in cm}
+#'\item{dsc}{D-score, D-unit}
+#'\item{bds879}{DDI milestone, BDS number 879}
+#'\item{bds...}{DDI milestone, BDS number ...}
+#'}
+#'@source Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP \& Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
+#'@note This dataset is property of the Netherlands Organisation for Applied Scientific Research TNO. Distribution is not permitted.
+#'Inquiries at \email{stef.vanbuuren@@tno.nl}.
+#'@keywords datasets
+NULL
