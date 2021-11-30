@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write target data as bds-formatted JSON file — write_bds • bdsreader</title>
+<title>Save donordata format as JSON — export_as_bds • bdsreader</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Write target data as bds-formatted JSON file — write_bds" />
-<meta property="og:description" content="This function takes data from a tibble with a person attribute
-and saves it into JSON bds format (which can be sent to JAMES)." />
+<meta property="og:title" content="Save donordata format as JSON — export_as_bds" />
+<meta property="og:description" content="Converts data in donordata format to a JSON file per child." />
 
 
 
@@ -112,105 +111,72 @@ and saves it into JSON bds format (which can be sent to JAMES)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write target data as bds-formatted JSON file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/R/write_bds.R'><code>R/write_bds.R</code></a></small>
-    <div class="hidden name"><code>write_bds.Rd</code></div>
+    <h1>Save donordata format as JSON</h1>
+    <small class="dont-index">Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/R/export_as_bds.R'><code>R/export_as_bds.R</code></a></small>
+    <div class="hidden name"><code>export_as_bds.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function takes data from a tibble with a person attribute
-and saves it into JSON bds format (which can be sent to JAMES).</p>
+    <p>Converts data in <code>donordata</code> format to a JSON file per child.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_bds</span><span class='op'>(</span>
-  x <span class='op'>=</span> <span class='cn'>NULL</span>,
-  auto_format <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  format <span class='op'>=</span> <span class='st'>"v2.0"</span>,
+    <pre class="usage"><span class='fu'>export_as_bds</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>ids</span>,
   schema <span class='op'>=</span> <span class='cn'>NULL</span>,
-  file <span class='op'>=</span> <span class='cn'>NULL</span>,
-  organisation <span class='op'>=</span> <span class='fl'>0L</span>,
-  indent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  check <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  names <span class='op'>=</span> <span class='cn'>NULL</span>,
+  indent <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Tibble with an attribute called <code>person</code></p></td>
+      <th>data</th>
+      <td><p>Dataset in donordata format (having child and time elements)</p></td>
     </tr>
     <tr>
-      <th>auto_format</th>
-      <td><p>Logical. Should a field <code>Format</code> be written to the result?
-Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>1.0</code>, <code>1.1</code> and <code>2.0</code>.</p></td>
+      <th>ids</th>
+      <td><p>Integer vector with the id number for the individuals</p></td>
     </tr>
     <tr>
       <th>schema</th>
-      <td><p>A file name (optionally including the path) with the JSON
-validation schema.
-The <code>schema</code> argument overrides <code>format</code>. The function extracts the
-version number for the basename, and overwrites the
-<code>format</code> argument by version number.</p></td>
+      <td><p>Optional. File name of the JSON validation schema. The default schema
+<code>"bds_v2.0.json"</code> from the <code>bdsreader</code> package.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>File name. The default (<code>NULL</code>) returns the json representation
-of the data and does not write to a file.</p></td>
+      <th>path</th>
+      <td><p>Optional. Path where files should be written. By default, <code>path</code> is the
+working directory. The function creates the path if it doesn't already exist.</p></td>
     </tr>
     <tr>
-      <th>organisation</th>
-      <td><p>Integer. Organisation number of the caller. Optional.</p></td>
+      <th>names</th>
+      <td><p>Optional. Character vector with <code>length(ids)</code> elements used to
+construct the file name. Spaces are replaced by underscores. If not specified,
+the function uses the <code>ids</code> vector to create file names.</p></td>
     </tr>
     <tr>
       <th>indent</th>
-      <td><p>Integer. Number of spaces to indent when using
-<code><a href='https://rdrr.io/pkg/jsonlite/man/prettify.html'>jsonlite::prettify()</a></code>. When not specified, the function writes
-minified json.</p></td>
-    </tr>
-    <tr>
-      <th>check</th>
-      <td><p>Logical. Should function check json to conform to schema?</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Logical. Print file message?</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Passed down to <code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::toJSON()</a></code>.</p></td>
+      <td><p>Optional. Integer. Number of spaces to indent when using
+<code><a href='https://rdrr.io/pkg/jsonlite/man/prettify.html'>jsonlite::prettify()</a></code>. When not specified, the function writes minified json.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>A string with bds-formatted JSON codes, or <code>NULL</code> for invalid
-JSON</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Functions <code><a href='read_bds.html'>read_bds()</a></code> and <code>write_bds()</code> are inverse operations.</p>
-<p>If the date of birth is not known, the conversion uses the
-artificial birth date <code>01 Jan 2000</code> to calculate measurement
-dates from age.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::toJSON()</a></code></p></div>
+    <p>If child birth date is unknown, then 2000-01-01 is used.
+Birth date of the mother is back-calculated from <code>agem</code>, and thus imprecise.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Stef van Buuren 2021</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"jamesdemodata"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>tgt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_bds.html'>read_bds</a></span><span class='op'>(</span><span class='va'>fn</span>, format <span class='op'>=</span> <span class='st'>"1.0"</span>, append_ddi <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>js1</span> <span class='op'>&lt;-</span> <span class='fu'>write_bds</span><span class='op'>(</span><span class='va'>tgt</span>, format <span class='op'>=</span> <span class='st'>"1.0"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>js2</span> <span class='op'>&lt;-</span> <span class='fu'>write_bds</span><span class='op'>(</span><span class='va'>tgt</span>, format <span class='op'>=</span> <span class='st'>"2.0"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='va'>names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Laura S"</span>, <span class='st'>"Thomas S"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>34071</span>, <span class='fl'>34072</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>export_as_bds</span><span class='op'>(</span><span class='va'>minidata</span>, ids <span class='op'>=</span> <span class='va'>ids</span>, names <span class='op'>=</span> <span class='va'>names</span>, indent <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Verify validity of incoming JSON data — verify • bdsreader</title>
+<title>Minidata, infant growth of 0-2 years, three children — minidata • bdsreader</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,11 @@
 
 
 
-<meta property="og:title" content="Verify validity of incoming JSON data — verify" />
-<meta property="og:description" content="This function checks the json input, runs it against a validation schema, and
-checks the input json for further processing." />
+<meta property="og:title" content="Minidata, infant growth of 0-2 years, three children — minidata" />
+<meta property="og:description" content="Longitudinal height, weight, head circumference measurements
+during ages 0-2 years for a representative sample of 3
+Dutch children born in 1988-1989, including covariates.
+For demo purposes." />
 
 
 
@@ -112,62 +114,73 @@ checks the input json for further processing." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Verify validity of incoming JSON data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/R/verify.R'><code>R/verify.R</code></a></small>
-    <div class="hidden name"><code>verify.Rd</code></div>
+    <h1>Minidata, infant growth of 0-2 years, three children</h1>
+    <small class="dont-index">Source: <a href='https://github.com/growthcharts/bdsreader/blob/master/R/minidata.R'><code>R/minidata.R</code></a></small>
+    <div class="hidden name"><code>minidata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function checks the json input, runs it against a validation schema, and
-checks the input json for further processing.</p>
+    <p>Longitudinal height, weight, head circumference measurements
+during ages 0-2 years for a representative sample of 3
+Dutch children born in 1988-1989, including covariates.
+For demo purposes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>verify</span><span class='op'>(</span><span class='va'>txt</span>, auto_format <span class='op'>=</span> <span class='cn'>TRUE</span>, format <span class='op'>=</span> <span class='st'>"1.0"</span>, schema <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>txt</th>
-      <td><p>A JSON string, URL or file</p></td>
-    </tr>
-    <tr>
-      <th>auto_format</th>
-      <td><p>Logical. Should the format be read from the data? Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>1.0</code>, <code>1.1</code> and <code>2.0</code>.</p></td>
-    </tr>
-    <tr>
-      <th>schema</th>
-      <td><p>A JSON string, URL or file with the JSON validation
-schema.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameter passed down to <code>fromJSON(txt, ...)</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list of processed input data. Side effect: messages are
-thrown for input fields that do not conform to the expected
-data.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A list with two components:</p><dl>
+<dt>child</dt><dd><p>Tibble with 3 rows and 14 columns containing child-level covariates</p></dd>
+<dt>time</dt><dd><p>Tibble with 30 rows and 78 columns containing growth data and developmental milestones per time point.</p></dd>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>jsonlite::fromJSON()</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+</dl><p>The <code>child</code> tibble contains the following variables:</p><dl>
+<dt>id</dt><dd><p>ID, unique <code>id</code> of each child (numeric)</p></dd>
+<dt>src</dt><dd><p>Source, here <code>"smocc"</code> (character)</p></dd>
+<dt>dob</dt><dd><p>Data of birth <code>"smocc"</code> (character)</p></dd>
+<dt>sex</dt><dd><p>Sex, <code>"male"</code> or <code>"female"</code> (character)</p></dd>
+<dt>etn</dt><dd><p>Etnicity, <code>"MA"</code>, <code>"NL"</code>, or <code>"TU"</code> (character)</p></dd>
+<dt>edu</dt><dd><p>Educational level (typically mother), <code>"low"</code>, <code>"middle"</code>, <code>"high"</code> (character)</p></dd>#'
+<dt>ga</dt><dd><p>Gestational age in completed, weeks (numeric)</p></dd>
+<dt>bw</dt><dd><p>Birth weight in grammes (numeric)</p></dd>
+<dt>twin</dt><dd><p>Twin, 0 = no, 1 = yes (numeric)</p></dd>
+<dt>smo</dt><dd><p>Mother smoked during pregnancy, 0 = no, 1 = yes (numeric)</p></dd>
+<dt>agem</dt><dd><p>Mother age when giving birth (years) (numeric)</p></dd>
+<dt>hgtm</dt><dd><p>Height of mother in cm (numeric) (numeric)</p></dd>
+<dt>hgtf</dt><dd><p>Height of father in cm (numeric) (numeric)</p></dd>
+<dt>name</dt><dd><p>Child nickname</p></dd>
 
-    <p>Stef van Buuren, Arjan Huizing 2021</p>
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>txt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class='op'>=</span> <span class='st'>"jamesdemodata"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>schema</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"schemas/bds_v1.0.json"</span>, package <span class='op'>=</span> <span class='st'>"bdsreader"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>verify</span><span class='op'>(</span><span class='va'>txt</span>, schema <span class='op'>=</span> <span class='va'>schema</span><span class='op'>)</span></span>
-</pre>
+<p>The <code>time</code> tibble contains the following variables:</p><dl>
+<dt>src</dt><dd><p>Source, here <code>"smocc"</code></p></dd>
+<dt>id</dt><dd><p>ID, unique <code>id</code> of each child</p></dd>
+<dt>rec</dt><dd><p>Record number</p></dd>
+<dt>nrec</dt><dd><p>Number of child records, 6+</p></dd>
+<dt>dob</dt><dd><p>Data of birth (character)</p></dd>
+<dt>dob</dt><dd><p>Data of measurement (character)</p></dd>
+<dt>age</dt><dd><p>Decimal age</p></dd>
+<dt>sex</dt><dd><p>Sex, <code>"male"</code> or <code>"female"</code></p></dd>
+<dt>etn</dt><dd><p>Etnicity, <code>"MA"</code>, <code>"NL"</code>, or <code>"TU"</code></p></dd>
+<dt>ga</dt><dd><p>Gestational age in completed weeks</p></dd>
+<dt>bw</dt><dd><p>Birth weight in grammes</p></dd>
+<dt>hgt</dt><dd><p>Height measurement in cm</p></dd>
+<dt>wgt</dt><dd><p>Weight measurement in kg</p></dd>
+<dt>hdc</dt><dd><p>Head circ measurement in cm</p></dd>
+<dt>dsc</dt><dd><p>D-score, D-unit</p></dd>
+<dt>bds879</dt><dd><p>DDI milestone, BDS number 879</p></dd>
+<dt>bds...</dt><dd><p>DDI milestone, BDS number ...</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP \&amp; Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. <em>Annals of Human Biology</em>, <b>21</b>, 449-463.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>This dataset is property of the Netherlands Organisation for Applied Scientific Research TNO. Distribution is not permitted.
+Inquiries at <a href='mailto:stef.vanbuuren@tno.nl'>stef.vanbuuren@tno.nl</a>.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
