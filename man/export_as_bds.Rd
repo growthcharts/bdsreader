@@ -2,12 +2,12 @@
 % Please edit documentation in R/export_as_bds.R
 \name{export_as_bds}
 \alias{export_as_bds}
-\title{Save donordata as BDS formatted JSON}
+\title{Save donordata format as JSON}
 \usage{
 export_as_bds(
   data,
   ids,
-  schema = system.file("schemas/bds_v2.0.json", package = "bdsreader"),
+  schema = NULL,
   path = NULL,
   names = NULL,
   indent = NULL
@@ -18,33 +18,31 @@ export_as_bds(
 
 \item{ids}{Integer vector with the id number for the individuals}
 
-\item{schema}{File name of the JSON validation schema. The default schema
+\item{schema}{Optional. File name of the JSON validation schema. The default schema
 \code{"bds_v2.0.json"} from the \code{bdsreader} package.}
 
-\item{path}{Path where files should be written. By default, \code{path} is the
+\item{path}{Optional. Path where files should be written. By default, \code{path} is the
 working directory. The function creates the path if it doesn't already exist.}
 
 \item{names}{Optional. Character vector with \code{length(ids)} elements used to
 construct the file name. Spaces are replaced by underscores. If not specified,
 the function uses the \code{ids} vector to create file names.}
 
-\item{indent}{Integer. Number of spaces to indent when using
+\item{indent}{Optional. Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes minified json.}
 }
 \description{
-This function selects child data from \code{donorloader} package, and
-save the BDS representations into one file per child.
+Converts data in \code{donordata} format to a JSON file per child.
 }
 \note{
 If child birth date is unknown, then 2000-01-01 is used.
 Birth date of the mother is back-calculated from \code{agem}, and thus imprecise.
 }
 \examples{
-names <- c("Laura S", "Thomas S", "Anne S")
-ids <- as.integer(c(34071, 34072, 34073))
-schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+names <- c("Laura S", "Thomas S")
+ids <- as.integer(c(34071, 34072))
 \dontrun{
-export_as_bds(mydata, schema = schema)
+export_as_bds(minidata, ids = ids, names = names, indent = 2)
 }
 }
 \author{

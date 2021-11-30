@@ -1,38 +1,39 @@
-#' Save donordata as BDS formatted JSON
+#' Save donordata format as JSON
 #'
-#' This function selects child data from `donorloader` package, and
-#' save the BDS representations into one file per child.
+#' Converts data in `donordata` format to a JSON file per child.
 #' @param data Dataset in donordata format (having child and time elements)
 #' @param ids Integer vector with the id number for the individuals
-#' @param schema File name of the JSON validation schema. The default schema
+#' @param schema Optional. File name of the JSON validation schema. The default schema
 #' `"bds_v2.0.json"` from the `bdsreader` package.
-#' @param path Path where files should be written. By default, `path` is the
+#' @param path Optional. Path where files should be written. By default, `path` is the
 #' working directory. The function creates the path if it doesn't already exist.
 #' @param names Optional. Character vector with `length(ids)` elements used to
 #' construct the file name. Spaces are replaced by underscores. If not specified,
 #' the function uses the `ids` vector to create file names.
-#' @param indent Integer. Number of spaces to indent when using
+#' @param indent Optional. Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes minified json.
 #' @note
 #' If child birth date is unknown, then 2000-01-01 is used.
 #' Birth date of the mother is back-calculated from `agem`, and thus imprecise.
 #' @author Stef van Buuren 2021
 #' @examples
-#' names <- c("Laura S", "Thomas S", "Anne S")
-#' ids <- as.integer(c(34071, 34072, 34073))
-#' schema <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+#' names <- c("Laura S", "Thomas S")
+#' ids <- as.integer(c(34071, 34072))
 #' \dontrun{
-#' export_as_bds(mydata, schema = schema)
+#' export_as_bds(minidata, ids = ids, names = names, indent = 2)
 #' }
 #' @export
 export_as_bds <- function(data,
                           ids,
-                          schema = system.file("schemas/bds_v2.0.json", package = "bdsreader"),
+                          schema = NULL,
                           path = NULL,
                           names = NULL,
                           indent = NULL) {
   if (!is.null(names) && length(ids) != length(names)) {
     stop("Incompatible lengths of `ids` and `names`.")
+  }
+  if (is.null(schema)) {
+    schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
   }
 
   # fix missing/unknown fields
