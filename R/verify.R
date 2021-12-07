@@ -33,6 +33,11 @@ verify <- function(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...) 
   }
 
   # PHASE 3: JSON schema validation
+  if (is.url(txt[1L])) {
+    con <- curl(txt[1L], open = "r")
+    txt <- readLines(con)
+    close(con)
+  }
   valid <- jsonvalidate::json_validate(txt, schema, engine = "ajv", verbose = TRUE)
   mess <- parse_valid(valid)
 

@@ -1,4 +1,5 @@
 #' @importFrom centile         y2z
+#' @importFrom curl            curl
 #' @importFrom dplyr           %>% all_of arrange bind_cols bind_rows
 #'                             filter mutate num_range recode rename select
 #' @importFrom dscore          dscore
