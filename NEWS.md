@@ -1,3 +1,7 @@
+# bdsreader 0.13.0
+
+- Solves a bug that prevented `read_bds(txt)` to read data from a URL
+
 # bdsreader 0.12.0
 
 - Adds a small dataset `minidata` for demo purposes
