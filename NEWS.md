@@ -1,3 +1,7 @@
+# bdsreader 0.14.0
+
+- Make the `Format` field a required element in schema `bds_2.0.json`
+
 # bdsreader 0.13.0
 
 - Solves a bug that prevented `read_bds(txt)` to read data from a URL
