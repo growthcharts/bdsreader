@@ -109,7 +109,8 @@ read_bds <- function(txt = NULL,
   # Check. Tranform json errors (e.g. no file, invalid json) into a
   # warning, and exit with empty target object.
   checked <- tryCatch(
-    expr = verify(txt, auto_format, format, schema, ...),
+    expr = verify(txt, auto_format = auto_format,
+                  format = format, schema = schema, ...),
     error = function(cnd) {
       stop(conditionMessage(cnd))
     }

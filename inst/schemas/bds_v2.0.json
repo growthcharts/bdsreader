@@ -4,7 +4,7 @@
   "type": "object",
   "title": "EPremDossier",
   "required": [
-    "ClientGegevens"
+    "Format", "ClientGegevens"
   ],
   "properties": {
     "Referentie": {
