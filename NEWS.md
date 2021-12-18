@@ -1,3 +1,7 @@
+# bdsreader 0.15.0
+
+- Do not use dot parameters anymore for `jsonlite::FROMjson()`, which errors on alien argument names
+
 # bdsreader 0.14.0
 
 - Make the `Format` field a required element in schema `bds_2.0.json`
