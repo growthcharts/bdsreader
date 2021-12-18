@@ -19,7 +19,7 @@ Z-scores and transforms the data as a tibble with a person attribute."><!-- math
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -76,7 +76,9 @@ Z-scores and transforms the data as a tibble with a <code>person</code> attribut
 <dd><p>Logical. Should the format be read from the data? Default is <code>TRUE</code>.</p></dd>
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>1.0</code>, <code>1.1</code> and <code>2.0</code>.</p></dd>
+three schemas supported: <code>"1.0"</code>, <code>"1.1"</code> and <code>"2.0"</code>. Formats <code>"1.0"</code> and
+<code>"1.1"</code> are included for backward compatibility only. Use <code>format = "2.0"</code>
+for new applications.</p></dd>
 <dt>schema</dt>
 <dd><p>A file name (optionally including the path) with the JSON
 validation schema.
@@ -88,7 +90,7 @@ version number for the basename, and overwrites the
 <dt>verbose</dt>
 <dd><p>Show verbose output for <code><a href="https://rdrr.io/pkg/centile/man/y2z.html" class="external-link">centile::y2z()</a></code></p></dd>
 <dt>...</dt>
-<dd><p>Passed down to <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">jsonlite::fromJSON()</a></code></p></dd>
+<dd><p>Ignored</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

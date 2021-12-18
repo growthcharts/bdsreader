@@ -18,7 +18,7 @@ checks the input json for further processing."><!-- mathjax --><script src="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -55,7 +55,7 @@ checks the input json for further processing.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">verify</span><span class="op">(</span><span class="va">txt</span>, auto_format <span class="op">=</span> <span class="cn">TRUE</span>, format <span class="op">=</span> <span class="st">"1.0"</span>, schema <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">verify</span><span class="op">(</span><span class="va">txt</span>, auto_format <span class="op">=</span> <span class="cn">TRUE</span>, format <span class="op">=</span> <span class="st">"1.0"</span>, schema <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,12 +66,12 @@ checks the input json for further processing.</p>
 <dd><p>Logical. Should the format be read from the data? Default is <code>TRUE</code>.</p></dd>
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>1.0</code>, <code>1.1</code> and <code>2.0</code>.</p></dd>
+three schemas supported: <code>"1.0"</code>, <code>"1.1"</code> and <code>"2.0"</code>. Formats <code>"1.0"</code> and
+<code>"1.1"</code> are included for backward compatibility only. Use <code>format = "2.0"</code>
+for new applications.</p></dd>
 <dt>schema</dt>
 <dd><p>A JSON string, URL or file with the JSON validation
 schema.</p></dd>
-<dt>...</dt>
-<dd><p>Additional parameter passed down to <code>fromJSON(txt, ...)</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
