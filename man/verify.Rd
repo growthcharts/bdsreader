@@ -4,7 +4,7 @@
 \alias{verify}
 \title{Verify validity of incoming JSON data}
 \usage{
-verify(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...)
+verify(txt, auto_format = TRUE, format = "1.0", schema = NULL)
 }
 \arguments{
 \item{txt}{A JSON string, URL or file}
@@ -12,12 +12,12 @@ verify(txt, auto_format = TRUE, format = "1.0", schema = NULL, ...)
 \item{auto_format}{Logical. Should the format be read from the data? Default is \code{TRUE}.}
 
 \item{format}{String. JSON data schema version number. There are currently
-three schemas supported: \code{1.0}, \code{1.1} and \code{2.0}.}
+three schemas supported: \code{"1.0"}, \code{"1.1"} and \code{"2.0"}. Formats \code{"1.0"} and
+\code{"1.1"} are included for backward compatibility only. Use \code{format = "2.0"}
+for new applications.}
 
 \item{schema}{A JSON string, URL or file with the JSON validation
 schema.}
-
-\item{\dots}{Additional parameter passed down to \code{fromJSON(txt, ...)}.}
 }
 \value{
 A list of processed input data. Side effect: messages are

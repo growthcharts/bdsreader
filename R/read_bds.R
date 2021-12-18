@@ -7,7 +7,7 @@
 #' @param auto_format Logical. Should the format be read from the data? Default is `TRUE`.
 #' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
-#' @param \dots Passed down to [jsonlite::fromJSON()]
+#' @param \dots Ignored
 #' @inheritParams set_schema
 #' @return A tibble with 8 columns with a `person` attribute
 #' @author Stef van Buuren 2021
@@ -110,7 +110,7 @@ read_bds <- function(txt = NULL,
   # warning, and exit with empty target object.
   checked <- tryCatch(
     expr = verify(txt, auto_format = auto_format,
-                  format = format, schema = schema, ...),
+                  format = format, schema = schema),
     error = function(cnd) {
       stop(conditionMessage(cnd))
     }
