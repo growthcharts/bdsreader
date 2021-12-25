@@ -94,13 +94,11 @@ export_as_bds <- function(data,
   fn <- 0
   for (i in ids) {
     fn <- fn + 1
-    tgt <- times %>%
+    xyz <- times %>%
       filter(.data$id == i)
-    if (nrow(tgt)) {
-      attr(tgt, "person") <- persons %>%
-        filter(.data$id == i)
-      js <- write_bds(x = tgt, file = fns[fn], schema = schema, indent = indent)
-    }
+    psn <- persons %>%
+      filter(.data$id == i)
+    target <- make_target(psn = psn, xyz = xyz)
+      js <- write_bds(x = target, file = fns[fn], schema = schema, indent = indent)
   }
 }
-

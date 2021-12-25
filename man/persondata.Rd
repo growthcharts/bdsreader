@@ -7,7 +7,7 @@
 persondata(x)
 }
 \arguments{
-\item{x}{A tibble with a \code{person} attribute}
+\item{x}{An object of class \code{target}}
 }
 \value{
 A tibble with person-level data

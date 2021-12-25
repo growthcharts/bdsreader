@@ -1,6 +1,6 @@
 #' Write target data as bds-formatted JSON file
 #'
-#' This function takes data from a tibble with a person attribute
+#' This function takes an object of class `"target"`
 #' and saves it into JSON bds format (which can be sent to JAMES).
 #'
 #' Functions `read_bds()` and `write_bds()` are inverse operations.
@@ -8,7 +8,7 @@
 #' If the date of birth is not known, the conversion uses the
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
-#' @param x      Tibble with an attribute called `person`
+#' @param x      Object of class `"target"`
 #' @param auto_format Logical. Should a field `Format` be written to the result?
 #' Default is `TRUE`.
 #' @param file   File name. The default (`NULL`) returns the json representation
@@ -41,10 +41,7 @@ write_bds <- function(x = NULL,
                       check = TRUE,
                       verbose = FALSE,
                       ...) {
-  p <- attr(x, "person")
-  if (is.null(p)) {
-    stop("Found no person attribute.")
-  }
+  stopifnot(inherits(x, "target"))
 
   # signal processing file
   if (!is.null(file) && !verbose) {
@@ -106,7 +103,7 @@ write_bds <- function(x = NULL,
 }
 
 as_bds_reference <- function(tgt) {
-  n <- attr(tgt, "person")$name
+  n <- persondata(tgt)[["name"]]
   if (!length(n) || is.na(n)) {
     return("Unknown")
   }
@@ -247,12 +244,13 @@ as_bds_clientdata_v2 <- function(tgt) {
 }
 
 
-as_bds_contacts <- function(tgt, type) {
+as_bds_contacts <- function(x, type) {
   # this function produces a JSON string with data coded according
   # to the BDS schema
 
   # extract measurements, only take age-related
   # remove duplicates, and NA's on y
+  tgt <- x$xyz
   d <- tgt %>%
     filter(.data$xname == "age") %>%
     filter(!duplicated(.data)) %>%
@@ -264,7 +262,7 @@ as_bds_contacts <- function(tgt, type) {
   }
 
   # back-calculate measurement dates
-  d$time <- age_to_time(tgt, d$x)
+  d$time <- age_to_time(x, d$x)
 
   # set proper units
   d[d$yname %in% c("hgt", "hdc"), "y"] <-
@@ -296,7 +294,7 @@ as_bds_contacts <- function(tgt, type) {
   ddi <- tgt %>%
     filter(substr(.data$yname, 1L, 3L) == "bds") %>%
     mutate(
-      time = age_to_time(!!tgt, .data$age),
+      time = age_to_time(!!x, .data$age),
       ElementNummer = as.integer(substring(.data$yname, 4L)),
       Waarde = NA_integer_,
       Waarde2 = as.character(.data$y)) %>%
@@ -318,10 +316,10 @@ as_bds_contacts <- function(tgt, type) {
 }
 
 
-age_to_time <- function(tgt, age) {
+age_to_time <- function(x, age) {
   # back-calculate measurement dates
   # use 2000-01-01 as birth data if no DOB is known
-  dob <- as.Date(attr(tgt, "person")$dob, format = "%d-%m-%y")
+  dob <- as.Date(persondata(x)[["dob"]], format = "%d-%m-%y")
   days <- round(age * 365.25)
   format(dob + days, format = "%Y%m%d")
 }

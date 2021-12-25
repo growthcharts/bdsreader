@@ -26,16 +26,12 @@ for (format in c("1.0", "2.0")) {
 
   test_that("test1.json (client3.json) passes read_bds()", {
     expect_equal(
-      class(read_bds(jtf[1], schema = schema)),
-      c("tbl_df", "tbl", "data.frame")
-    )
+      class(read_bds(jtf[1], schema = schema)), "target")
   })
 
   test_that("test2.json (missing Referentie) PASSES", {
     expect_equal(
-      class(read_bds(jtf[2], schema = schema)),
-      c("tbl_df", "tbl", "data.frame")
-    )
+      class(read_bds(jtf[2], schema = schema)), "target")
   })
 
   if (v == 1) {

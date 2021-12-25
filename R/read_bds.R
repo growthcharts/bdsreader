@@ -2,14 +2,14 @@
 #'
 #' This function takes data from a json source, validates the contents against a
 #' JSON validation schema, perform checks, calculates the D-score, calculates
-#' Z-scores and transforms the data as a tibble with a `person` attribute.
+#' Z-scores and stores the data in an object of class `target`.
 #' @param txt A JSON string, URL or file
 #' @param auto_format Logical. Should the format be read from the data? Default is `TRUE`.
 #' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
 #' @inheritParams set_schema
-#' @return A tibble with 8 columns with a `person` attribute
+#' @return An object of class `target`
 #' @author Stef van Buuren 2021
 #' @details
 #' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
@@ -73,33 +73,7 @@ read_bds <- function(txt = NULL,
                      verbose = FALSE,
                      ...) {
   if (is.null(txt)) {
-    xyz <- tibble(
-      age = numeric(0),
-      xname = character(0),
-      yname = character(0),
-      zname = character(0),
-      zref = character(0),
-      x = numeric(0),
-      y = numeric(0),
-      z = numeric(0))
-    attr(xyz, "persondata") <- tibble(
-      id = -1L,
-      name = NA_character_,
-      dob = as.Date(NA),
-      dobm = as.Date(NA),
-      dobf = as.Date(NA),
-      src = NA_character_,
-      dnr = NA_character_,
-      sex = NA_character_,
-      gad = NA_real_,
-      ga = NA_real_,
-      smo = NA_real_,
-      bw = NA_real_,
-      hgtm = NA_real_,
-      hgtf = NA_real_,
-      agem = NA_real_,
-      etn = NA_character_)
-    return(xyz)
+    return(make_target(NULL))
   }
 
   if (txt == "") {
@@ -141,6 +115,6 @@ read_bds <- function(txt = NULL,
     ) %>%
     select(all_of(c("age", "xname", "yname", "zname", "zref", "x", "y", "z")))
 
-  attr(xyz, "person") <- x$persondata
-  xyz
+  obj <- make_target(psn = x$persondata, xyz = xyz)
+  return(obj)
 }

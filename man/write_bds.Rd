@@ -18,7 +18,7 @@ write_bds(
 )
 }
 \arguments{
-\item{x}{Tibble with an attribute called \code{person}}
+\item{x}{Object of class \code{"target"}}
 
 \item{auto_format}{Logical. Should a field \code{Format} be written to the result?
 Default is \code{TRUE}.}
@@ -54,7 +54,7 @@ A string with bds-formatted JSON codes, or \code{NULL} for invalid
 JSON
 }
 \description{
-This function takes data from a tibble with a person attribute
+This function takes an object of class \code{"target"}
 and saves it into JSON bds format (which can be sent to JAMES).
 }
 \details{

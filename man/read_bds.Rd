@@ -37,12 +37,12 @@ version number for the basename, and overwrites the
 \item{\dots}{Ignored}
 }
 \value{
-A tibble with 8 columns with a \code{person} attribute
+An object of class \code{target}
 }
 \description{
 This function takes data from a json source, validates the contents against a
 JSON validation schema, perform checks, calculates the D-score, calculates
-Z-scores and transforms the data as a tibble with a \code{person} attribute.
+Z-scores and stores the data in an object of class \code{target}.
 }
 \details{
 If \code{txt} is unspecified or \code{NULL}, then the function return will have zero rows.

@@ -7,7 +7,7 @@
 get_dob(tgt, which = "00")
 }
 \arguments{
-\item{tgt}{An tibble with a person attributue}
+\item{tgt}{An object of class \code{"target"}}
 
 \item{which}{String: Child ("00"), father ("01") or mother ("02")}
 }
