@@ -250,7 +250,7 @@ as_bds_contacts <- function(x, type) {
 
   # extract measurements, only take age-related
   # remove duplicates, and NA's on y
-  tgt <- x$xyz
+  tgt <- timedata(x)
   d <- tgt %>%
     filter(.data$xname == "age") %>%
     filter(!duplicated(.data)) %>%
