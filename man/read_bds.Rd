@@ -37,12 +37,12 @@ version number for the basename, and overwrites the
 \item{\dots}{Ignored}
 }
 \value{
-An object of class \code{target}
+A list with elements named \code{"psn"} and \code{"xyz"}.
 }
 \description{
 This function takes data from a json source, validates the contents against a
 JSON validation schema, perform checks, calculates the D-score, calculates
-Z-scores and stores the data in an object of class \code{target}.
+Z-scores and stores the data in an list with elements \code{psn} and \code{xyz}.
 }
 \details{
 If \code{txt} is unspecified or \code{NULL}, then the function return will have zero rows.

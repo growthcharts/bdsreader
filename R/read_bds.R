@@ -2,14 +2,14 @@
 #'
 #' This function takes data from a json source, validates the contents against a
 #' JSON validation schema, perform checks, calculates the D-score, calculates
-#' Z-scores and stores the data in an object of class `target`.
+#' Z-scores and stores the data in an list with elements `psn` and `xyz`.
 #' @param txt A JSON string, URL or file
 #' @param auto_format Logical. Should the format be read from the data? Default is `TRUE`.
 #' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
 #' @inheritParams set_schema
-#' @return An object of class `target`
+#' @return A list with elements named `"psn"` and `"xyz"`.
 #' @author Stef van Buuren 2021
 #' @details
 #' If `txt` is unspecified or `NULL`, then the function return will have zero rows.

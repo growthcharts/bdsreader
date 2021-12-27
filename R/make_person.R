@@ -29,7 +29,6 @@ make_target <- function(psn = NULL, xyz = NULL) {
   }
   obj <- list(psn = psn,
               xyz = xyz)
-  class(obj) <- "target"
   return(obj)
 }
 

@@ -7,7 +7,7 @@
 timedata(x)
 }
 \arguments{
-\item{x}{An object of class \code{target}}
+\item{x}{A list containing element \code{xyz}}
 }
 \value{
 A tibble with time-level data

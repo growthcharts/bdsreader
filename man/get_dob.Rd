@@ -7,7 +7,7 @@
 get_dob(tgt, which = "00")
 }
 \arguments{
-\item{tgt}{An object of class \code{"target"}}
+\item{tgt}{A list with elements \code{psn} and \code{xyz}}
 
 \item{which}{String: Child ("00"), father ("01") or mother ("02")}
 }

@@ -15,15 +15,15 @@ js2a <- readLines(fn2)
 js2b <- jsonlite::toJSON(jsonlite::fromJSON(fn2), auto_unbox = TRUE)
 
 test_that("Format 2.0 is read after readLines(filename)", {
-  expect_s3_class(read_bds(js2a), "target")
+  expect_type(read_bds(js2a), "list")
 })
 
 test_that("Format 2.0 is read after toJSON(fromJSON(filename))", {
-  expect_s3_class(read_bds(js2b), "target")
+  expect_type(read_bds(js2b), "list")
 })
 
 # Read from URL
 #test_that("Reads URL", {
-#  expect_s3_class(read_bds(txt = "http://localhost/ocpu/library/jamesdemodata/extdata/bds_v2.0/smocc/Laura_S.json"), "target")
+#  expect_type(read_bds(txt = "http://localhost/ocpu/library/jamesdemodata/extdata/bds_v2.0/smocc/Laura_S.json"), "list")
 #})
 

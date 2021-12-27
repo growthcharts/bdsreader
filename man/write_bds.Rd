@@ -18,7 +18,9 @@ write_bds(
 )
 }
 \arguments{
-\item{x}{Object of class \code{"target"}}
+\item{x}{List containing elements \code{psn} (persondata) and \code{xyz} (timedata)
+with data of the target child. See \code{bdsreader:::make_target()} for supported
+fields.}
 
 \item{auto_format}{Logical. Should a field \code{Format} be written to the result?
 Default is \code{TRUE}.}
@@ -54,7 +56,7 @@ A string with bds-formatted JSON codes, or \code{NULL} for invalid
 JSON
 }
 \description{
-This function takes an object of class \code{"target"}
+This function takes a list with person and time data
 and saves it into JSON bds format (which can be sent to JAMES).
 }
 \details{

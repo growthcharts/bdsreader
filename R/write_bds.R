@@ -1,6 +1,6 @@
 #' Write target data as bds-formatted JSON file
 #'
-#' This function takes an object of class `"target"`
+#' This function takes a list with person and time data
 #' and saves it into JSON bds format (which can be sent to JAMES).
 #'
 #' Functions `read_bds()` and `write_bds()` are inverse operations.
@@ -8,7 +8,9 @@
 #' If the date of birth is not known, the conversion uses the
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
-#' @param x      Object of class `"target"`
+#' @param x      List containing elements `psn` (persondata) and `xyz` (timedata)
+#'  with data of the target child. See `bdsreader:::make_target()` for supported
+#'  fields.
 #' @param auto_format Logical. Should a field `Format` be written to the result?
 #' Default is `TRUE`.
 #' @param file   File name. The default (`NULL`) returns the json representation
@@ -41,7 +43,8 @@ write_bds <- function(x = NULL,
                       check = TRUE,
                       verbose = FALSE,
                       ...) {
-  stopifnot(inherits(x, "target"))
+  stopifnot(is.list(x))
+  stopifnot(all(c("psn", "xyz") %in% names(x)))
 
   # signal processing file
   if (!is.null(file) && !verbose) {
