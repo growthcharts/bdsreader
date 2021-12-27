@@ -23,7 +23,7 @@ test_that("Format 2.0 is read after toJSON(fromJSON(filename))", {
 })
 
 # Read from URL
-test_that("Reads URL", {
-  expect_s3_class(read_bds(txt = "http://localhost/ocpu/library/jamesdemodata/extdata/bds_v2.0/smocc/Laura_S.json"), "target")
-})
+#test_that("Reads URL", {
+#  expect_s3_class(read_bds(txt = "http://localhost/ocpu/library/jamesdemodata/extdata/bds_v2.0/smocc/Laura_S.json"), "target")
+#})
 

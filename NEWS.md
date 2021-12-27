@@ -1,3 +1,7 @@
+# bdsreader 0.16.0
+
+- Breaking change: Replace return value of `read_bds()` from "tibble with attribute" to an object of class `target`. This will provide a complete export of the data when converted into JSON format.
+
 # bdsreader 0.15.0
 
 - Do not use dot parameters anymore for `jsonlite::FROMjson()`, which errors on alien argument names
