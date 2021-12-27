@@ -1,3 +1,7 @@
+# bdsreader 0.16.1
+
+- Removes class attribute `target`, so now the target data is just a list with elements named `"psn"` and `"xyz"`. 
+
 # bdsreader 0.16.0
 
 - Breaking change: Replace return value of `read_bds()` from "tibble with attribute" to an object of class `target`. This will provide a complete export of the data when converted into JSON format.
