@@ -3,8 +3,6 @@
 #' Converts data in `donordata` format to a JSON file per child.
 #' @param data Dataset in donordata format (having child and time elements)
 #' @param ids Integer vector with the id number for the individuals
-#' @param schema Optional. File name of the JSON validation schema. The default schema
-#' `"bds_v2.0.json"` from the `bdsreader` package.
 #' @param path Optional. Path where files should be written. By default, `path` is the
 #' working directory. The function creates the path if it doesn't already exist.
 #' @param names Optional. Character vector with `length(ids)` elements used to
@@ -12,6 +10,7 @@
 #' the function uses the `ids` vector to create file names.
 #' @param indent Optional. Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes minified json.
+#' @param \dots Forwarded to [bdsreader::write_bds()]
 #' @note
 #' If child birth date is unknown, then 2000-01-01 is used.
 #' Birth date of the mother is back-calculated from `agem`, and thus imprecise.
@@ -25,15 +24,12 @@
 #' @export
 export_as_bds <- function(data,
                           ids,
-                          schema = NULL,
                           path = NULL,
                           names = NULL,
-                          indent = NULL) {
+                          indent = NULL,
+                          ...) {
   if (!is.null(names) && length(ids) != length(names)) {
     stop("Incompatible lengths of `ids` and `names`.")
-  }
-  if (is.null(schema)) {
-    schema <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
   }
 
   # fix missing/unknown fields
@@ -54,20 +50,31 @@ export_as_bds <- function(data,
   if (!hasName(data$child, "etn")) data$child$etn <- NA_character_
   if (!hasName(data$child, "bw")) data$child$bw <- NA_real_
   if (!hasName(data$child, "ga")) data$child$ga <- NA_real_
+  if (!hasName(data$child, "gad")) data$child$gad <- NA_real_
+  if (!hasName(data$child, "dobf")) data$child$dobf <- as.Date(NA)
+  if (!hasName(data$child, "dobm")) data$child$dobm <- as.Date(NA)
 
   # process fixed person data
   persons <- data$child %>%
     mutate(
       id = as.integer(.data$id),
       dob = as.Date(.data$dob, format = "%d-%m-%y"),
-      dobf = as.Date(NA_character_),
-      dobm = as.Date(.data$dob - (.data$agem + 0.5) * 365.25, format = "%Y%m%d"),
-      gad = .data$ga * 7
+      dobf = as.Date(.data$dobf, format = "%d-%m-%y"),
+      dobm = as.Date(.data$dobm, format = "%d-%m-%y"),
     ) %>%
     select(all_of(c(
       "src", "id", "name", "dob", "dobf", "dobm", "sex",
       "gad", "ga", "smo", "bw", "hgtm", "hgtf", "agem", "etn"
     )))
+
+  # if we have agem and no dobm, calculate dobm from agem
+  idx <- is.na(persons$dobm) & !is.na(persons$agem)
+  persons[idx, "dobm"] <- as.Date(persons$dob[idx] - (persons$agem[idx] + 0.5) * 365.25,
+                                  format = "%Y%m%d")
+
+  # if we have ga but no gad, calculate gad from ga
+  idx <- is.na(persons$gad) & !is.na(persons$agem)
+  persons[idx, "gad"] <- persons$ga[idx] * 7
 
   # process time-varying data
   times <- data$time %>%
@@ -99,6 +106,6 @@ export_as_bds <- function(data,
     psn <- persons %>%
       filter(.data$id == i)
     target <- make_target(psn = psn, xyz = xyz)
-      js <- write_bds(x = target, file = fns[fn], schema = schema, indent = indent)
+      js <- write_bds(x = target, file = fns[fn], indent = indent, ...)
   }
 }

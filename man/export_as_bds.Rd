@@ -4,22 +4,12 @@
 \alias{export_as_bds}
 \title{Save donordata format as JSON}
 \usage{
-export_as_bds(
-  data,
-  ids,
-  schema = NULL,
-  path = NULL,
-  names = NULL,
-  indent = NULL
-)
+export_as_bds(data, ids, path = NULL, names = NULL, indent = NULL, ...)
 }
 \arguments{
 \item{data}{Dataset in donordata format (having child and time elements)}
 
 \item{ids}{Integer vector with the id number for the individuals}
-
-\item{schema}{Optional. File name of the JSON validation schema. The default schema
-\code{"bds_v2.0.json"} from the \code{bdsreader} package.}
 
 \item{path}{Optional. Path where files should be written. By default, \code{path} is the
 working directory. The function creates the path if it doesn't already exist.}
@@ -30,6 +20,8 @@ the function uses the \code{ids} vector to create file names.}
 
 \item{indent}{Optional. Integer. Number of spaces to indent when using
 \code{jsonlite::prettify()}. When not specified, the function writes minified json.}
+
+\item{\dots}{Forwarded to \code{\link[=write_bds]{write_bds()}}}
 }
 \description{
 Converts data in \code{donordata} format to a JSON file per child.

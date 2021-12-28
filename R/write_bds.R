@@ -35,7 +35,7 @@
 #' @export
 write_bds <- function(x = NULL,
                       auto_format = TRUE,
-                      format = "v2.0",
+                      format = "2.0",
                       schema = NULL,
                       file = NULL,
                       organisation = 0L,
@@ -51,7 +51,7 @@ write_bds <- function(x = NULL,
     message("Processing file: ", file)
   }
 
-  schema_list <- set_schema(format, schema)
+  schema_list <- set_schema(format = format, schema = schema)
   schema <- schema_list$schema
   format <- schema_list$format
   if (!file.exists(schema)) {

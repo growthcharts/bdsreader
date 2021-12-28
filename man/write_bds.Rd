@@ -7,7 +7,7 @@
 write_bds(
   x = NULL,
   auto_format = TRUE,
-  format = "v2.0",
+  format = "2.0",
   schema = NULL,
   file = NULL,
   organisation = 0L,
