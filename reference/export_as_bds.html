@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.0</span>
       </span>
     </div>
 
@@ -53,14 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">export_as_bds</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">ids</span>,
-  schema <span class="op">=</span> <span class="cn">NULL</span>,
-  path <span class="op">=</span> <span class="cn">NULL</span>,
-  names <span class="op">=</span> <span class="cn">NULL</span>,
-  indent <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">export_as_bds</span><span class="op">(</span><span class="va">data</span>, <span class="va">ids</span>, path <span class="op">=</span> <span class="cn">NULL</span>, names <span class="op">=</span> <span class="cn">NULL</span>, indent <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -69,9 +62,6 @@
 <dd><p>Dataset in donordata format (having child and time elements)</p></dd>
 <dt>ids</dt>
 <dd><p>Integer vector with the id number for the individuals</p></dd>
-<dt>schema</dt>
-<dd><p>Optional. File name of the JSON validation schema. The default schema
-<code>"bds_v2.0.json"</code> from the <code>bdsreader</code> package.</p></dd>
 <dt>path</dt>
 <dd><p>Optional. Path where files should be written. By default, <code>path</code> is the
 working directory. The function creates the path if it doesn't already exist.</p></dd>
@@ -82,6 +72,8 @@ the function uses the <code>ids</code> vector to create file names.</p></dd>
 <dt>indent</dt>
 <dd><p>Optional. Integer. Number of spaces to indent when using
 <code><a href="https://rdrr.io/pkg/jsonlite/man/prettify.html" class="external-link">jsonlite::prettify()</a></code>. When not specified, the function writes minified json.</p></dd>
+<dt>...</dt>
+<dd><p>Forwarded to <code><a href="write_bds.html">write_bds()</a></code></p></dd>
 </dl></div>
     <div id="note">
     <h2>Note</h2>
