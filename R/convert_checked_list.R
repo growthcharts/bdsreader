@@ -30,9 +30,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     gad = r$gad,
     ga = trunc(r$gad / 7),
 
-    # 1 = Nee, volgens BDS 1 = Ja, 2 = Nee
-    # FIXME
-    smo = as.numeric(extract_field2(d, 91L, v = v)) - 1L,
+    # Volgens BDS 1 = Ja, 2 = Nee
+    smo = recode(extract_field2(d, 91L, v = v), `1` = 1L, `2` = 0L, .default = NA_integer_),
 
     # in grammen, conform BSD
     bw = r$bw,
