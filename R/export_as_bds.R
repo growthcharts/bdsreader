@@ -62,7 +62,7 @@ export_as_bds <- function(data,
       dob = as.Date(.data$dob, format = "%d-%m-%y"),
       dobf = as.Date(NA_character_),
       dobm = as.Date(.data$dob - (.data$agem + 0.5) * 365.25, format = "%Y%m%d"),
-      gad = .data$ga * 7 + 3
+      gad = .data$ga * 7
     ) %>%
     select(all_of(c(
       "src", "id", "name", "dob", "dobf", "dobm", "sex",
