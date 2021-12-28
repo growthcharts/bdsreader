@@ -29,3 +29,44 @@
 #' \item{expected}{Expected type of unit}}
 #' @keywords dataset
 "bds_lexicon"
+
+#' Test child maria, donordata format
+#'
+#' Example file with child and time data
+#' @name maria
+#' @format donordata format. A list with elements `child` and `time`.
+#'\describe{
+#'\item{child}{Tibble containing child-level covariates}
+#'\item{time}{Tibble containing growth data per time point.}
+#'}
+#'The \code{child} tibble contains the following variables:
+#'\describe{
+#'\item{src}{Source, here \code{"smocc"} (character)}
+#'\item{id}{ID, unique \code{id} of each child (numeric)}
+#'\item{name}{Child nickname (character)}
+#'\item{dob}{Date of birth (character, dd-mm-yy)}
+#'\item{sex}{Sex, \code{"male"} or \code{"female"} (character)}
+#'\item{gad}{Gestational age in days (numeric)}
+#'\item{smo}{Mother smoked during pregnancy, 0 = no, 1 = yes (numeric)}
+#'\item{bw}{Birth weight in grammes (numeric)}
+#'\item{dobm}{Date of birth, mother (character, dd-mm-yy)}
+#'\item{dobf}{Date of birth, father (character, dd-mm-yy)}
+#'\item{hgtm}{Height of mother in cm (numeric) (numeric)}
+#'\item{hgtf}{Height of father in cm (numeric) (numeric)}
+#'\item{etn}{Ethnicity, \code{"MA"}, \code{"NL"}, or \code{"TU"} (character)}
+#'}
+#'
+#'The \code{time} tibble contains the following variables:
+#'\describe{
+#'\item{src}{Source (character))}
+#'\item{id}{ID, unique \code{id} of each child (numeric)}
+#'\item{age}{Decimal age (numeric)}
+#'\item{sex}{Sex, \code{"male"} or \code{"female"}}
+#'\item{ga}{Gestational age in completed weeks}
+#'\item{hgt}{Height measurement in cm}
+#'\item{wgt}{Weight measurement in kg}
+#'\item{hdc}{Head circ measurement in cm}
+#'}
+#'@keywords datasets
+NULL
+
