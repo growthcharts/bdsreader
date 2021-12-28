@@ -1,4 +1,3 @@
-
 names <- c("Laura S", "Thomas S", "Anne S")
 ids <- as.integer(c(34071, 34072, 34073))
 

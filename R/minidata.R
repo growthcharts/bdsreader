@@ -9,8 +9,8 @@
 #'@docType data
 #'@format A list with two components:
 #'\describe{
-#'\item{child}{Tibble with 3 rows and 14 columns containing child-level covariates}
-#'\item{time}{Tibble with 30 rows and 78 columns containing growth data and developmental milestones per time point.}
+#'\item{child}{Tibble with 14 columns containing child-level covariates}
+#'\item{time}{Tibble with 78 columns containing growth data and developmental milestones per time point.}
 #'}
 #'The \code{child} tibble contains the following variables:
 #'\describe{
