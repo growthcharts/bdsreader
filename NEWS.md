@@ -1,3 +1,9 @@
+# bdsreader 0.17.0
+
+- Adds example data `maria` and `examples/maria.json`
+- Repairs an error with the coding of "smoking during pregnancy"
+- Update documentation
+
 # bdsreader 0.16.1
 
 - Removes class attribute `target`, so now the target data is just a list with elements named `"psn"` and `"xyz"`. 
