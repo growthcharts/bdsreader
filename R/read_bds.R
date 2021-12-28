@@ -38,6 +38,9 @@
 #'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
+#' fn <- system.file("examples/maria.json", package = "bdsreader")
+#' m <- read_bds(fn)
+#'
 #' # Assume that jamesdemodata is installed locally.
 #' # If not use remotes::install_github("growthcharts/jamesdemodata")
 #'
