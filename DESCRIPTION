@@ -30,7 +30,7 @@ Suggests:
     testthat (>= 3.0.0)
 Remotes: 
     growthcharts/centile,
-    growthcharts/dscore,
+    d-score/dscore,
     growthcharts/nlreferences,
     growthcharts/jamesdemodata
 Roxygen: list(markdown = TRUE)
