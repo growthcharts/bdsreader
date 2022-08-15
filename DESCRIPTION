@@ -17,7 +17,7 @@ Imports:
     centile,
     curl,
     dplyr (>= 1.0.0),
-    dscore (>= 1.4.0),
+    dscore (>= 1.6.0),
     jsonlite,
     jsonvalidate (>= 1.3.2),
     lubridate,
@@ -30,9 +30,9 @@ Suggests:
     testthat (>= 3.0.0)
 Remotes: 
     growthcharts/centile,
+    growthcharts/dscore,
     growthcharts/nlreferences,
     growthcharts/jamesdemodata
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/growthcharts/bdsreader
 Config/testthat/edition: 3
-RoxygenNote: 7.1.2
