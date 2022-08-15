@@ -57,44 +57,59 @@ Z-scores and stores the data in an list with elements <code>psn</code> and <code
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_bds</span><span class="op">(</span>
-  txt <span class="op">=</span> <span class="cn">NULL</span>,
-  auto_format <span class="op">=</span> <span class="cn">TRUE</span>,
-  format <span class="op">=</span> <span class="st">"1.0"</span>,
-  schema <span class="op">=</span> <span class="cn">NULL</span>,
-  append_ddi <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_bds</span><span class="op">(</span></span>
+<span>  txt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  auto_format <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"1.0"</span>,</span>
+<span>  schema <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  append_ddi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>txt</dt>
 <dd><p>A JSON string, URL or file</p></dd>
+
+
 <dt>auto_format</dt>
 <dd><p>Logical. Should the format be read from the data? Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
 three schemas supported: <code>"1.0"</code>, <code>"1.1"</code> and <code>"2.0"</code>. Formats <code>"1.0"</code> and
 <code>"1.1"</code> are included for backward compatibility only. Use <code>format = "2.0"</code>
 for new applications.</p></dd>
+
+
 <dt>schema</dt>
 <dd><p>A file name (optionally including the path) with the JSON
 validation schema.
 The <code>schema</code> argument overrides <code>format</code>. The function extracts the
 version number for the basename, and overwrites the
 <code>format</code> argument by version number.</p></dd>
+
+
 <dt>append_ddi</dt>
 <dd><p>Should the DDI responses be appended?</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Show verbose output for <code><a href="https://rdrr.io/pkg/centile/man/y2z.html" class="external-link">centile::y2z()</a></code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>Ignored</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with elements named <code>"psn"</code> and <code>"xyz"</code>.</p>
+    
+
+<p>A list with elements named <code>"psn"</code> and <code>"xyz"</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -130,16 +145,16 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/maria.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Assume that jamesdemodata is installed locally.</span></span>
-<span class="r-in"><span class="co"># If not use remotes::install_github("growthcharts/jamesdemodata")</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Read file with input data according to format "2.0".</span></span>
-<span class="r-in"><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v2.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">q</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/maria.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Assume that jamesdemodata is installed locally.</span></span></span>
+<span class="r-in"><span><span class="co"># If not use remotes::install_github("growthcharts/jamesdemodata")</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Read file with input data according to format "2.0".</span></span></span>
+<span class="r-in"><span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v2.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">q</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $psn</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
@@ -147,6 +162,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xyz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
@@ -163,22 +179,23 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 48 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Equivalent, but specifying the built-in schema file bds_v2.0.json</span></span>
-<span class="r-in"><span class="va">schema2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v2.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, schema <span class="op">=</span> <span class="va">schema2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">r</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Equivalent, but specifying the built-in schema file bds_v2.0.json</span></span></span>
+<span class="r-in"><span><span class="va">schema2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v2.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, schema <span class="op">=</span> <span class="va">schema2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">r</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Automatic detection of format 2.0</span></span>
-<span class="r-in"><span class="co"># s &lt;- read_bds(data2)</span></span>
-<span class="r-in"><span class="co"># identical(q, s)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Reading data with older format (bds_v1.0)</span></span>
-<span class="r-in"><span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">t</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Automatic detection of format 2.0</span></span></span>
+<span class="r-in"><span><span class="co"># s &lt;- read_bds(data2)</span></span></span>
+<span class="r-in"><span><span class="co"># identical(q, s)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Reading data with older format (bds_v1.0)</span></span></span>
+<span class="r-in"><span><span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">t</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $psn</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
@@ -186,6 +203,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xyz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
@@ -202,12 +220,13 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 48 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># same, but using a built-in schema file</span></span>
-<span class="r-in"><span class="va">schema1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v1.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data1</span>, schema <span class="op">=</span> <span class="va">schema1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">u</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># same, but using a built-in schema file</span></span></span>
+<span class="r-in"><span><span class="va">schema1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v1.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data1</span>, schema <span class="op">=</span> <span class="va">schema1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">u</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -223,7 +242,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

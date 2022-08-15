@@ -55,18 +55,18 @@ and saves it into JSON bds format (which can be sent to JAMES).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">write_bds</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  auto_format <span class="op">=</span> <span class="cn">TRUE</span>,
-  format <span class="op">=</span> <span class="st">"2.0"</span>,
-  schema <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  organisation <span class="op">=</span> <span class="fl">0L</span>,
-  indent <span class="op">=</span> <span class="cn">NULL</span>,
-  check <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_bds</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  auto_format <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"2.0"</span>,</span>
+<span>  schema <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  organisation <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  indent <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,39 +75,60 @@ and saves it into JSON bds format (which can be sent to JAMES).</p>
 <dd><p>List containing elements <code>psn</code> (persondata) and <code>xyz</code> (timedata)
 with data of the target child. See <code>bdsreader:::make_target()</code> for supported
 fields.</p></dd>
+
+
 <dt>auto_format</dt>
 <dd><p>Logical. Should a field <code>Format</code> be written to the result?
 Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
 three schemas supported: <code>"1.0"</code>, <code>"1.1"</code> and <code>"2.0"</code>. Formats <code>"1.0"</code> and
 <code>"1.1"</code> are included for backward compatibility only. Use <code>format = "2.0"</code>
 for new applications.</p></dd>
+
+
 <dt>schema</dt>
 <dd><p>A file name (optionally including the path) with the JSON
 validation schema.
 The <code>schema</code> argument overrides <code>format</code>. The function extracts the
 version number for the basename, and overwrites the
 <code>format</code> argument by version number.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>File name. The default (<code>NULL</code>) returns the json representation
 of the data and does not write to a file.</p></dd>
+
+
 <dt>organisation</dt>
 <dd><p>Integer. Organisation number of the caller. Optional.</p></dd>
+
+
 <dt>indent</dt>
 <dd><p>Integer. Number of spaces to indent when using
 <code><a href="https://rdrr.io/pkg/jsonlite/man/prettify.html" class="external-link">jsonlite::prettify()</a></code>. When not specified, the function writes
 minified json.</p></dd>
+
+
 <dt>check</dt>
 <dd><p>Logical. Should function check json to conform to schema?</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Logical. Print file message?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Passed down to <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">jsonlite::toJSON()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A string with bds-formatted JSON codes, or <code>NULL</code> for invalid
+    
+
+<p>A string with bds-formatted JSON codes, or <code>NULL</code> for invalid
 JSON</p>
     </div>
     <div id="details">
@@ -128,10 +149,10 @@ dates from age.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span>, format <span class="op">=</span> <span class="st">"1.0"</span>, append_ddi <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">js1</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"1.0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">js2</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span>, format <span class="op">=</span> <span class="st">"1.0"</span>, append_ddi <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">js1</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"1.0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">js2</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -146,7 +167,7 @@ dates from age.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

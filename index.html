@@ -72,7 +72,6 @@
 <div class="page-header"><h1 id="bdsreader">bdsreader<a class="anchor" aria-label="anchor" href="#bdsreader"></a>
 </h1></div>
 <!-- badges: start -->
-
 <p>The <code>bdsreader</code> package is a lightweight package that</p>
 <ul>
 <li>Reads and parses child data coded according to the Basisdataset JGZ protocol;</li>
@@ -87,8 +86,8 @@
 </h2>
 <p>Install the development version <code>bdsreader</code> by</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"growthcharts/bdsreader"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"growthcharts/bdsreader"</span><span class="op">)</span></span></code></pre></div>
 <p>There is no CRAN release.</p>
 </div>
 <div class="section level2">
@@ -96,34 +95,34 @@
 </h2>
 <p>The following commands illustrate the main use of <code>bdsreader</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/growthcharts/bdsreader" class="external-link">bdsreader</a></span><span class="op">)</span>
-<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"maria2.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span>
-<span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span>
-<span class="fu"><a href="reference/timedata.html">timedata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 11 × 8</span>
-<span class="co">#&gt;       age xname yname zname zref                        x     y      z</span>
-<span class="co">#&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 0.0849 age   hgt   hgt_z nl_2012_hgt_female_27  0.0849 38    -0.158</span>
-<span class="co">#&gt;  2 0.167  age   hgt   hgt_z nl_2012_hgt_female_27  0.167  43.5   0.047</span>
-<span class="co">#&gt;  3 0      age   wgt   wgt_z nl_2012_wgt_female_27  0       0.99  0.19 </span>
-<span class="co">#&gt;  4 0.0849 age   wgt   wgt_z nl_2012_wgt_female_27  0.0849  1.25 -0.203</span>
-<span class="co">#&gt;  5 0.167  age   wgt   wgt_z nl_2012_wgt_female_27  0.167   2.1   0.015</span>
-<span class="co">#&gt;  6 0.0849 age   hdc   hdc_z nl_2012_hdc_female_27  0.0849 27    -0.709</span>
-<span class="co">#&gt;  7 0.167  age   hdc   hdc_z nl_2012_hdc_female_27  0.167  30.5  -0.913</span>
-<span class="co">#&gt;  8 0.0849 age   bmi   bmi_z nl_1997_bmi_female_nl  0.0849  8.66 -5.72 </span>
-<span class="co">#&gt;  9 0.167  age   bmi   bmi_z nl_1997_bmi_female_nl  0.167  11.1  -3.77 </span>
-<span class="co">#&gt; 10 0.0849 hgt   wfh   wfh_z nl_2012_wfh_female_   38       1.25 -0.001</span>
-<span class="co">#&gt; 11 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/growthcharts/bdsreader" class="external-link">bdsreader</a></span><span class="op">)</span></span>
+<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"maria2.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
+<span><span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/timedata.html">timedata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 8</span></span>
+<span><span class="co">#&gt;       age xname yname zname zref                        x     y      z</span></span>
+<span><span class="co">#&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 0.0849 age   hgt   hgt_z nl_2012_hgt_female_27  0.0849 38    -0.158</span></span>
+<span><span class="co">#&gt;  2 0.167  age   hgt   hgt_z nl_2012_hgt_female_27  0.167  43.5   0.047</span></span>
+<span><span class="co">#&gt;  3 0      age   wgt   wgt_z nl_2012_wgt_female_27  0       0.99  0.19 </span></span>
+<span><span class="co">#&gt;  4 0.0849 age   wgt   wgt_z nl_2012_wgt_female_27  0.0849  1.25 -0.203</span></span>
+<span><span class="co">#&gt;  5 0.167  age   wgt   wgt_z nl_2012_wgt_female_27  0.167   2.1   0.015</span></span>
+<span><span class="co">#&gt;  6 0.0849 age   hdc   hdc_z nl_2012_hdc_female_27  0.0849 27    -0.709</span></span>
+<span><span class="co">#&gt;  7 0.167  age   hdc   hdc_z nl_2012_hdc_female_27  0.167  30.5  -0.913</span></span>
+<span><span class="co">#&gt;  8 0.0849 age   bmi   bmi_z nl_1997_bmi_female_nl  0.0849  8.66 -5.72 </span></span>
+<span><span class="co">#&gt;  9 0.167  age   bmi   bmi_z nl_1997_bmi_female_nl  0.167  11.1  -3.77 </span></span>
+<span><span class="co">#&gt; 10 0.0849 hgt   wfh   wfh_z nl_2012_wfh_female_   38       1.25 -0.001</span></span>
+<span><span class="co">#&gt; 11 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326</span></span></code></pre></div>
 <p>Column <code>age</code> holds decimal age for the measurement. Every row contains a measurement <code>yname</code>, the conditioning variable <code>xname</code> and the Z-score <code>zname</code>. The column named <code>zref</code> holds the name of the growth reference (as defined in the <code>nlreference</code> package) used to calculate the Z-score. Columns <code>y</code>, <code>x</code> and <code>z</code> store their values, respectively.</p>
 <p>The <code><a href="reference/persondata.html">persondata()</a></code> function extracts the person-level information:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/persondata.html">persondata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 16</span>
-<span class="co">#&gt;      id name      dob        dobf       dobm       src   dnr   sex     gad    ga</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 1234  &lt;NA&gt;  fema…   189    27</span>
-<span class="co">#&gt; # … with 6 more variables: smo &lt;dbl&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/persondata.html">persondata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 16</span></span>
+<span><span class="co">#&gt;      id name      dob        dobf       dobm       src   dnr   sex     gad    ga</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 1234  &lt;NA&gt;  fema…   189    27</span></span>
+<span><span class="co">#&gt; # … with 6 more variables: smo &lt;dbl&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></span></code></pre></div>
 <p>The result of <code><a href="reference/read_bds.html">read_bds()</a></code> feeds into further data processing in <code>R</code>.</p>
 </div>
 <div class="section level2">
@@ -245,35 +244,21 @@
 <span id="cb4-110"><a href="#cb4-110"></a>}</span></code></pre></div>
 <p>JSON is a lightweight format to exchange data between electronic systems. <code>"ElementNummer"</code> fields refer to the numbers defined in the Basisdataset JGZ, whereas <code>"Waarde"</code> fields contain the value. The element numbers and the value correspond to the Basisdataset JGZ, which you can find <a href="https://www.ncj.nl/themadossiers/informatisering/basisdataset/documentatie/" class="external-link">here</a>.</p>
 </div>
-<div class="section level3">
-<h3 id="read-and-parse-input-data">Read and parse input data<a class="anchor" aria-label="anchor" href="#read-and-parse-input-data"></a>
-</h3>
+<div class="section level3"><h3 id="read-and-parse-input-data">Read and parse input data<a class="anchor" aria-label="anchor" href="#read-and-parse-input-data"></a>
+</h3></div>
+<div class="section level3"><h3 id="validate-input-data">Validate input data<a class="anchor" aria-label="anchor" href="#validate-input-data"></a>
+</h3></div>
+<div class="section level3"><h3 id="age-calculation">Age calculation<a class="anchor" aria-label="anchor" href="#age-calculation"></a>
+</h3></div>
+<div class="section level3"><h3 id="d-score-calculation">D-score calculation<a class="anchor" aria-label="anchor" href="#d-score-calculation"></a>
+</h3></div>
+<div class="section level3"><h3 id="z-score-calculation">Z-score calculation<a class="anchor" aria-label="anchor" href="#z-score-calculation"></a>
+</h3></div>
+<div class="section level3"><h3 id="structure-of-result">Structure of result<a class="anchor" aria-label="anchor" href="#structure-of-result"></a>
+</h3></div>
 </div>
-<div class="section level3">
-<h3 id="validate-input-data">Validate input data<a class="anchor" aria-label="anchor" href="#validate-input-data"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="age-calculation">Age calculation<a class="anchor" aria-label="anchor" href="#age-calculation"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="d-score-calculation">D-score calculation<a class="anchor" aria-label="anchor" href="#d-score-calculation"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="z-score-calculation">Z-score calculation<a class="anchor" aria-label="anchor" href="#z-score-calculation"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="structure-of-result">Structure of result<a class="anchor" aria-label="anchor" href="#structure-of-result"></a>
-</h3>
-</div>
-</div>
-<div class="section level2">
-<h2 id="further-information">Further information<a class="anchor" aria-label="anchor" href="#further-information"></a>
-</h2>
-</div>
+<div class="section level2"><h2 id="further-information">Further information<a class="anchor" aria-label="anchor" href="#further-information"></a>
+</h2></div>
 </div>
   </div>
 
@@ -328,7 +313,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
