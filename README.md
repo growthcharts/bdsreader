@@ -77,7 +77,7 @@ persondata(tgt)
 #>      id name      dob        dobf       dobm       src   dnr   sex     gad    ga
 #>   <int> <chr>     <date>     <date>     <date>     <chr> <chr> <chr> <dbl> <dbl>
 #> 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 1234  <NA>  fema…   189    27
-#> # … with 6 more variables: smo <dbl>, bw <dbl>, hgtm <dbl>, hgtf <dbl>,
+#> # … with 6 more variables: smo <int>, bw <dbl>, hgtm <dbl>, hgtf <dbl>,
 #> #   agem <dbl>, etn <chr>
 ```
 

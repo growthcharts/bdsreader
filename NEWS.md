@@ -1,3 +1,7 @@
+# bdsreader 0.17.1
+
+- Adds script that simulate user bugs and requests
+
 # bdsreader 0.17.0
 
 - Adds example data `maria` and `examples/maria.json`
