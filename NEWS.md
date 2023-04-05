@@ -1,3 +1,8 @@
+# bdsreader 0.17.2
+
+- Removes deprecated tidyselect `.data$var` syntax
+- Refreshes GH action scripts
+
 # bdsreader 0.17.1
 
 - Adds script that simulate user bugs and requests

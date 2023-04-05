@@ -8,19 +8,20 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/growthcharts/bdsreader/workflows/R-CMD-check/badge.svg)](https://github.com/growthcharts/bdsreader/actions)
+[![R-CMD-check](https://github.com/growthcharts/bdsreader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/growthcharts/bdsreader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `bdsreader` package is a lightweight package that
 
--   Reads and parses child data coded according to the Basisdataset JGZ
-    protocol;
--   Compares the child data against one of two JSON validation schema;
--   Calculates the child’s D-score from the Van Wiechen Schema (DDI)
-    responses;
--   Adds Z-scores for height, weight, head circumference, BMI,
-    weight-for-height and D-score;
--   Converts the result into a a list with person-level and time-level
-    data.
+- Reads and parses child data coded according to the Basisdataset JGZ
+  protocol;
+- Compares the child data against one of two JSON validation schema;
+- Calculates the child’s D-score from the Van Wiechen Schema (DDI)
+  responses;
+- Adds Z-scores for height, weight, head circumference, BMI,
+  weight-for-height and D-score;
+- Converts the result into a a list with person-level and time-level
+  data.
 
 The `bdsreader` translates child data (incoming via an API request) into
 a data object useful for `R` processing. The package is part of Joint
@@ -77,8 +78,8 @@ persondata(tgt)
 #>      id name      dob        dobf       dobm       src   dnr   sex     gad    ga
 #>   <int> <chr>     <date>     <date>     <date>     <chr> <chr> <chr> <dbl> <dbl>
 #> 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 1234  <NA>  fema…   189    27
-#> # … with 6 more variables: smo <int>, bw <dbl>, hgtm <dbl>, hgtf <dbl>,
-#> #   agem <dbl>, etn <chr>
+#> # ℹ 6 more variables: smo <int>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
+#> #   etn <chr>
 ```
 
 The result of `read_bds()` feeds into further data processing in `R`.
