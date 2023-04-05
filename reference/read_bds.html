@@ -19,7 +19,7 @@ Z-scores and stores the data in an list with elements psn and xyz."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.2</span>
       </span>
     </div>
 
@@ -160,8 +160,8 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;, agem &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   etn &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xyz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
@@ -177,7 +177,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 48 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Equivalent, but specifying the built-in schema file bds_v2.0.json</span></span></span>
@@ -199,8 +199,8 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   agem &lt;dbl&gt;, etn &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;, agem &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   etn &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xyz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
@@ -216,7 +216,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 48 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># same, but using a built-in schema file</span></span></span>
@@ -238,7 +238,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
