@@ -257,7 +257,7 @@ as_bds_contacts <- function(x, type) {
   d <- tgt %>%
     filter(.data$xname == "age") %>%
     filter(!duplicated(.data)) %>%
-    drop_na(.data$y)
+    drop_na("y")
 
   # return NULL if there are no measurements
   if (!nrow(d)) {
@@ -281,7 +281,7 @@ as_bds_contacts <- function(x, type) {
 
   # sort according to time
   d <- d %>%
-    drop_na(.data$bds) %>%
+    drop_na("bds") %>%
     mutate(
       ElementNummer = as.integer(.data$bds),
       Waarde = as.integer(.data$y),
