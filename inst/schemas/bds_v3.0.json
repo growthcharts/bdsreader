@@ -73,7 +73,7 @@
         }
       },
       "then": {
-        "oneOf": [
+        "anyOf": [
           {
             "properties": {
               "bdsNumber": {
@@ -190,7 +190,7 @@
         }
       },
       "then": {
-        "oneOf": [
+        "anyOf": [
           {
             "properties": {
               "bdsNumber": {
