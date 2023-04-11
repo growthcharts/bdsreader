@@ -62,27 +62,23 @@ parse_valid <- function(valid) {
 
 
     # find specific items in clientMeasurements with issues
-    val.err.cm <- t(simplify2array(w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), "data"]))
-    if (ncol(val.err.cm) >= 1L) {
-      # outcomes that were deemed incorrect
-      cm.vals <- simplify2array(w[!is.na(w$parentSchema$type)  & grepl("/clientMeasurements", w$dataPath), "data"])
-      cmlist <- list()
-      # check in each bds if it contains problem values
-      for (i in 1L:nrow(val.err.cm)) {
-        vals <- val.err.cm[i, 2L][[1L]][, 2]
-        cmlist[[i]] <- data.frame("bdsnummer" = val.err.cm[i, 1L][[1L]],
-                                  "value" = vals[vals %in% cm.vals])
-      }
-
-      # combine with val.err
-      cmlist <- simplify2array(cmlist)
-      if (nrow(val.err.cm) > 1) cmlist <- t(cmlist)
-      if (nrow(val.err) >= 1) {
-        val.err <- rbind(val.err, cmlist)
+    cmlist <- w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), c("instancePath", "data")]
+    val.err.cm <- data.frame(
+      dataPath = unlist(cmlist[, 1L]),
+      bdsNumber = unlist(cmlist[,2L ])[names(unlist(cmlist[,2L ])) == "bdsNumber"]
+    )
+    if (nrow(val.err.cm) >= 1L) {
+      # get specific values with issues
+      val.err.cm <- w[!is.na(w$parentSchema$type)  & grepl("/clientMeasurements", w$dataPath), c("dataPath", "data")] %>%
+        mutate(dataPath = gsub("(/clientMeasurements/[0-9]).*", replacement = "\\1", x = dataPath)) %>%
+        right_join(val.err.cm, by = "dataPath") %>%
+        select(bdsNumber, value = data)
+      if(ncol(val.err) >= 1L) {val.err <- rbind(val.err, val.err.cm)
       } else {
-        val.err <- cmlist
-        }
+        val.err <- val.err.cm
+      }
     }
+
 
 
     # FIXME
