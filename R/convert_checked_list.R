@@ -4,8 +4,10 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   d <- checked$data
   if (v == 1) {
     b <- d$ClientGegevens$Elementen
-  } else {
+  } else if (v == 2) {
     b <- d$ClientGegevens
+  } else if (v == 3) {
+    b <- d$clientDetails
   }
   r <- checked$ranges
 
@@ -54,13 +56,13 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (!length(d$Contactmomenten) && !length(d$ContactMomenten)) {
+  if (!length(d$Contactmomenten) && !length(d$ContactMomenten) && !length(d$clientMeasurements)) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),
       x = numeric(), y = numeric()
     )
-  } else {
+  } else if (v == 1 | v == 2) {
     xy <-
       tibble(
         age = rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 6L),
@@ -74,6 +76,25 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
           (r$wgt / 1000) / (r$hgt / 1000)^2,
           ds$d,
           r$wgt / 1000
+        )
+      ) %>%
+      tidyr::drop_na()
+  } else if (v == 3) {
+    # v3 may have mismatched order of dates, which requires matching
+    xy <-
+      tibble(
+        age = rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 6L),
+        xname = c(rep("age", length(r$dom) * 5L), rep("hgt", length(r$dom))),
+        yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"), each = length(r$dom)),
+        x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L), r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10),
+        y = c(
+          r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10,
+          r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000,
+          r$hdc[match(r$dom, ymd(r$hdc$date)), "value"] / 10,
+          (r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000) /
+            (r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 1000)^2,
+          ds$d,
+          r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000
         )
       ) %>%
       tidyr::drop_na()
