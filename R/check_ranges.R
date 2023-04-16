@@ -1,6 +1,8 @@
 check_ranges <- function(d, format) {
-  lex <- bdsreader::bds_lexicon
   v <- as.integer(substr(format, 1L, 1L))
+  lex <- bdsreader::bds_lexicon
+  # subset the right version messages
+  lex <- lex[lex[, paste0("v", v)], ]
 
   e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, v = v)))
   if (!is.null(e)) {
