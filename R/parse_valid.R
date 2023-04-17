@@ -58,7 +58,12 @@ parse_valid <- function(valid) {
     )
 
     # For misspecified values - return supplied and accepted values
-    val.err <- t(simplify2array(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"]))
+    if (length(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"])) {
+      val.err <- t(simplify2array(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"]))
+    } else {
+      val.err <- data.frame()
+    }
+
 
 
     # find specific items in clientMeasurements with issues

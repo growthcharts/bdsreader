@@ -61,7 +61,7 @@ write_bds <- function(x = NULL,
   # for v = 1: distinguish between v1.0 and v1.1
   type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
   v <- as.integer(substr(format, 1L, 1L))
-  if (v == 2L) type <- "numeric"
+  if (v == 2L | v == 3L) type <- "numeric"
 
   # administrative elements
   bds <- list(
@@ -73,15 +73,25 @@ write_bds <- function(x = NULL,
 
   # data elements
   bds$ClientGegevens <- as_bds_clientdata(x, v, type)
-  bds$ContactMomenten <- as_bds_contacts(x, type)
+  bds$ContactMomenten <- as_bds_contacts(x, v, type)
+  if (v == 3L) {
+    bds$nestedDetails <- list()
+  }
   if (v == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
   }
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
-  js <- gsub("Waarde2", "Waarde", js)
+  switch(v,
+         js <- gsub("Waarde2", "Waarde", js),
+         js <- gsub("Waarde2", "Waarde", js),
+         js <- gsub("value2", "value", js))
   if (v == 1L) {
     js <- gsub("ElementNummer", "Bdsnummer", js)
+  }
+  if (v == 3L) {
+    js <- gsub("ClientGegevens", "clientDetails", js)
+    js <- gsub("ContactMomenten", "clientMeasurements", js)
   }
   if (!check) {
     return(js)
@@ -114,6 +124,8 @@ as_bds_reference <- function(tgt) {
 }
 
 as_bds_clientdata <- function(tgt, v, type) {
+  if (v == 3L)
+    return(as_bds_clientdata_v3(tgt))
   if (v == 2L)
     return(as_bds_clientdata_v2(tgt))
   as_bds_clientdata_v1(tgt, type)
@@ -246,8 +258,42 @@ as_bds_clientdata_v2 <- function(tgt) {
   x
 }
 
+as_bds_clientdata_v3 <- function(tgt) {
+  psn <- persondata(tgt)
+  x <- list(
+    list(
+      bdsNumber = 19,
+      value = switch(psn$sex, "male" = "1", "female" = "2", "0")
+    ),
+    list(
+      bdsNumber = 20,
+      value = format(as.Date(get_dob(tgt)), format = "%Y-%m-%d")
+    ),
+    list(
+      bdsNumber = 82,
+      value = as.numeric(psn$gad)
+    ),
+    list(
+      bdsNumber = 91,
+      value = ifelse(is.na(psn$smo), "99", as.character(2 - psn$smo))
+    ),
+    list(
+      bdsNumber = 110,
+      value = as.numeric(psn$bw)
+    ),
+    list(
+      bdsNumber = 238,
+      value = as.numeric(psn$hgtm * 10)
+    ),
+    list(
+      bdsNumber = 240,
+      value = as.numeric(psn$hgtf * 10)
+    )
+  )
+  x
+}
 
-as_bds_contacts <- function(x, type) {
+as_bds_contacts <- function(x, v, type) {
   # this function produces a JSON string with data coded according
   # to the BDS schema
 
@@ -265,7 +311,7 @@ as_bds_contacts <- function(x, type) {
   }
 
   # back-calculate measurement dates
-  d$time <- age_to_time(x, d$x)
+  d$time <- age_to_time(x, d$x, v)
 
   # set proper units
   d[d$yname %in% c("hgt", "hdc"), "y"] <-
@@ -297,7 +343,7 @@ as_bds_contacts <- function(x, type) {
   ddi <- tgt %>%
     filter(substr(.data$yname, 1L, 3L) == "bds") %>%
     mutate(
-      time = age_to_time(!!x, .data$age),
+      time = age_to_time(!!x, .data$age, v = v),
       ElementNummer = as.integer(substring(.data$yname, 4L)),
       Waarde = NA_integer_,
       Waarde2 = as.character(.data$y)) %>%
@@ -309,8 +355,30 @@ as_bds_contacts <- function(x, type) {
 
   # split by time, and return
   f <- as.factor(d$time)
-  d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f)
 
+  switch(v,
+         d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
+         d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
+         {
+           d <- d %>%
+             rename('bdsNumber' = 'ElementNummer') %>%
+             rename('value' = 'Waarde') %>%
+             rename('value2' = 'Waarde2') %>%
+             rename('date' = 'time')
+           d <- split(d[, c("date", "value", "value2")], d$bdsNumber)
+         })
+
+  # v3
+  if (v ==3) {
+    return(
+      data.frame(
+        bdsNumber = as.numeric(names(d)),
+        values = I(d),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  # for v1 and v2
   data.frame(
     Tijdstip = names(d),
     Elementen = I(d),
@@ -319,10 +387,11 @@ as_bds_contacts <- function(x, type) {
 }
 
 
-age_to_time <- function(x, age) {
+age_to_time <- function(x, age, v) {
   # back-calculate measurement dates
   # use 2000-01-01 as birth data if no DOB is known
   dob <- as.Date(persondata(x)[["dob"]], format = "%d-%m-%y")
   days <- round(age * 365.25)
+  if (v == 3) return(format(dob + days, format = "%Y-%m-%d"))
   format(dob + days, format = "%Y%m%d")
 }
