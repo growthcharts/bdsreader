@@ -223,7 +223,7 @@
                     "value": {
                       "type": "number",
                       "minimum": 100,
-                      "maximum": 2500
+                      "maximum": 300000
                     }
                   }
                 }

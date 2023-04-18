@@ -75,9 +75,9 @@ parse_valid <- function(valid) {
     if (nrow(val.err.cm) >= 1L) {
       # get specific values with issues
       val.err.cm <- w[!is.na(w$parentSchema$type)  & grepl("/clientMeasurements", w$dataPath), c("dataPath", "data")] %>%
-        mutate(dataPath = gsub("(/clientMeasurements/[0-9]).*", replacement = "\\1", x = dataPath)) %>%
+        mutate(dataPath = gsub("(/clientMeasurements/[0-9]).*", replacement = "\\1", x = .data$dataPath)) %>%
         right_join(val.err.cm, by = "dataPath") %>%
-        select(bdsNumber, value = data)
+        select("bdsNumber", value = "data")
       if(ncol(val.err) >= 1L) {val.err <- rbind(val.err, val.err.cm)
       } else {
         val.err <- val.err.cm

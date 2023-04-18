@@ -267,7 +267,7 @@ as_bds_clientdata_v3 <- function(tgt) {
     ),
     list(
       bdsNumber = 20,
-      value = format(as.Date(get_dob(tgt)), format = "%Y-%m-%d")
+      value = format(as.Date(get_dob(tgt)), format = "%Y%m%d")
     ),
     list(
       bdsNumber = 82,

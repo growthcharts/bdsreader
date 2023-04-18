@@ -12,8 +12,8 @@ verify(txt, auto_format = TRUE, format = "1.0", schema = NULL)
 \item{auto_format}{Logical. Should the format be read from the data? Default is \code{TRUE}.}
 
 \item{format}{String. JSON data schema version number. There are currently
-three schemas supported: \code{"1.0"}, \code{"1.1"} and \code{"2.0"}. Formats \code{"1.0"} and
-\code{"1.1"} are included for backward compatibility only. Use \code{format = "2.0"}
+three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}. Formats \code{"1.0"} and
+\code{"1.1"} are included for backward compatibility only. Use \code{format = "3.0"}
 for new applications.}
 
 \item{schema}{A JSON string, URL or file with the JSON validation

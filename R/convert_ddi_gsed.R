@@ -30,7 +30,10 @@ convert_ddi_gsed <- function(d, r, v) {
       next
     } else if (v == 3) {
       extr_bds <- extract_field(d, i, v = v)
-      if (length(extr_bds) == 0L) w[, as.character(i)] <- NA_real_; next
+      if (length(extr_bds) == 0L) {
+        w[, as.character(i)] <- NA_real_
+        next
+      }
       w[, as.character(i)] <- extr_bds[match(r$dom, ymd(extr_bds$date)), "value"]
     }
   }
