@@ -57,58 +57,10 @@ create_bds_lexicon <- function() {
       "in milimeters",
       "one of: 01, 02, 03, 04"
     ),
-    v1 = TRUE,
-    v2 = TRUE,
-    v3 = TRUE,
     stringsAsFactors = FALSE
   )
 
-  v1_v2_lexicon <- data.frame(
-    bdsnummer = c(
-      20, 63
-    ),
-    description = c(
-      "Geboortedatum",
-      "Geboortedatum ouder/verzorger"
-    ),
-    description_EN = c(
-      "Date of birth",
-      "Caretaker date of birth"
-    ),
-    expected = c(
-      "yyyymmdd",
-      "yyyymmdd"
-    ),
-    v1 = TRUE,
-    v2 = TRUE,
-    v3 = FALSE,
-    stringsAsFactors = FALSE
-  )
-
-  v3_lexicon <- data.frame(
-    bdsnummer = c(
-      20, 63
-    ),
-    description = c(
-      "Geboortedatum",
-      "Geboortedatum ouder/verzorger"
-    ),
-    description_EN = c(
-      "Date of birth",
-      "Caretaker date of birth"
-    ),
-    expected = c(
-      "yyyy-mm-dd",
-      "yyyy-mm-dd"
-    ),
-    v1 = FALSE,
-    v2 = FALSE,
-    v3 = TRUE,
-    stringsAsFactors = FALSE
-  )
-
-
-  bds_lexicon <- rbind(bds_lexicon, v1_v2_lexicon, v3_lexicon)
+  bds_lexicon
 }
 
 bds_lexicon <- create_bds_lexicon()
