@@ -311,7 +311,7 @@ as_bds_contacts <- function(x, v, type) {
   }
 
   # back-calculate measurement dates
-  d$time <- age_to_time(x, d$x, v)
+  d$time <- age_to_time(x, d$x)
 
   # set proper units
   d[d$yname %in% c("hgt", "hdc"), "y"] <-
@@ -343,7 +343,7 @@ as_bds_contacts <- function(x, v, type) {
   ddi <- tgt %>%
     filter(substr(.data$yname, 1L, 3L) == "bds") %>%
     mutate(
-      time = age_to_time(!!x, .data$age, v = v),
+      time = age_to_time(!!x, .data$age),
       ElementNummer = as.integer(substring(.data$yname, 4L)),
       Waarde = NA_integer_,
       Waarde2 = as.character(.data$y)) %>%
@@ -387,11 +387,10 @@ as_bds_contacts <- function(x, v, type) {
 }
 
 
-age_to_time <- function(x, age, v) {
+age_to_time <- function(x, age) {
   # back-calculate measurement dates
   # use 2000-01-01 as birth data if no DOB is known
   dob <- as.Date(persondata(x)[["dob"]], format = "%d-%m-%y")
   days <- round(age * 365.25)
-  if (v == 3) return(format(dob + days, format = "%Y-%m-%d"))
   format(dob + days, format = "%Y%m%d")
 }
