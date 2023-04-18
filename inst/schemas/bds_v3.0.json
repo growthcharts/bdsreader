@@ -59,6 +59,26 @@
       "items": {
         "$ref": "#/schemas/clientMeasurements"
       }
+    },
+    "nestedDetails": {
+      "title": "Child data per visit",
+      "$id": "#/properties/nestedDetails",
+      "type": "array",
+      "items": {
+        "required": ["nestingBdsNumber", "nestingCode"],
+        "properties": {
+        "clientDetails": {
+        	"items": {
+        		"$ref": "#/schemas/clientDetails"
+      		}
+        },
+        "clientMeasurements": {
+        	"items": {
+        		"$ref": "#/schemas/clientMeasurements"
+      		}
+        }
+        }
+      }
     }
   },
   "$defs": {
