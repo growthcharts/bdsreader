@@ -75,7 +75,26 @@ write_bds <- function(x = NULL,
   bds$ClientGegevens <- as_bds_clientdata(x, v, type)
   bds$ContactMomenten <- as_bds_contacts(x, v, type)
   if (v == 3L) {
-    bds$nestedDetails <- list()
+    bds$nestedDetails <- list(
+      list(
+        nestingBdsNumber = 62,
+        nestingCode = "01",
+        clientDetails = list(
+          list(
+            bdsNumber = 63,
+            value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
+        )
+      ),
+      list(
+        nestingBdsNumber = 62,
+        nestingCode = "02",
+        clientDetails = list(
+          list(
+            bdsNumber = 63,
+            value = format(as.Date(get_dob(x, which = "02")), format = "%Y%m%d"))
+        )
+      )
+    )
   }
   if (v == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
