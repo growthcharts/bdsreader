@@ -87,16 +87,25 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
         xname = c(rep("age", length(r$dom) * 5L), rep("hgt", length(r$dom))),
         yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"), each = length(r$dom)),
         x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L), r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10),
-        y = c(
-          r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10,
-          r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000,
-          r$hdc[match(r$dom, ymd(r$hdc$date)), "value"] / 10,
-          (r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000) /
-            (r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 1000)^2,
-          ds$d,
-          r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000
-        )
-      ) %>%
+        y = NA_real_
+      )
+
+    # hgt
+    if (length(r$hgt))
+      xy[xy$yname == "hgt", "y"] <- r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10
+    # wgt/wfh
+    if (length(r$wgt))
+      xy[xy$yname == "wgt" & xy$yname == "wfh", "y"] <- r$wgt[match(r$dom, ymd(r$wgt$date)), "value"] / 1000
+    # hdc
+    if (length(r$hdc))
+      xy[xy$yname == "hdc", "y"] <- r$hdc[match(r$dom, ymd(r$hdc$date)), "value"] / 10
+    # bmi
+    if (length(r$hgt) & length(r$wgt))
+      xy[xy$yname == "bmi", "y"] <- r$hgt[match(r$dom, ymd(r$hgt$date)), "value"] / 10
+    # d-score
+    xy[xy$yname == "dsc", "y"] <- ds$d
+
+    xy <- xy %>%
       tidyr::drop_na()
   }
 
