@@ -81,6 +81,20 @@ write_bds <- function(x = NULL,
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
   }
 
+  # remove NA fields for v3
+  if (v == 3) {
+    # clientDetails
+    bds$ClientGegevens <- lapply(bds$ClientGegevens, FUN = function(x){
+      if(is.na(x[2]) | is.null(unlist(x[2]))) return (NULL)
+      else return(x)
+    })
+    #
+    bds$ClientGegevens <- bds$ClientGegevens[lengths(bds$ClientGegevens) != 0L]
+
+    # clientMeasurements already removes NAs
+  }
+
+
   js <- toJSON(bds, auto_unbox = TRUE, ...)
   switch(v,
          js <- gsub("Waarde2", "Waarde", js),
@@ -386,8 +400,11 @@ as_bds_contacts <- function(x, v, type) {
 }
 
 as_bds_nested <- function(x) {
-  list(
-    list(
+
+  father <- mother <- NULL
+
+  if (!is.na(get_dob(x, which = "01"))) {
+    father <- list(
       nestingBdsNumber = 62,
       nestingCode = "01",
       clientDetails = list(
@@ -396,8 +413,11 @@ as_bds_nested <- function(x) {
           value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
       ),
       clientMeasurements = list()
-    ),
-    list(
+    )
+  }
+
+  if (!is.na(get_dob(x, which = "02"))) {
+    mother <- list(
       nestingBdsNumber = 62,
       nestingCode = "02",
       clientDetails = list(
@@ -407,7 +427,10 @@ as_bds_nested <- function(x) {
       ),
       clientMeasurements = list()
     )
-  )
+  }
+
+  output <- list(father, mother)
+  output[lengths(output) != 0L]
 }
 
 age_to_time <- function(x, age) {
