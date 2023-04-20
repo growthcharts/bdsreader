@@ -93,7 +93,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
              wgt = .data$wgt / 1000,
              hdc = .data$hdc / 10) %>%
       # add d-score
-      full_join(., ds %>% select(age = "a", dsc = "d")) %>%
+      full_join(., ds %>% select(age = "a", dsc = "d"), by = "age") %>%
       select(-"date")
 
     if (nrow(xy) != 0L) {

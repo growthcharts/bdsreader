@@ -1,11 +1,13 @@
 # v1.0 keep for backward compatibility
 # v2.0 new schema - June 2021 - compatibility with Eaglescience
 schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE),
-             system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE))
+             system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE),
+             system.file("schemas/bds_v3.0.json", package = "bdsreader", mustWork = TRUE))
 paths <-   c("bds_v1.0",
-             "bds_v2.0")
+             "bds_v2.0",
+             "bds_v3.0")
 
-for (format in c("1.0", "2.0")) {
+for (format in c("1.0", "2.0", "3.0")) {
   v <- as.integer(substr(format, 1L, 1L))
   schema <- schemas[v]
   path <- paths[v]
@@ -13,6 +15,11 @@ for (format in c("1.0", "2.0")) {
   jtf <- system.file("extdata", path, "test",
                      paste0("test", 1:25, ".json"),
                      package = "jamesdemodata")
+
+  if(v == 3) {
+    # FIXME cant create jtf 8 and 14, see jamesdemodata package.
+    jtf <- c(jtf[1:7], NA, jtf[8:12], NA, jtf[13:23])
+  }
 
   # test the empty object
   js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
@@ -86,12 +93,15 @@ for (format in c("1.0", "2.0")) {
   }
 
 
-  test_that("test8.json (Invalid JSON) ERROR", {
-    expect_error(
-      read_bds(jtf[8], schema = schema),
-      "lexical error: invalid char in json text."
-    )
-  })
+  if (v != 3) {
+    test_that("test8.json (Invalid JSON) ERROR", {
+      expect_error(
+        read_bds(jtf[8], schema = schema),
+        "lexical error: invalid char in json text."
+      )
+    })
+  }
+
 
   if (v == 1) {
     test_that("test9.json (Bdsnummer 19 missing) MESS", {
@@ -145,9 +155,11 @@ for (format in c("1.0", "2.0")) {
     )
   })
 
-  test_that("test14.json (empty file) ERROR", {
-    expect_error(read_bds(jtf[14], schema = schema), "premature EOF")
-  })
+  if (v != 3) {
+    test_that("test14.json (empty file) ERROR", {
+      expect_error(read_bds(jtf[14], schema = schema), "premature EOF")
+    })
+  }
 
   test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
     expect_silent(read_bds(jtf[15], schema = schema))
