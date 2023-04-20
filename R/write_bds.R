@@ -83,7 +83,8 @@ write_bds <- function(x = NULL,
           list(
             bdsNumber = 63,
             value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
-        )
+        ),
+        clientMeasurements = list()
       ),
       list(
         nestingBdsNumber = 62,
@@ -92,7 +93,8 @@ write_bds <- function(x = NULL,
           list(
             bdsNumber = 63,
             value = format(as.Date(get_dob(x, which = "02")), format = "%Y%m%d"))
-        )
+        ),
+        clientMeasurements = list()
       )
     )
   }
