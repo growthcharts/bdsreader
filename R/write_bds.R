@@ -75,28 +75,7 @@ write_bds <- function(x = NULL,
   bds$ClientGegevens <- as_bds_clientdata(x, v, type)
   bds$ContactMomenten <- as_bds_contacts(x, v, type)
   if (v == 3L) {
-    bds$nestedDetails <- list(
-      list(
-        nestingBdsNumber = 62,
-        nestingCode = "01",
-        clientDetails = list(
-          list(
-            bdsNumber = 63,
-            value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
-        ),
-        clientMeasurements = list()
-      ),
-      list(
-        nestingBdsNumber = 62,
-        nestingCode = "02",
-        clientDetails = list(
-          list(
-            bdsNumber = 63,
-            value = format(as.Date(get_dob(x, which = "02")), format = "%Y%m%d"))
-        ),
-        clientMeasurements = list()
-      )
-    )
+    bds$nestedDetails <- as_bds_nested(x)
   }
   if (v == 1L) {
     names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
@@ -145,11 +124,10 @@ as_bds_reference <- function(tgt) {
 }
 
 as_bds_clientdata <- function(tgt, v, type) {
-  if (v == 3L)
-    return(as_bds_clientdata_v3(tgt))
-  if (v == 2L)
-    return(as_bds_clientdata_v2(tgt))
-  as_bds_clientdata_v1(tgt, type)
+  switch(v,
+         as_bds_clientdata_v1(tgt, type),
+         as_bds_clientdata_v2(tgt),
+         as_bds_clientdata_v3(tgt))
 }
 
 as_bds_clientdata_v1 <- function(tgt, type) {
@@ -407,6 +385,30 @@ as_bds_contacts <- function(x, v, type) {
   )
 }
 
+as_bds_nested <- function(x) {
+  list(
+    list(
+      nestingBdsNumber = 62,
+      nestingCode = "01",
+      clientDetails = list(
+        list(
+          bdsNumber = 63,
+          value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
+      ),
+      clientMeasurements = list()
+    ),
+    list(
+      nestingBdsNumber = 62,
+      nestingCode = "02",
+      clientDetails = list(
+        list(
+          bdsNumber = 63,
+          value = format(as.Date(get_dob(x, which = "02")), format = "%Y%m%d"))
+      ),
+      clientMeasurements = list()
+    )
+  )
+}
 
 age_to_time <- function(x, age) {
   # back-calculate measurement dates

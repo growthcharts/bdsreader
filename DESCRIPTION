@@ -22,6 +22,7 @@ Imports:
     jsonvalidate (>= 1.3.2),
     lubridate,
     nlreferences,
+    tibble,
     rlang (>= 0.4.0),
     tidyr
 Suggests: 

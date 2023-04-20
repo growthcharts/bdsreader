@@ -2,13 +2,10 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   v <- as.integer(substr(format, 1L, 1L))
 
   d <- checked$data
-  if (v == 1) {
-    b <- d$ClientGegevens$Elementen
-  } else if (v == 2) {
-    b <- d$ClientGegevens
-  } else if (v == 3) {
-    b <- d$clientDetails
-  }
+  switch(v,
+         b <- d$ClientGegevens$Elementen,
+         b <- d$ClientGegevens,
+         b <- d$clientDetails)
   r <- checked$ranges
 
   # convert ddi, calculate D-score
