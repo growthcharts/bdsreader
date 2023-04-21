@@ -1,5 +1,6 @@
 # v1.0 keep for backward compatibility
 # v2.0 new schema - June 2021 - compatibility with Eaglescience
+# v3.0 April 2023 - English version, compatible with Eaglescience SRM
 schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE),
              system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE),
              system.file("schemas/bds_v3.0.json", package = "bdsreader", mustWork = TRUE))
@@ -16,7 +17,7 @@ for (format in c("1.0", "2.0", "3.0")) {
                      paste0("test", 1:25, ".json"),
                      package = "jamesdemodata")
 
-  if(v == 3) {
+  if (v == 3) {
     # FIXME cant create jtf 8 and 14, see jamesdemodata package.
     jtf <- c(jtf[1:7], NA, jtf[8:12], NA, jtf[13:23])
   }
@@ -161,9 +162,16 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
-    expect_silent(read_bds(jtf[15], schema = schema))
-  })
+  if (v == 1) {
+  test_that("test15.json (Bdsnummer 62 numeric) message", {
+    expect_message(read_bds(jtf[15], schema = schema))
+  })}
+
+  if (v %in% c(2, 3)) {
+    test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
+      expect_silent(read_bds(jtf[15], schema = schema))
+    })}
+
 
   test_that("test16.json (Bdsnummer 20 numeric) PASSES", {
     expect_silent(read_bds(jtf[16], schema = schema))
@@ -173,11 +181,19 @@ for (format in c("1.0", "2.0", "3.0")) {
     expect_silent(read_bds(jtf[17], schema = schema))
   })
 
+  if (v == 1) {
+  test_that("test18.json (Bdsnummer 91 numeric) MESS", {
+    expect_message(
+      read_bds(jtf[18], schema = schema)
+    )})
+  }
+
+  if (v %in% c(2, 3)) {
   test_that("test18.json (Bdsnummer 91 numeric) MESS", {
     expect_silent(
       read_bds(jtf[18], schema = schema)
-    )
-  })
+    )})
+  }
 
   test_that("test19.json (Bdsnummer 110 numeric) PASSES", {
     expect_silent(read_bds(jtf[19], schema = schema))

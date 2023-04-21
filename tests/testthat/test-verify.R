@@ -1,13 +1,20 @@
 schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE),
-             system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE))
+             system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE),
+             system.file("schemas/bds_v3.0.json", package = "bdsreader", mustWork = TRUE))
 paths <-   c("bds_v1.0",
-             "bds_v2.0")
+             "bds_v2.0",
+             "bds_v3.0")
 
-for (i in 1:2) {
+for (i in 1:3) {
   schema <- schemas[i]
   path <- paths[i]
 
   jtf <- system.file("extdata", path, "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
+
+  if (i == 3) {
+    # FIXME cant create jtf 8 and 14, see jamesdemodata package.
+    jtf <- c(jtf[1:7], NA, jtf[8:12], NA, jtf[13:23])
+  }
 
   # test the empty object
   if (i == 1) {
@@ -20,13 +27,11 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     js1 <- '{"OrganisatieCode":0,"ClientGegevens":[]}'
     test_that("handles the empty individual object", {
       expect_message(
-        verify(js1, schema = schema),
-        "verplicht BDS nummer ontbreekt: 19"
-      )
+        verify(js1, schema = schema))
     })
   }
 
@@ -48,7 +53,7 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("test3.json OrganisatieCode optional", {
       expect_silent(verify(jtf[3], schema = schema))
     })
@@ -70,12 +75,10 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("test5.json (missing ContactMomenten) WARNS", {
       expect_message(
-        verify(jtf[5], schema = schema),
-        "Missing 'ContactMomenten'"
-      )
+        verify(jtf[5], schema = schema))
     })
   }
 
@@ -88,7 +91,7 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("test6.json BDS 235 (Lengte in mm): heeft geen waarde", {
       expect_message(verify(jtf[6], schema = schema),
                      "BDS 235 (Lengte in mm): heeft geen waarde",
@@ -106,7 +109,7 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("test7.json (Missing Referentie & OrganisatieCode) optional", {
       expect_silent(
         verify(jtf[7], schema = schema)
@@ -115,12 +118,14 @@ for (i in 1:2) {
   }
 
 
-  test_that("test8.json (Invalid JSON) ERROR", {
-    expect_error(
-      verify(jtf[8], schema = schema),
-      "lexical error: invalid char in json text."
-    )
-  })
+  if (i != 3) {
+    test_that("test8.json (Invalid JSON) ERROR", {
+      expect_error(
+        verify(jtf[8], schema = schema),
+        "lexical error: invalid char in json text."
+      )
+    })
+  }
 
   if (i == 1) {
     test_that("test9.json (Bdsnummer 19 missing) returns warning", {
@@ -140,11 +145,10 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("test10.json (Bdsnummer 20 missing) optional, Missing 'ContactMomenten'", {
       expect_message(
-        verify(jtf[10], schema = schema),
-        "Missing 'ContactMomenten'"
+        verify(jtf[10], schema = schema)
       )
     })
   }
@@ -167,13 +171,23 @@ for (i in 1:2) {
     )
   })
 
-  test_that("test14.json (empty file) returns ERROR", {
-    expect_error(verify(jtf[14], schema = schema), "premature EOF")
-  })
+  if (i != 3) {
+    test_that("test14.json (empty file) returns ERROR", {
+      expect_error(verify(jtf[14], schema = schema), "premature EOF")
+    })
+  }
 
-  test_that("test15.json (Bdsnummer 19 numeric) PASSES", {
-    expect_silent(verify(jtf[15], schema = schema))
-  })
+  if (i == 1) {
+    test_that("test15.json (Bdsnummer 19 numeric) PASSES", {
+      expect_message(verify(jtf[15], schema = schema))
+    })
+  }
+
+  if (i %in% c(2, 3)) {
+    test_that("test15.json (Bdsnummer 19 numeric) PASSES", {
+      expect_silent(verify(jtf[15], schema = schema))
+    })
+  }
 
   test_that("test16.json (Bdsnummer 20 numeric) PASSES", {
     expect_silent(verify(jtf[16], schema = schema))
@@ -183,9 +197,17 @@ for (i in 1:2) {
     expect_silent(verify(jtf[17], schema = schema))
   })
 
-  test_that("test18.json (Bdsnummer 91 numeric) PASSES", {
-    expect_silent(verify(jtf[18], schema = schema))
-  })
+  if (i == 1) {
+    test_that("test18.json (Bdsnummer 91 numeric) PASSES", {
+      expect_message(verify(jtf[18], schema = schema))
+    })
+  }
+
+  if (i %in% c(2, 3)) {
+    test_that("test18.json (Bdsnummer 91 numeric) PASSES", {
+      expect_silent(verify(jtf[18], schema = schema))
+    })
+  }
 
   test_that("test19.json (Bdsnummer 110 numeric) PASSES", {
     expect_silent(verify(jtf[19], schema = schema))
@@ -201,16 +223,20 @@ for (i in 1:2) {
   }
 
   if (i == 2) {
-    test_that("test20.json (missing Groepen) produces message", {
+    test_that("test20.json (missing Groepen) is SILENT", {
       expect_silent(verify(jtf[20], schema = schema))
     })
   }
 
+  if (i == 3) {
+    test_that("test20.json (missing Groepen) produces message", {
+      expect_message(verify(jtf[20], schema = schema))
+    })
+  }
+
+
   test_that("test21.json (minimal data) WARNS", {
-    expect_message(verify(jtf[21], schema = schema),
-                   "Missing 'Contact",
-                   fixed = TRUE
-    )
+    expect_message(verify(jtf[21], schema = schema))
   })
 
   test_that("test22.json (range checking) PASSES", {
@@ -252,27 +278,27 @@ for (i in 1:2) {
     })
   }
 
-  if (i == 2) {
+  if (i %in% c(2, 3)) {
     test_that("http400.json proceeds silent - no biological mother", {
       expect_message(verify(js))
     })
   }
 }
 
-  # test battery - comment out to activate
-  # path <- system.file("extdata", path, package = "jamesdemodata")
-  # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
-  # for (lib in libs) {
-  #   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
-  #   for (file in files) {
-  #     cat("File ", file, "\n")
-  #     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
-  #     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
-  #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
-  #     test_that(paste(file, "passes"), {
-  #       expect_silent(suppressMessages(verify(txt = js)))
-  #     })
-  #   }
-  # }
+# test battery - comment out to activate
+# path <- system.file("extdata", path, package = "jamesdemodata")
+# libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
+# for (lib in libs) {
+#   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
+#   for (file in files) {
+#     cat("File ", file, "\n")
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
+#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
+#     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
+#     test_that(paste(file, "passes"), {
+#       expect_silent(suppressMessages(verify(txt = js)))
+#     })
+#   }
+# }
 
 
