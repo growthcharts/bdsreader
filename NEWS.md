@@ -1,11 +1,18 @@
-# bdsreader 0.17.2
+# bdsreader 0.18.0
+
+## Major changes
+
+- Defines **BDS JSON schema V3.0** for exchanging child-level data between electronic systems. V3.0 uses an English data definition and redefines the nesting structure to a more logical structure. The new schema mostly follows alterations developed by Eaglescience BV for the SRM made in the period 2022-2023. 
+- From now on, the advice is to adopt V3.0 for data exchange. Versions V1.0, V1.1 and V2.0 will be retired in the future.
+- Adds support for version V3.0 to functions `read_bds()` and `write_bds()`
+- Changes the key for calculating the D-score to `dscore(..., key = "gsed2212")`
+- Tests new functionality on 74 test files stored in package [jamesdemodata](https://github.com/growthcharts/jamesdemodata)
+
+## Minor changes
 
 - Removes deprecated tidyselect `.data$var` syntax
 - Refreshes GH action scripts
-
-# bdsreader 0.17.1
-
-- Adds script that simulate user bugs and requests
+- Adds script to simulate user bugs and requests
 
 # bdsreader 0.17.0
 

@@ -15,18 +15,17 @@ knitr::opts_chunk$set(
 # bdsreader
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/growthcharts/bdsreader/workflows/R-CMD-check/badge.svg)](https://github.com/growthcharts/bdsreader/actions)
 [![R-CMD-check](https://github.com/growthcharts/bdsreader/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/growthcharts/bdsreader/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `bdsreader` package is a lightweight package that
 
-- Reads and parses child data coded according to the Basisdataset JGZ protocol;
-- Compares the child data against one of two JSON validation schema;
+- Defines JSON data schema's for electronic data exchange of child-level data based on the Basisdataset JGZ 3.2.7;
+- Reads and parses child data coded according to the JSON data schema;
+- Compares the child data against the JSON validation schema;
 - Calculates the child's D-score from the Van Wiechen Schema (DDI) responses;
 - Adds Z-scores for height, weight, head circumference, BMI, weight-for-height and D-score;
-- Converts the result into a a list with person-level and time-level data.
+- Converts the result into a a list with person-level and time-level data for use in JAMES.
 
 The `bdsreader` translates child data (incoming via an API request) into a data object useful for `R` processing. The package is part of Joint Automatic Measurement and Evaluation System (JAMES) developed by the Netherlands Organisation for Applied Scientific Research TNO.
 
@@ -47,7 +46,7 @@ The following commands illustrate the main use of `bdsreader`.
 
 ```{r}
 library(bdsreader)
-fn <- system.file("examples", "maria2.json", package = "bdsreader")
+fn <- system.file("examples", "maria3.json", package = "bdsreader")
 tgt <- read_bds(fn)
 timedata(tgt)
 ```
@@ -66,122 +65,121 @@ The result of `read_bds()` feeds into further data processing in `R`.
 
 ### JSON Input Data
 
-The example file `maria2.json` contains Maria's data coded in JSON format according to BDS-schema file [bds_v2.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v2.0.json). Here's the contents of the file with the child data:
+The example file `maria3.json` contains Maria's data coded in JSON format according to BDS-schema file [bds_v3.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v3.0.json). Here's the contents of the file with the child data:
 
-```
+```{javascript}
 {
-  "Format": "2.0",
-  "OrganisatieCode": 1234,
-  "Referentie": "Maria2",
-  "ClientGegevens": [
+  "Format": "3.0",
+  "OrganisatieCode": 0,
+  "Referentie": "fa308134-069e-49ce-9847-ccdae380ed6f",
+  "clientDetails": [
     {
-      "ElementNummer": 19,
-      "Waarde": "2"
+      "bdsNumber": 19,
+      "value": "2"
     },
     {
-      "ElementNummer": 20,
-      "Waarde": "20181011"
+      "bdsNumber": 20,
+      "value": "20181011"
     },
     {
-      "ElementNummer": 82,
-      "Waarde": 189
+      "bdsNumber": 82,
+      "value": 189
     },
     {
-      "ElementNummer": 91,
-      "Waarde": "2"
+      "bdsNumber": 91,
+      "value": "1"
     },
     {
-      "ElementNummer": 110,
-      "Waarde": 990
+      "bdsNumber": 110,
+      "value": 990
     },
     {
-      "ElementNummer": 238,
-      "Waarde": 1670
+      "bdsNumber": 238,
+      "value": 1670
     },
     {
-      "ElementNummer": 240,
-      "Waarde": 1900
-    },
+      "bdsNumber": 240,
+      "value": 1900
+    }
+  ],
+  "clientMeasurements": [
     {
-      "GenesteElementen": [
+      "bdsNumber": 235,
+      "values": [
         {
-          "ElementNummer": 63,
-          "Waarde": "19950704"
+          "date": "20181111",
+          "value": 380
         },
         {
-          "ElementNummer": 71
-        },
-        {
-          "ElementNummer": 62,
-          "Waarde": "01"
+          "date": "20181211",
+          "value": 435
         }
       ]
     },
     {
-      "GenesteElementen": [
+      "bdsNumber": 245,
+      "values": [
         {
-          "ElementNummer": 63,
-          "Waarde": "19901202"
+          "date": "20181011",
+          "value": 990
         },
         {
-          "ElementNummer": 71
+          "date": "20181111",
+          "value": 1250
         },
         {
-          "ElementNummer": 62,
-          "Waarde": "02"
+          "date": "20181211",
+          "value": 2100
+        }
+      ]
+    },
+    {
+      "bdsNumber": 252,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 270
+        },
+        {
+          "date": "20181211",
+          "value": 305
         }
       ]
     }
   ],
-  "ContactMomenten": [
+  "nestedDetails": [
     {
-      "Tijdstip": "20181011",
-      "Elementen": [
+      "nestingBdsNumber": 62,
+      "nestingCode": "01",
+      "clientDetails": [
         {
-          "ElementNummer": 245,
-          "Waarde": 990
+          "bdsNumber": 63,
+          "value": "19950704"
         }
+      ],
+      "clientMeasurements": [
+
       ]
     },
     {
-      "Tijdstip": "20181111",
-      "Elementen": [
+      "nestingBdsNumber": 62,
+      "nestingCode": "02",
+      "clientDetails": [
         {
-          "ElementNummer": 235,
-          "Waarde": 380
-        },
-        {
-          "ElementNummer": 245,
-          "Waarde": 1250
-        },
-        {
-          "ElementNummer": 252,
-          "Waarde": 270
+          "bdsNumber": 63,
+          "value": "19901202"
         }
-      ]
-    },
-    {
-      "Tijdstip": "20181211",
-      "Elementen": [
-        {
-          "ElementNummer": 235,
-          "Waarde": 435
-        },
-        {
-          "ElementNummer": 245,
-          "Waarde": 2100
-        },
-        {
-          "ElementNummer": 252,
-          "Waarde": 305
-        }
+      ],
+      "clientMeasurements": [
+
       ]
     }
   ]
 }
 ```
 
-JSON is a lightweight format to exchange data between electronic systems. `"ElementNummer"` fields refer to the numbers defined in the Basisdataset JGZ, whereas `"Waarde"` fields contain the value. The element numbers and the value correspond to the Basisdataset JGZ, which you can find [here](https://www.ncj.nl/themadossiers/informatisering/basisdataset/documentatie/). 
+JSON is a lightweight format to exchange data between electronic systems. Field `"bdsNumber"` refers to the numbers defined in the Basisdataset JGZ. Field `"value"` contains the value for the `"bdsNumber"`. See [Basisdataset JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/) 3.2.7 for more details on `"bdsNumber"`.
+
 
 ### Read and parse input data
 
