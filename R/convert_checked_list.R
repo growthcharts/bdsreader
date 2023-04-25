@@ -2,11 +2,10 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   v <- as.integer(substr(format, 1L, 1L))
 
   d <- checked$data
-  if (v == 1) {
-    b <- d$ClientGegevens$Elementen
-  } else {
-    b <- d$ClientGegevens
-  }
+  switch(v,
+         b <- d$ClientGegevens$Elementen,
+         b <- d$ClientGegevens,
+         b <- d$clientDetails)
   r <- checked$ranges
 
   # convert ddi, calculate D-score
@@ -54,13 +53,13 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (!length(d$Contactmomenten) && !length(d$ContactMomenten)) {
+  if (!length(d$Contactmomenten) && !length(d$ContactMomenten) && !length(d$clientMeasurements)) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),
       x = numeric(), y = numeric()
     )
-  } else {
+  } else if (v == 1 | v == 2) {
     xy <-
       tibble(
         age = rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 6L),
@@ -77,6 +76,43 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
         )
       ) %>%
       tidyr::drop_na()
+  } else if (v == 3) {
+    # v3 may have mismatched order of dates, which requires matching with pivot
+    xy <- rbind(r$hgt, r$wgt, r$hdc)
+    # if XY is empty
+    if (length(xy) == 0L) xy <- data.frame(date = character(), value = numeric())
+    # if one of the two variables is missing
+    if (is.null(xy$date)) xy$date <- NA_Date_
+    if (is.null(xy$value)) xy$value <- NA_real_
+    xy <- xy %>%
+      mutate(yname = rep(c("hgt", "wgt", "hdc"), times = c(nrow(r$hgt), nrow(r$wgt), nrow(r$hdc)))) %>%
+      mutate(age = as.numeric(round((ymd(.data$date) - r$dob) / 365.25, 4L))) %>%
+      pivot_wider(names_from = "yname", values_from = "value", values_fn = function(x) na.omit(x)[1])
+
+    # add columns if they are missing
+    cols <- c(hgt = NA_real_, wgt = NA_real_, hdc = NA_real_)
+    xy <- add_column(xy, !!!cols[setdiff(names(cols), names(xy))]) %>%
+      mutate(bmi = (.data$wgt / 1000) / (.data$hgt / 1000)^2) %>%
+      mutate(hgt = .data$hgt / 10,
+             wgt = .data$wgt / 1000,
+             hdc = .data$hdc / 10) %>%
+      # add d-score
+      full_join(., ds %>% select(age = "a", dsc = "d"), by = "age") %>%
+      select(-"date")
+
+    if (nrow(xy) != 0L) {
+      xy <- rbind(
+        xy %>%
+          pivot_longer(!"age", names_to = "yname", values_to = "y") %>%
+          mutate(xname = "age", x = .data$age) %>%
+          select("age", "xname", "yname", "x", "y"),
+        xy %>%
+          select("age", x = "hgt", "wgt") %>%
+          pivot_longer("wgt", names_to = "yname", values_to = "y") %>%
+          mutate(xname = "hgt", yname = "wfh")
+      ) %>%
+        tidyr::drop_na()
+    }
   }
 
   # append birth weight record if needed
@@ -100,7 +136,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
       ddi %>%
         pivot_longer(
           cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE
+          values_to = "y", values_drop_na = TRUE,
+          values_transform = list(y=as.numeric)
         ) %>%
         mutate(
           xname = "age",

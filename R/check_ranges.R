@@ -1,6 +1,6 @@
 check_ranges <- function(d, format) {
-  lex <- bdsreader::bds_lexicon
   v <- as.integer(substr(format, 1L, 1L))
+  lex <- bdsreader::bds_lexicon
 
   e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, v = v)))
   if (!is.null(e)) {
@@ -85,10 +85,12 @@ check_ranges <- function(d, format) {
   hdc <- wgt <- hgt <- dom <- NULL
 
   if (length(d$Contactmomenten) == 0L &
-      length(d$ContactMomenten) == 0L) {
+      length(d$ContactMomenten) == 0L &
+      length(d$clientMeasurements) == 0L) {
     switch(v,
            message("Missing 'Contactmomenten'"),
-           message("Missing 'ContactMomenten'"))
+           message("Missing 'ContactMomenten'"),
+           message("Missing 'clientMeasurements'"))
   } else {
     if (v == 1) {
       e <- catch_cnd(dom <- ymd(d$Contactmomenten[[1L]]))
@@ -96,44 +98,52 @@ check_ranges <- function(d, format) {
     } else if (v == 2) {
       e <- catch_cnd(dom <- ymd(d$ContactMomenten[[1L]]))
       if (!is.null(e)) warning("Meetdatum: Onjuist format: ", as.character(d$ContactMomenten[[1L]]))
+    } else if (v == 3) {
+      e <- catch_cnd(dom <- unique(ymd(do.call("rbind", d$clientMeasurements$values)$date)))
+      if (!is.null(e)) warning("Meetdatum: Onjuist format: ", as.character(d$ContactMomenten[[1L]]))
     }
-
 
     hgt <- extract_field(d, 235L, v = v)
     wgt <- extract_field(d, 245L, v = v)
     hdc <- extract_field(d, 252L, v = v)
 
-    if (all(is.na(hgt))) {
+    if (all(is.na(switch(v, hgt, hgt, hgt$value)))) {
       message("BDS 235 (",
               lex[lex$bdsnummer == 235, "description"],
               " in mm): heeft geen waarde"
       )
     }
-    if (any(!is.na(hgt) & (hgt < 100 | hgt > 3000))) {
+    if (any(!is.na(switch(v, hgt, hgt, hgt$value)) &
+            (switch(v, hgt, hgt, hgt$value) < 100 |
+             switch(v, hgt, hgt, hgt$value) > 3000))) {
       message("BDS 235 (",
               lex[lex$bdsnummer == 235, "description"],
               " in mm): Buiten bereik 100-2500"
       )
     }
-    if (all(is.na(wgt))) {
+    if (all(is.na(switch(v, wgt, wgt, wgt$value)))) {
       message("BDS 245 (",
               lex[lex$bdsnummer == 245, "description"],
               " in grammen): heeft geen waarde"
       )
     }
-    if (any(!is.na(wgt) & (wgt < 100 | wgt > 300000))) {
+    if (any(!is.na(switch(v, wgt, wgt, wgt$value)) &
+            (switch(v, wgt, wgt, wgt$value) < 100 |
+             switch(v, wgt, wgt, wgt$value) > 300000))) {
       message("BDS 245 (",
               lex[lex$bdsnummer == 245, "description"],
               " in grammen): Buiten bereik 100-300000"
       )
     }
-    if (all(is.na(hdc))) {
+    if (all(is.na(switch(v, hdc, hdc, hdc$value)))) {
       message("BDS 252 (",
               lex[lex$bdsnummer == 252, "description"],
               " in mm): heeft geen waarde"
       )
     }
-    if (any(!is.na(hdc) & (hdc < 100 | hdc > 900))) {
+    if (any(!is.na(switch(v, hdc, hdc, hdc$value)) &
+            (switch(v, hdc, hdc, hdc$value) < 100 |
+             switch(v, hdc, hdc, hdc$value) > 900))) {
       message("BDS 252 (",
               lex[lex$bdsnummer == 252, "description"],
               " in mm): Buiten bereik 100-900"
@@ -148,6 +158,10 @@ check_ranges <- function(d, format) {
   } else if (v == 2) {
     if (all(unlist(lapply(d$ClientGegevens$GenesteElementen, is.null)))) {
       message("Missing 'ClientGegevens$GenesteElementen'")
+    }
+  } else if (v == 3) {
+    if (length(d$nestedDetails) == 0L) {
+      message("Missing 'nestedDetails'")
     }
   }
 

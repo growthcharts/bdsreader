@@ -58,12 +58,38 @@ parse_valid <- function(valid) {
     )
 
     # For misspecified values - return supplied and accepted values
-    val.err <- t(simplify2array(w[w$keyword == "anyOf", "data"]))
+    if (length(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"])) {
+      val.err <- t(simplify2array(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"]))
+    } else {
+      val.err <- data.frame()
+    }
+
+
+
+    # find specific items in clientMeasurements with issues
+    cmlist <- w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), c("instancePath", "data")]
+    val.err.cm <- data.frame(
+      dataPath = unlist(cmlist[, 1L]),
+      bdsNumber = unlist(cmlist[,2L ])[names(unlist(cmlist[,2L ])) == "bdsNumber"]
+    )
+    if (nrow(val.err.cm) >= 1L) {
+      # get specific values with issues
+      val.err.cm <- w[!is.na(w$parentSchema$type)  & grepl("/clientMeasurements", w$dataPath), c("dataPath", "data")] %>%
+        mutate(dataPath = gsub("(/clientMeasurements/[0-9]).*", replacement = "\\1", x = .data$dataPath)) %>%
+        right_join(val.err.cm, by = "dataPath") %>%
+        select("bdsNumber", value = "data")
+      if(ncol(val.err) >= 1L) {val.err <- rbind(val.err, val.err.cm)
+      } else {
+        val.err <- val.err.cm
+      }
+    }
+
+
 
     # FIXME
     # creating the warning data frame does not work for JSON string, format 2.0
     # the hack below escape the creation of the supplied entry
-    if (length(val.err[1, 1][[1]] == 3)) {
+    if (length(val.err[1, 1][[1]]) == 3) {
       return(mess)
     }
 

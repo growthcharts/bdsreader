@@ -59,6 +59,8 @@ create_bds_lexicon <- function() {
     ),
     stringsAsFactors = FALSE
   )
+
+  bds_lexicon
 }
 
 bds_lexicon <- create_bds_lexicon()

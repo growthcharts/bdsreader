@@ -22,6 +22,7 @@ Imports:
     jsonvalidate (>= 1.3.2),
     lubridate,
     nlreferences,
+    tibble,
     rlang (>= 0.4.0),
     tidyr
 Suggests: 
@@ -36,3 +37,4 @@ Remotes:
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/growthcharts/bdsreader
 Config/testthat/edition: 3
+RoxygenNote: 7.2.0

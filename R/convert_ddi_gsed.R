@@ -6,12 +6,17 @@ convert_ddi_gsed <- function(d, r, v) {
   items <- bdsreader::bds_gsed$lex_gsed[bdsreader::bds_gsed$lex_gsed != ""]
 
   # premature return if there are no data
-  if (!(length(d$Contactmomenten) || length(d$ContactMomenten))) {
+  if (!(length(d$Contactmomenten) || length(d$ContactMomenten) || length(d$clientMeasurements))) {
+    return(data.frame(age = numeric(0)))
+  }
+  # premature return when no valid dates found
+  if (is.null(r$dom)) {
     return(data.frame(age = numeric(0)))
   }
 
   # prepare the output matrices
   age <- as.numeric(round((r$dom - r$dob) / 365.25, 4L))
+  if (length(age) == 0L) {return(data.frame(age = numeric(0)))}
   w <- data.frame(
     age = age,
     matrix(NA, nrow = length(age), ncol = length(bdsnum) + length(items))
@@ -20,7 +25,20 @@ convert_ddi_gsed <- function(d, r, v) {
 
   # extract ddi data from bds-message
   # and convert to 0/1 scores
-  for (i in bdsnum) w[, as.character(i)] <- extract_field(d, i, v = v)
+  for (i in bdsnum) {
+    if (v == 1 | v == 2) {
+      w[, as.character(i)] <- extract_field(d, i, v = v)
+      next
+    } else if (v == 3) {
+      extr_bds <- extract_field(d, i, v = v)
+      if (length(extr_bds) == 0L) {
+        w[, as.character(i)] <- NA_real_
+        next
+      }
+      w[, as.character(i)] <- extr_bds[match(r$dom, ymd(extr_bds$date)), "value"]
+    }
+  }
+
   for (item in items) {
     n <- which(bdsreader::bds_gsed$lex_gsed == item)
     type <- bdsreader::bds_gsed[n, "type"]

@@ -44,6 +44,7 @@ verify <- function(txt, auto_format = TRUE, format = "1.0", schema = NULL) {
     if (any(grepl("required", mess$required)) ||
         any(grepl("verplicht", mess$required)) ||
         any(grepl("should", mess$required))) {
+      # AHJ: currently not throwing message if time is incorrect. Not sure what purpose is?
       throw_messages(mess$required)
     }
   }
