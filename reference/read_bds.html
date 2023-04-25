@@ -80,8 +80,8 @@ Z-scores and stores the data in an list with elements <code>psn</code> and <code
 
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>"1.0"</code>, <code>"1.1"</code> and <code>"2.0"</code>. Formats <code>"1.0"</code> and
-<code>"1.1"</code> are included for backward compatibility only. Use <code>format = "2.0"</code>
+three schemas supported: <code>"1.0"</code>, <code>"1.1"</code>, <code>"2.0"</code> and <code>"3.0"</code>. Formats <code>"1.0"</code> and
+<code>"1.1"</code> are included for backward compatibility only. Use <code>format = "3.0"</code>
 for new applications.</p></dd>
 
 
@@ -159,7 +159,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   273    39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;, agem &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   etn &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -198,7 +198,7 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id name    dob        dobf   dobm       src   dnr   sex      gad    ga</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   276    39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    -<span style="color: #BB0000;">1</span> Laura S 1989-01-21 <span style="color: #BB0000;">NA</span>     1961-07-22 0     <span style="color: #BB0000;">NA</span>    female   273    39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;, agem &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   etn &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
