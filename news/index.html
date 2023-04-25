@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0</span>
       </span>
     </div>
 
@@ -48,14 +48,25 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.17.2" id="bdsreader-0172">bdsreader 0.17.2<a class="anchor" aria-label="anchor" href="#bdsreader-0172"></a></h2>
+<h2 class="page-header" data-toc-text="0.18.0" id="bdsreader-0180">bdsreader 0.18.0<a class="anchor" aria-label="anchor" href="#bdsreader-0180"></a></h2>
+<div class="section level3">
+<h3 id="major-changes-0-18-0">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-18-0"></a></h3>
+<ul><li>Defines <strong>BDS JSON schema V3.0</strong> for exchanging child-level data between electronic systems. V3.0 uses an English data definition and redefines the nesting structure to a more logical structure. The new schema mostly follows alterations developed by Eaglescience BV for the SRM made in the period 2022-2023.</li>
+<li>From now on, the advice is to adopt V3.0 for data exchange. Versions V1.0, V1.1 and V2.0 will be retired in the future.</li>
+<li>Adds support for version V3.0 to functions <code><a href="../reference/read_bds.html">read_bds()</a></code> and <code><a href="../reference/write_bds.html">write_bds()</a></code>
+</li>
+<li>Changes the key for calculating the D-score to <code>dscore(..., key = "gsed2212")</code>
+</li>
+<li>Tests new functionality on 74 test files stored in package <a href="https://github.com/growthcharts/jamesdemodata" class="external-link">jamesdemodata</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-18-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-18-0"></a></h3>
 <ul><li>Removes deprecated tidyselect <code>.data$var</code> syntax</li>
 <li>Refreshes GH action scripts</li>
+<li>Adds script to simulate user bugs and requests</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="0.17.1" id="bdsreader-0171">bdsreader 0.17.1<a class="anchor" aria-label="anchor" href="#bdsreader-0171"></a></h2>
-<ul><li>Adds script that simulate user bugs and requests</li>
-</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.17.0" id="bdsreader-0170">bdsreader 0.17.0<a class="anchor" aria-label="anchor" href="#bdsreader-0170"></a></h2>
 <ul><li>Adds example data <code>maria</code> and <code>examples/maria.json</code>
