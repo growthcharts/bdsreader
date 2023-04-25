@@ -79,11 +79,15 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   } else if (v == 3) {
     # v3 may have mismatched order of dates, which requires matching with pivot
     xy <- rbind(r$hgt, r$wgt, r$hdc)
+    # if XY is empty
     if (length(xy) == 0L) xy <- data.frame(date = character(), value = numeric())
+    # if one of the two variables is missing
+    if (is.null(xy$date)) xy$date <- NA_Date_
+    if (is.null(xy$value)) xy$value <- NA_real_
     xy <- xy %>%
       mutate(yname = rep(c("hgt", "wgt", "hdc"), times = c(nrow(r$hgt), nrow(r$wgt), nrow(r$hdc)))) %>%
       mutate(age = as.numeric(round((ymd(.data$date) - r$dob) / 365.25, 4L))) %>%
-      pivot_wider(names_from = "yname", values_from = "value")
+      pivot_wider(names_from = "yname", values_from = "value", values_fn = function(x) na.omit(x)[1])
 
     # add columns if they are missing
     cols <- c(hgt = NA_real_, wgt = NA_real_, hdc = NA_real_)

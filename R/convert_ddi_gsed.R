@@ -16,6 +16,7 @@ convert_ddi_gsed <- function(d, r, v) {
 
   # prepare the output matrices
   age <- as.numeric(round((r$dom - r$dob) / 365.25, 4L))
+  if (length(age) == 0L) {return(data.frame(age = numeric(0)))}
   w <- data.frame(
     age = age,
     matrix(NA, nrow = length(age), ncol = length(bdsnum) + length(items))
