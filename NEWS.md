@@ -1,3 +1,7 @@
+# bdsreader 0.18.1
+
+- Changes default format in `write_bds()` to JSON schema V3.0
+
 # bdsreader 0.18.0
 
 ## Major changes
