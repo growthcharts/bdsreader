@@ -32,10 +32,11 @@
 #' tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
 #' js1 <- write_bds(tgt, format = "1.0")
 #' js2 <- write_bds(tgt, format = "2.0")
+#' js3 <- write_bds(tgt)
 #' @export
 write_bds <- function(x = NULL,
                       auto_format = TRUE,
-                      format = "2.0",
+                      format = "3.0",
                       schema = NULL,
                       file = NULL,
                       organisation = 0L,

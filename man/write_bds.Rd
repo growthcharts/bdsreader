@@ -7,7 +7,7 @@
 write_bds(
   x = NULL,
   auto_format = TRUE,
-  format = "2.0",
+  format = "3.0",
   schema = NULL,
   file = NULL,
   organisation = 0L,
@@ -71,6 +71,7 @@ fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodat
 tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
 js1 <- write_bds(tgt, format = "1.0")
 js2 <- write_bds(tgt, format = "2.0")
+js3 <- write_bds(tgt)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::toJSON()}}
