@@ -61,30 +61,35 @@ parse_valid <- function(valid) {
     if (length(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"])) {
       val.err <- t(simplify2array(w[w$keyword == "anyOf" & !grepl("/clientMeasurements", w$dataPath), "data"]))
     } else {
-      val.err <- data.frame()
+      val.err <- NULL
     }
 
 
-
-    # find specific items in clientMeasurements with issues
-    cmlist <- w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), c("instancePath", "data")]
-    val.err.cm <- data.frame(
-      dataPath = unlist(cmlist[, 1L]),
-      bdsNumber = unlist(cmlist[,2L ])[names(unlist(cmlist[,2L ])) == "bdsNumber"]
-    )
-    if (nrow(val.err.cm) >= 1L) {
-      # get specific values with issues
-      val.err.cm <- w[!is.na(w$parentSchema$type)  & grepl("/clientMeasurements", w$dataPath), c("dataPath", "data")] %>%
-        mutate(dataPath = gsub("(/clientMeasurements/[0-9]).*", replacement = "\\1", x = .data$dataPath)) %>%
-        right_join(val.err.cm, by = "dataPath") %>%
-        select("bdsNumber", value = "data")
-      if(ncol(val.err) >= 1L) {val.err <- rbind(val.err, val.err.cm)
+    # find errors in clientMeasurements
+    if (length(w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), "data"])) {
+      val.err.cm <- w[w$keyword == "anyOf" & grepl("/clientMeasurements", w$dataPath), "data"]
+      # check for bdsNumbers, values not required
+      val.err.cm <- lapply(val.err.cm, function(x) {
+        if(!"bdsNumber" %in% names(x)) return(NULL)
+        if(!"values" %in% names(x)) x$values <- data.frame()
+        return(x)
+      })
+      val.err.cm[sapply(val.err.cm, is.null)] <- NULL
+      if (length(val.err.cm) >= 1L) {
+        val.err.cm <- t(simplify2array(val.err.cm))
       } else {
-        val.err <- val.err.cm
+        val.err.cm <- NULL
+        }
+
+      if(is.null(val.err)) { val.err <- val.err.cm
+      } else {
+        val.err <- rbind(val.err, val.err.cm)
       }
     }
 
-
+    if (is.null(val.err)) {
+      return(mess)
+    }
 
     # FIXME
     # creating the warning data frame does not work for JSON string, format 2.0
@@ -104,6 +109,10 @@ parse_valid <- function(valid) {
         user.warning[i, "supplied_type"] <- ifelse(is.null(val.err[i, 2L][[1L]]),
           NA, mode(val.err[i, 2L][[1L]])
         )
+        # for clientMeasurement errors
+        if (mode(val.err[i, 2L][[1L]]) == "list") {
+          user.warning[i, "supplied"] <- "one or more supplied values"
+        }
       }
       mess$supplied <- merge(user.warning, bdsreader::bds_lexicon, by = "bdsnummer") %>%
         select(all_of(c("bdsnummer", "description", "expected", "supplied", "supplied_type")))
