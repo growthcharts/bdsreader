@@ -1,6 +1,20 @@
-# bdsreader 0.18.1
+# bdsreader 0.19.0
 
-- Changes default format in `write_bds()` to JSON schema V3.0
+## Bug fixes
+
+- Repairs errors in selected bds fields in V2.0 and V3.0 schemas:
+  + 66 (added code "09")
+  + 911 --> 912
+  + 944 --> 945
+  + 960 --> 961
+  + 965 --> 966
+  + 942 --> 943
+  + 944 --> 945
+  + 973 (added)
+  + 1001 (added)
+ - Makes `parse_valid()` robust against BDS sequence 
+ - Changes default format in `write_bds()` to JSON schema V3.0
+ - Updates dependency versions
 
 # bdsreader 0.18.0
 
