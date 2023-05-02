@@ -10,7 +10,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
 
   # convert ddi, calculate D-score
   ddi <- convert_ddi_gsed(d, r, v)
-  ds <- dscore::dscore(data = ddi, key = "dutch")
+  ds <- dscore::dscore(data = ddi, key = "gsed2212")
 
   # store requester code
   src <- as.character(d$OrganisatieCode)

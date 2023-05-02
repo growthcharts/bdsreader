@@ -1,33 +1,33 @@
 Package: bdsreader
 Type: Package
 Title: Read Data from the Basisdataset Jeugdgezondheidszorg
-Version: 0.17.2
+Version: 0.18.1
 Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
              person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
-Description: Read and validate JSON files with
-     individual data coded according to the Basisdataset (BDS) 
-     Jeugdgezondheidszorg. Currently supports BDS-fields related to 
-     child growth and development.
+Description: Defines JSON data schemas according to the Basisdataset (BDS) 
+     Jeugdgezondheidszorg. Contains function to read, validate and write 
+     JSON files with individual data coded according to the chosen schema version.
+     Currently supported are BDS fields related to child growth and development.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
 Imports:
-    centile,
+    centile (>= 0.14.1),
     curl,
     dplyr (>= 1.0.0),
-    dscore (>= 1.6.0),
+    dscore (>= 1.8.0),
     jsonlite,
     jsonvalidate (>= 1.3.2),
     lubridate,
-    nlreferences,
+    nlreferences (>= 0.15.2),
     tibble,
     rlang (>= 0.4.0),
     tidyr
 Suggests: 
     openxlsx,
-    jamesdemodata (>= 0.7.1),
+    jamesdemodata (>= 0.8.0),
     testthat (>= 3.0.0)
 Remotes: 
     growthcharts/centile,
@@ -37,4 +37,4 @@ Remotes:
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/growthcharts/bdsreader
 Config/testthat/edition: 3
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
