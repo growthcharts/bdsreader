@@ -12,12 +12,21 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   ddi <- convert_ddi_gsed(d, r, v)
   ds <- dscore::dscore(data = ddi, key = "gsed2212")
 
-  # store requester code
-  src <- as.character(d$OrganisatieCode)
-  src <- ifelse(length(src), src, "")
+  # store organisation code
+  src <- ""
+  if (!is.null(d$organisatieCode)) src <- as.character(d$organisatieCode)
+  if (!is.null(d$OrganisatieCode)) src <- as.character(d$OrganisatieCode)
+  if (!is.null(d$organisationCode)) src <- as.character(d$organisationCode)
+  if (!is.null(d$OrganisationCode)) src <- as.character(d$OrganisationCode)
+
+  # store request name
+  name <- NA_character_
+  if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
+  if (!is.null(d$Reference)) name <- as.character(d$Reference)
+
   persondata <- tibble(
     id = -1L,
-    name = ifelse(length(d$Referentie), as.character(d$Referentie), NA_character_),
+    name = name,
     dob  = extract_dob(d, which = "00", v = v),
     dobf = extract_dob(d, which = "01", v = v),
     dobm = extract_dob(d, which = "02", v = v),
