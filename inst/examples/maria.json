@@ -1,102 +1,108 @@
 {
-  "Format": "2.0",
-  "OrganisatieCode": 1234,
-  "Referentie": "Maria",
-  "ClientGegevens": [
+  "Format": "3.0",
+  "organisationCode": 1234,
+  "Reference": "Maria",
+  "clientDetails": [
     {
-      "ElementNummer": 19,
-      "Waarde": "2"
+      "bdsNumber": 19,
+      "value": "2"
     },
     {
-      "ElementNummer": 20,
-      "Waarde": "20181011"
+      "bdsNumber": 20,
+      "value": "20181011"
     },
     {
-      "ElementNummer": 82,
-      "Waarde": 189
+      "bdsNumber": 82,
+      "value": 189
     },
     {
-      "ElementNummer": 91,
-      "Waarde": "1"
+      "bdsNumber": 91,
+      "value": "1"
     },
     {
-      "ElementNummer": 110,
-      "Waarde": 990
+      "bdsNumber": 110,
+      "value": 990
     },
     {
-      "ElementNummer": 238,
-      "Waarde": 1670
+      "bdsNumber": 238,
+      "value": 1670
     },
     {
-      "ElementNummer": 240,
-      "Waarde": 1900
-    },
+      "bdsNumber": 240,
+      "value": 1900
+    }
+  ],
+  "clientMeasurements": [
     {
-      "GenesteElementen": [
+      "bdsNumber": 235,
+      "values": [
         {
-          "ElementNummer": 63,
-          "Waarde": "19950704"
+          "date": "20181111",
+          "value": 380
         },
         {
-          "ElementNummer": 71
-        },
-        {
-          "ElementNummer": 62,
-          "Waarde": "01"
+          "date": "20181211",
+          "value": 435
         }
       ]
     },
     {
-      "GenesteElementen": [
+      "bdsNumber": 245,
+      "values": [
         {
-          "ElementNummer": 63,
-          "Waarde": "19901202"
+          "date": "20181011",
+          "value": 990
         },
         {
-          "ElementNummer": 71
+          "date": "20181111",
+          "value": 1250
         },
         {
-          "ElementNummer": 62,
-          "Waarde": "02"
+          "date": "20181211",
+          "value": 2100
+        }
+      ]
+    },
+    {
+      "bdsNumber": 252,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 270
+        },
+        {
+          "date": "20181211",
+          "value": 305
         }
       ]
     }
   ],
-  "ContactMomenten": [
+  "nestedDetails": [
     {
-      "Tijdstip": "20181111",
-      "Elementen": [
+      "nestingBdsNumber": 62,
+      "nestingCode": "01",
+      "clientDetails": [
         {
-          "ElementNummer": 235,
-          "Waarde": 380
-        },
-        {
-          "ElementNummer": 245,
-          "Waarde": 1250
-        },
-        {
-          "ElementNummer": 252,
-          "Waarde": 270
+          "bdsNumber": 63,
+          "value": "19950704"
         }
+      ],
+      "clientMeasurements": [
+
       ]
     },
     {
-      "Tijdstip": "20181211",
-      "Elementen": [
+      "nestingBdsNumber": 62,
+      "nestingCode": "02",
+      "clientDetails": [
         {
-          "ElementNummer": 235,
-          "Waarde": 435
-        },
-        {
-          "ElementNummer": 245,
-          "Waarde": 2100
-        },
-        {
-          "ElementNummer": 252,
-          "Waarde": 305
+          "bdsNumber": 63,
+          "value": "19901202"
         }
+      ],
+      "clientMeasurements": [
+
       ]
     }
   ]
 }
-
