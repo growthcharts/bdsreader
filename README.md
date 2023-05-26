@@ -11,7 +11,7 @@
 The `bdsreader` package is a lightweight package that
 
 - Defines JSON data schema’s for electronic data exchange of child-level
-  data based on the Basisdataset JGZ 3.2.7;
+  data based on the Basisdataset JGZ 4.0.1;
 - Reads and parses child data coded according to the JSON data schema;
 - Compares the child data against the JSON validation schema;
 - Calculates the child’s D-score from the Van Wiechen Schema (DDI)
@@ -43,7 +43,7 @@ The following commands illustrate the main use of `bdsreader`.
 
 ``` r
 library(bdsreader)
-fn <- system.file("examples", "maria3.json", package = "bdsreader")
+fn <- system.file("examples", "maria.json", package = "bdsreader")
 tgt <- read_bds(fn)
 timedata(tgt)
 #> # A tibble: 11 × 8
@@ -73,9 +73,9 @@ The `persondata()` function extracts the person-level information:
 ``` r
 persondata(tgt)
 #> # A tibble: 1 × 16
-#>      id name      dob        dobf       dobm       src   dnr   sex     gad    ga
-#>   <int> <chr>     <date>     <date>     <date>     <chr> <chr> <chr> <dbl> <dbl>
-#> 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 0     <NA>  fema…   189    27
+#>      id name  dob        dobf       dobm       src   dnr   sex      gad    ga
+#>   <int> <chr> <date>     <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl>
+#> 1    -1 Maria 2018-10-11 1995-07-04 1990-12-02 1234  <NA>  female   189    27
 #> # ℹ 6 more variables: smo <int>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
 #> #   etn <chr>
 ```
@@ -207,7 +207,7 @@ systems. Field `"bdsNumber"` refers to the numbers defined in the
 Basisdataset JGZ. Field `"value"` contains the value for the
 `"bdsNumber"`. See [Basisdataset
 JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/)
-3.2.7 for more details on `"bdsNumber"`.
+4.0.1 for more details on `"bdsNumber"`.
 
 ### Read and parse input data
 

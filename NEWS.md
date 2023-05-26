@@ -1,3 +1,9 @@
+# bdsreader 0.20.0
+
+- Makes the reading of the data more lenient so that `name` and `src` are 
+properly read for V1.0-V3.0 data
+- Repairs V3.0 examples so that these conform to V3.0 schemas
+
 # bdsreader 0.19.0
 
 ## Bug fixes

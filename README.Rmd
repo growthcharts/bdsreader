@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 The `bdsreader` package is a lightweight package that
 
-- Defines JSON data schema's for electronic data exchange of child-level data based on the Basisdataset JGZ 3.2.7;
+- Defines JSON data schema's for electronic data exchange of child-level data based on the Basisdataset JGZ 4.0.1;
 - Reads and parses child data coded according to the JSON data schema;
 - Compares the child data against the JSON validation schema;
 - Calculates the child's D-score from the Van Wiechen Schema (DDI) responses;
@@ -46,7 +46,7 @@ The following commands illustrate the main use of `bdsreader`.
 
 ```{r}
 library(bdsreader)
-fn <- system.file("examples", "maria3.json", package = "bdsreader")
+fn <- system.file("examples", "maria.json", package = "bdsreader")
 tgt <- read_bds(fn)
 timedata(tgt)
 ```
@@ -178,7 +178,7 @@ The example file `maria3.json` contains Maria's data coded in JSON format accord
 }
 ```
 
-JSON is a lightweight format to exchange data between electronic systems. Field `"bdsNumber"` refers to the numbers defined in the Basisdataset JGZ. Field `"value"` contains the value for the `"bdsNumber"`. See [Basisdataset JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/) 3.2.7 for more details on `"bdsNumber"`.
+JSON is a lightweight format to exchange data between electronic systems. Field `"bdsNumber"` refers to the numbers defined in the Basisdataset JGZ. Field `"value"` contains the value for the `"bdsNumber"`. See [Basisdataset JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/) 4.0.1 for more details on `"bdsNumber"`.
 
 
 ### Read and parse input data
