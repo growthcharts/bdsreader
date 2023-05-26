@@ -50,7 +50,7 @@ The \code{time} tibble contains the following variables:
 }
 }
 \source{
-Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP \& Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
+Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP, Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
 }
 \description{
 Longitudinal height, weight, head circumference measurements

@@ -50,7 +50,7 @@
 #'\item{bds879}{DDI milestone, BDS number 879}
 #'\item{bds...}{DDI milestone, BDS number ...}
 #'}
-#'@source Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP \& Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
+#'@source Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP, Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
 #'@note This dataset is property of the Netherlands Organisation for Applied Scientific Research TNO. Distribution is not permitted.
 #'Inquiries at \email{stef.vanbuuren@@tno.nl}.
 #'@keywords datasets
