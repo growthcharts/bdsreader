@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@
 
 <p>The <code>bdsreader</code> package is a lightweight package that</p>
 <ul>
-<li>Defines JSON data schema’s for electronic data exchange of child-level data based on the Basisdataset JGZ 3.2.7;</li>
+<li>Defines JSON data schema’s for electronic data exchange of child-level data based on the Basisdataset JGZ 4.0.1;</li>
 <li>Reads and parses child data coded according to the JSON data schema;</li>
 <li>Compares the child data against the JSON validation schema;</li>
 <li>Calculates the child’s D-score from the Van Wiechen Schema (DDI) responses;</li>
@@ -98,7 +98,7 @@
 <p>The following commands illustrate the main use of <code>bdsreader</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/growthcharts/bdsreader" class="external-link">bdsreader</a></span><span class="op">)</span></span>
-<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"maria3.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
+<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"maria.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span>
 <span><span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/timedata.html">timedata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 11 × 8</span></span>
@@ -120,9 +120,9 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/persondata.html">persondata</a></span><span class="op">(</span><span class="va">tgt</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 16</span></span>
-<span><span class="co">#&gt;      id name      dob        dobf       dobm       src   dnr   sex     gad    ga</span></span>
-<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1    -1 fa308134… 2018-10-11 1995-07-04 1990-12-02 0     &lt;NA&gt;  fema…   189    27</span></span>
+<span><span class="co">#&gt;      id name  dob        dobf       dobm       src   dnr   sex      gad    ga</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1    -1 Maria 2018-10-11 1995-07-04 1990-12-02 1234  &lt;NA&gt;  female   189    27</span></span>
 <span><span class="co">#&gt; # ℹ 6 more variables: smo &lt;int&gt;, bw &lt;dbl&gt;, hgtm &lt;dbl&gt;, hgtf &lt;dbl&gt;, agem &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   etn &lt;chr&gt;</span></span></code></pre></div>
 <p>The result of <code><a href="reference/read_bds.html">read_bds()</a></code> feeds into further data processing in <code>R</code>.</p>
@@ -242,7 +242,7 @@
 <span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>  ]</span>
 <span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>JSON is a lightweight format to exchange data between electronic systems. Field <code>"bdsNumber"</code> refers to the numbers defined in the Basisdataset JGZ. Field <code>"value"</code> contains the value for the <code>"bdsNumber"</code>. See <a href="https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/" class="external-link">Basisdataset JGZ</a> 3.2.7 for more details on <code>"bdsNumber"</code>.</p>
+<p>JSON is a lightweight format to exchange data between electronic systems. Field <code>"bdsNumber"</code> refers to the numbers defined in the Basisdataset JGZ. Field <code>"value"</code> contains the value for the <code>"bdsNumber"</code>. See <a href="https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/" class="external-link">Basisdataset JGZ</a> 4.0.1 for more details on <code>"bdsNumber"</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="read-and-parse-input-data">Read and parse input data<a class="anchor" aria-label="anchor" href="#read-and-parse-input-data"></a>
