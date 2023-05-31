@@ -1,3 +1,7 @@
+# bdsreader 0.20.1
+
+- Heals `switch()` statement in `convert_checked_list()`
+
 # bdsreader 0.20.0
 
 - Makes the reading of the data more lenient so that `name` and `src` are 
