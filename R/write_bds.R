@@ -83,10 +83,10 @@ write_bds <- function(x = NULL,
   }
 
   # remove NA fields for v3
-  if (v == 3) {
+  if (v == 3L) {
     # clientDetails
     bds$ClientGegevens <- lapply(bds$ClientGegevens, FUN = function(x){
-      if(is.na(x[2]) | is.null(unlist(x[2]))) return (NULL)
+      if (is.na(x[2L]) | is.null(unlist(x[2L]))) return(NULL)
       else return(x)
     })
     #
@@ -97,10 +97,10 @@ write_bds <- function(x = NULL,
 
 
   js <- toJSON(bds, auto_unbox = TRUE, ...)
-  switch(v,
-         js <- gsub("Waarde2", "Waarde", js),
-         js <- gsub("Waarde2", "Waarde", js),
-         js <- gsub("value2", "value", js))
+  js <- switch(v,
+               gsub("Waarde2", "Waarde", js),
+               gsub("Waarde2", "Waarde", js),
+               gsub("value2", "value", js))
   if (v == 1L) {
     js <- gsub("ElementNummer", "Bdsnummer", js)
   }
@@ -370,20 +370,19 @@ as_bds_contacts <- function(x, v, type) {
   # split by time, and return
   f <- as.factor(d$time)
 
-  switch(v,
-         d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
-         d <- split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
-         {
-           d <- d %>%
-             rename('bdsNumber' = 'ElementNummer') %>%
-             rename('value' = 'Waarde') %>%
-             rename('value2' = 'Waarde2') %>%
-             rename('date' = 'time')
-           d <- split(d[, c("date", "value", "value2")], d$bdsNumber)
-         })
+  d <- switch(v,
+              split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
+              split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
+              {d <- d %>%
+                  rename('bdsNumber' = 'ElementNummer') %>%
+                  rename('value' = 'Waarde') %>%
+                  rename('value2' = 'Waarde2') %>%
+                  rename('date' = 'time')
+                split(d[, c("date", "value", "value2")], d$bdsNumber)
+              })
 
   # v3
-  if (v ==3) {
+  if (v == 3L) {
     return(
       data.frame(
         bdsNumber = as.numeric(names(d)),

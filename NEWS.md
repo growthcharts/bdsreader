@@ -1,6 +1,6 @@
 # bdsreader 0.20.1
 
-- Heals `switch()` statement in `convert_checked_list()`
+- Prevent upstairs assignments within the `switch()` statement
 
 # bdsreader 0.20.0
 
