@@ -1,3 +1,7 @@
+# bdsreader 0.20.2
+
+- Updates `write_bds()` so that it conforms to JSON BDS schema V3.0
+
 # bdsreader 0.20.1
 
 - Prevent upstairs assignments within the `switch()` statement
