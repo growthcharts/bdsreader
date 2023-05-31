@@ -65,11 +65,21 @@ write_bds <- function(x = NULL,
   if (v == 2L | v == 3L) type <- "numeric"
 
   # administrative elements
-  bds <- list(
-    Format = format,
-    OrganisatieCode = as.integer(organisation),
-    Referentie = as_bds_reference(x)
-  )
+  if (v == 1L | v == 2L) {
+    bds <- list(
+      Format = format,
+      OrganisatieCode = as.integer(organisation),
+      Referentie = as_bds_reference(x)
+    )
+  }
+  if (v == 3L) {
+    bds <- list(
+      Format = format,
+      organisationCode = as.integer(organisation),
+      Reference = as_bds_reference(x)
+    )
+  }
+
   if (!auto_format) bds$Format <- NULL
 
   # data elements
@@ -374,11 +384,11 @@ as_bds_contacts <- function(x, v, type) {
               split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
               split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
               {d <- d %>%
-                  rename('bdsNumber' = 'ElementNummer') %>%
-                  rename('value' = 'Waarde') %>%
-                  rename('value2' = 'Waarde2') %>%
-                  rename('date' = 'time')
-                split(d[, c("date", "value", "value2")], d$bdsNumber)
+                rename('bdsNumber' = 'ElementNummer') %>%
+                rename('value' = 'Waarde') %>%
+                rename('value2' = 'Waarde2') %>%
+                rename('date' = 'time')
+              split(d[, c("date", "value", "value2")], d$bdsNumber)
               })
 
   # v3
