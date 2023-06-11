@@ -12,6 +12,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   ds <- dscore::dscore(data = ddi, key = "gsed2212")
 
   # store organisation code
+  # support version- and case-insensitive reads
   src <- ""
   if (!is.null(d$organisatieCode)) src <- as.character(d$organisatieCode)
   if (!is.null(d$OrganisatieCode)) src <- as.character(d$OrganisatieCode)
@@ -19,9 +20,11 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   if (!is.null(d$OrganisationCode)) src <- as.character(d$OrganisationCode)
 
   # store request name
+  # support reference (recommended), Reference (legacy) and Referentie (legacy)
   name <- NA_character_
-  if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
+  if (!is.null(d$reference)) name <- as.character(d$reference)
   if (!is.null(d$Reference)) name <- as.character(d$Reference)
+  if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
 
   persondata <- tibble(
     id = -1L,

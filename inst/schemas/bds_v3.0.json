@@ -2,19 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://raw.githubusercontent.com/growthcharts/bdsreader/srm/inst/schemas/bds_v3.0.json",
   "type": "object",
-  "title": "JAMES input data format",
+  "title": "JAMES input data specification",
   "required": [
-    "format",
+    "Format",
     "clientDetails"
   ],
   "properties": {
     "reference": {
       "title": "Request identification",
-      "$id": "#/properties/Reference",
+      "$id": "#/properties/reference",
       "type": "string",
       "pattern": "^(.*)$"
     },
-    "format": {
+    "Format": {
       "title": "Schema version number",
       "$id": "#/properties/Format",
       "type": "string",
