@@ -86,16 +86,16 @@ The result of `read_bds()` feeds into further data processing in `R`.
 
 ### JSON Input Data
 
-The example file `maria3.json` contains Maria’s data coded in JSON
-format according to BDS-schema file
+The example file `maria.json` contains Maria’s data coded in JSON format
+according to BDS-schema file
 [bds_v3.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v3.0.json).
 Here’s the contents of the file with the child data:
 
 ``` javascript
 {
   "Format": "3.0",
-  "OrganisatieCode": 0,
-  "Referentie": "fa308134-069e-49ce-9847-ccdae380ed6f",
+  "organisationCode": 1234,
+  "reference": "Maria",
   "clientDetails": [
     {
       "bdsNumber": 19,
