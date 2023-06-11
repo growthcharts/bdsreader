@@ -94,7 +94,7 @@ write_bds_1 <- function(x, organisation, schema, auto_format) {
 
   # administrative elements
   bds <- list(
-    Format = format,
+    Format = ifelse(type == "numeric", "1.1", "1.0"),
     OrganisatieCode = as.integer(organisation),
     Referentie = as_bds_reference(x)
   )
@@ -121,7 +121,7 @@ write_bds_2 <- function(x, organisation) {
 
   # administrative elements
   bds <- list(
-    Format = format,
+    Format = "2.0",
     OrganisatieCode = as.integer(organisation),
     Referentie = as_bds_reference(x)
   )
@@ -144,7 +144,7 @@ write_bds_3 <- function(x, organisation) {
 
   # administrative elements
   bds <- list(
-    Format = format,
+    Format = "3.0",
     organisationCode = as.integer(organisation),
     reference = as_bds_reference(x)
   )
