@@ -11,13 +11,12 @@ test_that("Format 1.0 and 2.0 produce both D-score", {
 })
 
 fn2 <- system.file("extdata", "bds_v2.0", "smocc", "Laura_S.json", package = "jamesdemodata")
-js2a <- readLines(fn2)
+# test below works only for minified JSON, so we use the more general fromJSON()
+# js2a <- readLines(fn2)
+# test_that("Format 2.0 is read after readLines(filename)", {
+#   expect_type(read_bds(js2a), "list")
+# })
 js2b <- jsonlite::toJSON(jsonlite::fromJSON(fn2), auto_unbox = TRUE)
-
-test_that("Format 2.0 is read after readLines(filename)", {
-  expect_type(read_bds(js2a), "list")
-})
-
 test_that("Format 2.0 is read after toJSON(fromJSON(filename))", {
   expect_type(read_bds(js2b), "list")
 })
