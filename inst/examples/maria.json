@@ -1,7 +1,7 @@
 {
   "Format": "3.0",
   "organisationCode": 1234,
-  "Reference": "Maria",
+  "reference": "Maria",
   "clientDetails": [
     {
       "bdsNumber": 19,
