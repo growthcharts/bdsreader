@@ -23,7 +23,7 @@ with data of the target child. See \code{bdsreader:::make_target()} for supporte
 fields.}
 
 \item{auto_format}{Logical. Should a field \code{Format} be written to the result?
-Default is \code{TRUE}.}
+Default is \code{TRUE}. Note: Only used for versions 1.0 and 1.1.}
 
 \item{format}{String. JSON data schema version number. There are currently
 three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}. Formats \code{"1.0"} and

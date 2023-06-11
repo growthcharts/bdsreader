@@ -12,7 +12,7 @@
 #'  with data of the target child. See `bdsreader:::make_target()` for supported
 #'  fields.
 #' @param auto_format Logical. Should a field `Format` be written to the result?
-#' Default is `TRUE`.
+#' Default is `TRUE`. Note: Only used for versions 1.0 and 1.1.
 #' @param file   File name. The default (`NULL`) returns the json representation
 #' of the data and does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
@@ -59,65 +59,13 @@ write_bds <- function(x = NULL,
     stop("File ", schema, " not found.")
   }
 
-  # for v = 1: distinguish between v1.0 and v1.1
-  type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
-  v <- as.integer(substr(format, 1L, 1L))
-  if (v == 2L | v == 3L) type <- "numeric"
+  js <- switch(format,
+               "1.0" = write_bds_1(x, organisation, schema, auto_format),
+               "1.1" = write_bds_1(x, organisation, schema, auto_format),
+               "2.0" = write_bds_2(x, organisation),
+               "3.0" = write_bds_3(x, organisation),
+               NULL)
 
-  # administrative elements
-  if (v == 1L | v == 2L) {
-    bds <- list(
-      Format = format,
-      OrganisatieCode = as.integer(organisation),
-      Referentie = as_bds_reference(x)
-    )
-  }
-  if (v == 3L) {
-    bds <- list(
-      Format = format,
-      organisationCode = as.integer(organisation),
-      Reference = as_bds_reference(x)
-    )
-  }
-
-  if (!auto_format) bds$Format <- NULL
-
-  # data elements
-  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
-  bds$ContactMomenten <- as_bds_contacts(x, v, type)
-  if (v == 3L) {
-    bds$nestedDetails <- as_bds_nested(x)
-  }
-  if (v == 1L) {
-    names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
-  }
-
-  # remove NA fields for v3
-  if (v == 3L) {
-    # clientDetails
-    bds$ClientGegevens <- lapply(bds$ClientGegevens, FUN = function(x){
-      if (is.na(x[2L]) | is.null(unlist(x[2L]))) return(NULL)
-      else return(x)
-    })
-    #
-    bds$ClientGegevens <- bds$ClientGegevens[lengths(bds$ClientGegevens) != 0L]
-
-    # clientMeasurements already removes NAs
-  }
-
-
-  js <- toJSON(bds, auto_unbox = TRUE, ...)
-  js <- switch(v,
-               gsub("Waarde2", "Waarde", js),
-               gsub("Waarde2", "Waarde", js),
-               gsub("value2", "value", js))
-  if (v == 1L) {
-    js <- gsub("ElementNummer", "Bdsnummer", js)
-  }
-  if (v == 3L) {
-    js <- gsub("ClientGegevens", "clientDetails", js)
-    js <- gsub("ContactMomenten", "clientMeasurements", js)
-  }
   if (!check) {
     return(js)
   }
@@ -138,6 +86,90 @@ write_bds <- function(x = NULL,
     return(invisible(js))
   }
   js
+}
+
+write_bds_1 <- function(x, organisation, schema, auto_format) {
+  v <- 1
+  type <- ifelse(grepl("v1.1", schema, fixed = TRUE), "numeric", "character")
+
+  # administrative elements
+  bds <- list(
+    Format = format,
+    OrganisatieCode = as.integer(organisation),
+    Referentie = as_bds_reference(x)
+  )
+
+  if (!auto_format) bds$Format <- NULL
+
+  # data elements
+  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
+  bds$ContactMomenten <- as_bds_contacts(x, v, type)
+  names(bds) <- gsub("ContactMomenten", "Contactmomenten", names(bds))
+
+  js <- toJSON(bds, auto_unbox = TRUE)
+  js <- switch(v,
+               gsub("Waarde2", "Waarde", js),
+               gsub("Waarde2", "Waarde", js),
+               gsub("value2", "value", js))
+  js <- gsub("ElementNummer", "Bdsnummer", js)
+  return(js)
+}
+
+write_bds_2 <- function(x, organisation) {
+  v <- 2
+  type <- "numeric"
+
+  # administrative elements
+  bds <- list(
+    Format = format,
+    OrganisatieCode = as.integer(organisation),
+    Referentie = as_bds_reference(x)
+  )
+
+  # data elements
+  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
+  bds$ContactMomenten <- as_bds_contacts(x, v, type)
+
+  js <- toJSON(bds, auto_unbox = TRUE)
+  js <- switch(v,
+               gsub("Waarde2", "Waarde", js),
+               gsub("Waarde2", "Waarde", js),
+               gsub("value2", "value", js))
+  return(js)
+}
+
+write_bds_3 <- function(x, organisation) {
+  v <- 3
+  type <- "numeric"
+
+  # administrative elements
+  bds <- list(
+    Format = format,
+    organisationCode = as.integer(organisation),
+    reference = as_bds_reference(x)
+  )
+
+  # data elements
+  bds$ClientGegevens <- as_bds_clientdata(x, v, type)
+  bds$ContactMomenten <- as_bds_contacts(x, v, type)
+  bds$nestedDetails <- as_bds_nested(x)
+
+  # remove NA fields for v3
+  # clientDetails
+  bds$ClientGegevens <- lapply(bds$ClientGegevens, FUN = function(x) {
+    if (is.na(x[2L]) | is.null(unlist(x[2L]))) return(NULL)
+    else return(x)
+  })
+  bds$ClientGegevens <- bds$ClientGegevens[lengths(bds$ClientGegevens) != 0L]
+
+  js <- toJSON(bds, auto_unbox = TRUE)
+  js <- switch(v,
+               gsub("Waarde2", "Waarde", js),
+               gsub("Waarde2", "Waarde", js),
+               gsub("value2", "value", js))
+  js <- gsub("ClientGegevens", "clientDetails", js)
+  js <- gsub("ContactMomenten", "clientMeasurements", js)
+  return(js)
 }
 
 as_bds_reference <- function(tgt) {
