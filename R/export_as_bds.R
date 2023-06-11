@@ -74,7 +74,7 @@ export_as_bds <- function(data,
 
   # if we have ga but no gad, calculate gad from ga
   idx <- is.na(persons$gad) & !is.na(persons$agem)
-  persons[idx, "gad"] <- persons$ga[idx] * 7
+  persons[idx, "gad"] <- persons$ga[idx] * 7 + 3
 
   # process time-varying data
   times <- data$time %>%
