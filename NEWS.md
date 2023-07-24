@@ -1,3 +1,7 @@
+# bdsreader 0.22.0
+
+- Updates example code, tests and documentation to the JSON V3.0 schema
+
 # bdsreader 0.21.0
 
 - Solves problem with `write_bds()` that failed to save gestational age for lollypop data
