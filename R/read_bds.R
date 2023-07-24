@@ -15,21 +15,20 @@
 #' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
 #'
 #' The `format` and `schema` arguments specify the format of the JSON input
-#' data argument `txt`. The default is `format = "1.0"` expects that the JSON
+#' data argument `txt`. The default `format = "1.0"` expects that the JSON
 #' input data conform to the schema specified in
-#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. The alternative
-#' is `format = 2.0` expects data coded according to
-#' `system.file("schemas/bds_v2.0.json", package = "bdsreader")`. For new users,
-#' we recommend format `"2.0"`.
+#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. This is only
+#' supported for legacy. We recommend format `"3.0"`, which expects data
+#' coded according to `system.file("schemas/bds_v3.0.json", package = "bdsreader")`.
 #'
-#' Alternatively, the format can be specified in the JSON data file with an entry
+#' The format can be specified in the JSON data file with an entry
 #' named `Format`. For `auto_format == TRUE`, the data specification overrides
 #' any `format` and `schema` arguments to the `read_bds()` function.
-#' The schema `bds_v2.0.json` schema requires
-#' the `Format` field, so the correct format is automatically set by the data.
+#' Schema `bds_v3.0.json` requires the `Format` field, so the correct format
+#' is automatically set by the data.
 #'
-#' If you erroneously read a JSON file of format `"1.0"` using format `"2.0"`
-#' you may see an error:
+#' Legacy note: If you erroneously read a JSON file of format `"1.0"` using
+#' format `"2.0"` you may see an error:
 #' `Error in b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions`.
 #' In that make sure that you are reading with the `format = "1.0"` argument.
 #' Reversely, if you erroneously read a JSON file of format `"2.0"` using format
@@ -44,17 +43,17 @@
 #' # Assume that jamesdemodata is installed locally.
 #' # If not use remotes::install_github("growthcharts/jamesdemodata")
 #'
-#' # Read file with input data according to format "2.0".
-#' data2 <- system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
-#' q <- read_bds(data2, format = "2.0")
+#' # Read file with input data according to format "3.0"
+#' data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' q <- read_bds(data2)
 #' q
 #'
-#' # Equivalent, but specifying the built-in schema file bds_v2.0.json
-#' schema2 <- system.file("schemas/bds_v2.0.json", package = "bdsreader")
+#' # Equivalent, but specifying the built-in schema file bds_v3.0.json
+#' schema2 <- system.file("schemas/bds_v3.0.json", package = "bdsreader")
 #' r <- read_bds(data2, schema = schema2)
 #' identical(q, r)
 #'
-#' # Automatic detection of format 2.0
+#' # Automatic detection of format 3.0
 #' # s <- read_bds(data2)
 #' # identical(q, s)
 #'

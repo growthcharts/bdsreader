@@ -26,5 +26,5 @@ A list with components \code{format} (either \code{1.0}, \code{1.1}, \code{2.0} 
 Set the schema from user input
 }
 \examples{
-set_schema("2.0")
+set_schema("3.0")
 }

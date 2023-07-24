@@ -12,7 +12,7 @@
 #' @return A list with components `format` (either `1.0`, `1.1`, `2.0` or `3.0`),
 #' `schema` (long file name) and `schema_base` (base file name).
 #' @examples
-#' set_schema("2.0")
+#' set_schema("3.0")
 #' @export
 set_schema <- function(format = "1.0", schema = NULL) {
   if (is.null(schema)) {
