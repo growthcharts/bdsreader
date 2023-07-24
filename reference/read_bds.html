@@ -19,7 +19,7 @@ Z-scores and stores the data in an list with elements psn and xyz."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
       </span>
     </div>
 
@@ -115,19 +115,18 @@ version number for the basename, and overwrites the
     <h2>Details</h2>
     <p>If <code>txt</code> is unspecified or <code>NULL</code>, then the function return will have zero rows.</p>
 <p>The <code>format</code> and <code>schema</code> arguments specify the format of the JSON input
-data argument <code>txt</code>. The default is <code>format = "1.0"</code> expects that the JSON
+data argument <code>txt</code>. The default <code>format = "1.0"</code> expects that the JSON
 input data conform to the schema specified in
-<code>system.file("schemas/bds_v1.0.json", package = "bdsreader")</code>. The alternative
-is <code>format = 2.0</code> expects data coded according to
-<code>system.file("schemas/bds_v2.0.json", package = "bdsreader")</code>. For new users,
-we recommend format <code>"2.0"</code>.</p>
-<p>Alternatively, the format can be specified in the JSON data file with an entry
+<code>system.file("schemas/bds_v1.0.json", package = "bdsreader")</code>. This is only
+supported for legacy. We recommend format <code>"3.0"</code>, which expects data
+coded according to <code>system.file("schemas/bds_v3.0.json", package = "bdsreader")</code>.</p>
+<p>The format can be specified in the JSON data file with an entry
 named <code>Format</code>. For <code>auto_format == TRUE</code>, the data specification overrides
 any <code>format</code> and <code>schema</code> arguments to the <code>read_bds()</code> function.
-The schema <code>bds_v2.0.json</code> schema requires
-the <code>Format</code> field, so the correct format is automatically set by the data.</p>
-<p>If you erroneously read a JSON file of format <code>"1.0"</code> using format <code>"2.0"</code>
-you may see an error:
+Schema <code>bds_v3.0.json</code> requires the <code>Format</code> field, so the correct format
+is automatically set by the data.</p>
+<p>Legacy note: If you erroneously read a JSON file of format <code>"1.0"</code> using
+format <code>"2.0"</code> you may see an error:
 <code>Error in b[b$ElementNummer == f &amp; !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions</code>.
 In that make sure that you are reading with the <code>format = "1.0"</code> argument.
 Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> using format
@@ -151,9 +150,9 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-in"><span><span class="co"># Assume that jamesdemodata is installed locally.</span></span></span>
 <span class="r-in"><span><span class="co"># If not use remotes::install_github("growthcharts/jamesdemodata")</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Read file with input data according to format "2.0".</span></span></span>
-<span class="r-in"><span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v2.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Read file with input data according to format "3.0"</span></span></span>
+<span class="r-in"><span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v3.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">q</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $psn</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
@@ -167,26 +166,26 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      age xname yname zname zref                      x     y      z</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0      48   -<span style="color: #BB0000;">1.52</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl 0.101  53.5 -<span style="color: #BB0000;">0.499</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.159 age   hgt   hgt_z nl_1997_hgt_female_nl 0.159  56   -<span style="color: #BB0000;">0.261</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.236 age   hgt   hgt_z nl_1997_hgt_female_nl 0.236  59.5  0.163</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.485 age   hgt   hgt_z nl_1997_hgt_female_nl 0.485  65.5 -<span style="color: #BB0000;">0.259</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.753 age   hgt   hgt_z nl_1997_hgt_female_nl 0.753  71.5  0.131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1.02  age   hgt   hgt_z nl_1997_hgt_female_nl 1.02   75   -<span style="color: #BB0000;">0.18</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0     48    -<span style="color: #BB0000;">1.52</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0     age   wgt   wgt_z nl_1997_wgt_female_nl 0      2.95 -<span style="color: #BB0000;">1.06</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0     age   bmi   bmi_z nl_1997_bmi_female_nl 0     12.8   0.259</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl 0.101 53.5  -<span style="color: #BB0000;">0.499</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.101 age   wgt   wgt_z nl_1997_wgt_female_nl 0.101  4.18 -<span style="color: #BB0000;">0.162</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.101 age   hdc   hdc_z nl_1997_hdc_female_nl 0.101 37.6   0.418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.101 age   bmi   bmi_z nl_1997_bmi_female_nl 0.101 14.6   0.231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.101 age   dsc   dsc_z ph_2023_dsc_female_40 0.101 14.8  -<span style="color: #BB0000;">0.321</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.159 age   hgt   hgt_z nl_1997_hgt_female_nl 0.159 56    -<span style="color: #BB0000;">0.261</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.159 age   wgt   wgt_z nl_1997_wgt_female_nl 0.159  5     0.401</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Equivalent, but specifying the built-in schema file bds_v2.0.json</span></span></span>
-<span class="r-in"><span><span class="va">schema2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v2.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Equivalent, but specifying the built-in schema file bds_v3.0.json</span></span></span>
+<span class="r-in"><span><span class="va">schema2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"schemas/bds_v3.0.json"</span>, package <span class="op">=</span> <span class="st">"bdsreader"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">read_bds</span><span class="op">(</span><span class="va">data2</span>, schema <span class="op">=</span> <span class="va">schema2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">r</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Automatic detection of format 2.0</span></span></span>
+<span class="r-in"><span><span class="co"># Automatic detection of format 3.0</span></span></span>
 <span class="r-in"><span><span class="co"># s &lt;- read_bds(data2)</span></span></span>
 <span class="r-in"><span><span class="co"># identical(q, s)</span></span></span>
 <span class="r-in"><span></span></span>
