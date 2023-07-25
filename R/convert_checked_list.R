@@ -1,11 +1,11 @@
-convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1.0") {
+convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0") {
   v <- as.integer(substr(format, 1L, 1L))
-  d <- checked$data
+  # d <- checked$data
   b <- switch(v,
               d$ClientGegevens$Elementen,
               d$ClientGegevens,
               d$clientDetails)
-  r <- checked$ranges
+  # r <- checked$ranges
 
   # convert ddi, calculate D-score
   ddi <- convert_ddi_gsed(d, r, v)

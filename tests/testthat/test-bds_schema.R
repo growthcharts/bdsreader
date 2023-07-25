@@ -156,9 +156,9 @@ for (format in c("1.0", "2.0", "3.0")) {
     )
   })
 
-  if (v != 3) {
+  if (TRUE) {
     test_that("test14.json (empty file) ERROR", {
-      expect_error(read_bds(jtf[14], schema = schema), "premature EOF")
+      expect_error(read_bds(jtf[14], schema = schema))
     })
   }
 

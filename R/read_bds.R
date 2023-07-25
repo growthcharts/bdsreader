@@ -78,23 +78,49 @@ read_bds <- function(txt = NULL,
     return(make_target(NULL))
   }
 
-  if (txt == "") {
-    stop("Argument txt is an empty string.")
+  # Step 1: read js object
+  txt <- txt[1L]
+  if (validate(txt)) {
+    js <- txt
+  }
+  else {
+    js <- readr::read_lines(file = txt)
   }
 
-  # Check. Tranform json errors (e.g. no file, invalid json) into a
-  # warning, and exit with empty target object.
-  checked <- tryCatch(
-    expr = verify(txt, auto_format = auto_format,
-                  format = format, schema = schema),
-    error = function(cnd) {
-      stop(conditionMessage(cnd))
+  # Step 2: check JSON syntax: if needed, warn and exit
+  err <- rlang::catch_cnd(data <- fromJSON(js))
+  if (!is.null(err)) stop(conditionMessage(err))
+
+  # Step 3: define schema
+  dfmt <- data$Format[1]
+  format <- ifelse(auto_format && !is.null(dfmt), dfmt, format)
+  schema_list <- set_schema(format, schema)
+  format <- schema_list$format
+  schema <- schema_list$schema
+  if (!file.exists(schema)) {
+    stop("Schema file ", schema, " not found.")
+  }
+
+  # Step 4: perform schema validation
+  validation_res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
+  validation_msg <- parse_valid(validation_res)
+
+  if (length(validation_msg$required) > 0L) {
+    if (any(grepl("required", validation_msg$required)) ||
+        any(grepl("verplicht", validation_msg$required)) ||
+        any(grepl("should", validation_msg$required))) {
+      # AHJ: currently not throwing message if time is incorrect. Not sure what purpose is?
+      throw_messages(validation_msg$required)
     }
-  )
+  }
+  throw_messages(validation_msg$supplied)
+
+  # Step 5: perform manual range checks
+  ranges <- suppressWarnings(check_ranges(data, format))
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(checked, append_ddi = append_ddi,
-                            format = checked$schema_list$format)
+  x <- convert_checked_list(data, ranges, append_ddi = append_ddi,
+                            format = format)
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters
