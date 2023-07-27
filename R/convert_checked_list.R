@@ -21,7 +21,7 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
   if (!is.null(d$Reference)) name <- as.character(d$Reference)
   if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
 
-  persondata <- tibble(
+  persondata <- tibble_row(
     id = -1L,
     name = name,
     dob  = extract_dob(d, which = "00", v = v),

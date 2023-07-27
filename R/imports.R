@@ -12,7 +12,7 @@
 #' @importFrom rlang           .data catch_cnd
 #' @importFrom stats           na.omit
 #' @importFrom tidyr           drop_na pivot_longer pivot_wider tibble
-#' @importFrom tibble          add_column
+#' @importFrom tibble          add_column tibble tibble_row
 #' @importFrom utils           hasName
 NULL
 
