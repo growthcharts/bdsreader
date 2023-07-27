@@ -28,7 +28,7 @@ Imports:
     tidyr
 Suggests: 
     openxlsx,
-    jamesdemodata (>= 0.8.0),
+    jamesdemodata (>= 0.10.1),
     testthat (>= 3.0.0)
 Remotes: 
     growthcharts/centile,
