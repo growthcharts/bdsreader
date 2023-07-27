@@ -1,8 +1,8 @@
 #' @importFrom centile         y2z
 #' @importFrom curl            curl
 #' @importFrom dplyr           %>% all_of arrange bind_cols bind_rows
-#'                             filter full_join mutate num_range recode rename
-#'                             right_join select
+#'                             filter full_join left_join mutate
+#'                             num_range recode rename right_join select
 #' @importFrom dscore          dscore
 #' @importFrom jsonlite        fromJSON prettify toJSON validate
 #' @importFrom jsonvalidate    json_validate

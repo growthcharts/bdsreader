@@ -79,6 +79,7 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 1: read js object
+  # js <- toJSON(fromJSON(txt[1L]))
   txt <- txt[1L]
   if (validate(txt)) {
     js <- txt
@@ -115,12 +116,45 @@ read_bds <- function(txt = NULL,
   }
   throw_messages(validation_msg$supplied)
 
-  # Step 5: perform manual range checks
+  # Step 5: report on manual range checks
   ranges <- suppressWarnings(check_ranges(data, format))
+
+  # Step 6: convert ddi, calculate D-score
+  major <- as.integer(substr(format, 1L, 1L))
+  cvt <- convert_ddi_gsed(data, ranges, major)
+  if (major %in% c(1, 2)) {
+    ddi <- cvt
+    ds <- dscore::dscore(data = ddi, key = "gsed2212")
+  }
+  else {
+    if (nrow(cvt$items)) {
+      ddi <- pivot_wider(cvt$items, names_from = "lex_gsed", values_from = c("pass"))
+    } else {
+      ddi <- tibble(age = numeric(0))
+    }
+    ds <- dscore::dscore(data = ddi, key = "gsed2212")
+  }
 
   # parse to list with components: persondata, xy
   x <- convert_checked_list(data, ranges, append_ddi = append_ddi,
-                            format = format)
+                            format = format, ds = ds)
+
+  ## append DDI
+  if (nrow(ddi) && append_ddi) {
+    x$xy <- bind_rows(
+      x$xy,
+      ddi %>%
+        pivot_longer(
+          cols = -all_of("age"), names_to = "yname",
+          values_to = "y", values_drop_na = TRUE,
+          values_transform = list(y=as.numeric)
+        ) %>%
+        mutate(
+          xname = "age",
+          x = .data$age
+        )
+    )
+  }
 
   # add Z-scores, analysis metric
   # try to find a reference only if yname has three letters

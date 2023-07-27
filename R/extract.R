@@ -36,7 +36,7 @@ extract_dob <- function(d, which = "00", v = 1) {
                      pp[pp$Bdsnummer == 62L, "Waarde"],
                      pp[pp$ElementNummer == 62L, "Waarde"],
                      pp[pp$nestingBdsNumber == 62L, "nestingCode"]
-           )
+    )
     if (is.null(parent)) next
     if (parent == which) {
       # for v3 the parent codes are 'NFTH' (natural father) and "NMTH" (natural
@@ -164,4 +164,16 @@ extract_field3 <- function(d, f, which_parent = "02", v = 1) {
     }
   }
   return(NA)
+}
+
+clientMeasurements_to_df <- function(cm) {
+  # convert clientMeasurement list components
+  # into data.frame with bds, date, value
+  # convert all values to integer
+  for (i in seq_along(cm$values))
+  {
+    cm$values[[i]]$value <- as.integer(cm$values[[i]]$value)
+  }
+  bind_cols(bds = rep(cm$bdsNumber, sapply(cm$values, nrow)),
+            bind_rows(cm$values))
 }

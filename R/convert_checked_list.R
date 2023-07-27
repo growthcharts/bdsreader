@@ -1,15 +1,10 @@
-convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0") {
+convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
+                                 ds = ds) {
   v <- as.integer(substr(format, 1L, 1L))
-  # d <- checked$data
   b <- switch(v,
               d$ClientGegevens$Elementen,
               d$ClientGegevens,
               d$clientDetails)
-  # r <- checked$ranges
-
-  # convert ddi, calculate D-score
-  ddi <- convert_ddi_gsed(d, r, v)
-  ds <- dscore::dscore(data = ddi, key = "gsed2212")
 
   # store organisation code
   # support version- and case-insensitive reads
@@ -137,23 +132,6 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0") {
         x = 0,
         y = persondata$bw / 1000
       )
-    )
-  }
-
-  ## append DDI
-  if (nrow(ddi) && append_ddi) {
-    xy <- bind_rows(
-      xy,
-      ddi %>%
-        pivot_longer(
-          cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
-          values_transform = list(y=as.numeric)
-        ) %>%
-        mutate(
-          xname = "age",
-          x = .data$age
-        )
     )
   }
 
