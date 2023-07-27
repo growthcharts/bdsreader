@@ -87,17 +87,17 @@ convert_ddi_gsed_12 <- function(d, r, v) {
 
 convert_ddi_gsed_3 <- function(d, r) {
   # premature return if there are no data
-  if (!(length(d$Contactmomenten) ||
-        length(d$ContactMomenten) ||
-        length(d$clientMeasurements)) ||
-      is.null(r$dom)) {
-    return(list(bds = tibble(),
-                items = tibble()))
+  if (!(length(d$clientMeasurements)) || is.null(r$dom)) {
+    return(list(bds = tibble(), items = tibble()))
   }
 
   # filter bds numbers of DDI, sort by bds and age
   bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
-  bds <- clientMeasurements_to_df(d$clientMeasurements) %>%
+  bds <- clientMeasurements_to_df(d$clientMeasurements)
+  if (any(!hasName(bds, c("bds", "date", "value")))) {
+    return(list(bds = tibble(), items = tibble()))
+  }
+  bds <- bds %>%
     filter(bds %in% bdsnum) %>%
     mutate(age = as.numeric(round((ymd(date) - r$dob) / 365.25, 4L))) %>%
     select(-date) %>%

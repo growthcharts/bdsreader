@@ -14,6 +14,7 @@
 - Tweaks reading logic so that lollypop data are read
 - Redefines 'reference' instead of 'Reference' in V3.0 schema
 - Splits `write_bds()` in subfunctions per major version
+- Extends tests for `read_bds()` to cover three major versions
 
 # bdsreader 0.20.2
 

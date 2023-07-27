@@ -46,7 +46,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v == 2) {  # other messages are OK
+  if (v >= 2) {  # other messages are OK
     test_that("test3.json (missing OrganisatieCode) MESS", {
       expect_silent(
         read_bds(jtf[3], schema = schema)
@@ -81,7 +81,7 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
 
-  if (v == 2) {  # v2.0: silent is OK
+  if (v >= 2) {  # v2.0: silent is OK
     test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
       expect_silent(
         read_bds(jtf[7], schema = schema))
@@ -103,7 +103,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v == 2) {  #  v2.0: Silent is OK
+  if (v >= 2) {  #  v2.0: Silent is OK
     test_that("test9.json (Bdsnummer 19 missing) MESS", {
       expect_silent(
         read_bds(jtf[9], schema = schema))
@@ -120,11 +120,10 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v == 2) {  # v2.0: Other message OK
+  if (v >= 2) {  # v2.0: Other message OK
     test_that("test10.json (Bdsnummer 20 missing) MESS", {
       expect_message(
-        read_bds(jtf[10], schema = schema),
-        "Missing 'ContactMomenten'"
+        read_bds(jtf[10], schema = schema)
       )
     })
   }
@@ -202,6 +201,13 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
+  if (v == 3) {
+    test_that("test20.json (missing Groepen) MESS", {
+      expect_message(read_bds(jtf[20], schema = schema),
+                     "Missing 'nestedDetails'")
+    })
+  }
+
   if (v == 1) {
     test_that("test21.json (minimal data) MESS", {
       expect_message(read_bds(jtf[21], schema = schema),
@@ -211,7 +217,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v == 2) {  # v2.0: Other messages
+  if (v >= 2) {  # v2.0: Other messages
     test_that("test21.json (minimal data) MESS", {
       expect_message(read_bds(jtf[21], schema = schema))
     })
@@ -228,36 +234,58 @@ for (format in c("1.0", "2.0", "3.0")) {
   test_that("test24.json (new DDI fields) SILENT", {
     expect_silent(read_bds(jtf[24], schema = schema))
   })
+
+  test_that("test25.json Extreme D-score first few months (Smit 20210311)", {
+    expect_message(read_bds(jtf[25], schema = schema))
+  })
+
+
+  if (v == 1) {
+    fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+    js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+
+    test_that("Laura_S.json is silent with GA in days", {
+      expect_silent(read_bds(js, schema = schema))
+    })
+  }
+
+  if (v >= 2) {
+    fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+    js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+
+    test_that("Laura_S.json is silent with GA in days", {
+      expect_message(read_bds(js, schema = schema))
+    })
+  }
+
+  # # 2 problematic json files identified by Allegro Sultum - Feb 2020
+  fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
+  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+
+  test_that("not_a_vector.json produces messages", {
+    expect_message(read_bds(js, schema = schema),
+                   "BDS 82",
+                   fixed = TRUE
+    )
+  })
+
+  # problematic json file http400.json identified by Allegro Sultum - Feb 2020
+  fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
+  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
+
+  if (v == 1) {
+    test_that("http400.json proceeds silent - no biological mother", {
+      expect_silent(read_bds(js, schema = schema))
+    })
+  }
+
+  if (v >= 2) {
+    test_that("http400.json produces messages - no biological mother", {
+      expect_message(read_bds(js, schema = schema))
+    })
+  }
 }
 
-
-
-#  fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
-#  js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-#
-#  test_that("Laura_S.json is silent with GA in days", {
-#    expect_silent(read_bds(js, schema = schema))
-#  })
-#
-# # 2 problematic json files identified by Allegro Sultum - Feb 2020
-# fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
-# js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-#
-# test_that("not_a_vector.json produces messages", {
-#   expect_message(read_bds(js, schema = schema),
-#                  "BDS 82",
-#                  fixed = TRUE
-#   )
-# })
-#
-# # problematic json file http400.json identified by Allegro Sultum - Feb 2020
-# fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
-# js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
-#
-# test_that("http400.json proceeds silent - no biological mother", {
-#   expect_silent(read_bds(js, schema = schema))
-# })
-#
 # # Check proper splitting of head lag item
 # fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
 # tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
@@ -291,3 +319,4 @@ for (format in c("1.0", "2.0", "3.0")) {
 #   dplyr::filter(substr(.data$yname, 1, 3) == "ddi") %>%
 #   dplyr::select(age, yname, y)
 #}
+
