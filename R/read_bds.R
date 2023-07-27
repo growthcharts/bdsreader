@@ -10,7 +10,7 @@
 #' @param \dots Ignored
 #' @inheritParams set_schema
 #' @return A list with elements named `"psn"` and `"xyz"`.
-#' @author Stef van Buuren 2021
+#' @author Stef van Buuren 2021-2023
 #' @details
 #' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
 #'
@@ -85,12 +85,23 @@ read_bds <- function(txt = NULL,
     js <- txt
   }
   else {
-    js <- readr::read_lines(file = txt)
+    err <- rlang::catch_cnd({
+      js <- readr::read_lines(file = txt)
+    })
+    if (!is.null(err)) {
+      message("Cannot read 'txt': ", txt)
+      return(make_target(NULL))
+    }
   }
 
   # Step 2: check JSON syntax: if needed, warn and exit
-  err <- rlang::catch_cnd(data <- fromJSON(js))
-  if (!is.null(err)) stop(conditionMessage(err))
+  err <- rlang::catch_cnd({
+    data <- fromJSON(js)
+  })
+  if (!is.null(err)) {
+    message(conditionMessage(err))
+    return(make_target(NULL))
+  }
 
   # Step 3: define schema
   dfmt <- data$Format[1]

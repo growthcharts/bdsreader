@@ -17,11 +17,6 @@ for (format in c("1.0", "2.0", "3.0")) {
                      paste0("test", 1:25, ".json"),
                      package = "jamesdemodata")
 
-  if (v == 3) {
-    # FIXME cant create jtf 8 and 14, see jamesdemodata package.
-    jtf <- c(jtf[1:7], NA, jtf[8:12], NA, jtf[13:23])
-  }
-
   # test the empty object
   js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
   test_that("handles the empty individual object", {
@@ -93,22 +88,17 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-
-  if (v != 3) {
-    test_that("test8.json (Invalid JSON) ERROR", {
-      expect_error(
-        read_bds(jtf[8], schema = schema),
-        "lexical error: invalid char in json text."
-      )
-    })
-  }
-
+  test_that("test8.json (Invalid JSON) ERROR", {
+    expect_message(
+      read_bds(jtf[8], schema = schema),
+      "lexical error: invalid char in json text.")
+  })
 
   if (v == 1) {
     test_that("test9.json (Bdsnummer 19 missing) MESS", {
       expect_message(
         read_bds(jtf[9], schema = schema),
-        "verplicht BDS nummer ontbreekt: 19"
+        "required BDS not found: 19"
       )
     })
   }
@@ -125,7 +115,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     test_that("test10.json (Bdsnummer 20 missing) MESS", {
       expect_message(
         read_bds(jtf[10], schema = schema),
-        "verplicht BDS nummer ontbreekt: 20"
+        "required BDS not found: 20"
       )
     })
   }
@@ -138,7 +128,6 @@ for (format in c("1.0", "2.0", "3.0")) {
       )
     })
   }
-
 
   test_that("test11.json (Bdsnummer 82 missing) MESS", {
     expect_message(read_bds(jtf[11], schema = schema)
@@ -156,16 +145,16 @@ for (format in c("1.0", "2.0", "3.0")) {
     )
   })
 
-  if (TRUE) {
-    test_that("test14.json (empty file) ERROR", {
-      expect_error(read_bds(jtf[14], schema = schema))
-    })
-  }
+  test_that("test14.json (empty file) ERROR", {
+    expect_message(
+      read_bds(jtf[14], schema = schema),
+      "lexical error: invalid char in json text.")
+  })
 
   if (v == 1) {
-  test_that("test15.json (Bdsnummer 62 numeric) message", {
-    expect_message(read_bds(jtf[15], schema = schema))
-  })}
+    test_that("test15.json (Bdsnummer 62 numeric) message", {
+      expect_message(read_bds(jtf[15], schema = schema))
+    })}
 
   if (v %in% c(2, 3)) {
     test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
@@ -182,17 +171,17 @@ for (format in c("1.0", "2.0", "3.0")) {
   })
 
   if (v == 1) {
-  test_that("test18.json (Bdsnummer 91 numeric) MESS", {
-    expect_message(
-      read_bds(jtf[18], schema = schema)
-    )})
+    test_that("test18.json (Bdsnummer 91 numeric) MESS", {
+      expect_message(
+        read_bds(jtf[18], schema = schema)
+      )})
   }
 
   if (v %in% c(2, 3)) {
-  test_that("test18.json (Bdsnummer 91 numeric) MESS", {
-    expect_silent(
-      read_bds(jtf[18], schema = schema)
-    )})
+    test_that("test18.json (Bdsnummer 91 numeric) MESS", {
+      expect_silent(
+        read_bds(jtf[18], schema = schema)
+      )})
   }
 
   test_that("test19.json (Bdsnummer 110 numeric) PASSES", {

@@ -11,11 +11,6 @@ for (i in 1:3) {
 
   jtf <- system.file("extdata", path, "test", paste0("test", 1:25, ".json"), package = "jamesdemodata")
 
-  if (i == 3) {
-    # FIXME cant create jtf 8 and 14, see jamesdemodata package.
-    jtf <- c(jtf[1:7], NA, jtf[8:12], NA, jtf[13:23])
-  }
-
   # test the empty object
   if (i == 1) {
     js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
@@ -131,7 +126,7 @@ for (i in 1:3) {
     test_that("test9.json (Bdsnummer 19 missing) returns warning", {
       expect_message(
         verify(jtf[9], schema = schema),
-        "verplicht BDS nummer ontbreekt: 19"
+        "required BDS not found: 19"
       )
     })
   }
@@ -140,7 +135,7 @@ for (i in 1:3) {
     test_that("test10.json (Bdsnummer 20 missing) return warning", {
       expect_message(
         verify(jtf[10], schema = schema),
-        "verplicht BDS nummer ontbreekt: 20"
+        "required BDS not found: 20"
       )
     })
   }

@@ -44,7 +44,7 @@ parse_valid <- function(valid) {
     mess$required <- c(
       mess$required,
       paste(
-        "verplicht BDS nummer ontbreekt:",
+        "required BDS not found:",
         ((unlist(w[w$keyword == "contains", "schema"])))
         [grep("[0-9].*", ((unlist(w[w$keyword == "contains", "schema"]))))]) # remove non-numbers
       )
@@ -54,7 +54,7 @@ parse_valid <- function(valid) {
   if ("anyOf" %in% w$keyword) {
     mess$required <- c(
       mess$required,
-      "foutieve BDS waarden gevonden"
+      "misspecified BDS values"
     )
 
     # For misspecified values - return supplied and accepted values

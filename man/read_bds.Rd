@@ -103,5 +103,5 @@ identical(t, u)
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}
 }
 \author{
-Stef van Buuren 2021
+Stef van Buuren 2021-2023
 }
