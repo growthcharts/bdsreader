@@ -115,7 +115,7 @@ parse_valid <- function(valid) {
         }
       }
       mess$supplied <- merge(user.warning, bdsreader::bds_lexicon, by = "bdsnummer") %>%
-        select(all_of(c("bdsnummer", "description", "expected", "supplied", "supplied_type")))
+        select(all_of(c("bdsnummer", "description_EN", "expected", "supplied", "supplied_type")))
     }
   }
   mess

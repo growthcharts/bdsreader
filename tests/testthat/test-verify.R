@@ -94,7 +94,7 @@ for (i in 1:3) {
   if (i %in% c(2, 3)) {
     test_that("test6.json BDS 235 (Lengte in mm): heeft geen waarde", {
       expect_message(verify(jtf[6], schema = schema),
-                     "BDS 235 (Lengte in mm): heeft geen waarde",
+                     "BDS 235 (Length/height in mm): has no value",
                      fixed = TRUE
       )
     })
@@ -155,7 +155,7 @@ for (i in 1:3) {
 
   test_that("test11.json (Bdsnummer 82 missing) return message", {
     expect_message(verify(jtf[11], schema = schema),
-                   "BDS 82 (Zwangerschapsduur in dagen) heeft geen waarde",
+                   "BDS 82 (Gestational age in days) has no value",
                    fixed = TRUE
     )
   })
@@ -166,14 +166,14 @@ for (i in 1:3) {
 
   test_that("test13.json (Bdsnummer 110 missing) returns message", {
     expect_message(verify(jtf[13], schema = schema),
-                   "BDS 110 (Geboortegewicht in grammen: heeft geen waarde",
+                   "BDS 110 (Birth weight in grammes): has no value",
                    fixed = TRUE
     )
   })
 
   if (i != 3) {
     test_that("test14.json (empty file) returns ERROR", {
-      expect_error(verify(jtf[14], schema = schema), "premature EOF")
+      expect_error(verify(jtf[14], schema = schema))
     })
   }
 

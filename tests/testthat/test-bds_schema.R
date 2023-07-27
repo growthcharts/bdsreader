@@ -151,7 +151,7 @@ for (format in c("1.0", "2.0", "3.0")) {
 
   test_that("test13.json (Bdsnummer 110 missing) MESS", {
     expect_message(read_bds(jtf[13], schema = schema),
-                   "BDS 110 (Geboortegewicht in grammen: heeft geen waarde",
+                   "BDS 110 (Birth weight in grammes): has no value",
                    fixed = TRUE
     )
   })
