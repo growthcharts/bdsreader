@@ -121,12 +121,12 @@ read_bds <- function(txt = NULL,
 
   # Step 6: convert ddi, calculate D-score
   major <- as.integer(substr(format, 1L, 1L))
-  cvt <- convert_ddi_gsed(data, ranges, major)
   if (major %in% c(1, 2)) {
-    ddi <- cvt
+    ddi <- convert_ddi_gsed_12(data, ranges, major)
     ds <- dscore::dscore(data = ddi, key = "gsed2212")
   }
   else {
+    cvt <- convert_ddi_gsed_3(data, ranges)
     if (nrow(cvt$items)) {
       ddi <- pivot_wider(cvt$items, names_from = "lex_gsed", values_from = c("pass"))
     } else {

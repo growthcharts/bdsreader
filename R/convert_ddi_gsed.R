@@ -1,9 +1,3 @@
-convert_ddi_gsed <- function(d, r, v) {
-  if (v == 1L || v == 2L)
-    return(convert_ddi_gsed_12(d, r, v))
-  convert_ddi_gsed_3(d, r, v)
-}
-
 convert_ddi_gsed_12 <- function(d, r, v) {
 
   # get BDS numbers and names of items
@@ -91,9 +85,7 @@ convert_ddi_gsed_12 <- function(d, r, v) {
   w
 }
 
-convert_ddi_gsed_3 <- function(d, r, v) {
-  if (v < 3) stop("Incorrect major version.")
-
+convert_ddi_gsed_3 <- function(d, r) {
   # premature return if there are no data
   if (!(length(d$Contactmomenten) ||
         length(d$ContactMomenten) ||
@@ -103,10 +95,8 @@ convert_ddi_gsed_3 <- function(d, r, v) {
                 items = tibble()))
   }
 
-  # get BDS numbers and names of items
-  bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
-
   # filter bds numbers of DDI, sort by bds and age
+  bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
   bds <- clientMeasurements_to_df(d$clientMeasurements) %>%
     filter(bds %in% bdsnum) %>%
     mutate(age = as.numeric(round((ymd(date) - r$dob) / 365.25, 4L))) %>%
