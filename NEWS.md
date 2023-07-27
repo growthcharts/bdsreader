@@ -1,3 +1,9 @@
+- Reorganises calculation in main function `read_bds()`
+- Five time faster reading of DDI BDS fields
+- Splits function `convert_ddi_gsed()` by major version number
+- Translates all user messages into the English language
+- Update all tests according to new functionality
+
 # bdsreader 0.22.0
 
 - Updates example code, tests and documentation to the JSON V3.0 schema

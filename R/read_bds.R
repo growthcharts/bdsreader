@@ -79,7 +79,6 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 1: read js object
-  # js <- toJSON(fromJSON(txt[1L]))
   txt <- txt[1L]
   if (validate(txt)) {
     js <- txt
