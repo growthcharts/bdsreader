@@ -5,13 +5,7 @@ check_ranges <- function(d, format) {
   e <- catch_cnd({
     dob <- ymd(extract_field2(d, 20L, v = v))
   })
-  if (!is.null(e)) {
-    message("BDS  20 (",
-            lex[lex$bdsnummer == 20, "description_EN"],
-            ") Invalid birth date"
-    )
-    dob <- NA
-  } else if (length(dob) == 0L) {
+  if (!is.null(e) || !length(dob)) {
     message("BDS  20 (",
             lex[lex$bdsnummer == 20, "description_EN"],
             ") Invalid birth date"

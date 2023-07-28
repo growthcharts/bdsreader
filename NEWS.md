@@ -4,6 +4,7 @@
 - Translates all user messages into the English language
 - Update all tests according to new functionality
 - Trim package by removing the `verify()` function and its tests
+- Clean up code by `lintr`
 
 # bdsreader 0.22.0
 
