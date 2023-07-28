@@ -4,7 +4,8 @@
 #' JSON validation schema, perform checks, calculates the D-score, calculates
 #' Z-scores and stores the data in an list with elements `psn` and `xyz`.
 #' @param txt A JSON string, URL or file
-#' @param auto_format Logical. Should the format be read from the data? Default is `TRUE`.
+#' @param auto_format Logical. Should the format be read from the data? Default
+#' is `TRUE`.
 #' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
@@ -12,14 +13,16 @@
 #' @return A list with elements named `"psn"` and `"xyz"`.
 #' @author Stef van Buuren 2021-2023
 #' @details
-#' If `txt` is unspecified or `NULL`, then the function return will have zero rows.
+#' If `txt` is unspecified or `NULL`, then the function return will have zero
+#' rows.
 #'
 #' The `format` and `schema` arguments specify the format of the JSON input
 #' data argument `txt`. The default `format = "1.0"` expects that the JSON
 #' input data conform to the schema specified in
 #' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. This is only
 #' supported for legacy. We recommend format `"3.0"`, which expects data
-#' coded according to `system.file("schemas/bds_v3.0.json", package = "bdsreader")`.
+#' coded according to
+#' `system.file("schemas/bds_v3.0.json", package = "bdsreader")`.
 #'
 #' The format can be specified in the JSON data file with an entry
 #' named `Format`. For `auto_format == TRUE`, the data specification overrides
@@ -29,7 +32,7 @@
 #'
 #' Legacy note: If you erroneously read a JSON file of format `"1.0"` using
 #' format `"2.0"` you may see an error:
-#' `Error in b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions`.
+#' `Error ...: incorrect number of dimensions`.
 #' In that make sure that you are reading with the `format = "1.0"` argument.
 #' Reversely, if you erroneously read a JSON file of format `"2.0"` using format
 #' `"1.0"` you may see messages `.ClientGegevens should be object` and
@@ -44,7 +47,8 @@
 #' # If not use remotes::install_github("growthcharts/jamesdemodata")
 #'
 #' # Read file with input data according to format "3.0"
-#' data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
+#'   package = "jamesdemodata")
 #' q <- read_bds(data2)
 #' q
 #'
@@ -58,7 +62,8 @@
 #' # identical(q, s)
 #'
 #' # Reading data with older format (bds_v1.0)
-#' data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+#'   package = "jamesdemodata")
 #' t <- read_bds(data1)
 #' t
 #'
@@ -82,8 +87,7 @@ read_bds <- function(txt = NULL,
   txt <- txt[1L]
   if (validate(txt)) {
     js <- txt
-  }
-  else {
+  } else {
     err <- rlang::catch_cnd({
       js <- readr::read_lines(file = txt)
     })
@@ -113,18 +117,19 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 4: perform schema validation
-  validation_res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
-  validation_msg <- parse_valid(validation_res)
+  res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
+  msg <- parse_valid(res)
 
-  if (length(validation_msg$required) > 0L) {
-    if (any(grepl("required", validation_msg$required)) ||
-        any(grepl("verplicht", validation_msg$required)) ||
-        any(grepl("should", validation_msg$required))) {
-      # AHJ: currently not throwing message if time is incorrect. Not sure what purpose is?
-      throw_messages(validation_msg$required)
+  if (length(msg$required) > 0L) {
+    if (any(grepl("required", msg$required)) ||
+        any(grepl("verplicht", msg$required)) ||
+        any(grepl("should", msg$required))) {
+      throw_messages(msg$required)
+      # AHJ: currently not throwing message if time is incorrect.
+      # Not sure what purpose is?
     }
   }
-  throw_messages(validation_msg$supplied)
+  throw_messages(msg$supplied)
 
   # Step 5: report on manual range checks
   ranges <- suppressWarnings(check_ranges(data, format))
@@ -134,11 +139,11 @@ read_bds <- function(txt = NULL,
   if (major %in% c(1, 2)) {
     ddi <- convert_ddi_gsed_12(data, ranges, major)
     ds <- dscore::dscore(data = ddi, key = "gsed2212")
-  }
-  else {
+  } else {
     cvt <- convert_ddi_gsed_3(data, ranges)
     if (nrow(cvt$items)) {
-      ddi <- pivot_wider(cvt$items, names_from = "lex_gsed", values_from = c("pass"))
+      ddi <- pivot_wider(cvt$items, names_from = "lex_gsed",
+                         values_from = c("pass"))
     } else {
       ddi <- tibble(age = numeric(0))
     }
@@ -157,7 +162,7 @@ read_bds <- function(txt = NULL,
         pivot_longer(
           cols = -all_of("age"), names_to = "yname",
           values_to = "y", values_drop_na = TRUE,
-          values_transform = list(y=as.numeric)
+          values_transform = list(y = as.numeric)
         ) %>%
         mutate(
           xname = "age",
@@ -176,7 +181,8 @@ read_bds <- function(txt = NULL,
     mutate(
       zref = set_refcodes(.),
       zref = ifelse(nchar(.data$yname) == 3L, .data$zref, NA_character_),
-      zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"), NA_character_),
+      zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"),
+                     NA_character_),
       z = y2z(
         y = .data$y,
         x = .data$x,

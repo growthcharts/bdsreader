@@ -2,7 +2,9 @@ check_ranges <- function(d, format) {
   v <- as.integer(substr(format, 1L, 1L))
   lex <- bdsreader::bds_lexicon
 
-  e <- catch_cnd(dob <- ymd(extract_field2(d, 20L, v = v)))
+  e <- catch_cnd({
+    dob <- ymd(extract_field2(d, 20L, v = v))
+  })
   if (!is.null(e)) {
     message("BDS  20 (",
             lex[lex$bdsnummer == 20, "description_EN"],
@@ -17,7 +19,9 @@ check_ranges <- function(d, format) {
     dob <- NA
   }
 
-  e <- catch_cnd(dobm <- ymd(extract_field3(d, 63L, v = v)))
+  e <- catch_cnd({
+    dobm <- ymd(extract_field3(d, 63L, v = v))
+  })
   if (!is.null(e)) {
     message("BDS  63 (",
             lex[lex$bdsnummer == 63, "description_EN"],
@@ -33,7 +37,7 @@ check_ranges <- function(d, format) {
             " in days) has no value"
     )
   }
-  if (!is.na(gad) & (gad < 50 | gad > 350)) {
+  if (!is.na(gad) && (gad < 50 || gad > 350)) {
     message("BDS 82 (",
             lex[lex$bdsnummer == 82, "description_EN"],
             " in days): Outside range 50-350"
@@ -47,7 +51,7 @@ check_ranges <- function(d, format) {
             " in grammes): has no value"
     )
   }
-  if (!is.na(bw) & (bw < 300 | bw > 8000)) {
+  if (!is.na(bw) && (bw < 300 || bw > 8000)) {
     message("BDS 110 (",
             lex[lex$bdsnummer == 110, "description_EN"],
             " in grammes: Outside range 300-8000"
@@ -61,7 +65,7 @@ check_ranges <- function(d, format) {
             " in mm): has no value"
     )
   }
-  if (!is.na(hgtm) & (hgtm < 800 | hgtm > 3000)) {
+  if (!is.na(hgtm) && (hgtm < 800 || hgtm > 3000)) {
     message("BDS 238 (",
             lex[lex$bdsnummer == 238, "description_EN"],
             " in mm): Outside range 800-3000"
@@ -75,7 +79,7 @@ check_ranges <- function(d, format) {
             " in mm): has no value"
     )
   }
-  if (!is.na(hgtf) & (hgtf < 800 | hgtf > 3000)) {
+  if (!is.na(hgtf) && (hgtf < 800 || hgtf > 3000)) {
     message("BDS 240 (",
             lex[lex$bdsnummer == 240, "description_EN"],
             " in mm): Outside range 800-3000"
@@ -84,8 +88,8 @@ check_ranges <- function(d, format) {
 
   hdc <- wgt <- hgt <- dom <- NULL
 
-  if (length(d$Contactmomenten) == 0L &
-      length(d$ContactMomenten) == 0L &
+  if (length(d$Contactmomenten) == 0L &&
+      length(d$ContactMomenten) == 0L &&
       length(d$clientMeasurements) == 0L) {
     switch(v,
            message("Missing 'Contactmomenten'"),
@@ -93,14 +97,23 @@ check_ranges <- function(d, format) {
            message("Missing 'clientMeasurements'"))
   } else {
     if (v == 1) {
-      e <- catch_cnd(dom <- ymd(d$Contactmomenten[[1L]]))
-      if (!is.null(e)) warning("Measurement date: Invalid format: ", as.character(d$Contactmomenten[[1L]]))
+      e <- catch_cnd({
+        dom <- ymd(d$Contactmomenten[[1L]])
+        })
+      if (!is.null(e)) warning("Measurement date: Invalid format: ",
+                               as.character(d$Contactmomenten[[1L]]))
     } else if (v == 2) {
-      e <- catch_cnd(dom <- ymd(d$ContactMomenten[[1L]]))
-      if (!is.null(e)) warning("Measurement date: Invalid format: ", as.character(d$ContactMomenten[[1L]]))
+      e <- catch_cnd({
+        dom <- ymd(d$ContactMomenten[[1L]])
+        })
+      if (!is.null(e)) warning("Measurement date: Invalid format: ",
+                               as.character(d$ContactMomenten[[1L]]))
     } else if (v == 3) {
-      e <- catch_cnd(dom <- unique(ymd(do.call("rbind", d$clientMeasurements$values)$date)))
-      if (!is.null(e)) warning("Measurement date: Invalid format: ", as.character(d$ContactMomenten[[1L]]))
+      e <- catch_cnd({
+        dom <- unique(ymd(do.call("rbind", d$clientMeasurements$values)$date))
+        })
+      if (!is.null(e)) warning("Measurement date: Invalid format: ",
+                               as.character(d$ContactMomenten[[1L]]))
     }
 
     hgt <- extract_field(d, 235L, v = v)
@@ -164,7 +177,6 @@ check_ranges <- function(d, format) {
       message("Missing 'nestedDetails'")
     }
   }
-
 
   list(
     dob = dob,

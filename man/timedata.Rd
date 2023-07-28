@@ -16,6 +16,7 @@ A tibble with time-level data
 Extract time-level information
 }
 \examples{
-fn <- system.file("extdata/bds_v3.0/smocc/Laura_S.json", package = "jamesdemodata")
+fn <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
+  package = "jamesdemodata")
 timedata(read_bds(fn))
 }

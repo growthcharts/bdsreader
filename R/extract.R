@@ -28,9 +28,9 @@ extract_dob <- function(d, which = "00", v = 1) {
     return(return(as.Date(NA)))
   }
 
-  if (v == 3) p <- split(p, f = (1:nrow(p)))
+  if (v == 3) p <- split(p, f = seq_len(nrow(p)))
   p <- p[sapply(p, length) > 0]
-  for (i in 1L:length(p)) {
+  for (i in seq_along(p)) {
     pp <- p[[i]]
     parent <- switch(v,
                      pp[pp$Bdsnummer == 62L, "Waarde"],
@@ -41,10 +41,11 @@ extract_dob <- function(d, which = "00", v = 1) {
     if (parent == which) {
       # for v3 the parent codes are 'NFTH' (natural father) and "NMTH" (natural
       # mother)
-      dobp <- switch(v,
-                     ymd(pp[pp$Bdsnummer == 63L, 2L]),
-                     ymd(pp[pp$ElementNummer == 63L, 2L]),
-                     ymd(pp$clientDetails[[1]][pp$clientDetails[[1]]$bdsNumber == 63L, 2L])
+      dobp <- switch(
+        v,
+        ymd(pp[pp$Bdsnummer == 63L, 2L]),
+        ymd(pp[pp$ElementNummer == 63L, 2L]),
+        ymd(pp$clientDetails[[1]][pp$clientDetails[[1]]$bdsNumber == 63L, 2L])
       )
       if (!length(dobp)) {
         return(as.Date(NA))
@@ -100,11 +101,12 @@ extract_agep_v2 <- function(dob, dobp) {
 
 # For ContactMomenten
 extract_field <- function(d, f = 245L, v = 1) {
-  if (v == 1){
+  if (v == 1) {
     z <- d$Contactmomenten[[2L]]
     as.numeric(unlist(lapply(z, function(x, f2 = f) {
       ifelse("Waarde" %in% names(x), x[x$Bdsnummer == f2, "Waarde"], NA)
-    })))
+    }
+    )))
   } else if (v == 2) {
     z <- d$ContactMomenten[[2L]]
     as.numeric(unlist(lapply(z, function(x, f2 = f) {
@@ -147,8 +149,8 @@ extract_field3 <- function(d, f, which_parent = "02", v = 1) {
   if (length(p) == 0) {
     return(NA)
   }
-  if (v == 3) p <- split(p, f = (1:nrow(p)))
-  for (i in 1L:length(p)) {
+  if (v == 3) p <- split(p, f = seq_len(nrow(p)))
+  for (i in seq_along(p)) {
     pp <- p[[i]]
     parent <- switch(v,
                      pp[pp$Bdsnummer == 62L, "Waarde"],
@@ -156,22 +158,22 @@ extract_field3 <- function(d, f, which_parent = "02", v = 1) {
                      pp[pp$nestingBdsNumber == 62L, "nestingCode"])
     if (is.null(parent)) next
     if (parent == which_parent) {
-      wp <- switch(v,
-                   pp[pp$Bdsnummer == f, 2L],
-                   pp[pp$ElementNummer == f, 2L],
-                   pp$clientDetails[[1]][pp$clientDetails[[1]]$bdsNumber == f, 2L])
+      wp <- switch(
+        v,
+        pp[pp$Bdsnummer == f, 2L],
+        pp[pp$ElementNummer == f, 2L],
+        pp$clientDetails[[1]][pp$clientDetails[[1]]$bdsNumber == f, 2L])
       return(wp)
     }
   }
   return(NA)
 }
 
-clientMeasurements_to_df <- function(cm) {
+measurements_to_df <- function(cm) {
   # convert clientMeasurement list components
   # into data.frame with bds, date, value
   # convert all values to integer
-  for (i in seq_along(cm$values))
-  {
+  for (i in seq_along(cm$values)) {
     cm$values[[i]]$value <- as.integer(cm$values[[i]]$value)
   }
   bind_cols(bds = rep(cm$bdsNumber, sapply(cm$values, nrow)),

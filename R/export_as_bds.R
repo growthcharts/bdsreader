@@ -3,13 +3,15 @@
 #' Converts data in `donordata` format to a JSON file per child.
 #' @param data Dataset in donordata format (having child and time elements)
 #' @param ids Integer vector with the id number for the individuals
-#' @param path Optional. Path where files should be written. By default, `path` is the
-#' working directory. The function creates the path if it doesn't already exist.
+#' @param path Optional. Path where files should be written. By default, `path`
+#' is the working directory. The function creates the path if it doesn't already
+#' exist.
 #' @param names Optional. Character vector with `length(ids)` elements used to
-#' construct the file name. Spaces are replaced by underscores. If not specified,
-#' the function uses the `ids` vector to create file names.
+#' construct the file name. Spaces are replaced by underscores.
+#' If not specified, the function uses the `ids` vector to create file names.
 #' @param indent Optional. Integer. Number of spaces to indent when using
-#' `jsonlite::prettify()`. When not specified, the function writes minified json.
+#' `jsonlite::prettify()`. When not specified, the function writes minified
+#' json.
 #' @param \dots Forwarded to [bdsreader::write_bds()]
 #' @note
 #' If child birth date is unknown, then 2000-01-01 is used.
@@ -35,7 +37,8 @@ export_as_bds <- function(data,
   # fix missing/unknown fields
   if (!hasName(data$child, "dob"))
     data$child$dob <- as.Date("01-01-00", format = "%d-%m-%y")
-  data$child$dob[is.na(data$child$dob)] <- as.Date("01-01-00", format = "%d-%m-%y")
+  data$child$dob[is.na(data$child$dob)] <- as.Date("01-01-00",
+                                                   format = "%d-%m-%y")
   if (!hasName(data$child, "name")) {
     data$child$name <- names[order(ids)]
   } else {
@@ -69,17 +72,18 @@ export_as_bds <- function(data,
 
   # if we have agem and no dobm, calculate dobm from agem
   idx <- is.na(persons$dobm) & !is.na(persons$agem)
-  persons[idx, "dobm"] <- as.Date(persons$dob[idx] - (persons$agem[idx] + 0.5) * 365.25,
-                                  format = "%Y%m%d")
+  persons[idx, "dobm"] <-
+    as.Date(persons$dob[idx] - (persons$agem[idx] + 0.5) * 365.25,
+            format = "%Y%m%d")
 
   # if we have ga but no gad, calculate gad from ga
-  #  idx <- is.na(persons$gad) & !is.na(persons$agem)
   idx <- is.na(persons$gad)
   persons[idx, "gad"] <- persons$ga[idx] * 7 + 3
 
   # process time-varying data
   times <- data$time %>%
-    select(all_of(c("id", "age", "hgt", "wgt", "hdc")), num_range("bds", 600:1500)) %>%
+    select(all_of(c("id", "age", "hgt", "wgt", "hdc")),
+           num_range("bds", 600:1500)) %>%
     mutate(
       id = as.integer(.data$id),
       xname = "age",

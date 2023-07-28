@@ -8,7 +8,8 @@
 A list with two components:
 \describe{
 \item{child}{Tibble with 14 columns containing child-level covariates}
-\item{time}{Tibble with 78 columns containing growth data and developmental milestones per time point.}
+\item{time}{Tibble with 78 columns containing growth data and developmental
+milestones per time point.}
 }
 The \code{child} tibble contains the following variables:
 \describe{
@@ -17,7 +18,8 @@ The \code{child} tibble contains the following variables:
 \item{dob}{Data of birth \code{"smocc"} (character)}
 \item{sex}{Sex, \code{"male"} or \code{"female"} (character)}
 \item{etn}{Etnicity, \code{"MA"}, \code{"NL"}, or \code{"TU"} (character)}
-\item{edu}{Educational level (typically mother), \code{"low"}, \code{"middle"}, \code{"high"} (character)}#'
+\item{edu}{Educational level (typically mother), \code{"low"},
+\code{"middle"}, \code{"high"} (character)}
 \item{ga}{Gestational age in completed, weeks (numeric)}
 \item{bw}{Birth weight in grammes (numeric)}
 \item{twin}{Twin, 0 = no, 1 = yes (numeric)}
@@ -50,7 +52,11 @@ The \code{time} tibble contains the following variables:
 }
 }
 \source{
-Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD, Verloove-Vanhorick SP, Ruys JH (1994). Growth in length and weight from birth to 2 years of a representative sample of Netherlands children (born in 1988-89) related to socio-economic status and other background characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
+Herngreen WP, van Buuren S, van Wieringen JC, Reerink JD,
+Verloove-Vanhorick SP, Ruys JH (1994). Growth in length and weight from
+birth to 2 years of a representative sample of Netherlands children
+(born in 1988-89) related to socio-economic status and other background
+characteristics. \emph{Annals of Human Biology}, \bold{21}, 449-463.
 }
 \description{
 Longitudinal height, weight, head circumference measurements
@@ -59,7 +65,8 @@ Dutch children born in 1988-1989, including covariates.
 For demo purposes.
 }
 \note{
-This dataset is property of the Netherlands Organisation for Applied Scientific Research TNO. Distribution is not permitted.
+This dataset is property of the Netherlands Organisation for Applied
+Scientific Research TNO. Distribution is not permitted.
 Inquiries at \email{stef.vanbuuren@tno.nl}.
 }
 \keyword{datasets}

@@ -12,7 +12,7 @@ A \code{data.frame} with 296 rows and 2 variables:
 }
 }
 \source{
-\url{https://publicaties.rvig.nl/Landelijke_tabellen/Landelijke_tabellen_32_t_m_60_excl_tabel_35/Landelijke_Tabellen_32_t_m_60_in_csv_formaat}
+publicaties.rvig.nl, Landelijke_tabellen
 }
 \usage{
 table34

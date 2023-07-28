@@ -6,5 +6,5 @@
 #' \item{code}{Country code}
 #' \item{country}{Country name}
 #' }
-#' @source <https://publicaties.rvig.nl/Landelijke_tabellen/Landelijke_tabellen_32_t_m_60_excl_tabel_35/Landelijke_Tabellen_32_t_m_60_in_csv_formaat>
+#' @source publicaties.rvig.nl, Landelijke_tabellen
 "table34"

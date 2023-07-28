@@ -1,9 +1,12 @@
 # v1.0 keep for backward compatibility
 # v2.0 new schema - June 2021 - compatibility with Eaglescience
 # v3.0 April 2023 - English version, compatible with Eaglescience SRM
-schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader", mustWork = TRUE),
-             system.file("schemas/bds_v2.0.json", package = "bdsreader", mustWork = TRUE),
-             system.file("schemas/bds_v3.0.json", package = "bdsreader", mustWork = TRUE))
+schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader",
+                         mustWork = TRUE),
+             system.file("schemas/bds_v2.0.json", package = "bdsreader",
+                         mustWork = TRUE),
+             system.file("schemas/bds_v3.0.json", package = "bdsreader",
+                         mustWork = TRUE))
 paths <-   c("bds_v1.0",
              "bds_v2.0",
              "bds_v3.0")
@@ -142,13 +145,14 @@ for (format in c("1.0", "2.0", "3.0")) {
   if (v == 1) {
     test_that("test15.json (Bdsnummer 62 numeric) message", {
       expect_message(read_bds(jtf[15], schema = schema))
-    })}
+    })
+  }
 
   if (v %in% c(2, 3)) {
     test_that("test15.json (Bdsnummer 62 numeric) silent OK", {
       expect_silent(read_bds(jtf[15], schema = schema))
-    })}
-
+    })
+  }
 
   test_that("test16.json (Bdsnummer 20 numeric) PASSES", {
     expect_silent(read_bds(jtf[16], schema = schema))
@@ -230,7 +234,8 @@ for (format in c("1.0", "2.0", "3.0")) {
 
 
   if (v == 1) {
-    fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+    fn <- system.file("extdata", path, "smocc", "Laura_S.json",
+                      package = "jamesdemodata")
     js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
     test_that("Laura_S.json is silent with GA in days", {
@@ -239,7 +244,8 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
   if (v >= 2) {
-    fn <- system.file("extdata", path, "smocc", "Laura_S.json", package = "jamesdemodata")
+    fn <- system.file("extdata", path, "smocc", "Laura_S.json",
+                      package = "jamesdemodata")
     js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
     test_that("Laura_S.json is silent with GA in days", {
@@ -248,7 +254,8 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
   # # 2 problematic json files identified by Allegro Sultum - Feb 2020
-  fn <- system.file("extdata", path, "test", "not_a_vector.json", package = "jamesdemodata")
+  fn <- system.file("extdata", path, "test", "not_a_vector.json",
+                    package = "jamesdemodata")
   js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
   test_that("not_a_vector.json produces messages", {
@@ -259,7 +266,8 @@ for (format in c("1.0", "2.0", "3.0")) {
   })
 
   # problematic json file http400.json identified by Allegro Sultum - Feb 2020
-  fn <- system.file("extdata", path, "test", "http400.json", package = "jamesdemodata")
+  fn <- system.file("extdata", path, "test", "http400.json",
+                    package = "jamesdemodata")
   js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)
 
   if (v == 1) {
@@ -275,7 +283,8 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
   # Check proper splitting of head lag item
-  fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
+  fn  <- system.file("extdata", path, "test", "test25.json",
+                     package = "jamesdemodata")
   tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
   test_that("D-score for time point 0.0903 is 16.37 (not 26) (test25.json", {
     expect_equal(tgt$xyz$y[1], 16.37)
@@ -287,7 +296,8 @@ for (format in c("1.0", "2.0", "3.0")) {
 # path <- system.file("extdata", package = "jamesdemodata")
 # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
 # for (lib in libs) {
-#   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
+#   files <- list.files(path = file.path(path, lib), pattern = ".json",
+#                       full.names = TRUE)
 #   for (file in files) {
 #     cat("File ", file, "\n")
 #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
@@ -296,4 +306,3 @@ for (format in c("1.0", "2.0", "3.0")) {
 #     })
 #   }
 # }
-

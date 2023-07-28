@@ -6,9 +6,3 @@ table34 <- read.table(fn,
 )[, 1:2]
 names(table34) <- c("code", "country")
 usethis::use_data(table34, overwrite = TRUE)
-
-# x <- "Abessini\xEB"
-# Encoding(x) <- "latin1"
-# x
-# xx <- iconv(x, "latin1", "UTF-8")
-# xx
