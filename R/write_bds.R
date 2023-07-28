@@ -75,7 +75,7 @@ write_bds <- function(x = NULL,
   }
 
   # throw messages if data deviate from schema
-  v <- verify(js, schema = schema)
+  v <- read_bds(js, schema = schema)
 
   # prettify
   if (!is.null(indent)) js <- prettify(js, indent = indent)

@@ -3,6 +3,7 @@
 - Splits function `convert_ddi_gsed()` by major version number
 - Translates all user messages into the English language
 - Update all tests according to new functionality
+- Trim package by removing the `verify()` function and its tests
 
 # bdsreader 0.22.0
 

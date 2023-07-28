@@ -33,8 +33,7 @@ for (format in c("1.0", "2.0", "3.0")) {
   })
 
   test_that("test2.json (missing Referentie) PASSES", {
-    expect_equal(
-      class(read_bds(jtf[2], schema = schema)), "list")
+    expect_silent(read_bds(jtf[2], schema = schema))
   })
 
   if (v == 1) {
@@ -48,22 +47,16 @@ for (format in c("1.0", "2.0", "3.0")) {
 
   if (v >= 2) {  # other messages are OK
     test_that("test3.json (missing OrganisatieCode) MESS", {
-      expect_silent(
-        read_bds(jtf[3], schema = schema)
-      )
+      expect_silent(read_bds(jtf[3], schema = schema))
     })
   }
 
   test_that("test4.json (wrong type) MESS", {
-    expect_silent(
-      read_bds(jtf[4], schema = schema)
-    )
+    expect_silent(read_bds(jtf[4], schema = schema))
   })
 
   test_that("test5.json (missing ClientGegevens) MESS", {
-    expect_message(
-      read_bds(jtf[5], schema = schema)
-    )
+    expect_message(read_bds(jtf[5], schema = schema))
   })
 
   test_that("test6.json (Missing ContactMomenten) MESS", {
@@ -95,7 +88,7 @@ for (format in c("1.0", "2.0", "3.0")) {
   })
 
   if (v == 1) {
-    test_that("test9.json (Bdsnummer 19 missing) MESS", {
+    test_that("test9.json (BDS 19 missing) MESS", {
       expect_message(
         read_bds(jtf[9], schema = schema),
         "required BDS not found: 19"
@@ -104,15 +97,14 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
   if (v >= 2) {  #  v2.0: Silent is OK
-    test_that("test9.json (Bdsnummer 19 missing) MESS", {
-      expect_silent(
-        read_bds(jtf[9], schema = schema))
+    test_that("test9.json (BDS 19 missing) MESS", {
+      expect_silent(read_bds(jtf[9], schema = schema))
     })
   }
 
 
   if (v == 1) {
-    test_that("test10.json (Bdsnummer 20 missing) MESS", {
+    test_that("test10.json (BDS 20 missing) MESS", {
       expect_message(
         read_bds(jtf[10], schema = schema),
         "required BDS not found: 20"
@@ -121,10 +113,8 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
   if (v >= 2) {  # v2.0: Other message OK
-    test_that("test10.json (Bdsnummer 20 missing) MESS", {
-      expect_message(
-        read_bds(jtf[10], schema = schema)
-      )
+    test_that("test10.json ( Missing 'ContactMomenten') MESS", {
+      expect_message(read_bds(jtf[10], schema = schema))
     })
   }
 
@@ -140,8 +130,7 @@ for (format in c("1.0", "2.0", "3.0")) {
   test_that("test13.json (Bdsnummer 110 missing) MESS", {
     expect_message(read_bds(jtf[13], schema = schema),
                    "BDS 110 (Birth weight in grammes): has no value",
-                   fixed = TRUE
-    )
+                   fixed = TRUE)
   })
 
   test_that("test14.json (empty file) ERROR", {
@@ -284,15 +273,16 @@ for (format in c("1.0", "2.0", "3.0")) {
       expect_message(read_bds(js, schema = schema))
     })
   }
+
+  # Check proper splitting of head lag item
+  fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
+  tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
+  test_that("D-score for time point 0.0903 is 16.37 (not 26) (test25.json", {
+    expect_equal(tgt$xyz$y[1], 16.37)
+  })
 }
 
-# # Check proper splitting of head lag item
-# fn  <- system.file("extdata", path, "test", "test25.json", package = "jamesdemodata")
-# tgt <- suppressMessages(read_bds(fn, append_ddi = TRUE))
-# test_that("D-score for time point 0.0903 is 14.14 (not 26) (test25.json", {
-#   expect_equal(tgt$y[1], 14.14)
-# })
-#
+
 # test battery - comment out to activate
 # path <- system.file("extdata", package = "jamesdemodata")
 # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
@@ -300,23 +290,10 @@ for (format in c("1.0", "2.0", "3.0")) {
 #   files <- list.files(path = file.path(path, lib), pattern = ".json", full.names = TRUE)
 #   for (file in files) {
 #     cat("File ", file, "\n")
-#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test14.json") next
-#     if (file == "/Users/buurensv/Library/R/4.0/library/jamesdemodata/extdata/test/test8.json") next
 #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
 #     test_that(paste(file, "passes"), {
 #       expect_silent(suppressMessages(read_bds(txt = js)))
 #     })
 #   }
 # }
-
-# other stuff
-
-# Kevin S: Check D-score and DAZ
-#fn <- system.file("extdata", "smocc", "Kevin_S.json", package = "jamesdemodata")
-#ind <- read_bds(fn)
-
-# tgt %>%
-#   dplyr::filter(substr(.data$yname, 1, 3) == "ddi") %>%
-#   dplyr::select(age, yname, y)
-#}
 
