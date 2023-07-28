@@ -15,7 +15,6 @@ Depends:
     R (>= 2.10)
 Imports:
     centile (>= 0.14.1),
-    curl,
     dplyr (>= 1.0.0),
     dscore (>= 1.8.3),
     jsonlite,
