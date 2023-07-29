@@ -102,9 +102,9 @@ read_bds <- function(txt = NULL,
     }
   }
 
-  # Step 2: check JSON syntax: if needed, warn and exit
+  # Step 2: convert JSON into R list dl
   err <- rlang::catch_cnd({
-    data <- fromJSON(js)
+    dl <- fromJSON(js)
   })
   if (!is.null(err)) {
     message(conditionMessage(err))
@@ -112,7 +112,7 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 3: define schema
-  dfmt <- data$Format[1]
+  dfmt <- dl$Format[1]
   format <- ifelse(auto_format && !is.null(dfmt), dfmt, format)
   schema_list <- set_schema(format, schema)
   format <- schema_list$format
@@ -123,7 +123,8 @@ read_bds <- function(txt = NULL,
 
   # Step 4: perform schema validation
   if (validate) {
-    res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
+    res <- jsonvalidate::json_validate(js, schema, engine = "ajv",
+                                       verbose = TRUE)
     msg <- parse_valid(res)
 
     if (length(msg$required) > 0L) {
@@ -131,23 +132,25 @@ read_bds <- function(txt = NULL,
           any(grepl("verplicht", msg$required)) ||
           any(grepl("should", msg$required))) {
         throw_messages(msg$required)
-        # AHJ: currently not throwing message if time is incorrect.
-        # Not sure what purpose is?
       }
     }
     throw_messages(msg$supplied)
   }
 
   # Step 5: report on manual range checks
-  ranges <- suppressWarnings(check_ranges(data, format))
-
-  # Step 6: convert ddi, calculate D-score
   major <- as.integer(substr(format, 1L, 1L))
   if (major %in% c(1, 2)) {
-    ddi <- convert_ddi_gsed_12(data, ranges, major)
+    ranges <- suppressWarnings(check_ranges_12(dl, major))
+  } else {
+    ranges <- suppressWarnings(check_ranges_3(dl))
+  }
+
+  # Step 6: convert ddi, calculate D-score
+  if (major %in% c(1, 2)) {
+    ddi <- convert_ddi_gsed_12(dl, ranges, major)
     ds <- dscore::dscore(data = ddi, key = "gsed2212")
   } else {
-    cvt <- convert_ddi_gsed_3(data, ranges)
+    cvt <- convert_ddi_gsed_3(dl, ranges)
     if (nrow(cvt$items)) {
       ddi <- pivot_wider(cvt$items, names_from = "lex_gsed",
                          values_from = c("pass"))
@@ -158,7 +161,7 @@ read_bds <- function(txt = NULL,
   }
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(data, ranges, append_ddi = append_ddi,
+  x <- convert_checked_list(dl, ranges, append_ddi = append_ddi,
                             format = format, ds = ds)
 
   ## append DDI
