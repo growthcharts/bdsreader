@@ -10,6 +10,7 @@ schemas <- c(system.file("schemas/bds_v1.0.json", package = "bdsreader",
 paths <-   c("bds_v1.0",
              "bds_v2.0",
              "bds_v3.0")
+validate <- formals(read_bds)$validate
 
 for (format in c("1.0", "2.0", "3.0")) {
   v <- as.integer(substr(format, 1L, 1L))
@@ -39,7 +40,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     expect_silent(read_bds(jtf[2], schema = schema))
   })
 
-  if (v == 1) {
+  if (v == 1 && validate) {
     test_that("test3.json (missing OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[3], schema = schema),
@@ -67,7 +68,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     )
   })
 
-  if (v == 1) {
+  if (v == 1  && validate) {
     test_that("test7.json (Missing Referentie & OrganisatieCode) MESS", {
       expect_message(
         read_bds(jtf[7], schema = schema),
@@ -90,7 +91,7 @@ for (format in c("1.0", "2.0", "3.0")) {
       "lexical error: invalid char in json text.")
   })
 
-  if (v == 1) {
+  if (v == 1 && validate) {
     test_that("test9.json (BDS 19 missing) MESS", {
       expect_message(
         read_bds(jtf[9], schema = schema),
@@ -106,7 +107,7 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 
 
-  if (v == 1) {
+  if (v == 1 && validate) {
     test_that("test10.json (BDS 20 missing) MESS", {
       expect_message(
         read_bds(jtf[10], schema = schema),
@@ -142,7 +143,7 @@ for (format in c("1.0", "2.0", "3.0")) {
       "lexical error: invalid char in json text.")
   })
 
-  if (v == 1) {
+  if (v == 1 && validate) {
     test_that("test15.json (Bdsnummer 62 numeric) message", {
       expect_message(read_bds(jtf[15], schema = schema))
     })
@@ -162,7 +163,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     expect_silent(read_bds(jtf[17], schema = schema))
   })
 
-  if (v == 1) {
+  if (v == 1 && validate) {
     test_that("test18.json (Bdsnummer 91 numeric) MESS", {
       expect_message(
         read_bds(jtf[18], schema = schema)
@@ -243,7 +244,7 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v >= 2) {
+  if (v >= 2 && validate) {
     fn <- system.file("extdata", path, "smocc", "Laura_S.json",
                       package = "jamesdemodata")
     js <- jsonlite::toJSON(jsonlite::fromJSON(fn), auto_unbox = TRUE)

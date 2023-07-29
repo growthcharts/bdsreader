@@ -1,5 +1,8 @@
-- Reorganises calculation in main function `read_bds()`
-- Five time faster reading of DDI BDS fields
+- Reorganises calculation in main function `read_bds()` into steps
+- The new argument `validate` to `read_bds()` can bypass the 
+`jsonvalidate::json_validate()` to speed up data reading. The default is 
+`FALSE`. Use `validate = TRUE` to obtain diagnostic information.
+- Five time faster reading of DDI BDS fields by less intensive data processing
 - Splits function `convert_ddi_gsed()` by major version number
 - Translates all user messages into the English language
 - Update all tests according to new functionality

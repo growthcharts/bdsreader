@@ -9,6 +9,7 @@ read_bds(
   auto_format = TRUE,
   format = "1.0",
   schema = NULL,
+  validate = FALSE,
   append_ddi = FALSE,
   verbose = FALSE,
   ...
@@ -31,6 +32,11 @@ The \code{schema} argument overrides \code{format}. The function extracts the
 version number for the basename, and overwrites the
 \code{format} argument by version number.}
 
+\item{validate}{Logical. Should the JSON-input be validated against the
+JSON-schema? The default (\code{FALSE}) bypasses checking. Set \code{validate = TRUE}
+to obtain diagnostic information from the \code{jsonvalidate::json_validate()}
+function.}
+
 \item{append_ddi}{Should the DDI responses be appended?}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
@@ -41,13 +47,14 @@ version number for the basename, and overwrites the
 A list with elements named \code{"psn"} and \code{"xyz"}.
 }
 \description{
-This function takes data from a json source, validates the contents against a
-JSON validation schema, perform checks, calculates the D-score, calculates
-Z-scores and stores the data in an list with elements \code{psn} and \code{xyz}.
+This function takes data from a json source, optionally validates the
+contents against a JSON validation schema, perform checks, calculates
+the D-score, calculates Z-scores and stores the data in an list with
+elements \code{psn} and \code{xyz}.
 }
 \details{
-If \code{txt} is unspecified or \code{NULL}, then the function return will have zero
-rows.
+If \code{txt} is unspecified or \code{NULL}, then the return component will \code{"xyz"}
+have zero rows.
 
 The \code{format} and \code{schema} arguments specify the format of the JSON input
 data argument \code{txt}. The default \code{format = "1.0"} expects that the JSON
@@ -106,7 +113,4 @@ identical(t, u)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}
-}
-\author{
-Stef van Buuren 2021-2023
 }

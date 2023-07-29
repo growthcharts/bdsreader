@@ -1,20 +1,24 @@
 #' Reads selected BDS data of a person
 #'
-#' This function takes data from a json source, validates the contents against a
-#' JSON validation schema, perform checks, calculates the D-score, calculates
-#' Z-scores and stores the data in an list with elements `psn` and `xyz`.
+#' This function takes data from a json source, optionally validates the
+#' contents against a JSON validation schema, perform checks, calculates
+#' the D-score, calculates Z-scores and stores the data in an list with
+#' elements `psn` and `xyz`.
 #' @param txt A JSON string, URL or file
 #' @param auto_format Logical. Should the format be read from the data? Default
 #' is `TRUE`.
+#' @param validate Logical. Should the JSON-input be validated against the
+#' JSON-schema? The default (`FALSE`) bypasses checking. Set `validate = TRUE`
+#' to obtain diagnostic information from the `jsonvalidate::json_validate()`
+#' function.
 #' @param append_ddi Should the DDI responses be appended?
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
 #' @inheritParams set_schema
 #' @return A list with elements named `"psn"` and `"xyz"`.
-#' @author Stef van Buuren 2021-2023
 #' @details
-#' If `txt` is unspecified or `NULL`, then the function return will have zero
-#' rows.
+#' If `txt` is unspecified or `NULL`, then the return component will `"xyz"`
+#' have zero rows.
 #'
 #' The `format` and `schema` arguments specify the format of the JSON input
 #' data argument `txt`. The default `format = "1.0"` expects that the JSON
@@ -76,6 +80,7 @@ read_bds <- function(txt = NULL,
                      auto_format = TRUE,
                      format = "1.0",
                      schema = NULL,
+                     validate = FALSE,
                      append_ddi = FALSE,
                      verbose = FALSE,
                      ...) {
@@ -85,7 +90,7 @@ read_bds <- function(txt = NULL,
 
   # Step 1: read js object
   txt <- txt[1L]
-  if (validate(txt)) {
+  if (jsonlite::validate(txt)) {
     js <- txt
   } else {
     err <- rlang::catch_cnd({
@@ -117,19 +122,21 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 4: perform schema validation
-  res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
-  msg <- parse_valid(res)
+  if (validate) {
+    res <- jsonvalidate::json_validate(js, schema, engine = "ajv", verbose = TRUE)
+    msg <- parse_valid(res)
 
-  if (length(msg$required) > 0L) {
-    if (any(grepl("required", msg$required)) ||
-        any(grepl("verplicht", msg$required)) ||
-        any(grepl("should", msg$required))) {
-      throw_messages(msg$required)
-      # AHJ: currently not throwing message if time is incorrect.
-      # Not sure what purpose is?
+    if (length(msg$required) > 0L) {
+      if (any(grepl("required", msg$required)) ||
+          any(grepl("verplicht", msg$required)) ||
+          any(grepl("should", msg$required))) {
+        throw_messages(msg$required)
+        # AHJ: currently not throwing message if time is incorrect.
+        # Not sure what purpose is?
+      }
     }
+    throw_messages(msg$supplied)
   }
-  throw_messages(msg$supplied)
 
   # Step 5: report on manual range checks
   ranges <- suppressWarnings(check_ranges(data, format))
