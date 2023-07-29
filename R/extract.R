@@ -131,6 +131,7 @@ extract_field2 <- function(d, f, v = 1) {
     b <- d[["ClientGegevens"]]
     if (!length(b)) return(NA_real_)
     v <- b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"]
+    v <- ifelse(v == "NA", NA_real_, v)
   } else if (v == 3) {
     b <- d[["clientDetails"]]
     if (!length(b)) return(NA_real_)

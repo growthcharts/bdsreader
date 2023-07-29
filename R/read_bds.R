@@ -140,9 +140,9 @@ read_bds <- function(txt = NULL,
   # Step 5: report on manual range checks
   major <- as.integer(substr(format, 1L, 1L))
   if (major %in% c(1, 2)) {
-    ranges <- suppressWarnings(check_ranges_12(dl, major))
+    ranges <- check_ranges_12(dl, major)
   } else {
-    ranges <- suppressWarnings(check_ranges_3(dl))
+    ranges <- check_ranges_3(dl)
   }
 
   # Step 6: convert ddi, calculate D-score
