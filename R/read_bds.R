@@ -102,9 +102,9 @@ read_bds <- function(txt = NULL,
     }
   }
 
-  # Step 2: convert JSON into R list dl
+  # Step 2: convert JSON into R raw list
   err <- rlang::catch_cnd({
-    dl <- fromJSON(js)
+    raw <- fromJSON(js)
   })
   if (!is.null(err)) {
     message(conditionMessage(err))
@@ -112,7 +112,7 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 3: define schema
-  dfmt <- dl$Format[1]
+  dfmt <- raw$Format[1]
   format <- ifelse(auto_format && !is.null(dfmt), dfmt, format)
   schema_list <- set_schema(format, schema)
   format <- schema_list$format
@@ -137,32 +137,39 @@ read_bds <- function(txt = NULL,
     throw_messages(msg$supplied)
   }
 
-  # Step 5: report on manual range checks
+  # Step 5: convert raw to R object
   major <- as.integer(substr(format, 1L, 1L))
   if (major %in% c(1, 2)) {
-    ranges <- check_ranges_12(dl, major)
+    df <- NULL
   } else {
-    ranges <- check_ranges_3(dl)
+    bds <- convert_raw_df(raw)
+  }
+
+  # Step 5: report on manual range checks
+  if (major %in% c(1, 2)) {
+    ranges <- check_ranges_12(raw, major)
+  } else {
+    bds <- check_ranges_3(bds)
   }
 
   # Step 6: convert ddi, calculate D-score
   if (major %in% c(1, 2)) {
-    ddi <- convert_ddi_gsed_12(dl, ranges, major)
-    ds <- dscore::dscore(data = ddi, key = "gsed2212")
+    ds <- convert_ddi_gsed_12(raw, ranges, major) %>%
+      dscore(key = "gsed2212")
   } else {
-    cvt <- convert_ddi_gsed_3(dl, ranges)
-    if (nrow(cvt$items)) {
-      ddi <- pivot_wider(cvt$items, names_from = "lex_gsed",
-                         values_from = c("pass"))
-    } else {
-      ddi <- tibble(age = numeric(0))
-    }
-    ds <- dscore::dscore(data = ddi, key = "gsed2212")
+    ds <- convert_ddi_gsed_3(bds) %>%
+      pivot_wider(names_from = "lex_gsed", values_from = c("pass")) %>%
+      dscore(key = "gsed2212")
   }
 
   # parse to list with components: persondata, xy
-  x <- convert_checked_list(dl, ranges, append_ddi = append_ddi,
-                            format = format, ds = ds)
+  if (major %in% c(1, 2)) {
+    x <- convert_checked_list(raw, ranges, append_ddi = append_ddi,
+                              format = format, ds = ds)
+  } else {
+    x <- list(persondata = tibble_row(),
+              xy = tibble())
+  }
 
   ## append DDI
   if (nrow(ddi) && append_ddi) {

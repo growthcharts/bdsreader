@@ -1,34 +1,25 @@
-convert_ddi_gsed_3 <- function(d, r) {
-  # premature return if there are no data
-  if (!(length(d$clientMeasurements)) || is.null(r$dom)) {
-    return(list(bds = tibble(), items = tibble()))
-  }
-
-  # filter bds numbers of DDI, sort by bds and age
-  bds <- measurements_to_df(d$clientMeasurements)
-  if (any(!hasName(bds, c("bds", "date", "value")))) {
-    return(list(bds = tibble(), items = tibble()))
-  }
+convert_ddi_gsed_3 <- function(bds) {
+  dob <- filter(bds, bds == 20L) %>% pull(.data$date) %>% first()
   bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
-  bds <- bds %>%
-    filter(bds %in% bdsnum) %>%
-    mutate(age = as.numeric(round((ymd(date) - r$dob) / 365.25, 4L))) %>%
-    select(-date) %>%
-    mutate(pass = recode(.data$value, `1` = 1L, `2` = 0L, `3` = 1L,
-                         .default = NA_integer_))
+  ddi <- bds %>%
+    filter(.data$bds %in% !! bdsnum) %>%
+    mutate(age = as.numeric(round((.data$date - !! dob) / 365.25, 4L))) %>%
+    mutate(pass = recode(.data$category, `1` = 1L, `2` = 0L, `3` = 1L,
+                         .default = NA_integer_)) %>%
+    select(c("bds", "age", "pass"))
 
   # calculate pass/fail scores for DDI
   itm <- bdsreader::bds_gsed %>%
     filter(.data$lex_gsed != "") %>%
     select(c("lex_gsed", "type", "bds", "bdsr", "bdsl"))
-  w1 <- left_join(bds, itm, by = "bds",
+  w1 <- left_join(ddi, itm, by = "bds",
                   relationship = "many-to-many") %>%
     select(c("lex_gsed", "age", "pass")) %>%
     drop_na("lex_gsed")
-  wr <- left_join(bds, itm, by = c("bds" = "bdsr"),
+  wr <- left_join(ddi, itm, by = c("bds" = "bdsr"),
                   relationship = "many-to-one") %>%
     select(c("lex_gsed", "age", "pass"))
-  wl <- left_join(bds, itm, by = c("bds" = "bdsl"),
+  wl <- left_join(ddi, itm, by = c("bds" = "bdsl"),
                   relationship = "many-to-one") %>%
     select(c("lex_gsed", "age", "pass"))
   w2 <- left_join(wl, wr, by = c("lex_gsed", "age"),
@@ -57,5 +48,5 @@ convert_ddi_gsed_3 <- function(d, r) {
   w[(w$age < 2.5  | w$age >= 3.50) &
       w$lex_gsed == "ddigmd268", "pass"] <- NA_real_
 
-  list(bds = bds, items = w)
+  return(w)
 }
