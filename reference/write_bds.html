@@ -72,21 +72,21 @@ and saves it into JSON bds format (which can be sent to JAMES).</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>List containing elements <code>psn</code> (persondata) and <code>xyz</code> (timedata)
-with data of the target child. See <code>bdsreader:::make_target()</code> for supported
-fields.</p></dd>
+<dd><p>List containing elements <code>psn</code> (persondata) and <code>xyz</code>
+(timedata) with data of the target child. See <code>bdsreader:::make_target()</code>
+for supported fields.</p></dd>
 
 
 <dt>auto_format</dt>
-<dd><p>Logical. Should a field <code>Format</code> be written to the result?
-Default is <code>TRUE</code>. Note: Only used for versions 1.0 and 1.1.</p></dd>
+<dd><p>Logical. Should a field <code>Format</code> be written to the
+result? Default is <code>TRUE</code>. Note: Only used for versions 1.0 and 1.1.</p></dd>
 
 
 <dt>format</dt>
 <dd><p>String. JSON data schema version number. There are currently
-three schemas supported: <code>"1.0"</code>, <code>"1.1"</code>, <code>"2.0"</code> and <code>"3.0"</code>. Formats <code>"1.0"</code> and
-<code>"1.1"</code> are included for backward compatibility only. Use <code>format = "3.0"</code>
-for new applications.</p></dd>
+three schemas supported: <code>"1.0"</code>, <code>"1.1"</code>, <code>"2.0"</code> and <code>"3.0"</code>.
+Formats <code>"1.0"</code> and <code>"1.1"</code> are included for backward compatibility only.
+Use <code>format = "3.0"</code> for new applications.</p></dd>
 
 
 <dt>schema</dt>
@@ -98,8 +98,8 @@ version number for the basename, and overwrites the
 
 
 <dt>file</dt>
-<dd><p>File name. The default (<code>NULL</code>) returns the json representation
-of the data and does not write to a file.</p></dd>
+<dd><p>File name. The default (<code>NULL</code>) returns the json
+representation of the data and does not write to a file.</p></dd>
 
 
 <dt>organisation</dt>
@@ -149,7 +149,8 @@ dates from age.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>, package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/bds_v1.0/smocc/Laura_S.json"</span>,</span></span>
+<span class="r-in"><span>  package <span class="op">=</span> <span class="st">"jamesdemodata"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tgt</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_bds.html">read_bds</a></span><span class="op">(</span><span class="va">fn</span>, format <span class="op">=</span> <span class="st">"1.0"</span>, append_ddi <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">js1</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"1.0"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">js2</span> <span class="op">&lt;-</span> <span class="fu">write_bds</span><span class="op">(</span><span class="va">tgt</span>, format <span class="op">=</span> <span class="st">"2.0"</span><span class="op">)</span></span></span>
