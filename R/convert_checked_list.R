@@ -1,15 +1,10 @@
-convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1.0") {
+convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
+                                 ds = ds) {
   v <- as.integer(substr(format, 1L, 1L))
-  d <- checked$data
   b <- switch(v,
               d$ClientGegevens$Elementen,
               d$ClientGegevens,
               d$clientDetails)
-  r <- checked$ranges
-
-  # convert ddi, calculate D-score
-  ddi <- convert_ddi_gsed(d, r, v)
-  ds <- dscore::dscore(data = ddi, key = "gsed2212")
 
   # store organisation code
   # support version- and case-insensitive reads
@@ -26,7 +21,7 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   if (!is.null(d$Reference)) name <- as.character(d$Reference)
   if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
 
-  persondata <- tibble(
+  psn <- tibble_row(
     id = -1L,
     name = name,
     dob  = extract_dob(d, which = "00", v = v),
@@ -41,7 +36,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     ga = trunc(r$gad / 7),
 
     # Volgens BDS 1 = Ja, 2 = Nee
-    smo = recode(extract_field2(d, 91L, v = v), `1` = 1L, `2` = 0L, .default = NA_integer_),
+    smo = recode(extract_field2(d, 91L, v = v), `1` = 1L, `2` = 0L,
+                 .default = NA_integer_),
 
     # in grammen, conform BSD
     bw = r$bw,
@@ -57,26 +53,29 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     # agem (63 geboortedatum moeder, 62==2)
     agem = extract_agep(.data$dob, .data$dobm),
 
-    # etn (71?)
-    # etn = as.character(b[b$Bdsnummer == 71, 2])
+    # We may change in etn = as.character(b[b$Bdsnummer == 71, 2])
     etn = "NL"
 
     # edu (66 opleiding moeder, 62==2)
   )
 
-  if (!length(d$Contactmomenten) && !length(d$ContactMomenten) && !length(d$clientMeasurements)) {
+  if (!length(d$Contactmomenten) &&
+      !length(d$ContactMomenten) &&
+      !length(d$clientMeasurements)) {
     xy <- tibble(
       age = numeric(),
       xname = character(), yname = character(),
       x = numeric(), y = numeric()
     )
-  } else if (v == 1 | v == 2) {
+  } else if (v == 1 || v == 2) {
     xy <-
       tibble(
         age = rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 6L),
         xname = c(rep("age", length(r$dom) * 5L), rep("hgt", length(r$dom))),
-        yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"), each = length(r$dom)),
-        x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L), r$hgt / 10),
+        yname = rep(c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh"),
+                    each = length(r$dom)),
+        x = c(rep(as.numeric(round((r$dom - r$dob) / 365.25, 4L)), 5L),
+              r$hgt / 10),
         y = c(
           r$hgt / 10,
           r$wgt / 1000,
@@ -91,14 +90,19 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
     # v3 may have mismatched order of dates, which requires matching with pivot
     xy <- rbind(r$hgt, r$wgt, r$hdc)
     # if XY is empty
-    if (length(xy) == 0L) xy <- data.frame(date = character(), value = numeric())
+    if (length(xy) == 0L) xy <- data.frame(date = character(),
+                                           value = numeric())
     # if one of the two variables is missing
     if (is.null(xy$date)) xy$date <- NA_Date_
     if (is.null(xy$value)) xy$value <- NA_real_
     xy <- xy %>%
-      mutate(yname = rep(c("hgt", "wgt", "hdc"), times = c(nrow(r$hgt), nrow(r$wgt), nrow(r$hdc)))) %>%
-      mutate(age = as.numeric(round((ymd(.data$date) - r$dob) / 365.25, 4L))) %>%
-      pivot_wider(names_from = "yname", values_from = "value", values_fn = function(x) na.omit(x)[1])
+      mutate(yname = rep(c("hgt", "wgt", "hdc"),
+                         times = c(nrow(r$hgt), nrow(r$wgt), nrow(r$hdc)))) %>%
+      mutate(age = as.numeric(round((ymd(.data$date) - r$dob) / 365.25,
+                                    4L))) %>%
+      pivot_wider(names_from = "yname",
+                  values_from = "value",
+                  values_fn = function(x) na.omit(x)[1])
 
     # add columns if they are missing
     cols <- c(hgt = NA_real_, wgt = NA_real_, hdc = NA_real_)
@@ -107,15 +111,16 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
       mutate(hgt = .data$hgt / 10,
              wgt = .data$wgt / 1000,
              hdc = .data$hdc / 10) %>%
-      # add d-score
-      full_join(., ds %>% select(age = "a", dsc = "d"), by = "age") %>%
+      full_join(., ds %>%
+                  select(age = "a", dsc = "d"), by = "age") %>%
       select(-"date")
 
     if (nrow(xy) != 0L) {
       xy <- rbind(
         xy %>%
           pivot_longer(!"age", names_to = "yname", values_to = "y") %>%
-          mutate(xname = "age", x = .data$age) %>%
+          mutate(xname = "age",
+                 x = .data$age) %>%
           select("age", "xname", "yname", "x", "y"),
         xy %>%
           select("age", x = "hgt", "wgt") %>%
@@ -127,7 +132,8 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
   }
 
   # append birth weight record if needed
-  if (nrow(persondata) && !is.na(persondata$bw) && !any(is.na(xy$x)) && !any(xy$x == 0)) {
+  if (nrow(psn) && !is.na(psn$bw) && !any(is.na(xy$x)) &&
+      !any(xy$x == 0)) {
     xy <- bind_rows(
       xy,
       tibble(
@@ -135,27 +141,10 @@ convert_checked_list <- function(checked = NULL, append_ddi = FALSE, format = "1
         xname = "age",
         yname = "wgt",
         x = 0,
-        y = persondata$bw / 1000
+        y = psn$bw / 1000
       )
     )
   }
 
-  ## append DDI
-  if (nrow(ddi) && append_ddi) {
-    xy <- bind_rows(
-      xy,
-      ddi %>%
-        pivot_longer(
-          cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
-          values_transform = list(y=as.numeric)
-        ) %>%
-        mutate(
-          xname = "age",
-          x = .data$age
-        )
-    )
-  }
-
-  list(persondata = persondata, xy = xy)
+  list(psn = psn, xy = xy)
 }

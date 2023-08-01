@@ -31,4 +31,3 @@ make_target <- function(psn = NULL, xyz = NULL) {
               xyz = xyz)
   return(obj)
 }
-

@@ -1,3 +1,18 @@
+- Major overhaul of `bdsreader` package
+- Reorganises calculations in function `read_bds()` into 13 steps
+- The new argument `validate` to `read_bds()` can bypass the 
+`jsonvalidate::json_validate()` to speed up data reading. The default is 
+`FALSE`. Use `validate = TRUE` to obtain diagnostic information.
+- Function `read_bds()` now writes intermediate JSON file to the working 
+directory by setting `intermediate = TRUE`.
+- Much faster reading of DDI BDS fields by smarter data mungling
+- Prepares for deprecation of JSON schema v1.0 and v2.0 by splitting 
+processing in `read_bds()` according to major version number
+- Translates communication into the English language
+- Updates all tests according to new functionality
+- Retires the `verify()` function and its tests
+- Cleans up code by `lintr`
+
 # bdsreader 0.22.0
 
 - Updates example code, tests and documentation to the JSON V3.0 schema
@@ -8,6 +23,7 @@
 - Tweaks reading logic so that lollypop data are read
 - Redefines 'reference' instead of 'Reference' in V3.0 schema
 - Splits `write_bds()` in subfunctions per major version
+- Extends tests for `read_bds()` to cover three major versions
 
 # bdsreader 0.20.2
 

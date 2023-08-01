@@ -11,15 +11,17 @@ export_as_bds(data, ids, path = NULL, names = NULL, indent = NULL, ...)
 
 \item{ids}{Integer vector with the id number for the individuals}
 
-\item{path}{Optional. Path where files should be written. By default, \code{path} is the
-working directory. The function creates the path if it doesn't already exist.}
+\item{path}{Optional. Path where files should be written. By default, \code{path}
+is the working directory. The function creates the path if it doesn't already
+exist.}
 
 \item{names}{Optional. Character vector with \code{length(ids)} elements used to
-construct the file name. Spaces are replaced by underscores. If not specified,
-the function uses the \code{ids} vector to create file names.}
+construct the file name. Spaces are replaced by underscores.
+If not specified, the function uses the \code{ids} vector to create file names.}
 
 \item{indent}{Optional. Integer. Number of spaces to indent when using
-\code{jsonlite::prettify()}. When not specified, the function writes minified json.}
+\code{jsonlite::prettify()}. When not specified, the function writes minified
+json.}
 
 \item{\dots}{Forwarded to \code{\link[=write_bds]{write_bds()}}}
 }

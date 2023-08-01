@@ -16,6 +16,7 @@ A tibble with person-level data
 Extract person-level information
 }
 \examples{
-fn <- system.file("extdata/bds_v3.0/smocc/Laura_S.json", package = "jamesdemodata")
+fn <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
+  package = "jamesdemodata")
 persondata(read_bds(fn))
 }

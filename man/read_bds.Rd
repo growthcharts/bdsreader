@@ -9,7 +9,9 @@ read_bds(
   auto_format = TRUE,
   format = "1.0",
   schema = NULL,
+  validate = FALSE,
   append_ddi = FALSE,
+  intermediate = FALSE,
   verbose = FALSE,
   ...
 )
@@ -17,12 +19,13 @@ read_bds(
 \arguments{
 \item{txt}{A JSON string, URL or file}
 
-\item{auto_format}{Logical. Should the format be read from the data? Default is \code{TRUE}.}
+\item{auto_format}{Logical. Should the format be read from the data? Default
+is \code{TRUE}.}
 
 \item{format}{String. JSON data schema version number. There are currently
-three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}. Formats \code{"1.0"} and
-\code{"1.1"} are included for backward compatibility only. Use \code{format = "3.0"}
-for new applications.}
+three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}.
+Formats \code{"1.0"} and \code{"1.1"} are included for backward compatibility only.
+Use \code{format = "3.0"} for new applications.}
 
 \item{schema}{A file name (optionally including the path) with the JSON
 validation schema.
@@ -30,7 +33,23 @@ The \code{schema} argument overrides \code{format}. The function extracts the
 version number for the basename, and overwrites the
 \code{format} argument by version number.}
 
-\item{append_ddi}{Should the DDI responses be appended?}
+\item{validate}{Logical. Should the JSON-input be validated against the
+JSON-schema? The default (\code{FALSE}) bypasses checking. Set \code{validate = TRUE}
+to obtain diagnostic information from the \code{jsonvalidate::json_validate()}
+function.}
+
+\item{append_ddi}{Should the DDI responses be appended? (only used for
+JSON schema V1.0 and V2.0)}
+
+\item{intermediate}{Logical. If \code{TRUE} the function writes JSON files
+with intermediate result to the working directory.
+\enumerate{
+\item \code{data.json}: the JSON input data;
+\item \code{bds.json}: a data frame with info per BDS;
+\item \code{ddi.json}: result of recoding BDS into GSED item names;
+\item \code{psn.json}: known fixed child covariates;
+\item \code{xy.json}: time-varying variables.
+}}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
@@ -40,19 +59,22 @@ version number for the basename, and overwrites the
 A list with elements named \code{"psn"} and \code{"xyz"}.
 }
 \description{
-This function takes data from a json source, validates the contents against a
-JSON validation schema, perform checks, calculates the D-score, calculates
-Z-scores and stores the data in an list with elements \code{psn} and \code{xyz}.
+This function takes data from a json source, optionally validates the
+contents against a JSON validation schema, perform checks, calculates
+the D-score, calculates Z-scores and stores the data in an list with
+elements \code{psn} and \code{xyz}.
 }
 \details{
-If \code{txt} is unspecified or \code{NULL}, then the function return will have zero rows.
+If \code{txt} is unspecified or \code{NULL}, then the return component will \code{"xyz"}
+have zero rows.
 
 The \code{format} and \code{schema} arguments specify the format of the JSON input
 data argument \code{txt}. The default \code{format = "1.0"} expects that the JSON
 input data conform to the schema specified in
 \code{system.file("schemas/bds_v1.0.json", package = "bdsreader")}. This is only
 supported for legacy. We recommend format \code{"3.0"}, which expects data
-coded according to \code{system.file("schemas/bds_v3.0.json", package = "bdsreader")}.
+coded according to
+\code{system.file("schemas/bds_v3.0.json", package = "bdsreader")}.
 
 The format can be specified in the JSON data file with an entry
 named \code{Format}. For \code{auto_format == TRUE}, the data specification overrides
@@ -62,21 +84,22 @@ is automatically set by the data.
 
 Legacy note: If you erroneously read a JSON file of format \code{"1.0"} using
 format \code{"2.0"} you may see an error:
-\verb{Error in b[b$ElementNummer == f & !is.na(b$ElementNummer), "Waarde"] : incorrect number of dimensions}.
+\verb{Error ...: incorrect number of dimensions}.
 In that make sure that you are reading with the \code{format = "1.0"} argument.
 Reversely, if you erroneously read a JSON file of format \code{"2.0"} using format
 \code{"1.0"} you may see messages \verb{.ClientGegevens should be object} and
 \verb{Missing 'ClientGegevens$Groepen'}. In that case, specify \code{format = "2.0"}.
 }
 \examples{
-fn <- system.file("examples/maria.json", package = "bdsreader")
+fn <- system.file("examples/maria1.json", package = "bdsreader")
 m <- read_bds(fn)
 
 # Assume that jamesdemodata is installed locally.
 # If not use remotes::install_github("growthcharts/jamesdemodata")
 
 # Read file with input data according to format "3.0"
-data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json", package = "jamesdemodata")
+data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
+  package = "jamesdemodata")
 q <- read_bds(data2)
 q
 
@@ -90,7 +113,8 @@ identical(q, r)
 # identical(q, s)
 
 # Reading data with older format (bds_v1.0)
-data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+  package = "jamesdemodata")
 t <- read_bds(data1)
 t
 
@@ -101,7 +125,4 @@ identical(t, u)
 }
 \seealso{
 \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}, \code{\link[centile:y2z]{centile::y2z()}}
-}
-\author{
-Stef van Buuren 2021
 }

@@ -18,17 +18,17 @@ write_bds(
 )
 }
 \arguments{
-\item{x}{List containing elements \code{psn} (persondata) and \code{xyz} (timedata)
-with data of the target child. See \code{bdsreader:::make_target()} for supported
-fields.}
+\item{x}{List containing elements \code{psn} (persondata) and \code{xyz}
+(timedata) with data of the target child. See \code{bdsreader:::make_target()}
+for supported fields.}
 
-\item{auto_format}{Logical. Should a field \code{Format} be written to the result?
-Default is \code{TRUE}. Note: Only used for versions 1.0 and 1.1.}
+\item{auto_format}{Logical. Should a field \code{Format} be written to the
+result? Default is \code{TRUE}. Note: Only used for versions 1.0 and 1.1.}
 
 \item{format}{String. JSON data schema version number. There are currently
-three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}. Formats \code{"1.0"} and
-\code{"1.1"} are included for backward compatibility only. Use \code{format = "3.0"}
-for new applications.}
+three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}.
+Formats \code{"1.0"} and \code{"1.1"} are included for backward compatibility only.
+Use \code{format = "3.0"} for new applications.}
 
 \item{schema}{A file name (optionally including the path) with the JSON
 validation schema.
@@ -36,8 +36,8 @@ The \code{schema} argument overrides \code{format}. The function extracts the
 version number for the basename, and overwrites the
 \code{format} argument by version number.}
 
-\item{file}{File name. The default (\code{NULL}) returns the json representation
-of the data and does not write to a file.}
+\item{file}{File name. The default (\code{NULL}) returns the json
+representation of the data and does not write to a file.}
 
 \item{organisation}{Integer. Organisation number of the caller. Optional.}
 
@@ -67,7 +67,8 @@ artificial birth date \verb{01 Jan 2000} to calculate measurement
 dates from age.
 }
 \examples{
-fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+  package = "jamesdemodata")
 tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
 js1 <- write_bds(tgt, format = "1.0")
 js2 <- write_bds(tgt, format = "2.0")

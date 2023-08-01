@@ -8,13 +8,13 @@
 #' If the date of birth is not known, the conversion uses the
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
-#' @param x      List containing elements `psn` (persondata) and `xyz` (timedata)
-#'  with data of the target child. See `bdsreader:::make_target()` for supported
-#'  fields.
-#' @param auto_format Logical. Should a field `Format` be written to the result?
-#' Default is `TRUE`. Note: Only used for versions 1.0 and 1.1.
-#' @param file   File name. The default (`NULL`) returns the json representation
-#' of the data and does not write to a file.
+#' @param x      List containing elements `psn` (persondata) and `xyz`
+#' (timedata) with data of the target child. See `bdsreader:::make_target()`
+#' for supported fields.
+#' @param auto_format Logical. Should a field `Format` be written to the
+#' result? Default is `TRUE`. Note: Only used for versions 1.0 and 1.1.
+#' @param file   File name. The default (`NULL`) returns the json
+#' representation of the data and does not write to a file.
 #' @param indent Integer. Number of spaces to indent when using
 #' `jsonlite::prettify()`. When not specified, the function writes
 #' minified json.
@@ -28,7 +28,8 @@
 #' @author Stef van Buuren 2021
 #' @seealso [jsonlite::toJSON()]
 #' @examples
-#' fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json", package = "jamesdemodata")
+#' fn <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+#'   package = "jamesdemodata")
 #' tgt <- read_bds(fn, format = "1.0", append_ddi = FALSE)
 #' js1 <- write_bds(tgt, format = "1.0")
 #' js2 <- write_bds(tgt, format = "2.0")
@@ -75,7 +76,7 @@ write_bds <- function(x = NULL,
   }
 
   # throw messages if data deviate from schema
-  v <- verify(js, schema = schema)
+  v <- read_bds(js, schema = schema)
 
   # prettify
   if (!is.null(indent)) js <- prettify(js, indent = indent)
@@ -201,7 +202,8 @@ as_bds_clientdata_v1 <- function(tgt, type) {
       ),
       list(
         Bdsnummer = 82,
-        Waarde = ifelse(type == "character", as.character(psn$gad), as.numeric(psn$gad))
+        Waarde = ifelse(type == "character", as.character(psn$gad),
+                        as.numeric(psn$gad))
       ),
       list(
         Bdsnummer = 91,
@@ -209,28 +211,33 @@ as_bds_clientdata_v1 <- function(tgt, type) {
       ),
       list(
         Bdsnummer = 110,
-        Waarde = ifelse(type == "character", as.character(psn$bw), as.numeric(psn$bw))
+        Waarde = ifelse(type == "character", as.character(psn$bw),
+                        as.numeric(psn$bw))
       ),
       list(
         Bdsnummer = 238,
-        Waarde = ifelse(type == "character", as.character(psn$hgtm * 10), as.numeric(psn$hgtm * 10))
+        Waarde = ifelse(type == "character", as.character(psn$hgtm * 10),
+                        as.numeric(psn$hgtm * 10))
       ),
       list(
         Bdsnummer = 240,
-        Waarde = ifelse(type == "character", as.character(psn$hgtf * 10), as.numeric(psn$hgtf * 10))
+        Waarde = ifelse(type == "character", as.character(psn$hgtf * 10),
+                        as.numeric(psn$hgtf * 10))
       )
     ),
     Groepen = data.frame(
       rbind(
         list(Elementen = data.frame(
           Bdsnummer = as.integer(c(63, 71, 62)),
-          Waarde = c(format(as.Date(get_dob(tgt, which = "01")), format = "%Y%m%d"),
+          Waarde = c(format(as.Date(get_dob(tgt, which = "01")),
+                            format = "%Y%m%d"),
                      NA_character_,
                      "01"))
         ),
         list(Elementen = data.frame(
           Bdsnummer = as.integer(c(63, 71, 62)),
-          Waarde = c(format(as.Date(get_dob(tgt, which = "02")), format = "%Y%m%d"),
+          Waarde = c(format(as.Date(get_dob(tgt, which = "02")),
+                            format = "%Y%m%d"),
                      NA_character_,
                      "02"))
         )
@@ -238,7 +245,8 @@ as_bds_clientdata_v1 <- function(tgt, type) {
     )
   )
   # if there are no parental birth dates, strip Groepen
-  if (is.na((x$Groepen[2, ])[[1]][1, 2]) && is.na((x$Groepen[2, ])[[1]][1, 2])) x$Groepen <- NULL
+  if (is.na((x$Groepen[2, ])[[1]][1, 2]) &&
+      is.na((x$Groepen[2, ])[[1]][1, 2])) x$Groepen <- NULL
   x
 }
 
@@ -278,7 +286,8 @@ as_bds_clientdata_v2 <- function(tgt) {
         list(
           list(
             ElementNummer = 63,
-            Waarde = format(as.Date(get_dob(tgt, which = "01")), format = "%Y%m%d")
+            Waarde = format(as.Date(get_dob(tgt, which = "01")),
+                            format = "%Y%m%d")
           ),
           list(
             ElementNummer = 71
@@ -294,7 +303,8 @@ as_bds_clientdata_v2 <- function(tgt) {
         list(
           list(
             ElementNummer = 63,
-            Waarde = format(as.Date(get_dob(tgt, which = "02")), format = "%Y%m%d")
+            Waarde = format(as.Date(get_dob(tgt, which = "02")),
+                            format = "%Y%m%d")
           ),
           list(
             ElementNummer = 71
@@ -307,10 +317,6 @@ as_bds_clientdata_v2 <- function(tgt) {
     )
   )
 
-  # if there are no parental birth dates, strip Groepen
-  # dobf <- x[["GenesteElementen"]][[8]][1, 2]
-  # dobm <- x[["GenesteElementen"]][[9]][1, 2]
-  # if (is.na(dobf) && is.na(dobm)) x$GenesteElementen <- NULL
   x
 }
 
@@ -416,10 +422,10 @@ as_bds_contacts <- function(x, v, type) {
               split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
               split(d[, c("ElementNummer", "Waarde", "Waarde2")], f),
               {d <- d %>%
-                rename('bdsNumber' = 'ElementNummer') %>%
-                rename('value' = 'Waarde') %>%
-                rename('value2' = 'Waarde2') %>%
-                rename('date' = 'time')
+                rename("bdsNumber" = "ElementNummer") %>%
+                rename("value" = "Waarde") %>%
+                rename("value2" = "Waarde2") %>%
+                rename("date" = "time")
               split(d[, c("date", "value", "value2")], d$bdsNumber)
               })
 

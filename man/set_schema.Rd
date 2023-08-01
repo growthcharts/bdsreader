@@ -8,9 +8,9 @@ set_schema(format = "1.0", schema = NULL)
 }
 \arguments{
 \item{format}{String. JSON data schema version number. There are currently
-three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}. Formats \code{"1.0"} and
-\code{"1.1"} are included for backward compatibility only. Use \code{format = "3.0"}
-for new applications.}
+three schemas supported: \code{"1.0"}, \code{"1.1"}, \code{"2.0"} and \code{"3.0"}.
+Formats \code{"1.0"} and \code{"1.1"} are included for backward compatibility only.
+Use \code{format = "3.0"} for new applications.}
 
 \item{schema}{A file name (optionally including the path) with the JSON
 validation schema.
@@ -19,8 +19,8 @@ version number for the basename, and overwrites the
 \code{format} argument by version number.}
 }
 \value{
-A list with components \code{format} (either \code{1.0}, \code{1.1}, \code{2.0} or \code{3.0}),
-\code{schema} (long file name) and \code{schema_base} (base file name).
+A list with components \code{format} (either \code{1.0}, \code{1.1}, \code{2.0}
+or \code{3.0}), \code{schema} (long file name) and \code{schema_base} (base file name).
 }
 \description{
 Set the schema from user input

@@ -15,19 +15,19 @@ Depends:
     R (>= 2.10)
 Imports:
     centile (>= 0.14.1),
-    curl,
     dplyr (>= 1.0.0),
     dscore (>= 1.8.3),
     jsonlite,
     jsonvalidate (>= 1.3.2),
     lubridate,
     nlreferences (>= 0.15.2),
+    readr,
     tibble,
     rlang (>= 0.4.0),
     tidyr
 Suggests: 
     openxlsx,
-    jamesdemodata (>= 0.8.0),
+    jamesdemodata (>= 0.10.1),
     testthat (>= 3.0.0)
 Remotes: 
     growthcharts/centile,
