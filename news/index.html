@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.0</span>
       </span>
     </div>
 
@@ -47,6 +47,26 @@
       <small>Source: <a href="https://github.com/growthcharts/bdsreader/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.23.0" id="bdsreader-0230">bdsreader 0.23.0<a class="anchor" aria-label="anchor" href="#bdsreader-0230"></a></h2>
+<ul><li>Major overhaul of <code>bdsreader</code> package</li>
+</ul><div class="section level3">
+<h3 id="major-changes-0-23-0">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-23-0"></a></h3>
+<ul><li>Reorganises calculations in function <code><a href="../reference/read_bds.html">read_bds()</a></code> into 13 steps</li>
+<li>The new argument <code>validate</code> to <code><a href="../reference/read_bds.html">read_bds()</a></code> can bypass the <code><a href="https://docs.ropensci.org/jsonvalidate/reference/json_validate.html" class="external-link">jsonvalidate::json_validate()</a></code> to speed up data reading. The default is <code>FALSE</code>. Use <code>validate = TRUE</code> to obtain diagnostic information.</li>
+<li>Function <code><a href="../reference/read_bds.html">read_bds()</a></code> now writes intermediate JSON file to the working directory by setting <code>intermediate = TRUE</code>.</li>
+<li>Much faster reading of DDI BDS fields by smarter data mungling</li>
+<li>Prepares for deprecation of JSON schema v1.0 and v2.0 by splitting processing in <code><a href="../reference/read_bds.html">read_bds()</a></code> according to major version number</li>
+<li>Translates communication into the English language</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-23-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-23-0"></a></h3>
+<ul><li>Updates all tests according to new functionality</li>
+<li>Retires the <code>verify()</code> function and its tests</li>
+<li>Cleans up code by <code>lintr</code>
+</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.22.0" id="bdsreader-0220">bdsreader 0.22.0<a class="anchor" aria-label="anchor" href="#bdsreader-0220"></a></h2>
 <ul><li>Updates example code, tests and documentation to the JSON V3.0 schema</li>
