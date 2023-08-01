@@ -1,13 +1,17 @@
-- Reorganises calculation in main function `read_bds()` into steps
+- Major overhaul of `bdsreader` package
+- Reorganises calculations in function `read_bds()` into 13 steps
 - The new argument `validate` to `read_bds()` can bypass the 
 `jsonvalidate::json_validate()` to speed up data reading. The default is 
 `FALSE`. Use `validate = TRUE` to obtain diagnostic information.
-- Five time faster reading of DDI BDS fields by less intensive data processing
-- Splits function `convert_ddi_gsed()` by major version number
-- Translates all user messages into the English language
-- Update all tests according to new functionality
-- Trim package by removing the `verify()` function and its tests
-- Clean up code by `lintr`
+- Function `read_bds()` now writes intermediate JSON file to the working 
+directory by setting `intermediate = TRUE`.
+- Much faster reading of DDI BDS fields by smarter data mungling
+- Prepares for deprecation of JSON schema v1.0 and v2.0 by splitting 
+processing in `read_bds()` according to major version number
+- Translates communication into the English language
+- Updates all tests according to new functionality
+- Retires the `verify()` function and its tests
+- Cleans up code by `lintr`
 
 # bdsreader 0.22.0
 

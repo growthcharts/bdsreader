@@ -1,18 +1,23 @@
 check_ranges_3 <- function(df) {
 
+  adm <- attr(df, "adm")
   df <- df %>%
     mutate(type = ifelse(.data$type == "date", "tdate", .data$type)) %>%
     pivot_wider(values_from = "value", names_from = "type") %>%
     mutate(date = ifelse(is.na(.data$date), .data$tdate, .data$date)) %>%
-    select(-"tdate") %>%
     mutate(edit = "")
+  if (hasName(df, "tdate")) {
+    df <- select(df, -"tdate")
+  }
 
   e <- catch_cnd({
     dates <- ymd(pull(df, "date"))
   })
   if (!is.null(e)) {
     message("Date conversion error.")
-    df <- repair(df, "date")
+    if (hasName(df, "date")) {
+      df <- repair(df, "date")
+    }
   } else {
     df[["date"]] <- dates
   }
@@ -22,7 +27,9 @@ check_ranges_3 <- function(df) {
   })
   if (!is.null(e)) {
     message("Category conversion error.")
-    df <- repair(df, "category")
+    if  (hasName(df, "category")) {
+      df <- repair(df, "category")
+    }
   } else {
     df[["category"]] <- categories
   }
@@ -32,7 +39,9 @@ check_ranges_3 <- function(df) {
   })
   if (!is.null(e)) {
     message("Number conversion error.")
-    df <- repair(df, "number")
+    if  (hasName(df, "number")) {
+      df <- repair(df, "number")
+    }
   } else {
     df[["number"]] <- numbers
   }
@@ -44,13 +53,16 @@ check_ranges_3 <- function(df) {
     hi = c(350, 8000, 3000, 3000, 3000, 300000, 900)
   )
 
-  df <- left_join(df, ranges, by = "bds") %>%
-    mutate(oor = !is.na(.data$number) &
+  if (hasName(df, "number")) {
+    df <- left_join(df, ranges, by = "bds") %>%
+      mutate(oor = !is.na(.data$number) &
              (.data$number < .data$lo | .data$number > .data$hi),
-           number = ifelse(.data$oor, NA_real_, .data$number),
-           edit = ifelse(.data$oor, "* number", .data$edit)) %>%
-    select(-c("lo", "hi", "oor"))
+             number = ifelse(.data$oor, NA_real_, .data$number),
+             edit = ifelse(.data$oor, "* number", .data$edit)) %>%
+      select(-c("lo", "hi", "oor"))
+  }
 
+  attr(df, "adm") <- adm
   return(df)
 }
 

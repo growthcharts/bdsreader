@@ -10,16 +10,33 @@ convert_raw_df <- function(d) {
       fmt = d$Format,
       org = d$organisationCode,
       ref = d$reference)
+
+  # if there is a birth weight, add dob as its date
+  dob <- filter(df, .data$bds == 20L) %>%
+    pull("value") %>%
+    first()
+  df[df$bds == 110L, "date"] <- dob
+
   return(df)
 }
 
 convert_cli_df <- function(x) {
   # convert fixed child-level covariates
-  tibble(
-    bds = x[["bdsNumber"]],
-    type = set_type(x[["bdsNumber"]]),
-    value = as.character(x[["value"]])
-  )
+  if (is.null(x[["bdsNumber"]])) {
+    return(tibble(
+      bds = integer(0),
+      date = character(0),
+      type = character(0),
+      value = character(0))
+    )
+  } else {
+    return(tibble(
+      bds = x[["bdsNumber"]],
+      date = NA_character_,
+      type = set_type(x[["bdsNumber"]]),
+      value = as.character(x[["value"]])
+    ))
+  }
 }
 
 convert_msr_df <- function(x) {
@@ -29,14 +46,25 @@ convert_msr_df <- function(x) {
     xv[[i]][["value"]] <- as.character(xv[[i]][["value"]])
   }
   bds <- rep(x[["bdsNumber"]], sapply(xv, nrow))
-  bind_cols(bds = bds,
+  x <- bind_cols(bds = bds,
             type = set_type(bds),
             bind_rows(xv))
+  if (all(hasName(x, c("bds", "date")))) {
+    x <- x %>%
+      distinct(.data$bds, .data$date, .keep_all = TRUE)
+  }
+  return(x)
 }
 
 convert_nested_df <- function(x) {
   # support one nesting level, parent/sibling measurements
   nest <- x[["nestingBdsNumber"]]
+  if (is.null(nest)) {
+    return(tibble(nest = integer(0),
+                  code = character(0))
+    )
+  }
+
   code <- x[["nestingCode"]]
   cli <- x[["clientDetails"]]
   msr <- x[["clientMeasurements"]]

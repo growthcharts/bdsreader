@@ -11,7 +11,15 @@
 #' JSON-schema? The default (`FALSE`) bypasses checking. Set `validate = TRUE`
 #' to obtain diagnostic information from the `jsonvalidate::json_validate()`
 #' function.
-#' @param append_ddi Should the DDI responses be appended?
+#' @param append_ddi Should the DDI responses be appended? (only used for
+#' JSON schema V1.0 and V2.0)
+#' @param intermediate Logical. If `TRUE` the function writes JSON files
+#' with intermediate result to the working directory.
+#' 1. `data.json`: the JSON input data;
+#' 2. `bds.json`: a data frame with info per BDS;
+#' 3. `ddi.json`: result of recoding BDS into GSED item names;
+#' 4. `psn.json`: known fixed child covariates;
+#' 5. `xy.json`: time-varying variables.
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
 #' @inheritParams set_schema
@@ -44,7 +52,7 @@
 #'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
-#' fn <- system.file("examples/maria.json", package = "bdsreader")
+#' fn <- system.file("examples/maria1.json", package = "bdsreader")
 #' m <- read_bds(fn)
 #'
 #' # Assume that jamesdemodata is installed locally.
@@ -82,13 +90,15 @@ read_bds <- function(txt = NULL,
                      schema = NULL,
                      validate = FALSE,
                      append_ddi = FALSE,
+                     intermediate = FALSE,
                      verbose = FALSE,
                      ...) {
+  # Step 1: return empty target if needed
   if (is.null(txt)) {
     return(make_target(NULL))
   }
 
-  # Step 1: read js object
+  # Step 2: read js object
   txt <- txt[1L]
   if (jsonlite::validate(txt)) {
     js <- txt
@@ -102,7 +112,7 @@ read_bds <- function(txt = NULL,
     }
   }
 
-  # Step 2: convert JSON into R raw list
+  # Step 3: convert JSON into R raw list
   err <- rlang::catch_cnd({
     raw <- fromJSON(js)
   })
@@ -111,7 +121,7 @@ read_bds <- function(txt = NULL,
     return(make_target(NULL))
   }
 
-  # Step 3: define schema
+  # Step 4: define schema
   dfmt <- raw$Format[1]
   format <- ifelse(auto_format && !is.null(dfmt), dfmt, format)
   schema_list <- set_schema(format, schema)
@@ -121,7 +131,7 @@ read_bds <- function(txt = NULL,
     stop("Schema file ", schema, " not found.")
   }
 
-  # Step 4: perform schema validation
+  # Step 5: optionally, perform schema validation
   if (validate) {
     res <- jsonvalidate::json_validate(js, schema, engine = "ajv",
                                        verbose = TRUE)
@@ -137,63 +147,64 @@ read_bds <- function(txt = NULL,
     throw_messages(msg$supplied)
   }
 
-  # Step 5: convert raw to R object
+  # Step 6: convert raw to R object
   major <- as.integer(substr(format, 1L, 1L))
   if (major %in% c(1, 2)) {
-    df <- NULL
+    bds <- NULL
   } else {
     bds <- convert_raw_df(raw)
   }
 
-  # Step 5: report on manual range checks
+  # Step 7: report on manual range checks
   if (major %in% c(1, 2)) {
     ranges <- check_ranges_12(raw, major)
   } else {
     bds <- check_ranges_3(bds)
   }
 
-  # Step 6: convert ddi, calculate D-score
+  # Step 8: convert ddi, calculate D-score
   if (major %in% c(1, 2)) {
-    ds <- convert_ddi_gsed_12(raw, ranges, major) %>%
-      dscore(key = "gsed2212")
+    ddi <- convert_ddi_gsed_12(raw, ranges, major)
+    ds <- dscore(data = ddi, key = "gsed2212")
   } else {
-    ds <- convert_ddi_gsed_3(bds) %>%
+    ddi <- convert_ddi_gsed_3(bds)
+    ds <- ddi %>%
       pivot_wider(names_from = "lex_gsed", values_from = c("pass")) %>%
       dscore(key = "gsed2212")
   }
 
-  # parse to list with components: persondata, xy
+  # Step 9: parse to list with components: psn, xy
   if (major %in% c(1, 2)) {
     x <- convert_checked_list(raw, ranges, append_ddi = append_ddi,
                               format = format, ds = ds)
   } else {
-    x <- list(persondata = tibble_row(),
-              xy = tibble())
+    x <- convert_checked_list_3(bds, ds)
   }
 
-  ## append DDI
-  if (nrow(ddi) && append_ddi) {
-    x$xy <- bind_rows(
-      x$xy,
-      ddi %>%
-        pivot_longer(
-          cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
-          values_transform = list(y = as.numeric)
-        ) %>%
-        mutate(
-          xname = "age",
-          x = .data$age
-        )
-    )
+  ## Step 10: append DDI
+  if (major %in% c(1, 2)) {
+    if (nrow(ddi) && append_ddi) {
+      x$xy <- bind_rows(
+        x$xy,
+        ddi %>%
+          pivot_longer(
+            cols = -all_of("age"), names_to = "yname",
+            values_to = "y", values_drop_na = TRUE,
+            values_transform = list(y = as.numeric)
+          ) %>%
+          mutate(
+            xname = "age",
+            x = .data$age
+          )
+      )
+    }
   }
 
-  # add Z-scores, analysis metric
-  # try to find a reference only if yname has three letters
+  # Step 11: add Z-scores, analysis metric for three-letter ynames
   xyz <- x$xy %>%
     mutate(
-      sex = (!!x)$persondata$sex,
-      ga = (!!x)$persondata$ga
+      sex = (!!x)$psn$sex,
+      ga = (!!x)$psn$ga
     ) %>%
     mutate(
       zref = set_refcodes(.),
@@ -210,6 +221,16 @@ read_bds <- function(txt = NULL,
     ) %>%
     select(all_of(c("age", "xname", "yname", "zname", "zref", "x", "y", "z")))
 
-  obj <- make_target(psn = x$persondata, xyz = xyz)
+  # Step 12: write intermediate result for later use
+  if (major >= 3 && intermediate) {
+    jsonlite::write_json(raw, "input.json")
+    jsonlite::write_json(bds, "bds.json")
+    jsonlite::write_json(ddi, "ddi.json")
+    jsonlite::write_json(x$xy, "xy.json")
+    jsonlite::write_json(x$psn, "psn.json")
+  }
+
+  # Step 13: return primary analysis object in JAMES internal format
+  obj <- list(psn = x$psn, xyz = xyz)
   return(obj)
 }

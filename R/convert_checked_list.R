@@ -21,7 +21,7 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
   if (!is.null(d$Reference)) name <- as.character(d$Reference)
   if (!is.null(d$Referentie)) name <- as.character(d$Referentie)
 
-  persondata <- tibble_row(
+  psn <- tibble_row(
     id = -1L,
     name = name,
     dob  = extract_dob(d, which = "00", v = v),
@@ -118,7 +118,8 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
       xy <- rbind(
         xy %>%
           pivot_longer(!"age", names_to = "yname", values_to = "y") %>%
-          mutate(xname = "age", x = .data$age) %>%
+          mutate(xname = "age",
+                 x = .data$age) %>%
           select("age", "xname", "yname", "x", "y"),
         xy %>%
           select("age", x = "hgt", "wgt") %>%
@@ -130,7 +131,7 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
   }
 
   # append birth weight record if needed
-  if (nrow(persondata) && !is.na(persondata$bw) && !any(is.na(xy$x)) &&
+  if (nrow(psn) && !is.na(psn$bw) && !any(is.na(xy$x)) &&
       !any(xy$x == 0)) {
     xy <- bind_rows(
       xy,
@@ -139,10 +140,10 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
         xname = "age",
         yname = "wgt",
         x = 0,
-        y = persondata$bw / 1000
+        y = psn$bw / 1000
       )
     )
   }
 
-  list(persondata = persondata, xy = xy)
+  list(psn = psn, xy = xy)
 }

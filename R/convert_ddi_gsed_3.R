@@ -1,6 +1,14 @@
 convert_ddi_gsed_3 <- function(bds) {
-  dob <- filter(bds, bds == 20L) %>% pull(.data$date) %>% first()
+  dob <- filter(bds, bds == 20L) %>% pull("date") %>% first()
   bdsnum <- sort(unique(bdsreader::bds_gsed$bds))
+
+  if (!hasName(bds, "category")) {
+    w <- tibble(lex_gsed = character(0),
+                age = numeric(0),
+                pass = integer(0))
+    return(w)
+  }
+
   ddi <- bds %>%
     filter(.data$bds %in% !! bdsnum) %>%
     mutate(age = as.numeric(round((.data$date - !! dob) / 365.25, 4L))) %>%

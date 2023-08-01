@@ -11,6 +11,7 @@ read_bds(
   schema = NULL,
   validate = FALSE,
   append_ddi = FALSE,
+  intermediate = FALSE,
   verbose = FALSE,
   ...
 )
@@ -37,7 +38,18 @@ JSON-schema? The default (\code{FALSE}) bypasses checking. Set \code{validate = 
 to obtain diagnostic information from the \code{jsonvalidate::json_validate()}
 function.}
 
-\item{append_ddi}{Should the DDI responses be appended?}
+\item{append_ddi}{Should the DDI responses be appended? (only used for
+JSON schema V1.0 and V2.0)}
+
+\item{intermediate}{Logical. If \code{TRUE} the function writes JSON files
+with intermediate result to the working directory.
+\enumerate{
+\item \code{data.json}: the JSON input data;
+\item \code{bds.json}: a data frame with info per BDS;
+\item \code{ddi.json}: result of recoding BDS into GSED item names;
+\item \code{psn.json}: known fixed child covariates;
+\item \code{xy.json}: time-varying variables.
+}}
 
 \item{verbose}{Show verbose output for \code{\link[centile:y2z]{centile::y2z()}}}
 
@@ -79,7 +91,7 @@ Reversely, if you erroneously read a JSON file of format \code{"2.0"} using form
 \verb{Missing 'ClientGegevens$Groepen'}. In that case, specify \code{format = "2.0"}.
 }
 \examples{
-fn <- system.file("examples/maria.json", package = "bdsreader")
+fn <- system.file("examples/maria1.json", package = "bdsreader")
 m <- read_bds(fn)
 
 # Assume that jamesdemodata is installed locally.
