@@ -111,7 +111,8 @@ convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
       mutate(hgt = .data$hgt / 10,
              wgt = .data$wgt / 1000,
              hdc = .data$hdc / 10) %>%
-      full_join(., ds %>% select(age = "a", dsc = "d"), by = "age") %>%
+      full_join(., ds %>%
+                  select(age = "a", dsc = "d"), by = "age") %>%
       select(-"date")
 
     if (nrow(xy) != 0L) {

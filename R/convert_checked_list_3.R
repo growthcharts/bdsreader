@@ -4,7 +4,7 @@ convert_checked_list_3 <- function(bds, ds) {
   psn <- persondata(tgt)
 
   # fixed child-level covariates
-  psn[["id"]] = -1L
+  psn[["id"]] <- -1L
 
   name <- as.character(attr(bds, "adm")[["ref"]])
   if (!length(name)) name <- NA_character_
@@ -16,39 +16,50 @@ convert_checked_list_3 <- function(bds, ds) {
 
   if (hasName(bds, "date")) {
     psn[["dob"]] <- filter(bds, bds == 20L) %>%
-      pull("date") %>% first()
+      pull("date") %>%
+      first()
   }
 
   if (all(hasName(bds, c("date", "nest", "code")))) {
     psn[["dobm"]] <- filter(bds, bds == 63L & .data$nest == 62L &
                               .data$code == "02") %>%
-      pull("date") %>% first()
+      pull("date") %>%
+      first()
     psn[["dobf"]] <- filter(bds, bds == 63L & .data$nest == 62L &
                               .data$code == "01") %>%
-      pull("date") %>% first()
+      pull("date") %>%
+      first()
   }
 
   if (hasName(bds, "category")) {
     psn[["sex"]] <- filter(bds, bds == 19L) %>%
-      pull("category") %>% first() %>%
+      pull("category") %>%
+      first() %>%
       case_match(1 ~ "male", 2 ~ "female")
     psn[["smo"]] <- filter(bds, bds == 91L) %>%
-      pull("category") %>% first() %>%
+      pull("category") %>%
+      first() %>%
       case_match(1 ~ 1, 2 ~ 0)
   }
 
   if (hasName(bds, "number")) {
     psn[["gad"]] <- filter(bds, bds == 82L) %>%
-      pull("number") %>% first() %>% as.numeric()
+      pull("number") %>%
+      first() %>%
+      as.numeric()
     psn[["ga"]] <- trunc(psn[["gad"]] / 7)
     psn[["bw"]] <- filter(bds, bds == 110L) %>%
-      pull("number") %>% first() %>% as.numeric()
+      pull("number") %>%
+      first() %>%
+      as.numeric()
     psn[["hgtm"]] <- filter(bds, bds == 238L) %>%
       mutate(number = .data$number / 10) %>%
-      pull("number") %>% first()
+      pull("number") %>%
+      first()
     psn[["hgtf"]] <- filter(bds, bds == 240L) %>%
       mutate(number = .data$number / 10) %>%
-      pull("number") %>% first()
+      pull("number") %>%
+      first()
     psn[["agem"]] <- as.numeric(trunc((psn[["dob"]] - psn[["dobm"]]) / 365.25))
     psn[["etn"]] <- "NL"
   }
@@ -77,7 +88,8 @@ convert_checked_list_3 <- function(bds, ds) {
         x = .data$age,
         y = .data$number / .data$divider) %>%
       select(c("age", "xname", "yname", "x", "y")) %>%
-      arrange(factor(.data$yname, levels = c("hgt", "wgt", "hdc")), .data$age) %>%
+      arrange(factor(.data$yname, levels = c("hgt", "wgt", "hdc")),
+              .data$age) %>%
       distinct(.data$age, .data$xname, .data$yname, .keep_all = TRUE)
   }
 

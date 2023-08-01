@@ -82,7 +82,6 @@ repair <- function(x, what) {
   # convert one-by-one
   idx <- !is.na(x[[what]])
   broken <- x[[what]][idx]
-  edit <- x[["edit"]][idx]
   repaired <- rep(na, length(broken))
   action <- rep("", length(broken))
   for (i in seq_along(broken)) {
@@ -102,4 +101,3 @@ repair <- function(x, what) {
   x[idx, "edit"] <- action
   return(x)
 }
-
