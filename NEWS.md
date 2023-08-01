@@ -1,4 +1,9 @@
+# bdsreader 0.23.0
+
 - Major overhaul of `bdsreader` package
+
+## Major changes
+
 - Reorganises calculations in function `read_bds()` into 13 steps
 - The new argument `validate` to `read_bds()` can bypass the 
 `jsonvalidate::json_validate()` to speed up data reading. The default is 
@@ -9,6 +14,9 @@ directory by setting `intermediate = TRUE`.
 - Prepares for deprecation of JSON schema v1.0 and v2.0 by splitting 
 processing in `read_bds()` according to major version number
 - Translates communication into the English language
+
+## Minor changes
+
 - Updates all tests according to new functionality
 - Retires the `verify()` function and its tests
 - Cleans up code by `lintr`

@@ -46,20 +46,22 @@ library(bdsreader)
 fn <- system.file("examples", "maria.json", package = "bdsreader")
 tgt <- read_bds(fn)
 timedata(tgt)
-#> # A tibble: 11 × 8
+#> # A tibble: 13 × 8
 #>       age xname yname zname zref                        x     y      z
 #>     <dbl> <chr> <chr> <chr> <chr>                   <dbl> <dbl>  <dbl>
 #>  1 0.0849 age   hgt   hgt_z nl_2012_hgt_female_27  0.0849 38    -0.158
-#>  2 0.0849 age   wgt   wgt_z nl_2012_wgt_female_27  0.0849  1.25 -0.203
-#>  3 0.0849 age   hdc   hdc_z nl_2012_hdc_female_27  0.0849 27    -0.709
-#>  4 0.0849 age   bmi   bmi_z nl_1997_bmi_female_nl  0.0849  8.66 -5.72 
-#>  5 0.167  age   hgt   hgt_z nl_2012_hgt_female_27  0.167  43.5   0.047
-#>  6 0.167  age   wgt   wgt_z nl_2012_wgt_female_27  0.167   2.1   0.015
+#>  2 0.167  age   hgt   hgt_z nl_2012_hgt_female_27  0.167  43.5   0.047
+#>  3 0      age   wgt   wgt_z nl_2012_wgt_female_27  0       0.99  0.19 
+#>  4 0.0849 age   wgt   wgt_z nl_2012_wgt_female_27  0.0849  1.25 -0.203
+#>  5 0.167  age   wgt   wgt_z nl_2012_wgt_female_27  0.167   2.1   0.015
+#>  6 0.0849 age   hdc   hdc_z nl_2012_hdc_female_27  0.0849 27    -0.709
 #>  7 0.167  age   hdc   hdc_z nl_2012_hdc_female_27  0.167  30.5  -0.913
-#>  8 0.167  age   bmi   bmi_z nl_1997_bmi_female_nl  0.167  11.1  -3.77 
-#>  9 0      age   wgt   wgt_z nl_2012_wgt_female_27  0       0.99  0.19 
-#> 10 0.0849 hgt   wfh   wfh_z nl_2012_wfh_female_   38       1.25 -0.001
-#> 11 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326
+#>  8 0      age   bmi   bmi_z nl_1997_bmi_female_nl  0      NA    NA    
+#>  9 0.0849 age   bmi   bmi_z nl_1997_bmi_female_nl  0.0849  8.66 -5.72 
+#> 10 0.167  age   bmi   bmi_z nl_1997_bmi_female_nl  0.167  11.1  -3.77 
+#> 11 0      hgt   wfh   wfh_z nl_2012_wfh_female_   NA       0.99 NA    
+#> 12 0.0849 hgt   wfh   wfh_z nl_2012_wfh_female_   38       1.25 -0.001
+#> 13 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326
 ```
 
 Column `age` holds decimal age for the measurement. Every row contains a
@@ -73,10 +75,10 @@ The `persondata()` function extracts the person-level information:
 ``` r
 persondata(tgt)
 #> # A tibble: 1 × 16
-#>      id name  dob        dobf       dobm       src   dnr   sex      gad    ga
+#>      id name  dob        dobm       dobf       src   dnr   sex      gad    ga
 #>   <int> <chr> <date>     <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl>
-#> 1    -1 Maria 2018-10-11 1995-07-04 1990-12-02 1234  <NA>  female   189    27
-#> # ℹ 6 more variables: smo <int>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
+#> 1    -1 Maria 2018-10-11 1990-12-02 1995-07-04 1234  <NA>  female   189    27
+#> # ℹ 6 more variables: smo <dbl>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
 #> #   etn <chr>
 ```
 
