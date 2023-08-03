@@ -1,3 +1,7 @@
+# bdsreader 0.23.1
+
+- Correct a documentation error
+
 # bdsreader 0.23.0
 
 - Major overhaul of `bdsreader` package

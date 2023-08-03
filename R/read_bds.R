@@ -15,7 +15,7 @@
 #' JSON schema V1.0 and V2.0)
 #' @param intermediate Logical. If `TRUE` the function writes JSON files
 #' with intermediate result to the working directory.
-#' 1. `data.json`: the JSON input data;
+#' 1. `input.json`: the JSON input data;
 #' 2. `bds.json`: a data frame with info per BDS;
 #' 3. `ddi.json`: result of recoding BDS into GSED item names;
 #' 4. `psn.json`: known fixed child covariates;
