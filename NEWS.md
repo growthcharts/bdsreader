@@ -1,3 +1,7 @@
+# bdsreader 0.23.2
+
+- Access `dplyr::case_match()` by requiring `dplyr 1.1.0`
+
 # bdsreader 0.23.1
 
 - Correct a documentation error
