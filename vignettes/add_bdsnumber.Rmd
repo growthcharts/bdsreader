@@ -1,0 +1,36 @@
+---
+title: "Adding a BDS number"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Adding a BDS number}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Note to developer
+
+This vignette contains a list of actions needed to add a new BDS number to `read_bds()` and `write_bds()`. 
+
+## List
+
+Suppose we wish to support BDS number 16 (postal code) for reading from and writing to JSON.
+
+1. Add the BDS number to latest JSON Schema file in `inst/schemas`. Set the type of field ("number", "character", "category", "integer") and set any restrictions needed on the values or the range. Keep the version number, and only increment it if a change alters existing entries. Try to adhere to BDS sequence.
+2. In `convert_raw_df()`, assign the number to the appropriate type.
+3. In `make_target()`, add the receiving field to the data template.
+4. In `convert_checked_list_3()`, define the appropriate code to read the data value from the internal `bds` structure
+5. In `as_bds_clientdata_v3()` define the way how to export the field from to R data object
+6. Create a test file that includes a value for the new BDS field.
+7. Rebuild package and try `q <- read_bds(fn)` where `fn` refers to your test file.
+8. Try `write_bds(q)` and inspect the result.
+
+If a new JSON Schema version is needed, then add it to `set_schema()`, increase JSON `"Format"` field, and add it to switch statemen in `write_bds()`.
+
+
