@@ -28,7 +28,9 @@ Imports:
 Suggests: 
     openxlsx,
     jamesdemodata (>= 0.10.1),
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Remotes: 
     growthcharts/centile,
     d-score/dscore,
@@ -38,3 +40,4 @@ Roxygen: list(markdown = TRUE)
 URL: https://github.com/growthcharts/bdsreader
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
+VignetteBuilder: knitr

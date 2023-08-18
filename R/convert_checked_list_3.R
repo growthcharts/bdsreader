@@ -61,6 +61,12 @@ convert_checked_list_3 <- function(bds, ds) {
       pull("number") %>%
       first()
     psn[["agem"]] <- as.numeric(trunc((psn[["dob"]] - psn[["dobm"]]) / 365.25))
+  }
+
+  if (hasName(bds, "character")) {
+    psn[["pc4"]] <- filter(bds, bds == 16L) %>%
+      pull("character") %>%
+      first()
     psn[["etn"]] <- "NL"
   }
 

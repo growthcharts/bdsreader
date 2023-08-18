@@ -96,9 +96,9 @@ set_type <- function(bds) {
                 948, 949, 950, 953, 954, 972, 980, 982, 984,
                 998, 1001, 1278)
   date <- c(20, 63)
-  integer <- 71
+  integer <- c(71)
   number <- c(82, 110, 235, 238, 240, 245, 252)
-  character <- NULL
+  character <- 16
 
   type <- rep(NA_character_, length(bds))
   type[bds %in% category] <- "category"

@@ -89,11 +89,22 @@
       ],
       "if": {
         "properties": {
-          "bdsNumber": {"enum": [19, 20, 62, 63, 66, 71, 82, 91, 110, 238, 240, 510]}
+          "bdsNumber": {"enum": [16, 19, 20, 62, 63, 66, 71, 82, 91, 110, 238, 240, 510]}
         }
       },
       "then": {
         "anyOf": [
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 16
+              },
+              "value": {
+                "type": "string",
+                "pattern": "^([0-9]{4})$"
+              }
+            }
+          },
           {
             "properties": {
               "bdsNumber": {
