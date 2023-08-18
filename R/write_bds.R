@@ -324,6 +324,10 @@ as_bds_clientdata_v3 <- function(tgt) {
   psn <- persondata(tgt)
   x <- list(
     list(
+      bdsNumber = 16,
+      value = as.character(psn$pc4)
+    ),
+    list(
       bdsNumber = 19,
       value = switch(psn$sex, "male" = "1", "female" = "2", "0")
     ),

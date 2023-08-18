@@ -93,6 +93,8 @@ Reversely, if you erroneously read a JSON file of format \code{"2.0"} using form
 \examples{
 fn <- system.file("examples/maria1.json", package = "bdsreader")
 m <- read_bds(fn)
+fn <- system.file("examples/test.json", package = "bdsreader")
+m <- read_bds(fn)
 
 # Assume that jamesdemodata is installed locally.
 # If not use remotes::install_github("growthcharts/jamesdemodata")

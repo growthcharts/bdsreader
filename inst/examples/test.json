@@ -1,0 +1,112 @@
+{
+  "Format": "3.0",
+  "organisationCode": 1234,
+  "Reference": "TestMaria",
+  "clientDetails": [
+    {
+      "bdsNumber": 16,
+      "value": "1012"
+    },
+    {
+      "bdsNumber": 19,
+      "value": "2"
+    },
+    {
+      "bdsNumber": 20,
+      "value": "20181011"
+    },
+    {
+      "bdsNumber": 82,
+      "value": 189
+    },
+    {
+      "bdsNumber": 91,
+      "value": "1"
+    },
+    {
+      "bdsNumber": 110,
+      "value": 990
+    },
+    {
+      "bdsNumber": 238,
+      "value": 1670
+    },
+    {
+      "bdsNumber": 240,
+      "value": 1900
+    }
+  ],
+  "clientMeasurements": [
+    {
+      "bdsNumber": 235,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 380
+        },
+        {
+          "date": "20181211",
+          "value": 435
+        }
+      ]
+    },
+    {
+      "bdsNumber": 245,
+      "values": [
+        {
+          "date": "20181011",
+          "value": 990
+        },
+        {
+          "date": "20181111",
+          "value": 1250
+        },
+        {
+          "date": "20181211",
+          "value": 2100
+        }
+      ]
+    },
+    {
+      "bdsNumber": 252,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 270
+        },
+        {
+          "date": "20181211",
+          "value": 305
+        }
+      ]
+    }
+  ],
+  "nestedDetails": [
+    {
+      "nestingBdsNumber": 62,
+      "nestingCode": "01",
+      "clientDetails": [
+        {
+          "bdsNumber": 63,
+          "value": "19950704"
+        }
+      ],
+      "clientMeasurements": [
+
+      ]
+    },
+    {
+      "nestingBdsNumber": 62,
+      "nestingCode": "02",
+      "clientDetails": [
+        {
+          "bdsNumber": 63,
+          "value": "19901202"
+        }
+      ],
+      "clientMeasurements": [
+
+      ]
+    }
+  ]
+}
