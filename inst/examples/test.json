@@ -89,6 +89,10 @@
         {
           "bdsNumber": 63,
           "value": "19950704"
+        },
+        {
+          "bdsNumber": 71,
+          "value": 6030
         }
       ],
       "clientMeasurements": [
@@ -102,6 +106,10 @@
         {
           "bdsNumber": 63,
           "value": "19901202"
+        },
+        {
+          "bdsNumber": 71,
+          "value": 6030
         }
       ],
       "clientMeasurements": [
