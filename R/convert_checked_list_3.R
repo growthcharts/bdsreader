@@ -21,14 +21,27 @@ convert_checked_list_3 <- function(bds, ds) {
   }
 
   if (all(hasName(bds, c("date", "nest", "code")))) {
-    psn[["dobm"]] <- filter(bds, bds == 63L & .data$nest == 62L &
-                              .data$code == "02") %>%
+    psn[["dobf"]] <-
+      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "01") %>%
       pull("date") %>%
       first()
-    psn[["dobf"]] <- filter(bds, bds == 63L & .data$nest == 62L &
-                              .data$code == "01") %>%
+    psn[["dobm"]] <-
+      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "02") %>%
       pull("date") %>%
       first()
+  }
+
+  if (all(hasName(bds, c("integer", "nest", "code")))) {
+    psn[["blbf"]] <-
+      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "01") %>%
+      pull("integer") %>%
+      first() %>%
+      as.integer()
+    psn[["blbm"]] <-
+      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "02") %>%
+      pull("integer") %>%
+      first() %>%
+      as.integer()
   }
 
   if (hasName(bds, "category")) {
@@ -132,11 +145,11 @@ convert_checked_list_3 <- function(bds, ds) {
   }
 
   if (all(hasName(xy, c("age", "yname")))) {
-  xy <- xy %>%
-    bind_rows(bmi, wfh, dsc) %>%
-    arrange(factor(.data$yname,
-                   levels = c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh")),
-            .data$age)
+    xy <- xy %>%
+      bind_rows(bmi, wfh, dsc) %>%
+      arrange(factor(.data$yname,
+                     levels = c("hgt", "wgt", "hdc", "bmi", "dsc", "wfh")),
+              .data$age)
   }
 
   list(psn = psn, xy = xy)

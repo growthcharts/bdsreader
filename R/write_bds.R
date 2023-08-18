@@ -176,7 +176,7 @@ write_bds_3 <- function(x, organisation) {
 as_bds_reference <- function(tgt) {
   n <- persondata(tgt)[["name"]]
   if (!length(n) || is.na(n)) {
-    return("Unknown")
+    return(NA_character_)
   }
   n
 }
@@ -325,7 +325,7 @@ as_bds_clientdata_v3 <- function(tgt) {
   x <- list(
     list(
       bdsNumber = 16,
-      value = as.character(psn$pc4)
+      value = ifelse(hasName(psn, "pc4"), as.character(psn$pc4), NA_character_)
     ),
     list(
       bdsNumber = 19,
@@ -453,30 +453,58 @@ as_bds_contacts <- function(x, v, type) {
 
 as_bds_nested <- function(x) {
 
-  father <- mother <- NULL
+  father <- NULL
 
-  if (!is.na(get_dob(x, which = "01"))) {
+  if (!hasName(x$psn, "dobf")) {
+    l1 <- NULL
+  } else {
+    l1 <- list(
+      bdsNumber = 63,
+      value = format(x$psn$dobf, format = "%Y%m%d")
+    )
+  }
+  if (!hasName(x$psn, "blbf")) {
+    l2 <- NULL
+  } else {
+    l2 <- list(
+      bdsNumber = 71,
+      value = x$psn$blbf
+    )
+  }
+
+  if (is.list(l1) || is.list(l2)) {
     father <- list(
       nestingBdsNumber = 62,
       nestingCode = "01",
-      clientDetails = list(
-        list(
-          bdsNumber = 63,
-          value = format(as.Date(get_dob(x, which = "01")), format = "%Y%m%d"))
-      ),
+      clientDetails = list(l1, l2),
       clientMeasurements = list()
     )
   }
 
-  if (!is.na(get_dob(x, which = "02"))) {
+  mother <- NULL
+
+  if (!hasName(x$psn, "dobm")) {
+    l1 <- NULL
+  } else {
+    l1 <- list(
+      bdsNumber = 63,
+      value = format(x$psn$dobm, format = "%Y%m%d")
+    )
+  }
+  if (!hasName(x$psn, "blbm")) {
+    l2 <- NULL
+  } else {
+    l2 <- list(
+      bdsNumber = 71,
+      value = x$psn$blbm
+    )
+  }
+
+  if (is.list(l1) || is.list(l2)) {
     mother <- list(
       nestingBdsNumber = 62,
       nestingCode = "02",
-      clientDetails = list(
-        list(
-          bdsNumber = 63,
-          value = format(as.Date(get_dob(x, which = "02")), format = "%Y%m%d"))
-      ),
+      clientDetails = list(l1, l2),
       clientMeasurements = list()
     )
   }
