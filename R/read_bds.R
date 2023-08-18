@@ -175,8 +175,8 @@ read_bds <- function(txt = NULL,
 
   # Step 9: parse to list with components: psn, xy
   if (major %in% c(1, 2)) {
-    x <- convert_checked_list(raw, ranges, append_ddi = append_ddi,
-                              format = format, ds = ds)
+    x <- convert_checked_list_12(raw, ranges, append_ddi = append_ddi,
+                                 format = format, ds = ds)
   } else {
     x <- convert_checked_list_3(bds, ds)
   }

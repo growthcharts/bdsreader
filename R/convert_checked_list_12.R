@@ -1,4 +1,4 @@
-convert_checked_list <- function(d, r, append_ddi = FALSE, format = "1.0",
+convert_checked_list_12 <- function(d, r, append_ddi = FALSE, format = "1.0",
                                  ds = ds) {
   v <- as.integer(substr(format, 1L, 1L))
   b <- switch(v,
