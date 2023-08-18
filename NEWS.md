@@ -1,3 +1,7 @@
+# bdsreader 0.23.3
+
+- Improves consistency of source file names
+
 # bdsreader 0.23.2
 
 - Access `dplyr::case_match()` by requiring `dplyr 1.1.0`
