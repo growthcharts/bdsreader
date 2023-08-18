@@ -1,3 +1,8 @@
+# bdsreader 0.23.4
+
+- Adds support for BDS 16 (Postal code)
+- Adds a developer vignette outlining the steps needed to add a BDS number
+
 # bdsreader 0.23.3
 
 - Improves consistency of source file names
