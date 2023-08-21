@@ -1,7 +1,10 @@
+# bdsreader 0.23.5
+
+- Adds support for parental country of birth (use Table 34 as coding, Netherlands = 6030)
+
 # bdsreader 0.23.4
 
 - Adds support for BDS 16 (Postal code)
-- Adds support for parental country of birth (use Table 34 as coding, Netherlands = 6030)
 - Adds a developer vignette outlining the steps needed to add a BDS number
 
 # bdsreader 0.23.3
