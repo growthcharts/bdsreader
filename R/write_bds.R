@@ -153,7 +153,9 @@ write_bds_3 <- function(x, organisation) {
   # data elements
   bds$ClientGegevens <- as_bds_clientdata(x, v, type)
   bds$ContactMomenten <- as_bds_contacts(x, v, type)
-  bds$nestedDetails <- as_bds_nested(x)
+  nestedDetails <-  as_bds_nested(x)
+  bds$nestedDetails <- NULL
+  if (length(nestedDetails)) bds$nestedDetails <- nestedDetails
 
   # remove NA fields for v3
   # clientDetails
@@ -458,26 +460,44 @@ as_bds_nested <- function(x) {
   if (!hasName(x$psn, "dobf")) {
     l1 <- NULL
   } else {
-    l1 <- list(
-      bdsNumber = 63,
-      value = format(x$psn$dobf, format = "%Y%m%d")
-    )
+    if (is.na(x$psn$dobf)) {
+      l1 <- NULL
+    } else {
+      l1 <- list(bdsNumber = 63,
+                 value = format(x$psn$dobf, format = "%Y%m%d"))
+    }
   }
+
   if (!hasName(x$psn, "blbf")) {
     l2 <- NULL
   } else {
-    l2 <- list(
-      bdsNumber = 71,
-      value = x$psn$blbf
-    )
+    if (is.na(x$psn$blbf)) {
+      l2 <- NULL
+    } else {
+      l2 <- list(bdsNumber = 71,
+                 value = as.integer(x$psn$blbf))
+    }
   }
 
-  if (is.list(l1) || is.list(l2)) {
+  if (!hasName(x$psn, "eduf")) {
+    l3 <- NULL
+  } else {
+    if (is.na(x$psn$eduf)) {
+      l3 <- NULL
+    } else {
+      l3 <- list(bdsNumber = 66,
+                 value = formatC(x$psn$eduf, width = 2, format = "d",
+                                 flag = "0"))
+    }
+  }
+
+  cd <- c(list(l1), list(l2), list(l3))
+  cd <- cd[!sapply(cd, is.null)]
+  if (length(cd)) {
     father <- list(
       nestingBdsNumber = 62,
       nestingCode = "01",
-      clientDetails = list(l1, l2),
-      clientMeasurements = list()
+      clientDetails = cd
     )
   }
 
@@ -486,26 +506,44 @@ as_bds_nested <- function(x) {
   if (!hasName(x$psn, "dobm")) {
     l1 <- NULL
   } else {
-    l1 <- list(
-      bdsNumber = 63,
-      value = format(x$psn$dobm, format = "%Y%m%d")
-    )
+    if (is.na(x$psn$dobm)) {
+      l1 <- NULL
+    } else {
+      l1 <- list(bdsNumber = 63,
+                 value = format(x$psn$dobm, format = "%Y%m%d"))
+    }
   }
+
   if (!hasName(x$psn, "blbm")) {
     l2 <- NULL
   } else {
-    l2 <- list(
-      bdsNumber = 71,
-      value = x$psn$blbm
-    )
+    if (is.na(x$psn$blbm)) {
+      l2 <- NULL
+    } else {
+      l2 <- list(bdsNumber = 71,
+                 value = as.integer(x$psn$blbm))
+    }
   }
 
-  if (is.list(l1) || is.list(l2)) {
+  if (!hasName(x$psn, "edum")) {
+    l3 <- NULL
+  } else {
+    if (is.na(x$psn$edum)) {
+      l3 <- NULL
+    } else {
+      l3 <- list(bdsNumber = 66,
+                 value = formatC(x$psn$edum, width = 2, format = "d",
+                                 flag = "0"))
+    }
+  }
+
+  cd <- c(list(l1), list(l2), list(l3))
+  cd <- cd[!sapply(cd, is.null)]
+  if (length(cd)) {
     mother <- list(
       nestingBdsNumber = 62,
       nestingCode = "02",
-      clientDetails = list(l1, l2),
-      clientMeasurements = list()
+      clientDetails = cd
     )
   }
 

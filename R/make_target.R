@@ -19,7 +19,9 @@ make_target <- function(psn = NULL, xyz = NULL) {
         etn = NA_character_,
         pc4 = NA_character_,
         blbf = NA_integer_,
-        blbm = NA_integer_)
+        blbm = NA_integer_,
+        eduf = NA_character_,
+        edum = NA_character_)
       xyz <- tibble(
         age = numeric(0),
         xname = character(0),

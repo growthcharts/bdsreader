@@ -44,6 +44,17 @@ convert_checked_list_3 <- function(bds, ds) {
       as.integer()
   }
 
+  if (all(hasName(bds, c("category", "nest", "code")))) {
+    psn[["eduf"]] <-
+      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "01") %>%
+      pull("category") %>%
+      first()
+    psn[["edum"]] <-
+      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "02") %>%
+      pull("category") %>%
+      first()
+  }
+
   if (hasName(bds, "category")) {
     psn[["sex"]] <- filter(bds, bds == 19L) %>%
       pull("category") %>%
