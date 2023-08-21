@@ -89,7 +89,7 @@
       ],
       "if": {
         "properties": {
-          "bdsNumber": {"enum": [16, 19, 20, 62, 63, 66, 71, 82, 91, 110, 238, 240, 510]}
+          "bdsNumber": {"enum": [16, 19, 20, 62, 63, 66, 71, 82, 91, 110, 238, 240, 471, 510]}
         }
       },
       "then": {
@@ -192,10 +192,23 @@
                 "maximum": 2500
               }
             }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 471
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 25
+              }
+            }
           }
         ]
       }
-    },
+    }
+    ,
     "clientMeasurements": {
       "$id": "#/schemas/clientMeasurements",
       "required": [

@@ -23,11 +23,27 @@ for (format in c("1.0", "2.0", "3.0")) {
 
   # test the empty object
   js1 <- '{"OrganisatieCode":0,"ClientGegevens":{}}'
-  test_that("handles the empty individual object", {
-    expect_message(
-      read_bds(js1, schema = schema))
+
+  if (v <= 2) {
+    test_that("handles the empty individual object", {
+      expect_message(
+        read_bds(js1, schema = schema))
+    }
+    )
   }
-  )
+
+  if (v >= 3) {
+    test_that("is silent with empty object", {
+      expect_silent(
+        read_bds(js1, schema = schema))
+    }
+    )
+    test_that("but produces messages with validate = TRUE", {
+      expect_message(
+        read_bds(js1, schema = schema, validate = TRUE))
+    }
+    )
+  }
 
   z <- read_bds(jtf[1], schema = schema)
 
@@ -59,9 +75,17 @@ for (format in c("1.0", "2.0", "3.0")) {
     expect_silent(read_bds(jtf[4], schema = schema))
   })
 
-  test_that("test5.json (missing ClientGegevens) MESS", {
-    expect_message(read_bds(jtf[5], schema = schema))
-  })
+  if (v < 3) {
+    test_that("test5.json (missing ClientGegevens) MESS", {
+      expect_message(read_bds(jtf[5], schema = schema))
+    })
+  }
+
+  if (v >= 3) {
+    test_that("test5.json (missing ClientGegevens) silent", {
+      expect_silent(read_bds(jtf[5], schema = schema))
+    })
+  }
 
   if (v < 3) {
     test_that("test6.json (Missing ContactMomenten) MESS", {
@@ -242,9 +266,15 @@ for (format in c("1.0", "2.0", "3.0")) {
     })
   }
 
-  if (v >= 2) {  # v2.0: Other messages
+  if (v == 2) {  # v2.0: Other messages
     test_that("test21.json (minimal data) MESS", {
       expect_message(read_bds(jtf[21], schema = schema))
+    })
+  }
+
+  if (v >= 3) {  # v3.0
+    test_that("test21.json (minimal data) silent", {
+      expect_silent(read_bds(jtf[21], schema = schema))
     })
   }
 
@@ -390,17 +420,17 @@ for (format in c("1.0", "2.0", "3.0")) {
   }
 }
 
-  # test battery - comment out to activate
-  # path <- system.file("extdata", package = "jamesdemodata")
-  # libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
-  # for (lib in libs) {
-  #   files <- list.files(path = file.path(path, lib), pattern = ".json",
-  #                       full.names = TRUE)
-  #   for (file in files) {
-  #     cat("File ", file, "\n")
-  #     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
-  #     test_that(paste(file, "passes"), {
-  #       expect_silent(suppressMessages(read_bds(txt = js)))
-  #     })
-  #   }
-  # }
+# test battery - comment out to activate
+# path <- system.file("extdata", package = "jamesdemodata")
+# libs <- c("allegrosultum", "test", "smocc", "terneuzen", "preterm", "graham")
+# for (lib in libs) {
+#   files <- list.files(path = file.path(path, lib), pattern = ".json",
+#                       full.names = TRUE)
+#   for (file in files) {
+#     cat("File ", file, "\n")
+#     js  <- jsonlite::toJSON(jsonlite::fromJSON(file), auto_unbox = TRUE)
+#     test_that(paste(file, "passes"), {
+#       expect_silent(suppressMessages(read_bds(txt = js)))
+#     })
+#   }
+# }

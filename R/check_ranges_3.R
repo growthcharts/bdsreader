@@ -14,8 +14,8 @@ check_ranges_3 <- function(df) {
     dates <- ymd(pull(df, "date"))
   })
   if (!is.null(e)) {
-    message("Date conversion error.")
     if (hasName(df, "date")) {
+      message("Date conversion error.")
       df <- repair(df, "date")
     }
   } else {
@@ -26,8 +26,8 @@ check_ranges_3 <- function(df) {
     categories <- as.integer(pull(df, "category"))
   })
   if (!is.null(e)) {
-    message("Category conversion error.")
     if  (hasName(df, "category")) {
+      message("Category conversion error.")
       df <- repair(df, "category")
     }
   } else {
@@ -38,12 +38,24 @@ check_ranges_3 <- function(df) {
     numbers <- as.numeric(pull(df, "number"))
   })
   if (!is.null(e)) {
-    message("Number conversion error.")
     if  (hasName(df, "number")) {
+      message("Number conversion error.")
       df <- repair(df, "number")
     }
   } else {
     df[["number"]] <- numbers
+  }
+
+  e <- catch_cnd({
+    integers <- as.numeric(pull(df, "integer"))
+  })
+  if (!is.null(e)) {
+    if  (hasName(df, "integer")) {
+      message("Integer conversion error.")
+      df <- repair(df, "integer")
+    }
+  } else {
+    df[["integer"]] <- integers
   }
 
   # check ranges
@@ -70,15 +82,18 @@ repair <- function(x, what) {
   tf <- switch(what,
                date = ymd,
                category = as.integer,
-               number = as.numeric)
+               number = as.numeric,
+               integer = as.integer)
   ac <- switch(what,
                date = "* date",
                category = "* category",
-               number = "* number")
+               number = "* number",
+               integer = "* integer")
   na <- switch(what,
                date = NA_Date_,
                category = NA_integer_,
-               number = NA_real_)
+               number = NA_real_,
+               integer = NA_integer_)
   # convert one-by-one
   idx <- !is.na(x[[what]])
   broken <- x[[what]][idx]

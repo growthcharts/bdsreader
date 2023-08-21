@@ -356,6 +356,10 @@ as_bds_clientdata_v3 <- function(tgt) {
     list(
       bdsNumber = 240,
       value = as.numeric(psn$hgtf * 10)
+    ),
+    list(
+      bdsNumber = 471,
+      value = as.integer(psn$par)
     )
   )
   x

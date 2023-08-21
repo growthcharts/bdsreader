@@ -20,41 +20,7 @@ convert_checked_list_3 <- function(bds, ds) {
       first()
   }
 
-  if (all(hasName(bds, c("date", "nest", "code")))) {
-    psn[["dobf"]] <-
-      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "01") %>%
-      pull("date") %>%
-      first()
-    psn[["dobm"]] <-
-      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "02") %>%
-      pull("date") %>%
-      first()
-  }
-
-  if (all(hasName(bds, c("integer", "nest", "code")))) {
-    psn[["blbf"]] <-
-      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "01") %>%
-      pull("integer") %>%
-      first() %>%
-      as.integer()
-    psn[["blbm"]] <-
-      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "02") %>%
-      pull("integer") %>%
-      first() %>%
-      as.integer()
-  }
-
-  if (all(hasName(bds, c("category", "nest", "code")))) {
-    psn[["eduf"]] <-
-      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "01") %>%
-      pull("category") %>%
-      first()
-    psn[["edum"]] <-
-      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "02") %>%
-      pull("category") %>%
-      first()
-  }
-
+  # BDS variables, child level
   if (hasName(bds, "category")) {
     psn[["sex"]] <- filter(bds, bds == 19L) %>%
       pull("category") %>%
@@ -92,6 +58,49 @@ convert_checked_list_3 <- function(bds, ds) {
       pull("character") %>%
       first()
     psn[["etn"]] <- "NL"
+  }
+
+  if (hasName(bds, "integer")) {
+    psn[["par"]] <- filter(bds, bds == 471L) %>%
+      pull("integer") %>%
+      first() |>
+      as.integer()
+  }
+
+  # Nested fields BDS 62
+  if (all(hasName(bds, c("date", "nest", "code")))) {
+    psn[["dobf"]] <-
+      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "01") %>%
+      pull("date") %>%
+      first()
+    psn[["dobm"]] <-
+      filter(bds, bds == 63L & .data$nest == 62L & .data$code == "02") %>%
+      pull("date") %>%
+      first()
+  }
+
+  if (all(hasName(bds, c("integer", "nest", "code")))) {
+    psn[["blbf"]] <-
+      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "01") %>%
+      pull("integer") %>%
+      first() %>%
+      as.integer()
+    psn[["blbm"]] <-
+      filter(bds, bds == 71L & .data$nest == 62L & .data$code == "02") %>%
+      pull("integer") %>%
+      first() %>%
+      as.integer()
+  }
+
+  if (all(hasName(bds, c("category", "nest", "code")))) {
+    psn[["eduf"]] <-
+      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "01") %>%
+      pull("category") %>%
+      first()
+    psn[["edum"]] <-
+      filter(bds, bds == 66L & .data$nest == 62L & .data$code == "02") %>%
+      pull("category") %>%
+      first()
   }
 
   # time-varying child data

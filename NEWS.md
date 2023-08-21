@@ -1,6 +1,8 @@
 # bdsreader 0.23.5
 
 - Adds support for parental country of birth (use Table 34 as coding, Netherlands = 6030)
+- Adds support for parental level of eduction (BDS 62/66)
+- Adds support for parity (BDS 471)
 
 # bdsreader 0.23.4
 
