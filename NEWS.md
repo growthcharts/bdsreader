@@ -1,25 +1,24 @@
-# bdsreader 0.23.5
+# bdsreader 0.24.0
 
-- Adds support for parental country of birth (use Table 34 as coding, Netherlands = 6030)
-- Adds support for parental level of eduction (BDS 62/66)
-- Adds support for parity (BDS 471)
+## Non-breaking change in the V3.0 schema definition
 
-# bdsreader 0.23.4
+- Changed the type definition of BDS field 71 (parental birth country) from `integer` to `number`
 
-- Adds support for BDS 16 (Postal code)
+## Added support in V3.0 schema definition
+
+- Adds support in `read_bds()` and `write_bds()` for
+  + parental country of birth (BDS 71, uses government Table 34 for codes)
+  + parental level of eduction (BDS 62/66)
+  + parity (BDS 471)
+  + 4-digit postal code (BDS 16)
+
+## Other changes
+
+- Removes the empty array writing from `write_bds()`
 - Adds a developer vignette outlining the steps needed to add a BDS number
-
-# bdsreader 0.23.3
-
-- Improves consistency of source file names
-
-# bdsreader 0.23.2
-
+- Renames source file names for improved consistency
 - Access `dplyr::case_match()` by requiring `dplyr 1.1.0`
-
-# bdsreader 0.23.1
-
-- Correct a documentation error
+- Correct documentation errors
 
 # bdsreader 0.23.0
 

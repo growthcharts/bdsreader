@@ -1,13 +1,12 @@
 Package: bdsreader
 Type: Package
 Title: Read Data from the Basisdataset Jeugdgezondheidszorg
-Version: 0.23.5
+Version: 0.24.0
 Authors@R: c(person("Stef", "van Buuren", email = "stef.vanbuuren@tno.nl", role = c("cre", "aut")), 
              person("Arjan", "Huizing", email = "arjan.huizing@tno.nl", role = "aut"))
 Description: Defines JSON data schemas according to the Basisdataset (BDS) 
      Jeugdgezondheidszorg. Contains function to read, validate and write 
      JSON files with individual data coded according to the chosen schema version.
-     Currently supported are BDS fields related to child growth and development.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -27,7 +26,7 @@ Imports:
     tidyr
 Suggests: 
     openxlsx,
-    jamesdemodata (>= 0.10.1),
+    jamesdemodata (>= 0.11.0),
     testthat (>= 3.0.0),
     knitr,
     rmarkdown

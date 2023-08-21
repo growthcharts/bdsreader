@@ -74,12 +74,13 @@ The `persondata()` function extracts the person-level information:
 
 ``` r
 persondata(tgt)
-#> # A tibble: 1 × 16
+#> # A tibble: 1 × 22
 #>      id name  dob        dobm       dobf       src   dnr   sex      gad    ga
 #>   <int> <chr> <date>     <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl>
 #> 1    -1 Maria 2018-10-11 1990-12-02 1995-07-04 1234  <NA>  female   189    27
-#> # ℹ 6 more variables: smo <dbl>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
-#> #   etn <chr>
+#> # ℹ 12 more variables: smo <dbl>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
+#> #   etn <chr>, pc4 <chr>, blbf <int>, blbm <int>, eduf <int>, edum <int>,
+#> #   par <int>
 ```
 
 The result of `read_bds()` feeds into further data processing in `R`.
@@ -183,9 +184,6 @@ Here’s the contents of the file with the child data:
           "value": "19950704"
         }
       ],
-      "clientMeasurements": [
-
-      ]
     },
     {
       "nestingBdsNumber": 62,
@@ -196,9 +194,6 @@ Here’s the contents of the file with the child data:
           "value": "19901202"
         }
       ],
-      "clientMeasurements": [
-
-      ]
     }
   ]
 }
