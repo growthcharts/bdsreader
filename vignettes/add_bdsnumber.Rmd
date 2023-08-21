@@ -30,7 +30,8 @@ Suppose we wish to support BDS number 16 (postal code) for reading from and writ
 6. Create a test file that includes a value for the new BDS field.
 7. Rebuild package and try `q <- read_bds(fn)` where `fn` refers to your test file.
 8. Try `write_bds(q)` and inspect the result.
+9. If all are done, extend the variable list used in `export_as_bds()`
 
-If a new JSON Schema version is needed, then add it to `set_schema()`, increase JSON `"Format"` field, and add it to switch statemen in `write_bds()`.
+If a new JSON Schema version is needed, then add it to `set_schema()`, increase JSON `"Format"` field, and add it to switch statement in `write_bds()`.
 
 

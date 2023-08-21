@@ -56,6 +56,12 @@ export_as_bds <- function(data,
   if (!hasName(data$child, "gad")) data$child$gad <- NA_real_
   if (!hasName(data$child, "dobf")) data$child$dobf <- as.Date(NA)
   if (!hasName(data$child, "dobm")) data$child$dobm <- as.Date(NA)
+  if (!hasName(data$child, "pc4")) data$child$pc4 <- NA_character_
+  if (!hasName(data$child, "blbf")) data$child$blbf <- NA_integer_
+  if (!hasName(data$child, "blbm")) data$child$blbm <- NA_integer_
+  if (!hasName(data$child, "eduf")) data$child$eduf <- NA_integer_
+  if (!hasName(data$child, "edum")) data$child$edum <- NA_integer_
+  if (!hasName(data$child, "par")) data$child$par <- NA_integer_
 
   # process fixed person data
   persons <- data$child %>%
@@ -67,8 +73,8 @@ export_as_bds <- function(data,
     ) %>%
     select(all_of(c(
       "src", "id", "name", "dob", "dobf", "dobm", "sex",
-      "gad", "ga", "smo", "bw", "hgtm", "hgtf", "agem", "etn"
-    )))
+      "gad", "ga", "smo", "bw", "hgtm", "hgtf", "agem", "etn",
+      "pc4", "blbf", "blbm", "eduf", "edum", "par")))
 
   # if we have agem and no dobm, calculate dobm from agem
   idx <- is.na(persons$dobm) & !is.na(persons$agem)
