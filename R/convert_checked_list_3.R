@@ -51,6 +51,10 @@ convert_checked_list_3 <- function(bds, ds) {
       pull("number") %>%
       first()
     psn[["agem"]] <- as.numeric(trunc((psn[["dob"]] - psn[["dobm"]]) / 365.25))
+    psn[["par"]] <- filter(bds, bds == 471L) %>%
+      pull("number") %>%
+      first() |>
+      as.integer()
   }
 
   if (hasName(bds, "character")) {
@@ -58,13 +62,6 @@ convert_checked_list_3 <- function(bds, ds) {
       pull("character") %>%
       first()
     psn[["etn"]] <- "NL"
-  }
-
-  if (hasName(bds, "integer")) {
-    psn[["par"]] <- filter(bds, bds == 471L) %>%
-      pull("integer") %>%
-      first() |>
-      as.integer()
   }
 
   # Nested fields BDS 62
@@ -79,15 +76,15 @@ convert_checked_list_3 <- function(bds, ds) {
       first()
   }
 
-  if (all(hasName(bds, c("integer", "nest", "code")))) {
+  if (all(hasName(bds, c("number", "nest", "code")))) {
     psn[["blbf"]] <-
       filter(bds, bds == 71L & .data$nest == 62L & .data$code == "01") %>%
-      pull("integer") %>%
+      pull("number") %>%
       first() %>%
       as.integer()
     psn[["blbm"]] <-
       filter(bds, bds == 71L & .data$nest == 62L & .data$code == "02") %>%
-      pull("integer") %>%
+      pull("number") %>%
       first() %>%
       as.integer()
   }

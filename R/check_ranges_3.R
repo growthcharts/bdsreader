@@ -46,17 +46,17 @@ check_ranges_3 <- function(df) {
     df[["number"]] <- numbers
   }
 
-  e <- catch_cnd({
-    integers <- as.numeric(pull(df, "integer"))
-  })
-  if (!is.null(e)) {
-    if  (hasName(df, "integer")) {
-      message("Integer conversion error.")
-      df <- repair(df, "integer")
-    }
-  } else {
-    df[["integer"]] <- integers
-  }
+  # e <- catch_cnd({
+  #   integers <- as.integer(pull(df, "integer"))
+  # })
+  # if (!is.null(e)) {
+  #   if  (hasName(df, "integer")) {
+  #     message("Integer conversion error.")
+  #     df <- repair(df, "integer")
+  #   }
+  # } else {
+  #   df[["integer"]] <- integers
+  # }
 
   # check ranges
   ranges <- data.frame(

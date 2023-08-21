@@ -359,7 +359,7 @@ as_bds_clientdata_v3 <- function(tgt) {
     ),
     list(
       bdsNumber = 471,
-      value = as.integer(psn$par)
+      value = ifelse(hasName(psn, "par"), as.integer(psn$par), NA_integer_)
     )
   )
   x
