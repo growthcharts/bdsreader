@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.0</span>
       </span>
     </div>
 
@@ -118,10 +118,13 @@ the field from to R data object</li>
 <li>Rebuild package and try <code>q &lt;- read_bds(fn)</code> where
 <code>fn</code> refers to your test file.</li>
 <li>Try <code>write_bds(q)</code> and inspect the result.</li>
+<li>If all are done, extend the variable list used in
+<code><a href="../reference/export_as_bds.html">export_as_bds()</a></code>
+</li>
 </ol>
 <p>If a new JSON Schema version is needed, then add it to
 <code><a href="../reference/set_schema.html">set_schema()</a></code>, increase JSON <code>"Format"</code> field,
-and add it to switch statemen in <code><a href="../reference/write_bds.html">write_bds()</a></code>.</p>
+and add it to switch statement in <code><a href="../reference/write_bds.html">write_bds()</a></code>.</p>
 </div>
   </div>
 
