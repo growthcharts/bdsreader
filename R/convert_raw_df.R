@@ -68,17 +68,18 @@ convert_nested_df <- function(x) {
   code <- x[["nestingCode"]]
   cli <- x[["clientDetails"]]
   msr <- x[["clientMeasurements"]]
+  clir <- msrr <- vector(mode = 'list', length = length(nest))
   for (i in seq_along(nest)) {
-    cli[[i]] <- convert_cli_df(cli[[i]])
-    msr[[i]] <- convert_msr_df(msr[[i]])
+    clir[[i]] <- convert_cli_df(cli[[i]])
+    msrr[[i]] <- convert_msr_df(msr[[i]])
   }
 
-  rows <- c(sapply(cli, nrow), sapply(msr, nrow))
+  rows <- c(sapply(clir, nrow), sapply(msrr, nrow))
   nest <- rep(rep(nest, 2L), rows)
   code <- rep(rep(code, 2L), rows)
 
   bind_cols(
-    bind_rows(cli, msr),
+    bind_rows(clir, msrr),
     nest = nest,
     code = code)
 }
