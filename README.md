@@ -183,7 +183,7 @@ Here’s the contents of the file with the child data:
           "bdsNumber": 63,
           "value": "19950704"
         }
-      ],
+      ]
     },
     {
       "nestingBdsNumber": 62,
@@ -193,7 +193,7 @@ Here’s the contents of the file with the child data:
           "bdsNumber": 63,
           "value": "19901202"
         }
-      ],
+      ]
     }
   ]
 }

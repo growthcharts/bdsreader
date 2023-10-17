@@ -156,7 +156,7 @@ The example file `maria.json` contains Maria's data coded in JSON format accordi
           "bdsNumber": 63,
           "value": "19950704"
         }
-      ],
+      ]
     },
     {
       "nestingBdsNumber": 62,
@@ -166,7 +166,7 @@ The example file `maria.json` contains Maria's data coded in JSON format accordi
           "bdsNumber": 63,
           "value": "19901202"
         }
-      ],
+      ]
     }
   ]
 }

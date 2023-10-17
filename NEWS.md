@@ -1,3 +1,8 @@
+# bdsreader 0.24.1
+
+- Changes schema `inst/schema/bds_v3.0.json` to point to master branch
+- Replace non-functional `inst/examples/maria.json` by an older version
+
 # bdsreader 0.24.0
 
 ## Non-breaking change in the V3.0 schema definition
