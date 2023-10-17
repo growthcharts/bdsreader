@@ -1,6 +1,6 @@
 {
   "Format": "3.0",
-  "organisationCode": 0,
+  "organisationCode": 1234,
   "reference": "Maria",
   "clientDetails": [
     {
@@ -50,6 +50,10 @@
       "bdsNumber": 245,
       "values": [
         {
+          "date": "20181011",
+          "value": 990
+        },
+        {
           "date": "20181111",
           "value": 1250
         },
@@ -82,9 +86,6 @@
           "bdsNumber": 63,
           "value": "19950704"
         }
-      ],
-      "clientMeasurements": [
-
       ]
     },
     {
@@ -95,10 +96,8 @@
           "bdsNumber": 63,
           "value": "19901202"
         }
-      ],
-      "clientMeasurements": [
-
       ]
     }
   ]
 }
+
