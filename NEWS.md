@@ -1,3 +1,7 @@
+# bdsreader 0.24.2
+
+- Adds two demo files: `examples/Laura_S.json` and `examples/Kevin_S.json`
+
 # bdsreader 0.24.1
 
 - Changes schema `inst/schema/bds_v3.0.json` to point to master branch
