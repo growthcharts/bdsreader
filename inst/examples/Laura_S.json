@@ -1,0 +1,947 @@
+{
+  "Format": "3.0",
+  "organisationCode": 0,
+  "reference": "Laura S",
+  "clientDetails": [
+    {
+      "bdsNumber": 19,
+      "value": "2"
+    },
+    {
+      "bdsNumber": 20,
+      "value": "19890121"
+    },
+    {
+      "bdsNumber": 82,
+      "value": 276
+    },
+    {
+      "bdsNumber": 91,
+      "value": "2"
+    },
+    {
+      "bdsNumber": 110,
+      "value": 2950
+    },
+    {
+      "bdsNumber": 238,
+      "value": 1640
+    },
+    {
+      "bdsNumber": 240,
+      "value": 1790
+    }
+  ],
+  "clientMeasurements": [
+    {
+      "bdsNumber": 235,
+      "values": [
+        {
+          "date": "19890121",
+          "value": 480
+        },
+        {
+          "date": "19890227",
+          "value": 535
+        },
+        {
+          "date": "19890320",
+          "value": 560
+        },
+        {
+          "date": "19890417",
+          "value": 595
+        },
+        {
+          "date": "19890717",
+          "value": 655
+        },
+        {
+          "date": "19891023",
+          "value": 715
+        },
+        {
+          "date": "19900129",
+          "value": 750
+        },
+        {
+          "date": "19900423",
+          "value": 800
+        },
+        {
+          "date": "19900806",
+          "value": 840
+        },
+        {
+          "date": "19910205",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "bdsNumber": 245,
+      "values": [
+        {
+          "date": "19890121",
+          "value": 2950
+        },
+        {
+          "date": "19890227",
+          "value": 4180
+        },
+        {
+          "date": "19890320",
+          "value": 5000
+        },
+        {
+          "date": "19890417",
+          "value": 5900
+        },
+        {
+          "date": "19890717",
+          "value": 8240
+        },
+        {
+          "date": "19891023",
+          "value": 9650
+        },
+        {
+          "date": "19900129",
+          "value": 10950
+        },
+        {
+          "date": "19900423",
+          "value": 11900
+        },
+        {
+          "date": "19900806",
+          "value": 12800
+        },
+        {
+          "date": "19910205",
+          "value": 13900
+        }
+      ]
+    },
+    {
+      "bdsNumber": 252,
+      "values": [
+        {
+          "date": "19890227",
+          "value": 376
+        },
+        {
+          "date": "19890320",
+          "value": 390
+        },
+        {
+          "date": "19890417",
+          "value": 405
+        },
+        {
+          "date": "19890717",
+          "value": 441
+        },
+        {
+          "date": "19891023",
+          "value": 466
+        },
+        {
+          "date": "19900129",
+          "value": 478
+        },
+        {
+          "date": "19900423",
+          "value": 487
+        },
+        {
+          "date": "19900806",
+          "value": 492
+        },
+        {
+          "date": "19910205",
+          "value": 500
+        }
+      ]
+    },
+    {
+      "bdsNumber": 879,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 881,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "2"
+        },
+        {
+          "date": "19890320",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 883,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "2"
+        },
+        {
+          "date": "19890320",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 884,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        },
+        {
+          "date": "19890417",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 885,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        },
+        {
+          "date": "19890417",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 886,
+      "values": [
+        {
+          "date": "19890320",
+          "value": "2"
+        },
+        {
+          "date": "19890417",
+          "value": "2"
+        },
+        {
+          "date": "19890717",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 887,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "2"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 888,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "2"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 889,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "2"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 890,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 891,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 892,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 893,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 894,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "1"
+        },
+        {
+          "date": "19900129",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 896,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "1"
+        },
+        {
+          "date": "19900129",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 897,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "1"
+        },
+        {
+          "date": "19900423",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 898,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "1"
+        },
+        {
+          "date": "19900423",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 900,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "3"
+        },
+        {
+          "date": "19900423",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 902,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "2"
+        },
+        {
+          "date": "19900806",
+          "value": "1"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 903,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "2"
+        },
+        {
+          "date": "19900806",
+          "value": "2"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 905,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "1"
+        },
+        {
+          "date": "19900806",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 906,
+      "values": [
+        {
+          "date": "19900806",
+          "value": "2"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 907,
+      "values": [
+        {
+          "date": "19900806",
+          "value": "2"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 909,
+      "values": [
+        {
+          "date": "19900806",
+          "value": "3"
+        },
+        {
+          "date": "19910205",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 910,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 912,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 921,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 927,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 928,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 930,
+      "values": [
+        {
+          "date": "19890320",
+          "value": "3"
+        },
+        {
+          "date": "19890417",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 932,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 933,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "3"
+        },
+        {
+          "date": "19900129",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 935,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "2"
+        },
+        {
+          "date": "19900129",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 936,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "2"
+        },
+        {
+          "date": "19900423",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 937,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "2"
+        },
+        {
+          "date": "19900423",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 938,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "3"
+        },
+        {
+          "date": "19900806",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 940,
+      "values": [
+        {
+          "date": "19900806",
+          "value": "3"
+        },
+        {
+          "date": "19910205",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 943,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 945,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 955,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 956,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 958,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 959,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 961,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        },
+        {
+          "date": "19890417",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 962,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "2"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 964,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 966,
+      "values": [
+        {
+          "date": "19890227",
+          "value": "1"
+        },
+        {
+          "date": "19890417",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 968,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "1"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 969,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "1"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 970,
+      "values": [
+        {
+          "date": "19890417",
+          "value": "1"
+        },
+        {
+          "date": "19890717",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 973,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 975,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "1"
+        },
+        {
+          "date": "19891023",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 976,
+      "values": [
+        {
+          "date": "19890717",
+          "value": "2"
+        },
+        {
+          "date": "19891023",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 978,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "1"
+        },
+        {
+          "date": "19900129",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 980,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "3"
+        },
+        {
+          "date": "19900129",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 982,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "1"
+        },
+        {
+          "date": "19900423",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 984,
+      "values": [
+        {
+          "date": "19900129",
+          "value": "1"
+        },
+        {
+          "date": "19900423",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 986,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "1"
+        },
+        {
+          "date": "19900806",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 989,
+      "values": [
+        {
+          "date": "19900423",
+          "value": "2"
+        },
+        {
+          "date": "19900806",
+          "value": "2"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 991,
+      "values": [
+        {
+          "date": "19900806",
+          "value": "1"
+        },
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 993,
+      "values": [
+        {
+          "date": "19910205",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "bdsNumber": 1278,
+      "values": [
+        {
+          "date": "19891023",
+          "value": "3"
+        },
+        {
+          "date": "19900129",
+          "value": "3"
+        }
+      ]
+    }
+  ],
+  "nestedDetails": [
+    {
+      "nestingBdsNumber": 62,
+      "nestingCode": "02",
+      "clientDetails": [
+        {
+          "bdsNumber": 63,
+          "value": "19610722"
+        }
+      ]
+    }
+  ]
+}
+
