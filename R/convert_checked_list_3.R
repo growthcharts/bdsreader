@@ -76,17 +76,15 @@ convert_checked_list_3 <- function(bds, ds) {
       first()
   }
 
-  if (all(hasName(bds, c("number", "nest", "code")))) {
+  if (all(hasName(bds, c("character", "nest", "code")))) {
     psn[["blbf"]] <-
       filter(bds, bds == 71L & .data$nest == 62L & .data$code == "01") %>%
-      pull("number") %>%
-      first() %>%
-      as.integer()
+      pull("character") %>%
+      first()
     psn[["blbm"]] <-
       filter(bds, bds == 71L & .data$nest == 62L & .data$code == "02") %>%
-      pull("number") %>%
-      first() %>%
-      as.integer()
+      pull("character") %>%
+      first()
   }
 
   if (all(hasName(bds, c("category", "nest", "code")))) {
