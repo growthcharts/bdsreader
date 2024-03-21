@@ -1,3 +1,7 @@
+# bdsreader 0.25.0
+
+- Change definition and processing code for BDS 71 (birth land parents) to character (#9)
+
 # bdsreader 0.24.2
 
 - Adds two demo files: `examples/Laura_S.json` and `examples/Kevin_S.json`
