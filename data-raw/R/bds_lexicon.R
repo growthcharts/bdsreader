@@ -46,7 +46,7 @@ create_bds_lexicon <- function() {
       "one of: 01, 02, 03, 04, 05, 06, 07, 08, 98",
       "yyyymmdd",
       "one of: 01, 02, 03, 04, 05, 06, 07, 08, 98, 00",
-      "4-digit code",
+      "string with 4-digits",
       "in days",
       "one of: 1, 2, 99",
       "in grammes",
