@@ -1,3 +1,9 @@
+# bdsreader 0.27.0
+
+- Uses update dscore 1.9.0 package
+- Updates some hard-coded values in tests of the D-score
+- Applies the bug fix in 0.26.0 only to BDS 63
+
 # bdsreader 0.26.0
 
 - Repairs a bug that prevented reading data if two mothers or two fathers were listed, e.g., from the same-sex couples
