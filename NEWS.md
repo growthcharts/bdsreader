@@ -1,3 +1,7 @@
+# bdsreader 0.26.0
+
+- Repairs a bug that prevented reading data if two mothers or two fathers were listed, e.g., from the same-sex couples
+
 # bdsreader 0.25.0
 
 - Change definition and processing code for BDS 71 (birth land parents) to character (#9)
