@@ -20,7 +20,7 @@ elements psn and xyz."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.26.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.27.0</span>
       </span>
     </div>
 
@@ -198,23 +198,20 @@ Reversely, if you erroneously read a JSON file of format <code>"2.0"</code> usin
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   par &lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xyz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      age xname yname zname zref                        x     y      z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl   0     48    -<span style="color: #BB0000;">1.52</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0     age   wgt   wgt_z nl_1997_wgt_female_nl   0      2.95 -<span style="color: #BB0000;">1.06</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.101 age   hdc   hdc_z nl_1997_hdc_female_nl   0.101 37.6   0.418</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0     age   bmi   bmi_z nl_1997_bmi_female_nl   0     12.8   0.259</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.101 age   dsc   dsc_z ph_2023_dsc_female_40   0.101 15.6  -<span style="color: #BB0000;">0.094</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.159 age   dsc   dsc_z ph_2023_dsc_female_40   0.159 15.9  -<span style="color: #BB0000;">0.591</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.236 age   dsc   dsc_z ph_2023_dsc_female_40   0.236 21.5   0.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.485 age   dsc   dsc_z ph_2023_dsc_female_40   0.485 23.6  -<span style="color: #BB0000;">1.95</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.753 age   dsc   dsc_z ph_2023_dsc_female_40   0.753 43.4   0.569</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1.02  age   dsc   dsc_z ph_2023_dsc_female_40   1.02  50.0   0.459</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 1.25  age   dsc   dsc_z ph_2023_dsc_female_40   1.25  52.7  -<span style="color: #BB0000;">0.143</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 1.54  age   dsc   dsc_z ph_2023_dsc_female_40   1.54  59.5   0.423</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 2.04  age   dsc   dsc_z ph_2023_dsc_female_40   2.04  69.0   1.23 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> 0     hgt   wfh   wfh_z nl_1997_wfh_female_nla 48      2.95 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      age xname yname zname zref                      x     y      z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0     age   hgt   hgt_z nl_1997_hgt_female_nl 0      48   -<span style="color: #BB0000;">1.52</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.101 age   hgt   hgt_z nl_1997_hgt_female_nl 0.101  53.5 -<span style="color: #BB0000;">0.499</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.159 age   hgt   hgt_z nl_1997_hgt_female_nl 0.159  56   -<span style="color: #BB0000;">0.261</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.236 age   hgt   hgt_z nl_1997_hgt_female_nl 0.236  59.5  0.163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.485 age   hgt   hgt_z nl_1997_hgt_female_nl 0.485  65.5 -<span style="color: #BB0000;">0.259</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.753 age   hgt   hgt_z nl_1997_hgt_female_nl 0.753  71.5  0.131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1.02  age   hgt   hgt_z nl_1997_hgt_female_nl 1.02   75   -<span style="color: #BB0000;">0.18</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.25  age   hgt   hgt_z nl_1997_hgt_female_nl 1.25   80    0.421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.54  age   hgt   hgt_z nl_1997_hgt_female_nl 1.54   84    0.527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2.04  age   hgt   hgt_z nl_1997_hgt_female_nl 2.04   90    0.67 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Equivalent, but specifying the built-in schema file bds_v3.0.json</span></span></span>
