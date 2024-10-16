@@ -1,9 +1,9 @@
 #' @importFrom centile         y2z
 #' @importFrom dplyr           %>% all_of any_of arrange bind_cols bind_rows
 #'                             case_match distinct filter first full_join
-#'                             group_by left_join
-#'                             mutate num_range pull recode rename select
-#'                             slice_head ungroup
+#'                             group_by if_else left_join
+#'                             mutate num_range pull recode rename
+#'                             row_number select slice_head ungroup
 #' @importFrom dscore          dscore
 #' @importFrom jsonlite        fromJSON prettify toJSON validate
 #' @importFrom jsonvalidate    json_validate

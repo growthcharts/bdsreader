@@ -3,10 +3,12 @@ check_ranges_3 <- function(df) {
   adm <- attr(df, "adm")
   df <- df %>%
     mutate(type = ifelse(.data$type == "date", "tdate", .data$type)) %>%
-    # use only the first record for the parent code cf #10
     group_by(.data$bds, .data$nest, .data$code) %>%
-    slice_head(n = 1L) %>%
+    # Apply slice only when bds == 63, otherwise return all rows
+    mutate(flag = ifelse(.data$bds == 63, TRUE, FALSE)) %>%
+    filter(if_else(.data$flag, row_number() == 1L, TRUE)) %>%
     ungroup() %>%
+    select(-"flag") %>%
     pivot_wider(values_from = "value", names_from = "type") %>%
     mutate(date = ifelse(is.na(.data$date), .data$tdate, .data$date)) %>%
     mutate(edit = "")
