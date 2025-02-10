@@ -1,3 +1,8 @@
+# bdsreader 0.28.0
+
+- Solves a bug in the de-duplication of parental information (#10)
+- Extend tests with a more general JSON schema with duplicated BDS fields for parents
+
 # bdsreader 0.27.0
 
 - Uses update dscore 1.9.0 package
