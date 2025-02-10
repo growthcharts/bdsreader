@@ -4,11 +4,8 @@ check_ranges_3 <- function(df) {
   df <- df %>%
     mutate(type = ifelse(.data$type == "date", "tdate", .data$type)) %>%
     group_by(.data$bds, .data$nest, .data$code) %>%
-    # Apply slice only when bds == 63, otherwise return all rows
-    mutate(flag = ifelse(.data$bds == 63, TRUE, FALSE)) %>%
-    filter(if_else(.data$flag, row_number() == 1L, TRUE)) %>%
+    filter(is.na(.data$nest) | is.na(.data$code) | row_number() == 1) %>%
     ungroup() %>%
-    select(-"flag") %>%
     pivot_wider(values_from = "value", names_from = "type") %>%
     mutate(date = ifelse(is.na(.data$date), .data$tdate, .data$date)) %>%
     mutate(edit = "")
