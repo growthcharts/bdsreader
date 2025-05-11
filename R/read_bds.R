@@ -201,13 +201,14 @@ read_bds <- function(txt = NULL,
   xyz <- x$xy %>%
     mutate(
       sex = (!!x)$psn$sex,
-      ga = (!!x)$psn$ga
-    ) %>%
+      ga = (!!x)$psn$ga) %>%
     mutate(
       zref = set_refcodes(.),
       zref = ifelse(nchar(.data$yname) == 3L, .data$zref, NA_character_),
       zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"),
                      NA_character_),
+      zref = as.character(.data$zref),
+      zname = as.character(.data$zname),
       z = y2z(
         y = .data$y,
         x = .data$x,
@@ -227,8 +228,18 @@ read_bds <- function(txt = NULL,
     jsonlite::write_json(x$psn, "psn.json")
   }
 
-  # Step 13: return primary analysis object in JAMES internal format
+  # Step 13: Save analysis object in bdsreader format
   obj <- list(psn = x$psn, xyz = xyz)
   class(obj) <- c("bdsreader", "list")
+
+  # Step 14: Validate data structure
+  valid <- validate_bdsreader(obj)
+  if (!isTRUE(valid) && major >= 3) {
+    message("Validation of bdsreader object failed.")
+    message(valid)
+    # browser()
+  }
+
+  # Step 15: return object
   return(obj)
 }

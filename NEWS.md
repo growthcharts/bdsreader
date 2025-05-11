@@ -1,7 +1,9 @@
 # bdsreader 0.29.0
 
-- Adds example file `inst/examples/maria-mangled.json`
-- Adds `print` function for `bdsreader` objects
+- The `read_bds()` function return an object of class `bdsreader`
+- Implement validation of the `bdsreader` class at the end of `read_bds()`
+- Adds `print` function for `bdsreader` class
+- Transfers datasets from `inst/examples` to the `jamesdemodata` package
 
 # bdsreader 0.28.0
 
