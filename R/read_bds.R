@@ -234,5 +234,6 @@ read_bds <- function(txt = NULL,
 
   # Step 13: return primary analysis object in JAMES internal format
   obj <- list(psn = x$psn, xyz = xyz)
+  class(obj) <- c("bdsreader", "list")
   return(obj)
 }

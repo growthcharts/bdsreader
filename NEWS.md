@@ -1,3 +1,8 @@
+# bdsreader 0.29.0
+
+- Adds example file `inst/examples/maria-mangled.json`
+- Adds `print` function for `bdsreader` objects
+
 # bdsreader 0.28.0
 
 - Solves a bug in the de-duplication of parental information (#10)
