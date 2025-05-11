@@ -91,23 +91,18 @@ Reversely, if you erroneously read a JSON file of format \code{"2.0"} using form
 \verb{Missing 'ClientGegevens$Groepen'}. In that case, specify \code{format = "2.0"}.
 }
 \examples{
-fn <- system.file("examples/maria1.json", package = "bdsreader")
+fn <- system.file("json", "examples", "maria1.json", package = "jamesdemodata")
 m <- read_bds(fn)
-fn <- system.file("examples/test.json", package = "bdsreader")
-m <- read_bds(fn)
+m
 
-# Assume that jamesdemodata is installed locally.
-# If not use remotes::install_github("growthcharts/jamesdemodata")
-
-# Read file with input data according to format "3.0"
-data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
-  package = "jamesdemodata")
+data2 <- system.file("extdata", "bds_v3.0", "smocc", "Laura_S.json",
+ package = "jamesdemodata")
 q <- read_bds(data2)
 q
 
 # Equivalent, but specifying the built-in schema file bds_v3.0.json
-schema2 <- system.file("schemas/bds_v3.0.json", package = "bdsreader")
-r <- read_bds(data2, schema = schema2)
+schema3 <- system.file("schemas", "bds_v3.0.json", package = "bdsreader")
+r <- read_bds(data2, schema = schema3)
 identical(q, r)
 
 # Automatic detection of format 3.0
@@ -115,13 +110,13 @@ identical(q, r)
 # identical(q, s)
 
 # Reading data with older format (bds_v1.0)
-data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+data1 <- system.file("extdata", "bds_v1.0", "smocc", "Laura_S.json",
   package = "jamesdemodata")
 t <- read_bds(data1)
 t
 
 # same, but using a built-in schema file
-schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+schema1 <- system.file("schemas", "bds_v1.0.json", package = "bdsreader")
 u <- read_bds(data1, schema = schema1)
 identical(t, u)
 }

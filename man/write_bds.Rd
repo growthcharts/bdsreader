@@ -19,7 +19,7 @@ write_bds(
 }
 \arguments{
 \item{x}{List containing elements \code{psn} (persondata) and \code{xyz}
-(timedata) with data of the target child. See \code{bdsreader:::make_target()}
+(timedata) with data of the target child. See \code{bdsreader:::init_bdsreader()}
 for supported fields.}
 
 \item{auto_format}{Logical. Should a field \code{Format} be written to the

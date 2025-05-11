@@ -116,7 +116,7 @@ export_as_bds <- function(data,
       filter(.data$id == i)
     psn <- persons %>%
       filter(.data$id == i)
-    target <- make_target(psn = psn, xyz = xyz)
+    target <- init_bdsreader(psn = psn, xyz = xyz)
       js <- write_bds(x = target, file = fns[fn], indent = indent, ...)
   }
 }

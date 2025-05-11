@@ -9,7 +9,7 @@
 #' artificial birth date `01 Jan 2000` to calculate measurement
 #' dates from age.
 #' @param x      List containing elements `psn` (persondata) and `xyz`
-#' (timedata) with data of the target child. See `bdsreader:::make_target()`
+#' (timedata) with data of the target child. See `bdsreader:::init_bdsreader()`
 #' for supported fields.
 #' @param auto_format Logical. Should a field `Format` be written to the
 #' result? Default is `TRUE`. Note: Only used for versions 1.0 and 1.1.

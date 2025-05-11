@@ -52,23 +52,18 @@
 #'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
-#' fn <- system.file("examples/maria1.json", package = "bdsreader")
+#' fn <- system.file("json", "examples", "maria1.json", package = "jamesdemodata")
 #' m <- read_bds(fn)
-#' fn <- system.file("examples/test.json", package = "bdsreader")
-#' m <- read_bds(fn)
+#' m
 #'
-#' # Assume that jamesdemodata is installed locally.
-#' # If not use remotes::install_github("growthcharts/jamesdemodata")
-#'
-#' # Read file with input data according to format "3.0"
-#' data2 <- system.file("extdata/bds_v3.0/smocc/Laura_S.json",
-#'   package = "jamesdemodata")
+#' data2 <- system.file("extdata", "bds_v3.0", "smocc", "Laura_S.json",
+#'  package = "jamesdemodata")
 #' q <- read_bds(data2)
 #' q
 #'
 #' # Equivalent, but specifying the built-in schema file bds_v3.0.json
-#' schema2 <- system.file("schemas/bds_v3.0.json", package = "bdsreader")
-#' r <- read_bds(data2, schema = schema2)
+#' schema3 <- system.file("schemas", "bds_v3.0.json", package = "bdsreader")
+#' r <- read_bds(data2, schema = schema3)
 #' identical(q, r)
 #'
 #' # Automatic detection of format 3.0
@@ -76,13 +71,13 @@
 #' # identical(q, s)
 #'
 #' # Reading data with older format (bds_v1.0)
-#' data1 <- system.file("extdata/bds_v1.0/smocc/Laura_S.json",
+#' data1 <- system.file("extdata", "bds_v1.0", "smocc", "Laura_S.json",
 #'   package = "jamesdemodata")
 #' t <- read_bds(data1)
 #' t
 #'
 #' # same, but using a built-in schema file
-#' schema1 <- system.file("schemas/bds_v1.0.json", package = "bdsreader")
+#' schema1 <- system.file("schemas", "bds_v1.0.json", package = "bdsreader")
 #' u <- read_bds(data1, schema = schema1)
 #' identical(t, u)
 #' @export
@@ -97,7 +92,7 @@ read_bds <- function(txt = NULL,
                      ...) {
   # Step 1: return empty target if needed
   if (is.null(txt)) {
-    return(make_target(NULL))
+    return(init_bdsreader(NULL))
   }
 
   # Step 2: read js object
@@ -110,7 +105,7 @@ read_bds <- function(txt = NULL,
     })
     if (!is.null(err)) {
       message("Cannot read 'txt': ", txt)
-      return(make_target(NULL))
+      return(init_bdsreader(NULL))
     }
   }
 
@@ -120,7 +115,7 @@ read_bds <- function(txt = NULL,
   })
   if (!is.null(err)) {
     message(conditionMessage(err))
-    return(make_target(NULL))
+    return(init_bdsreader(NULL))
   }
 
   # Step 4: define schema

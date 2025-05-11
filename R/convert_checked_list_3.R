@@ -1,6 +1,6 @@
 convert_checked_list_3 <- function(bds, ds) {
 
-  tgt <- make_target(NULL)
+  tgt <- init_bdsreader(NULL)
   psn <- persondata(tgt)
 
   # fixed child-level covariates

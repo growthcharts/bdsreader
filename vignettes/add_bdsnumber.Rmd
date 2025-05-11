@@ -24,7 +24,7 @@ Suppose we wish to support BDS number 16 (postal code) for reading from and writ
 
 1. Add the BDS number to latest JSON Schema file in `inst/schemas`. Set the type of field ("number", "character", "category", "integer") and set any restrictions needed on the values or the range. Keep the version number, and only increment it if a change alters existing entries. Try to adhere to BDS sequence.
 2. In `convert_raw_df()`, assign the number to the appropriate type.
-3. In `make_target()`, add the receiving field to the data template.
+3. In `init_bdsreader()`, add the receiving field to the data template.
 4. In `convert_checked_list_3()`, define the appropriate code to read the data value from the internal `bds` structure
 5. In `as_bds_clientdata_v3()` define the way how to export the field from to R data object
 6. Create a test file that includes a value for the new BDS field.

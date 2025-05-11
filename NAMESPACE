@@ -2,6 +2,7 @@
 
 S3method(print,bdsreader)
 export(export_as_bds)
+export(init_bdsreader)
 export(persondata)
 export(read_bds)
 export(set_schema)
