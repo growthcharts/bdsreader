@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.28.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.29.0</span>
       </span>
     </div>
 
@@ -33,6 +33,9 @@
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/add_bdsnumber.html">Adding a BDS number</a>
+    </li>
+    <li>
+      <a href="../articles/reading_steps.html">Steps to read JSON child data</a>
     </li>
   </ul></li>
 <li>
@@ -57,6 +60,15 @@
       <small>Source: <a href="https://github.com/growthcharts/bdsreader/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.29.0" id="bdsreader-0290">bdsreader 0.29.0<a class="anchor" aria-label="anchor" href="#bdsreader-0290"></a></h2>
+<ul><li>The <code><a href="../reference/read_bds.html">read_bds()</a></code> function return an object of class <code>bdsreader</code>
+</li>
+<li>Implement validation of the <code>bdsreader</code> class at the end of <code><a href="../reference/read_bds.html">read_bds()</a></code>
+</li>
+<li>Adds <code>print</code> function for <code>bdsreader</code> class</li>
+<li>Transfers datasets from <code>inst/examples</code> to the <code>jamesdemodata</code> package, but keep the folder for backward compatibility</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.28.0" id="bdsreader-0280">bdsreader 0.28.0<a class="anchor" aria-label="anchor" href="#bdsreader-0280"></a></h2>
 <ul><li>Solves a bug in the de-duplication of parental information (<a href="https://github.com/growthcharts/bdsreader/issues/10" class="external-link">#10</a>)</li>
@@ -362,7 +374,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
       </footer></div>

@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.28.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.29.0</span>
       </span>
     </div>
 
@@ -50,6 +50,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/add_bdsnumber.html">Adding a BDS number</a>
+    </li>
+    <li>
+      <a href="../articles/reading_steps.html">Steps to read JSON child data</a>
     </li>
   </ul>
 </li>
@@ -106,8 +109,8 @@ the range. Keep the version number, and only increment it if a change
 alters existing entries. Try to adhere to BDS sequence.</li>
 <li>In <code>convert_raw_df()</code>, assign the number to the
 appropriate type.</li>
-<li>In <code>make_target()</code>, add the receiving field to the data
-template.</li>
+<li>In <code><a href="../reference/init_bdsreader.html">init_bdsreader()</a></code>, add the receiving field to the
+data template.</li>
 <li>In <code>convert_checked_list_3()</code>, define the appropriate
 code to read the data value from the internal <code>bds</code>
 structure</li>
@@ -142,7 +145,7 @@ and add it to switch statement in <code><a href="../reference/write_bds.html">wr
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
       </footer>
