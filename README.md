@@ -28,24 +28,65 @@ Netherlands Organisation for Applied Scientific Research TNO.
 
 ## Installation
 
-Install the development version `bdsreader` by
+Install the `jamesdemodata` and `bdsreader` packages as
 
 ``` r
 install.packages("remotes")
+remotes::install_github("growthcharts/jamesdemodata")
 remotes::install_github("growthcharts/bdsreader")
 ```
 
-There is no CRAN release.
+There is no CRAN release of these packages.
 
-## Example
+## Examples
 
-The following commands illustrate the main use of `bdsreader`.
+`read_bds()` and `write_bds()` are the main functions of the package.
+
+### Reading JSON child data
+
+We work with an example dataset `maria.json`, containing the data of one
+child, from the `jamesdemodata` package. Find the filename and show the
+first 10 lines:
+
+``` r
+fn <- system.file("json", "examples", "maria.json", package = "jamesdemodata")
+cat(paste(readLines(fn, n = 10), collapse = "\n"), "\n...")
+#> {
+#>   "Format": "3.0",
+#>   "organisationCode": 1234,
+#>   "reference": "Maria",
+#>   "clientDetails": [
+#>     {
+#>       "bdsNumber": 19,
+#>       "value": "2"
+#>     },
+#>     { 
+#> ...
+```
+
+The following commands illustrate the use of the \`read_bds()\`\`
+function:
 
 ``` r
 library(bdsreader)
-fn <- system.file("examples", "maria.json", package = "bdsreader")
-tgt <- read_bds(fn)
-timedata(tgt)
+child <- read_bds(fn)
+class(child)
+#> [1] "bdsreader" "list"
+```
+
+`read.bds()` returns a `bdsreader` object. We print it as
+
+``` r
+child
+#> <bdsreader>
+#> $persondata:
+#> # A tibble: 1 × 17
+#>      id name  src   dnr   sex      gad    ga   smo    bw  hgtm  hgtf  agem  blbf
+#>   <int> <chr> <chr> <chr> <chr>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <int>
+#> 1    -1 Maria 1234  <NA>  female   189    27     1   990   167   190    NA    NA
+#> # ℹ 4 more variables: blbm <int>, eduf <int>, edum <int>, par <int>
+#> 
+#> $timedata:
 #> # A tibble: 13 × 8
 #>       age xname yname zname zref                        x     y      z
 #>     <dbl> <chr> <chr> <chr> <chr>                   <dbl> <dbl>  <dbl>
@@ -64,158 +105,25 @@ timedata(tgt)
 #> 13 0.167  hgt   wfh   wfh_z nl_2012_wfh_female_   43.5     2.1   0.326
 ```
 
-Column `age` holds decimal age for the measurement. Every row contains a
-measurement `yname`, the conditioning variable `xname` and the Z-score
-`zname`. The column named `zref` holds the name of the growth reference
-(as defined in the `nlreference` package) used to calculate the Z-score.
-Columns `y`, `x` and `z` store their values, respectively.
+The object is a list with two elements: `psn` and `zyx`:
 
-The `persondata()` function extracts the person-level information:
+- The `psn` element contains the person-level information;
+- The `xyz` element contains time-varying measurements for the child.
+
+See `?init_bdsreader` for more details on the structure of the
+`bdsreader` class.
+
+### Writing JSON child data
+
+The `write_bds()` function perform the inverse operation. By default, it
+returns minified JSON:
 
 ``` r
-persondata(tgt)
-#> # A tibble: 1 × 22
-#>      id name  dob        dobm       dobf       src   dnr   sex      gad    ga
-#>   <int> <chr> <date>     <date>     <date>     <chr> <chr> <chr>  <dbl> <dbl>
-#> 1    -1 Maria 2018-10-11 1990-12-02 1995-07-04 1234  <NA>  female   189    27
-#> # ℹ 12 more variables: smo <dbl>, bw <dbl>, hgtm <dbl>, hgtf <dbl>, agem <dbl>,
-#> #   etn <chr>, pc4 <chr>, blbf <int>, blbm <int>, eduf <int>, edum <int>,
-#> #   par <int>
+js <- write_bds(child)
+cat(paste(js, collapse = "\n"), "\n...")
+#> {"Format":"3.0","organisationCode":0,"reference":"Maria","clientDetails":[{"bdsNumber":19,"value":"2"},{"bdsNumber":20,"value":"20181011"},{"bdsNumber":82,"value":189},{"bdsNumber":91,"value":"1"},{"bdsNumber":110,"value":990},{"bdsNumber":238,"value":1670},{"bdsNumber":240,"value":1900}],"clientMeasurements":[{"bdsNumber":235,"values":[{"date":"20181111","value":380},{"date":"20181211","value":435}]},{"bdsNumber":245,"values":[{"date":"20181011","value":990},{"date":"20181111","value":1250},{"date":"20181211","value":2100}]},{"bdsNumber":252,"values":[{"date":"20181111","value":270},{"date":"20181211","value":305}]}],"nestedDetails":[{"nestingBdsNumber":62,"nestingCode":"01","clientDetails":[{"bdsNumber":63,"value":"19950704"}]},{"nestingBdsNumber":62,"nestingCode":"02","clientDetails":[{"bdsNumber":63,"value":"19901202"}]}]} 
+#> ...
 ```
 
-The result of `read_bds()` feeds into further data processing in `R`.
-
-## Breakdown in steps
-
-### JSON Input Data
-
-The example file `maria.json` contains Maria’s data coded in JSON format
-according to BDS-schema file
-[bds_v3.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v3.0.json).
-Here’s the contents of the file with the child data:
-
-``` javascript
-{
-  "Format": "3.0",
-  "organisationCode": 1234,
-  "reference": "Maria",
-  "clientDetails": [
-    {
-      "bdsNumber": 19,
-      "value": "2"
-    },
-    {
-      "bdsNumber": 20,
-      "value": "20181011"
-    },
-    {
-      "bdsNumber": 82,
-      "value": 189
-    },
-    {
-      "bdsNumber": 91,
-      "value": "1"
-    },
-    {
-      "bdsNumber": 110,
-      "value": 990
-    },
-    {
-      "bdsNumber": 238,
-      "value": 1670
-    },
-    {
-      "bdsNumber": 240,
-      "value": 1900
-    }
-  ],
-  "clientMeasurements": [
-    {
-      "bdsNumber": 235,
-      "values": [
-        {
-          "date": "20181111",
-          "value": 380
-        },
-        {
-          "date": "20181211",
-          "value": 435
-        }
-      ]
-    },
-    {
-      "bdsNumber": 245,
-      "values": [
-        {
-          "date": "20181011",
-          "value": 990
-        },
-        {
-          "date": "20181111",
-          "value": 1250
-        },
-        {
-          "date": "20181211",
-          "value": 2100
-        }
-      ]
-    },
-    {
-      "bdsNumber": 252,
-      "values": [
-        {
-          "date": "20181111",
-          "value": 270
-        },
-        {
-          "date": "20181211",
-          "value": 305
-        }
-      ]
-    }
-  ],
-  "nestedDetails": [
-    {
-      "nestingBdsNumber": 62,
-      "nestingCode": "01",
-      "clientDetails": [
-        {
-          "bdsNumber": 63,
-          "value": "19950704"
-        }
-      ]
-    },
-    {
-      "nestingBdsNumber": 62,
-      "nestingCode": "02",
-      "clientDetails": [
-        {
-          "bdsNumber": 63,
-          "value": "19901202"
-        }
-      ]
-    }
-  ]
-}
-```
-
-JSON is a lightweight format to exchange data between electronic
-systems. Field `"bdsNumber"` refers to the numbers defined in the
-Basisdataset JGZ. Field `"value"` contains the value for the
-`"bdsNumber"`. See [Basisdataset
-JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/)
-4.0.1 for more details on `"bdsNumber"`.
-
-### Read and parse input data
-
-### Validate input data
-
-### Age calculation
-
-### D-score calculation
-
-### Z-score calculation
-
-### Structure of result
-
-## Further information
+You can write the data in a pretty format using the `indent` and to a
+file using `file` argument.
