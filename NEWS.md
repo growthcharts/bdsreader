@@ -3,7 +3,7 @@
 - The `read_bds()` function return an object of class `bdsreader`
 - Implement validation of the `bdsreader` class at the end of `read_bds()`
 - Adds `print` function for `bdsreader` class
-- Transfers datasets from `inst/examples` to the `jamesdemodata` package
+- Transfers datasets from `inst/examples` to the `jamesdemodata` package, but keep the folder for backward compatibility
 
 # bdsreader 0.28.0
 
