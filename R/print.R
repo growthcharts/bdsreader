@@ -5,9 +5,9 @@ print.bdsreader <- function(x, ...) {
   psn <- x$psn
   keep <- setdiff(names(psn), c("dob", "dobf", "dobm", "etn", "pc4"))
   psn <- psn[, keep, drop = FALSE]
-  cat("$psn:\n")
-  print(as.data.frame(psn))
-  cat("\n$xyz:\n")
+  cat("$persondata:\n")
+  print(psn)
+  cat("\n$timedata:\n")
   print(x$xyz)
   invisible(x)
 }
