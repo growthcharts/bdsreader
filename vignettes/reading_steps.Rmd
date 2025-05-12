@@ -1,0 +1,149 @@
+---
+title: "Steps to read JSON child data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Steps to read JSON child data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include= FALSE}
+library(bdsreader)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The remainder of this README describes the steps taken to read the data in more detail. The steps are:
+
+### JSON Input Data
+
+The example file `maria.json` contains Maria's data coded in JSON format according to BDS-schema file [bds_v3.0.json](https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v3.0.json). Here's the contents of the file with the child data:
+
+```{javascript}
+{
+  "Format": "3.0",
+  "organisationCode": 1234,
+  "reference": "Maria",
+  "clientDetails": [
+    {
+      "bdsNumber": 19,
+      "value": "2"
+    },
+    {
+      "bdsNumber": 20,
+      "value": "20181011"
+    },
+    {
+      "bdsNumber": 82,
+      "value": 189
+    },
+    {
+      "bdsNumber": 91,
+      "value": "1"
+    },
+    {
+      "bdsNumber": 110,
+      "value": 990
+    },
+    {
+      "bdsNumber": 238,
+      "value": 1670
+    },
+    {
+      "bdsNumber": 240,
+      "value": 1900
+    }
+  ],
+  "clientMeasurements": [
+    {
+      "bdsNumber": 235,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 380
+        },
+        {
+          "date": "20181211",
+          "value": 435
+        }
+      ]
+    },
+    {
+      "bdsNumber": 245,
+      "values": [
+        {
+          "date": "20181011",
+          "value": 990
+        },
+        {
+          "date": "20181111",
+          "value": 1250
+        },
+        {
+          "date": "20181211",
+          "value": 2100
+        }
+      ]
+    },
+    {
+      "bdsNumber": 252,
+      "values": [
+        {
+          "date": "20181111",
+          "value": 270
+        },
+        {
+          "date": "20181211",
+          "value": 305
+        }
+      ]
+    }
+  ],
+  "nestedDetails": [
+    {
+      "nestingBdsNumber": 62,
+      "nestingCode": "01",
+      "clientDetails": [
+        {
+          "bdsNumber": 63,
+          "value": "19950704"
+        }
+      ]
+    },
+    {
+      "nestingBdsNumber": 62,
+      "nestingCode": "02",
+      "clientDetails": [
+        {
+          "bdsNumber": 63,
+          "value": "19901202"
+        }
+      ]
+    }
+  ]
+}
+```
+
+JSON is a lightweight format to exchange data between electronic systems. Field `"bdsNumber"` refers to the numbers defined in the Basisdataset JGZ. Field `"value"` contains the value for the `"bdsNumber"`. See [Basisdataset JGZ](https://www.ncj.nl/onderwerp/digitaal-dossier-jgz/basisdatasetjgz-bds/) 4.0.1 for more details on `"bdsNumber"`.
+
+
+### Read and parse input data
+
+### Validate input data
+
+### Age calculation
+
+### D-score calculation
+
+### Z-score calculation
+
+### Structure of result
+
+## Further information
+
