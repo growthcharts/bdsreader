@@ -1,8 +1,9 @@
-# bdsreader 0.29.1
+# bdsreader 0.30.0
 
 - Update to R 4.5.0
 - Install `dscore` from CRAN instead of GitHub
 - Require R 4.1.0 or higher
+- Update example data to the latest version of `jamesdemodata`
 
 # bdsreader 0.29.0
 
