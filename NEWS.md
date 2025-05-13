@@ -1,3 +1,9 @@
+# bdsreader 0.29.1
+
+- Update to R 4.5.0
+- Install `dscore` from CRAN instead of GitHub
+- Require R 4.1.0 or higher
+
 # bdsreader 0.29.0
 
 - The `read_bds()` function return an object of class `bdsreader`
