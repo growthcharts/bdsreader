@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v1.1.json",
+  "$id": "https://james.groeidiagrammen.nl/schemas/bds_v1.1.json",
   "type": "object",
   "title": "EPremDossier",
   "required": [

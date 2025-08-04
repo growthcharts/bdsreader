@@ -1,3 +1,5 @@
+- Set `$id` element to `james.groeidiagrammen.nl/schemas`
+
 # bdsreader 0.30.0
 
 - Update to R 4.5.0
