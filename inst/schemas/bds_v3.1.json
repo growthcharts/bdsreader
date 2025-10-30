@@ -1,0 +1,316 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/growthcharts/bdsreader/master/inst/schemas/bds_v3.0.json",
+  "type": "object",
+  "title": "JAMES input data specification",
+  "required": [
+    "Format",
+    "clientDetails"
+  ],
+  "properties": {
+    "reference": {
+      "title": "Request identification",
+      "$id": "#/properties/reference",
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "Format": {
+      "title": "Schema version number",
+      "$id": "#/properties/Format",
+      "type": "string",
+      "pattern": "[0-9]+\\.[0-9]+"
+    },
+    "organisationCode": {
+      "title": "Care organisation code",
+      "$id": "#/properties/organisationCode",
+      "type": "integer"
+    },
+    "clientDetails": {
+      "title": "Child data object",
+      "type": "array",
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "bdsNumber": {
+                "const": 19
+              }
+            }
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "bdsNumber": {
+                "const": 20
+              }
+            }
+          }
+        }
+      ],
+      "items": {
+        "$ref": "#/schemas/clientDetails"
+      }
+    },
+    "clientMeasurements": {
+      "title": "Child data per visit",
+      "$id": "#/properties/clientMeasurements",
+      "type": "array",
+      "items": {
+        "$ref": "#/schemas/clientMeasurements"
+      }
+    },
+    "nestedDetails": {
+      "title": "Child data per visit",
+      "$id": "#/properties/nestedDetails",
+      "type": "array",
+      "items": {
+        "required": ["nestingBdsNumber", "nestingCode"],
+        "properties": {
+        "clientDetails": {
+        	"items": {
+        		"$ref": "#/schemas/clientDetails"
+      		}
+        },
+        "clientMeasurements": {
+        	"items": {
+        		"$ref": "#/schemas/clientMeasurements"
+      		}
+        }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "clientDetails": {
+      "$id": "#/schemas/clientDetails",
+      "oneOf": [
+        {"required": ["bdsNumber"]},
+        {"required": ["varName"]}
+      ],
+      "if": {
+        "properties": {
+          "bdsNumber": {"enum": [16, 19, 20, 62, 63, 66, 71, 82, 91, 110, 238, 240, 471, 510]}
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [16, 71]
+              },
+              "value": {
+                "type": "string",
+                "pattern": "^([0-9]{4})$"
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 19
+              },
+              "value": {"enum": ["0", "1", "2", "3"]}
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [20, 63]
+              },
+              "value": {"pattern": "^([0-9]{8})$"}
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 62
+              },
+              "value": {"enum": ["01", "02", "03", "04", "05", "06", "07", "08", "98"]}
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 66
+              },
+              "value": {"enum": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "98", "00"]}
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 82
+              },
+              "value": {
+                "type": "number",
+                "minimum": 50,
+                "maximum": 350
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 91
+              },
+              "value": {"enum": ["1", "2", "99"]}
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 110
+              },
+              "value": {
+                "type": "number",
+                "minimum": 300,
+                "maximum": 9999
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [238, 240]
+              },
+              "value": {
+                "type": "number",
+                "minimum": 100,
+                "maximum": 2500
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 471
+              },
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 25
+              }
+            }
+          }
+        ]
+      }
+    }
+    ,
+    "clientMeasurements": {
+      "$id": "#/schemas/clientMeasurements",
+      "oneOf": [
+        {"required": ["bdsNumber"]},
+        {"required": ["varName"]}
+      ],
+      "properties": {
+        "values": {
+          "items": {
+            "properties": {
+              "date": {
+                "type": "string",
+                "pattern": "^([0-9]{8})$"
+              }
+            }
+          }
+        }
+      },
+      "if": {
+        "required": ["bdsNumber"],
+        "properties": {
+          "bdsNumber": {
+            "enum": [235, 245, 252, 510, 879, 881, 883, 884, 885, 887, 888, 889, 890, 891, 894, 896, 897, 898, 902, 903, 906, 907, 910, 912, 914, 916, 917, 918, 920, 922, 923, 926, 945, 951, 955, 956, 958, 959, 961, 962, 964, 966, 968, 970, 971, 973, 975, 977, 978, 986, 989, 991, 993, 994, 996, 999, 1002, 886, 892, 893, 900, 905, 909, 913, 921, 927, 928, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 943, 947, 948, 949, 950, 953, 954, 972, 980, 982, 984, 998, 1001, 1278]
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [235, 245]
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": 100,
+                      "maximum": 300000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 252
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": 100,
+                      "maximum": 9999
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 510
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {"enum": ["01", "02", "03", "04"]}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [879, 881, 883, 884, 885, 887, 888, 889, 890, 891, 894, 896, 897, 898, 902, 903, 906, 907, 910, 912, 914, 916, 917, 918, 920, 922, 923, 926, 945, 951, 955, 956, 958, 959, 961, 962, 964, 966, 968, 970, 971, 975, 977, 978, 986, 989, 991, 993, 994, 996, 999, 1001, 1002]
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": { "enum": ["1", "2"]}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [886, 892, 893, 900, 905, 909, 913, 921, 927, 928, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 943, 947, 948, 949, 950, 953, 954, 972, 973, 980, 982, 984, 998, 1278]
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {"enum": ["1", "2", "3"]}
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
