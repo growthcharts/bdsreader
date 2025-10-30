@@ -3,8 +3,8 @@
 #'                             case_match distinct filter first full_join
 #'                             group_by if_else left_join
 #'                             mutate num_range pull recode rename
-#'                             row_number select slice_head ungroup
-#' @importFrom dscore          dscore
+#'                             row_number select slice_head transmute ungroup
+#' @importFrom dscore          dscore get_itemnames
 #' @importFrom jsonlite        fromJSON prettify toJSON validate
 #' @importFrom jsonvalidate    json_validate
 #' @importFrom lubridate       NA_Date_ ymd
@@ -12,7 +12,7 @@
 #' @importFrom readr           read_lines
 #' @importFrom rlang           .data catch_cnd
 #' @importFrom stats           na.omit
-#' @importFrom tidyr           drop_na pivot_longer pivot_wider
+#' @importFrom tidyr           drop_na pivot_longer pivot_wider unnest
 #' @importFrom tibble          add_column tibble tibble_row
 #' @importFrom utils           hasName
 NULL

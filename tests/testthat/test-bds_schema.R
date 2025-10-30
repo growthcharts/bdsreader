@@ -404,8 +404,8 @@ for (format in c("1.0", "2.0", "3.0")) {
       expect_message(read_bds(fn, schema = schema, append_ddi = TRUE))
     })
     tgt <- read_bds(fn, schema = schema, append_ddi = TRUE)
-    test_that("D-score for time point 0.0903 is 16.37 (not 26) (test25.json", {
-      expect_equal(tgt$xyz$y[1], 16.97)
+    test_that("D-score for time point 0.0903 is 17.12 (not 26) (test25.json", {
+      expect_equal(tgt$xyz$y[1], 17.12)
     })
   }
 
@@ -414,8 +414,8 @@ for (format in c("1.0", "2.0", "3.0")) {
       expect_silent(read_bds(fn, schema = schema, append_ddi = TRUE))
     })
     tgt <- read_bds(fn, schema = schema, append_ddi = TRUE)
-    test_that("D-score for time point 0.0903 is 16.37 (not 26) (test25.json", {
-      expect_equal(tgt$xyz$y[1], 16.97)
+    test_that("D-score for time point 0.0903 is 17.12 (not 26) (test25.json", {
+      expect_equal(tgt$xyz$y[1], 17.12)
     })
   }
 }

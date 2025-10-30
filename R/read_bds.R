@@ -1,54 +1,53 @@
 #' Reads selected BDS data of a person
 #'
 #' This function takes data from a json source, optionally validates the
-#' contents against a JSON validation schema, perform checks, calculates
-#' the D-score, calculates Z-scores and stores the data in an list with
-#' elements `psn` and `xyz`.
+#' contents against a JSON validation schema, perform checks, calculates the
+#' D-score, calculates Z-scores and stores the data in an list with elements
+#' `psn` and `xyz`.
 #' @param txt A JSON string, URL or file
 #' @param auto_format Logical. Should the format be read from the data? Default
-#' is `TRUE`.
+#'   is `TRUE`.
 #' @param validate Logical. Should the JSON-input be validated against the
-#' JSON-schema? The default (`FALSE`) bypasses checking. Set `validate = TRUE`
-#' to obtain diagnostic information from the `jsonvalidate::json_validate()`
-#' function.
-#' @param append_ddi Should the DDI responses be appended? (only used for
-#' JSON schema V1.0 and V2.0)
-#' @param intermediate Logical. If `TRUE` the function writes JSON files
-#' with intermediate result to the working directory.
-#' 1. `input.json`: the JSON input data;
-#' 2. `bds.json`: a data frame with info per BDS;
-#' 3. `ddi.json`: result of recoding BDS into GSED item names;
-#' 4. `psn.json`: known fixed child covariates;
-#' 5. `xy.json`: time-varying variables.
+#'   JSON-schema? The default (`FALSE`) bypasses checking. Set `validate = TRUE`
+#'   to obtain diagnostic information from the `jsonvalidate::json_validate()`
+#'   function.
+#' @param append Vector of strings indicating which items should be appended to
+#'   the data. Currently supports `ddi` and `gs1`. Requires JSON schema V3.0 or
+#'   later.
+#' @param append_ddi Should the DDI responses be appended? (only used for JSON
+#'   schema V1.0 and V2.0)
+#' @param intermediate Logical. If `TRUE` the function writes JSON files with
+#'   intermediate result to the working directory. 1. `input.json`: the JSON
+#'   input data; 2. `bds.json`: a data frame with info per BDS; 3. `ddi.json`:
+#'   result of recoding BDS into GSED item names; 4. `psn.json`: known fixed
+#'   child covariates; 5. `xy.json`: time-varying variables.
 #' @param verbose Show verbose output for [centile::y2z()]
 #' @param \dots Ignored
 #' @inheritParams set_schema
 #' @return A list with elements named `"psn"` and `"xyz"`.
-#' @details
-#' If `txt` is unspecified or `NULL`, then the return component will `"xyz"`
-#' have zero rows.
+#' @details If `txt` is unspecified or `NULL`, then the return component will
+#'   `"xyz"` have zero rows.
 #'
-#' The `format` and `schema` arguments specify the format of the JSON input
-#' data argument `txt`. The default `format = "1.0"` expects that the JSON
-#' input data conform to the schema specified in
-#' `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. This is only
-#' supported for legacy. We recommend format `"3.0"`, which expects data
-#' coded according to
-#' `system.file("schemas/bds_v3.0.json", package = "bdsreader")`.
+#'   The `format` and `schema` arguments specify the format of the JSON input
+#'   data argument `txt`. The default `format = "1.0"` expects that the JSON
+#'   input data conform to the schema specified in
+#'   `system.file("schemas/bds_v1.0.json", package = "bdsreader")`. This is only
+#'   supported for legacy. We recommend format `"3.0"`, which expects data coded
+#'   according to `system.file("schemas/bds_v3.0.json", package = "bdsreader")`.
 #'
-#' The format can be specified in the JSON data file with an entry
-#' named `Format`. For `auto_format == TRUE`, the data specification overrides
-#' any `format` and `schema` arguments to the `read_bds()` function.
-#' Schema `bds_v3.0.json` requires the `Format` field, so the correct format
-#' is automatically set by the data.
+#'   The format can be specified in the JSON data file with an entry named
+#'   `Format`. For `auto_format == TRUE`, the data specification overrides any
+#'   `format` and `schema` arguments to the `read_bds()` function. Schema
+#'   `bds_v3.0.json` requires the `Format` field, so the correct format is
+#'   automatically set by the data.
 #'
-#' Legacy note: If you erroneously read a JSON file of format `"1.0"` using
-#' format `"2.0"` you may see an error:
-#' `Error ...: incorrect number of dimensions`.
-#' In that make sure that you are reading with the `format = "1.0"` argument.
-#' Reversely, if you erroneously read a JSON file of format `"2.0"` using format
-#' `"1.0"` you may see messages `.ClientGegevens should be object` and
-#' `Missing 'ClientGegevens$Groepen'`. In that case, specify `format = "2.0"`.
+#'   Legacy note: If you erroneously read a JSON file of format `"1.0"` using
+#'   format `"2.0"` you may see an error: `Error ...: incorrect number of
+#'   dimensions`. In that make sure that you are reading with the `format =
+#'   "1.0"` argument. Reversely, if you erroneously read a JSON file of format
+#'   `"2.0"` using format `"1.0"` you may see messages `.ClientGegevens should
+#'   be object` and `Missing 'ClientGegevens$Groepen'`. In that case, specify
+#'   `format = "2.0"`.
 #'
 #' @seealso [jsonlite::fromJSON()], [centile::y2z()]
 #' @examples
@@ -86,6 +85,7 @@ read_bds <- function(txt = NULL,
                      format = "1.0",
                      schema = NULL,
                      validate = FALSE,
+                     append = NULL,
                      append_ddi = FALSE,
                      intermediate = FALSE,
                      verbose = FALSE,
@@ -159,18 +159,38 @@ read_bds <- function(txt = NULL,
     bds <- check_ranges_3(bds)
   }
 
-  # Step 8: convert ddi, calculate D-score
-  if (major %in% c(1, 2)) {
-    ddi <- convert_ddi_gsed_12(raw, ranges, major)
-    ds <- dscore(data = ddi, key = "gsed2212")
-  } else {
-    ddi <- convert_ddi_gsed_3(bds)
-    ds <- ddi %>%
-      pivot_wider(names_from = "lex_gsed", values_from = c("pass")) %>%
-      dscore(key = "gsed2212")
+  # Step 8: sideload variables not in BDS
+  if (!major %in% c(1, 2)) {
+    sideloaded <- sideload_variables(raw)
   }
 
-  # Step 9: parse to list with components: psn, xy
+  # Step 9: convert ddi, calculate D-score
+  if (append_ddi == TRUE) { # legacy argument conversion
+    append <- c(append, "ddi")
+  }
+
+  if (major %in% c(1, 2)) {
+    ddi <- convert_ddi_gsed_12(raw, ranges, major)
+    ds <- dscore(data = ddi, key = "gsed2406")
+  } else {
+    ddi <- convert_ddi_gsed_3(bds)
+    var <- convert_var_gsed_3(raw)
+
+    # calculate D-score based on append setting. No append defaults to ddi.
+    if (!is.null(append)) {
+      items <- dscore::get_itemnames(instrument = append)
+      key <- ifelse("ddi" %in% append, "gsed2406", "gsed2510")
+    } else {items <- dscore::get_itemnames(instrument = "ddi"); key <- "gsed2406"}
+    ddi <- ddi %>%
+      bind_rows(var) %>%
+      filter(lex_gsed %in% items)
+
+    ds <- ddi %>%
+      pivot_wider(names_from = "lex_gsed", values_from = c("pass")) %>%
+      dscore(key = key)
+  }
+
+  # Step 10: parse to list with components: psn, xy
   if (major %in% c(1, 2)) {
     x <- convert_checked_list_12(raw, ranges, append_ddi = append_ddi,
                                  format = format, ds = ds)
@@ -178,26 +198,24 @@ read_bds <- function(txt = NULL,
     x <- convert_checked_list_3(bds, ds)
   }
 
-  ## Step 10: append DDI
-  if (major %in% c(1, 2)) {
-    if (nrow(ddi) && append_ddi) {
-      x$xy <- bind_rows(
-        x$xy,
-        ddi %>%
-          pivot_longer(
-            cols = -all_of("age"), names_to = "yname",
-            values_to = "y", values_drop_na = TRUE,
-            values_transform = list(y = as.numeric)
-          ) %>%
-          mutate(
-            xname = "age",
-            x = .data$age
-          )
-      )
-    }
+  ## Step 11: append DDI
+  if (nrow(ddi) && !is.null(append)) {
+    x$xy <- bind_rows(
+      x$xy,
+      ddi %>%
+        pivot_longer(
+          cols = -all_of("age"), names_to = "yname",
+          values_to = "y", values_drop_na = TRUE,
+          values_transform = list(y = function(x) suppressWarnings(as.numeric(x)))
+        ) %>%
+        mutate(
+          xname = "age",
+          x = .data$age
+        )
+    )
   }
 
-  # Step 11: add Z-scores, analysis metric for three-letter ynames
+  # Step 12: add Z-scores, analysis metric for three-letter ynames
   xyz <- x$xy %>%
     mutate(
       sex = (!!x)$psn$sex,
@@ -219,7 +237,7 @@ read_bds <- function(txt = NULL,
     ) %>%
     select(all_of(c("age", "xname", "yname", "zname", "zref", "x", "y", "z")))
 
-  # Step 12: write intermediate result for later use
+  # Step 13: write intermediate result for later use
   if (major >= 3 && intermediate) {
     jsonlite::write_json(raw, "input.json")
     jsonlite::write_json(bds, "bds.json")
@@ -228,11 +246,11 @@ read_bds <- function(txt = NULL,
     jsonlite::write_json(x$psn, "psn.json")
   }
 
-  # Step 13: Save analysis object in bdsreader format
+  # Step 14: Save analysis object in bdsreader format
   obj <- list(psn = x$psn, xyz = xyz)
   class(obj) <- c("bdsreader", "list")
 
-  # Step 14: Validate data structure
+  # Step 15: Validate data structure
   valid <- validate_bdsreader(obj)
   if (!isTRUE(valid) && major >= 3) {
     message("Validation of bdsreader object failed.")
@@ -240,6 +258,6 @@ read_bds <- function(txt = NULL,
     # browser()
   }
 
-  # Step 15: return object
+  # Step 16: return object
   return(obj)
 }
