@@ -46,6 +46,13 @@ convert_msr_df <- function(x) {
     xv[[i]][["value"]] <- as.character(xv[[i]][["value"]])
   }
   bds <- rep(x[["bdsNumber"]], sapply(xv, nrow))
+
+  if (is.null(bds)) return(tibble(bds = numeric(0),
+                                  type = character(0),
+                                  date = character(0),
+                                  value = character(0))
+                           )
+
   x <- bind_cols(bds = bds,
             type = set_type(bds),
             bind_rows(xv))

@@ -418,6 +418,20 @@ for (format in c("1.0", "2.0", "3.0")) {
       expect_equal(tgt$xyz$y[1], 17.12)
     })
   }
+
+  # Test varName data
+  if (v >= 3) {
+    fn <- system.file("examples", "example_v3.1.json",
+                      package = "bdsreader")
+
+    test_that("Works with varName items only, and append DDI(example_v3.1.json)", {
+      expect_silent(read_bds(fn, schema = schema, append = "gs1"))
+    })
+    tgt <- read_bds(fn, schema = schema, append = "gs1")
+    test_that("D-score for time point 2.79 is 66.12 (example_v3.1.json", {
+      expect_equal(tgt$xyz$y[1], 66.12)
+    })
+  }
 }
 
 # test battery - comment out to activate
