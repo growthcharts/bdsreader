@@ -160,13 +160,13 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 8: sideload variables not in BDS
-  if (!major %in% c(1, 2)) {
+  if (major >= 3) {
     sideloaded <- sideload_variables(raw)
   }
 
   # Step 9: convert ddi, calculate D-score
   if (append_ddi == TRUE) { # legacy argument conversion
-    append <- c(append, "ddi")
+    append <- unique(c(append, "ddi"))
   }
 
   if (major %in% c(1, 2)) {
@@ -203,10 +203,10 @@ read_bds <- function(txt = NULL,
     x$xy <- bind_rows(
       x$xy,
       ddi %>%
-        pivot_longer(
-          cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
-          values_transform = list(y = function(x) suppressWarnings(as.numeric(x)))
+        transmute(
+          age = age,
+          yname = lex_gsed,
+          y = suppressWarnings(as.numeric(pass))
         ) %>%
         mutate(
           xname = "age",
