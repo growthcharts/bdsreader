@@ -183,10 +183,10 @@ read_bds <- function(txt = NULL,
     } else {items <- dscore::get_itemnames(instrument = "ddi"); key <- "gsed2406"}
     ddi <- ddi %>%
       bind_rows(var) %>%
-      filter(lex_gsed %in% items)
+      filter(lex_gsed %in% items) %>%
+      pivot_wider(names_from = "lex_gsed", values_from = c("pass"))
 
     ds <- ddi %>%
-      pivot_wider(names_from = "lex_gsed", values_from = c("pass")) %>%
       dscore(key = key)
   }
 
@@ -203,10 +203,10 @@ read_bds <- function(txt = NULL,
     x$xy <- bind_rows(
       x$xy,
       ddi %>%
-        transmute(
-          age = age,
-          yname = lex_gsed,
-          y = suppressWarnings(as.numeric(pass))
+        pivot_longer(
+          cols = -all_of("age"), names_to = "yname",
+          values_to = "y", values_drop_na = TRUE,
+          values_transform = list(y = as.numeric)
         ) %>%
         mutate(
           xname = "age",
