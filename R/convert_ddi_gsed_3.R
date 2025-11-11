@@ -58,3 +58,28 @@ convert_ddi_gsed_3 <- function(bds) {
 
   return(w)
 }
+
+convert_var_gsed_3 <- function(raw) {
+  if (!hasName(raw$clientMeasurements, "varName")) {
+    w <- tibble(lex_gsed = character(0),
+                age = numeric(0),
+                pass = integer(0))
+    return(w)
+  }
+
+  dob <- filter(raw$clientDetails, bdsNumber == 20L) %>%
+    pull("value") %>%
+    as.Date(format = "%Y%m%d") %>%
+    first()
+  varnames <- dscore::get_itemnames()
+  # check variable names
+  w <- raw$clientMeasurements %>%
+    filter(varName %in% varnames) %>%
+    tidyr::unnest(values) %>%
+    transmute(lex_gsed = varName,
+              age = if ("date" %in% names(.)) round(as.numeric(as.Date(date, format = "%Y%m%d") - dob)/365.25, 4)
+              else NA_real_,
+              pass = if ("value" %in% names(.)) as.numeric(value) else NA_real_
+              )
+  return(w)
+}
