@@ -1,4 +1,9 @@
-- Set `$id` element to `james.groeidiagrammen.nl/schemas`
+# bdsreader 0.31.0
+
+- Adds the ability to include variables with `varName` in addition to  `bdsNumber`, bypassing BDS restrictions. In its current implementation it will only work for time data. It is extendible to other measurement instruments for child development.
+- Introduces an update to the BDS schema, which is now called `bds_v3.1.json`. 
+- Replaces `append_ddi` argument with `append`, which can take a vector of strings indicating which measurement instruments to append to the data (default is 'ddi').
+- Sets the `$id` element to a more elegant URL: `james.groeidiagrammen.nl/schemas`
 
 # bdsreader 0.30.0
 
