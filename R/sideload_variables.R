@@ -8,7 +8,7 @@ sideload_variables <- function(d) {
     variables[["psn"]] <- tibble(
       varName = integer(0),
       value = character(0)
-      )
+    )
   } else {
     variables[["psn"]] <- tibble(
       varName = psn[["varName"]],
@@ -26,9 +26,9 @@ sideload_variables <- function(d) {
     )
   } else {
     variables[["xy"]] <- xy[!is.na(xy$varName), ] %>%
-      unnest(cols = values) %>%
+      unnest(cols = .data$values) %>%
       mutate(date = ymd(date)) %>%
-      select(date, varName, value)
+      select(all_of(c("date", "varName", "value")))
   }
 
   return(variables)

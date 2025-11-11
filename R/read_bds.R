@@ -80,16 +80,18 @@
 #' u <- read_bds(data1, schema = schema1)
 #' identical(t, u)
 #' @export
-read_bds <- function(txt = NULL,
-                     auto_format = TRUE,
-                     format = "1.0",
-                     schema = NULL,
-                     validate = FALSE,
-                     append = NULL,
-                     append_ddi = FALSE,
-                     intermediate = FALSE,
-                     verbose = FALSE,
-                     ...) {
+read_bds <- function(
+  txt = NULL,
+  auto_format = TRUE,
+  format = "1.0",
+  schema = NULL,
+  validate = FALSE,
+  append = NULL,
+  append_ddi = FALSE,
+  intermediate = FALSE,
+  verbose = FALSE,
+  ...
+) {
   # Step 1: return empty target if needed
   if (is.null(txt)) {
     return(init_bdsreader(NULL))
@@ -130,14 +132,20 @@ read_bds <- function(txt = NULL,
 
   # Step 5: optionally, perform schema validation
   if (validate) {
-    res <- jsonvalidate::json_validate(js, schema, engine = "ajv",
-                                       verbose = TRUE)
+    res <- jsonvalidate::json_validate(
+      js,
+      schema,
+      engine = "ajv",
+      verbose = TRUE
+    )
     msg <- parse_valid(res)
 
     if (length(msg$required) > 0L) {
-      if (any(grepl("required", msg$required)) ||
+      if (
+        any(grepl("required", msg$required)) ||
           any(grepl("verplicht", msg$required)) ||
-          any(grepl("should", msg$required))) {
+          any(grepl("should", msg$required))
+      ) {
         throw_messages(msg$required)
       }
     }
@@ -165,7 +173,8 @@ read_bds <- function(txt = NULL,
   }
 
   # Step 9: convert ddi, calculate D-score
-  if (append_ddi == TRUE) { # legacy argument conversion
+  if (append_ddi == TRUE) {
+    # legacy argument conversion
     append <- unique(c(append, "ddi"))
   }
 
@@ -180,10 +189,13 @@ read_bds <- function(txt = NULL,
     if (!is.null(append)) {
       items <- dscore::get_itemnames(instrument = append)
       key <- ifelse("ddi" %in% append, "gsed2406", "gsed2510")
-    } else {items <- dscore::get_itemnames(instrument = "ddi"); key <- "gsed2406"}
+    } else {
+      items <- dscore::get_itemnames(instrument = "ddi")
+      key <- "gsed2406"
+    }
     ddi <- ddi %>%
       bind_rows(var) %>%
-      filter(lex_gsed %in% items) %>%
+      filter(.data$lex_gsed %in% items) %>%
       pivot_wider(names_from = "lex_gsed", values_from = c("pass"))
 
     ds <- ddi %>%
@@ -192,8 +204,13 @@ read_bds <- function(txt = NULL,
 
   # Step 10: parse to list with components: psn, xy
   if (major %in% c(1, 2)) {
-    x <- convert_checked_list_12(raw, ranges, append_ddi = append_ddi,
-                                 format = format, ds = ds)
+    x <- convert_checked_list_12(
+      raw,
+      ranges,
+      append_ddi = append_ddi,
+      format = format,
+      ds = ds
+    )
   } else {
     x <- convert_checked_list_3(bds, ds)
   }
@@ -204,8 +221,10 @@ read_bds <- function(txt = NULL,
       x$xy,
       ddi %>%
         pivot_longer(
-          cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
+          cols = -all_of("age"),
+          names_to = "yname",
+          values_to = "y",
+          values_drop_na = TRUE,
           values_transform = list(y = as.numeric)
         ) %>%
         mutate(
@@ -219,12 +238,16 @@ read_bds <- function(txt = NULL,
   xyz <- x$xy %>%
     mutate(
       sex = (!!x)$psn$sex,
-      ga = (!!x)$psn$ga) %>%
+      ga = (!!x)$psn$ga
+    ) %>%
     mutate(
       zref = set_refcodes(.),
       zref = ifelse(nchar(.data$yname) == 3L, .data$zref, NA_character_),
-      zname = ifelse(nchar(.data$yname) == 3L, paste0(.data$yname, "_z"),
-                     NA_character_),
+      zname = ifelse(
+        nchar(.data$yname) == 3L,
+        paste0(.data$yname, "_z"),
+        NA_character_
+      ),
       zref = as.character(.data$zref),
       zname = as.character(.data$zname),
       z = y2z(
