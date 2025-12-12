@@ -205,7 +205,7 @@ read_bds <- function(txt = NULL,
       ddi %>%
         pivot_longer(
           cols = -all_of("age"), names_to = "yname",
-          values_to = "y", values_drop_na = TRUE,
+          values_to = "y", #values_drop_na = TRUE,
           values_transform = list(y = as.numeric)
         ) %>%
         mutate(
