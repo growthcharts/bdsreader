@@ -26,7 +26,7 @@ sideload_variables <- function(d) {
     )
   } else {
     variables[["xy"]] <- xy[!is.na(xy$varName), ] %>%
-      unnest(cols = .data$values) %>%
+      unnest(cols = "values") %>%
       mutate(date = ymd(date)) %>%
       select(all_of(c("date", "varName", "value")))
   }

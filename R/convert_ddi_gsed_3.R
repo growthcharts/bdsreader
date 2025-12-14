@@ -110,7 +110,7 @@ convert_var_gsed_3 <- function(raw) {
   # check variable names
   w <- raw$clientMeasurements %>%
     filter(.data$varName %in% varnames) %>%
-    tidyr::unnest(.data$values) %>%
+    tidyr::unnest("values") %>%
     transmute(
       lex_gsed = .data$varName,
       age = if ("date" %in% names(.)) {
