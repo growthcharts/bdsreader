@@ -1,3 +1,8 @@
+# bdsreader 0.32.0
+
+- Keeps records with missing responses for appended `ddi` and `gs1` instrument data
+- Evades deprecation warnings for `.data$var` syntax in `tidyselect` functions
+
 # bdsreader 0.31.0
 
 - Adds the ability to include variables with `varName` in addition to  `bdsNumber`, bypassing BDS restrictions. In its current implementation it will only work for time data. It is extendible to other measurement instruments for child development.
