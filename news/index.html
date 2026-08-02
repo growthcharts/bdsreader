@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.32.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.33.0</span>
       </span>
     </div>
 
@@ -57,6 +57,16 @@
       <small>Source: <a href="https://github.com/growthcharts/bdsreader/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.33.0" id="bdsreader-0330">bdsreader 0.33.0<a class="anchor" aria-label="anchor" href="#bdsreader-0330"></a></h2>
+<ul><li>Adds official BDS numbers for pubertal/Tanner-stage measurements: 313 (genital development, <code>gen</code>), 315 (pubic hair, boy, <code>phb</code>), 317 (breast development, <code>bre</code>), 825 (pubic hair, girl, <code>phg</code>) and 312 (date of menarche, stored as <code>psn$mendate</code>).</li>
+<li>Wires the <code>varName</code> sideload mechanism into <code><a href="../reference/read_bds.html">read_bds()</a></code>’s <code>xyz</code> output (previously computed but never merged). All six pubertal types (<code>gen</code>, <code>phb</code>, <code>bre</code>, <code>phg</code>, <code>men</code>, <code>tv</code>) can be supplied via <code>varName</code> sideload; <code>gen</code>/<code>phb</code>/<code>bre</code>/<code>phg</code> can also be supplied via their official <code>bdsNumber</code>. <code>tv</code> (testicular volume) and <code>men</code> (staged menarche indicator) have no BDS equivalent and remain <code>varName</code>-only. Where both a <code>bdsNumber</code> and a sideloaded <code>varName</code> supply the same <code>(age, yname)</code>, the <code>bdsNumber</code>-derived value wins.</li>
+<li>BDS allows a 6th pubic-hair stage (P6) for <code>phb</code>/<code>phg</code>; since the <code>tanner</code> package’s reference tables only tabulate stages 1-5, P6 is recoded to stage 5 before use.</li>
+<li>Fixes a <code>check_ranges_3()</code> bug where a <code>clientMeasurements</code> entry with <code>type == "date"</code> (i.e. a date-valued reading, as introduced for BDS 312) had its value silently overwritten by the visit date whenever both were present. Such entries now use a distinct <code>valuedate</code> type/column.</li>
+<li>
+<code>gen</code>/<code>phb</code>/<code>bre</code>/<code>phg</code>/<code>men</code>/<code>tv</code> are excluded from <code><a href="https://rdrr.io/pkg/nlreferences/man/set_refcodes.html" class="external-link">nlreferences::set_refcodes()</a></code>/<code>y2z()</code> z-scoring (<code>nlreferences</code> does not yet recognize these codes); their <code>z</code>/<code>zname</code>/<code>zref</code> stay <code>NA</code>. SDS for these is computed downstream via <code>tanner::calculate_sds()</code>.</li>
+<li>Adds <code>mendate</code> (date of menarche) to <code>psn</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.32.0" id="bdsreader-0320">bdsreader 0.32.0<a class="anchor" aria-label="anchor" href="#bdsreader-0320"></a></h2>
 <ul><li>Keeps records with missing responses for appended <code>ddi</code> and <code>gs1</code> instrument data</li>
@@ -392,7 +402,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
