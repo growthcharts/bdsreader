@@ -102,15 +102,21 @@ set_type <- function(bds) {
                 913, 921, 927, 928, 930, 931, 932, 933, 934,
                 935, 936, 937, 938, 939, 940, 941, 943, 947,
                 948, 949, 950, 953, 954, 972, 980, 982, 984,
-                998, 1001, 1278)
+                998, 1001, 1278, 313, 315, 317, 825)
   date <- c(20, 63)
   number <- c(82, 110, 235, 238, 240, 245, 252, 471)
   character <- c(16, 71)
+  # valuedate: like `date`, but for clientMeasurements entries that carry
+  # their own visit `date` distinct from the (date-valued) `value` itself
+  # (e.g. BDS 312 "Datum menarche"); kept out of `date` so check_ranges_3()
+  # doesn't fold the value into the visit date column
+  valuedate <- c(312)
 
   type <- rep(NA_character_, length(bds))
   type[bds %in% category] <- "category"
   type[bds %in% date] <- "date"
   type[bds %in% number] <- "number"
   type[bds %in% character] <- "character"
+  type[bds %in% valuedate] <- "valuedate"
   return(type)
 }

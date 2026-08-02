@@ -33,3 +33,14 @@ sideload_variables <- function(d) {
 
   return(variables)
 }
+
+# BDS allows a 6th pubic-hair stage (P6) for phb/phg (bdsNumber 315/825, or
+# their varName sideload equivalents); tanner's reference tables only
+# tabulate stages 1-5, so P6 is folded into P5 before it reaches
+# tanner::calculate_sds().
+recode_pubertal_p6 <- function(xy) {
+  xy %>%
+    mutate(
+      y = ifelse(.data$yname %in% c("phb", "phg"), pmin(.data$y, 5), .data$y)
+    )
+}

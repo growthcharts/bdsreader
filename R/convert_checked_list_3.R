@@ -20,6 +20,12 @@ convert_checked_list_3 <- function(bds, ds) {
       first()
   }
 
+  if (hasName(bds, "valuedate")) {
+    psn[["mendate"]] <- filter(bds, bds == 312L) %>%
+      pull("valuedate") %>%
+      first()
+  }
+
   # BDS variables, child level
   if (hasName(bds, "category")) {
     psn[["sex"]] <- filter(bds, bds == 19L) %>%
@@ -126,6 +132,39 @@ convert_checked_list_3 <- function(bds, ds) {
               .data$age) %>%
       distinct(.data$age, .data$xname, .data$yname, .keep_all = TRUE)
   }
+
+  # time-varying pubertal stage data (BDS rubriek R026)
+  bdsnum_pub <- as.integer(c(313, 315, 317, 825))
+  f_pub <- data.frame(
+    bds = bdsnum_pub,
+    yname = c("gen", "phb", "bre", "phg")
+  )
+  xy_pub <- tibble(
+    age = numeric(0),
+    xname = character(0),
+    yname = character(0),
+    x = numeric(0),
+    y = numeric(0))
+
+  if (all(hasName(bds, c("bds", "date", "category")))) {
+    xy_pub <- bds %>%
+      filter(bds %in% bdsnum_pub) %>%
+      left_join(f_pub, by = "bds") %>%
+      mutate(
+        age = as.numeric(round((.data$date - !!psn$dob) / 365.25, 4)),
+        xname = "age",
+        x = .data$age,
+        y = as.numeric(.data$category)) %>%
+      select(c("age", "xname", "yname", "x", "y")) %>%
+      distinct(.data$age, .data$xname, .data$yname, .keep_all = TRUE) %>%
+      recode_pubertal_p6()
+  }
+
+  # note: BDS 312 "Datum menarche" is presence-only (a date if menarche
+  # occurred, absent otherwise) and has no companion "not yet" element,
+  # so it cannot be mapped to tanner's 1/2-staged `men` reference. `men`
+  # stays varName-sideload-only (see sideload_variables.R).
+  xy <- bind_rows(xy, xy_pub)
 
   # add wfh, bmi and dsc
   dsc <- wfh <- bmi <- tibble()

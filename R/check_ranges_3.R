@@ -26,6 +26,18 @@ check_ranges_3 <- function(df) {
   }
 
   e <- catch_cnd({
+    valuedates <- ymd(pull(df, "valuedate"))
+  })
+  if (!is.null(e)) {
+    if (hasName(df, "valuedate")) {
+      message("Valuedate conversion error.")
+      df <- repair(df, "valuedate")
+    }
+  } else {
+    df[["valuedate"]] <- valuedates
+  }
+
+  e <- catch_cnd({
     categories <- as.integer(pull(df, "category"))
   })
   if (!is.null(e)) {
@@ -84,16 +96,19 @@ check_ranges_3 <- function(df) {
 repair <- function(x, what) {
   tf <- switch(what,
                date = ymd,
+               valuedate = ymd,
                category = as.integer,
                number = as.numeric,
                integer = as.integer)
   ac <- switch(what,
                date = "* date",
+               valuedate = "* valuedate",
                category = "* category",
                number = "* number",
                integer = "* integer")
   na <- switch(what,
                date = NA_Date_,
+               valuedate = NA_Date_,
                category = NA_integer_,
                number = NA_real_,
                integer = NA_integer_)

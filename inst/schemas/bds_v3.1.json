@@ -400,7 +400,12 @@
               984,
               998,
               1001,
-              1278
+              1278,
+              312,
+              313,
+              315,
+              317,
+              825
             ]
           }
         }
@@ -595,6 +600,97 @@
                         "1",
                         "2",
                         "3"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 312
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "pattern": "^([0-9]{8})$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 313
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "enum": [
+                        "01",
+                        "02",
+                        "03",
+                        "04",
+                        "05"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "enum": [
+                  315,
+                  825
+                ]
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "enum": [
+                        "01",
+                        "02",
+                        "03",
+                        "04",
+                        "05",
+                        "06"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "bdsNumber": {
+                "const": 317
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "enum": [
+                        "01",
+                        "02",
+                        "03",
+                        "04",
+                        "05"
                       ]
                     }
                   }

@@ -215,6 +215,27 @@ read_bds <- function(
     x <- convert_checked_list_3(bds, ds)
   }
 
+  ## Step 10b: merge sideloaded (varName-keyed) time-varying variables into xy.
+  ## Where a bdsNumber-derived row and a sideloaded row share the same
+  ## (age, yname) -- a producer redundantly sending both for one visit --
+  ## the bdsNumber-derived row wins; bind_rows() order + distinct() keeps
+  ## the first occurrence.
+  if (major >= 3 && nrow(sideloaded$xy)) {
+    sideloaded_xy <- sideloaded$xy %>%
+      mutate(
+        age = as.numeric(round((.data$date - x$psn$dob) / 365.25, 4)),
+        xname = "age",
+        yname = .data$varName,
+        x = .data$age,
+        y = as.numeric(.data$value)
+      ) %>%
+      select(all_of(c("age", "xname", "yname", "x", "y"))) %>%
+      recode_pubertal_p6()
+
+    x$xy <- bind_rows(x$xy, sideloaded_xy) %>%
+      distinct(.data$age, .data$yname, .keep_all = TRUE)
+  }
+
   ## Step 11: append DDI
   if (nrow(ddi) && !is.null(append)) {
     x$xy <- bind_rows(
@@ -233,17 +254,24 @@ read_bds <- function(
     )
   }
 
-  # Step 12: add Z-scores, analysis metric for three-letter ynames
+  # Step 12: add Z-scores, analysis metric for three-letter ynames.
+  # Pubertal ynames (gen/phb/bre/phg/men/tv) are excluded here even though
+  # gen/phb/bre/phg are three letters: nlreferences::set_refcodes() doesn't
+  # yet recognize pubertal codes, and would build a refcode that doesn't
+  # correspond to any real reference. SDS for these is computed downstream
+  # via tanner::calculate_sds(), not y2z().
+  pubertal_ynames <- c("gen", "phb", "bre", "phg", "men", "tv")
   xyz <- x$xy %>%
     mutate(
       sex = (!!x)$psn$sex,
       ga = (!!x)$psn$ga
     ) %>%
     mutate(
+      zscoreable = nchar(.data$yname) == 3L & !.data$yname %in% pubertal_ynames,
       zref = set_refcodes(.),
-      zref = ifelse(nchar(.data$yname) == 3L, .data$zref, NA_character_),
+      zref = ifelse(.data$zscoreable, .data$zref, NA_character_),
       zname = ifelse(
-        nchar(.data$yname) == 3L,
+        .data$zscoreable,
         paste0(.data$yname, "_z"),
         NA_character_
       ),

@@ -27,6 +27,7 @@ validate_bdsreader <- function(obj, strict = FALSE) {
   ## Define expected structure
   psn_schema <- list(
     id = "integer", name = "character", dob = "Date", dobm = "Date", dobf = "Date",
+    mendate = "Date",
     src = "character", dnr = "character", sex = "character",
     gad = "numeric", ga = "numeric", smo = "numeric", bw = "numeric",
     hgtm = "numeric", hgtf = "numeric", agem = "numeric", etn = "character",

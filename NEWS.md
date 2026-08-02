@@ -1,3 +1,12 @@
+# bdsreader 0.33.0
+
+- Adds official BDS numbers for pubertal/Tanner-stage measurements: 313 (genital development, `gen`), 315 (pubic hair, boy, `phb`), 317 (breast development, `bre`), 825 (pubic hair, girl, `phg`) and 312 (date of menarche, stored as `psn$mendate`).
+- Wires the `varName` sideload mechanism into `read_bds()`'s `xyz` output (previously computed but never merged). All six pubertal types (`gen`, `phb`, `bre`, `phg`, `men`, `tv`) can be supplied via `varName` sideload; `gen`/`phb`/`bre`/`phg` can also be supplied via their official `bdsNumber`. `tv` (testicular volume) and `men` (staged menarche indicator) have no BDS equivalent and remain `varName`-only. Where both a `bdsNumber` and a sideloaded `varName` supply the same `(age, yname)`, the `bdsNumber`-derived value wins.
+- BDS allows a 6th pubic-hair stage (P6) for `phb`/`phg`; since the `tanner` package's reference tables only tabulate stages 1-5, P6 is recoded to stage 5 before use.
+- Fixes a `check_ranges_3()` bug where a `clientMeasurements` entry with `type == "date"` (i.e. a date-valued reading, as introduced for BDS 312) had its value silently overwritten by the visit date whenever both were present. Such entries now use a distinct `valuedate` type/column.
+- `gen`/`phb`/`bre`/`phg`/`men`/`tv` are excluded from `nlreferences::set_refcodes()`/`y2z()` z-scoring (`nlreferences` does not yet recognize these codes); their `z`/`zname`/`zref` stay `NA`. SDS for these is computed downstream via `tanner::calculate_sds()`.
+- Adds `mendate` (date of menarche) to `psn`.
+
 # bdsreader 0.32.0
 
 - Keeps records with missing responses for appended `ddi` and `gs1` instrument data

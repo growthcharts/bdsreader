@@ -32,6 +32,7 @@ Code id == 0 is the current target child}
 \item{dob}{Date. Date of birth of the child.}
 \item{dobm}{Date. Date of birth of the mother.}
 \item{dobf}{Date. Date of birth of the father.}
+\item{mendate}{Date. Date of menarche (BDS 312), if known.}
 \item{src}{Character. Data source or study identifier.}
 \item{dnr}{Character. Donor or provenance code.}
 \item{sex}{Character. Sex of the child (e.g., "male", "female").}
