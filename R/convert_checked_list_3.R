@@ -31,11 +31,11 @@ convert_checked_list_3 <- function(bds, ds) {
     psn[["sex"]] <- filter(bds, bds == 19L) %>%
       pull("category") %>%
       first() %>%
-      case_match(1 ~ "male", 2 ~ "female")
+      recode_values(1 ~ "male", 2 ~ "female")
     psn[["smo"]] <- filter(bds, bds == 91L) %>%
       pull("category") %>%
       first() %>%
-      case_match(1 ~ 1, 2 ~ 0)
+      recode_values(1 ~ 1, 2 ~ 0)
   }
 
   if (hasName(bds, "number")) {

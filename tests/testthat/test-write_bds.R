@@ -17,13 +17,14 @@ jtf <- system.file("extdata", path, "test",
                    package = "jamesdemodata")
 
 d <- jsonlite::fromJSON(jtf[11])
-d[["ClientGegevens"]][["GenesteElementen"]][[8]]
 tgt <- read_bds(jtf[11], format = format)
 js <- write_bds(tgt, format = format, org = 10, check = TRUE)
 d2 <- jsonlite::fromJSON(js)
-d2[["ClientGegevens"]][["GenesteElementen"]][[9]]
-identical(d[["ClientGegevens"]][["GenesteElementen"]][[8]],
-          d2[["ClientGegevens"]][["GenesteElementen"]][[8]])
+
+test_that("write_bds() round-trips nested elements unchanged", {
+  expect_identical(d[["ClientGegevens"]][["GenesteElementen"]][[8]],
+                    d2[["ClientGegevens"]][["GenesteElementen"]][[8]])
+})
 
 # save to file
 # js <- prettify(js)

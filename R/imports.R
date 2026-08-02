@@ -2,7 +2,7 @@
 #' @importFrom dplyr           %>% all_of any_of arrange bind_cols bind_rows
 #'                             case_match distinct filter first full_join
 #'                             group_by if_else left_join
-#'                             mutate num_range pull recode rename
+#'                             mutate num_range pull recode recode_values rename
 #'                             row_number select slice_head transmute ungroup
 #' @importFrom dscore          dscore get_itemnames
 #' @importFrom jsonlite        fromJSON prettify toJSON validate
