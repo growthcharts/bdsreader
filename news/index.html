@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bdsreader</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.33.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.33.1</span>
       </span>
     </div>
 
@@ -54,9 +54,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/growthcharts/bdsreader/blob/v0.33.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/growthcharts/bdsreader/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.33.1" id="bdsreader-0331">bdsreader 0.33.1<a class="anchor" aria-label="anchor" href="#bdsreader-0331"></a></h2>
+<ul><li>Fixes <code><a href="../reference/read_bds.html">read_bds()</a></code> producing duplicate <code>(age, yname)</code> rows in <code>xy</code> when the same <code>varName</code>-keyed item (e.g. a <code>gs1</code>/D-score milestone) was picked up independently by both the generic sideload mechanism (<code>sideload_variables()</code>, Step 10b) and the <code>ddi</code>/<code>var</code> append (<code>convert_var_gsed_3()</code>, Step 11) – both paths read the same <code>clientMeasurements</code> rows without deduplicating against each other. This broke any downstream <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code>/<code>pivot_wider()</code> expecting one row per <code>(age, yname)</code> (e.g. <code>dscore</code>’s adaptive-testing pipeline via <code>dcat()</code>), which errored on the resulting list-column.</li>
+<li>Step 11 now applies the same <code>distinct(age, yname, .keep_all = TRUE)</code> Step 10b already used, keeping the first (<code>bdsNumber</code>/<code>ddi</code>-derived) occurrence and dropping a redundant sideloaded duplicate for the same visit. <strong>Known limitation, unchanged from Step 10b’s existing behavior</strong>: if the same item genuinely has two different values at (nearly) the same computed age – not a redundant resend, but an actual repeat measurement on the same day – only the first is kept; this was already true for the sideload path and is not a new restriction introduced by this fix.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.33.0" id="bdsreader-0330">bdsreader 0.33.0<a class="anchor" aria-label="anchor" href="#bdsreader-0330"></a></h2>
 <ul><li>Adds official BDS numbers for pubertal/Tanner-stage measurements: 313 (genital development, <code>gen</code>), 315 (pubic hair, boy, <code>phb</code>), 317 (breast development, <code>bre</code>), 825 (pubic hair, girl, <code>phg</code>) and 312 (date of menarche, stored as <code>psn$mendate</code>).</li>
