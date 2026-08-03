@@ -236,7 +236,14 @@ read_bds <- function(
       distinct(.data$age, .data$yname, .keep_all = TRUE)
   }
 
-  ## Step 11: append DDI
+  ## Step 11: append DDI. Some ddi/var items are varName-keyed (the same
+  ## clientMeasurements rows sideload_variables() reads for Step 10b) --
+  ## without a distinct() here, an item appended by both steps would end
+  ## up duplicated in x$xy, which downstream breaks any dplyr::summarise()
+  ## expecting one row per (age, yname) (e.g. dscore's own pivot_wider/
+  ## group_by pipeline). Same first-occurrence-wins pattern as Step 10b:
+  ## the bdsNumber/ddi-derived row (already in x$xy) wins over a
+  ## sideloaded duplicate.
   if (nrow(ddi) && !is.null(append)) {
     x$xy <- bind_rows(
       x$xy,
@@ -251,7 +258,8 @@ read_bds <- function(
           xname = "age",
           x = .data$age
         )
-    )
+    ) %>%
+      distinct(.data$age, .data$yname, .keep_all = TRUE)
   }
 
   # Step 12: add Z-scores, analysis metric for three-letter ynames.

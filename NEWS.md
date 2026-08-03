@@ -1,3 +1,8 @@
+# bdsreader 0.33.1
+
+- Fixes `read_bds()` producing duplicate `(age, yname)` rows in `xy` when the same `varName`-keyed item (e.g. a `gs1`/D-score milestone) was picked up independently by both the generic sideload mechanism (`sideload_variables()`, Step 10b) and the `ddi`/`var` append (`convert_var_gsed_3()`, Step 11) -- both paths read the same `clientMeasurements` rows without deduplicating against each other. This broke any downstream `dplyr::summarise()`/`pivot_wider()` expecting one row per `(age, yname)` (e.g. `dscore`'s adaptive-testing pipeline via `dcat()`), which errored on the resulting list-column.
+- Step 11 now applies the same `distinct(age, yname, .keep_all = TRUE)` Step 10b already used, keeping the first (`bdsNumber`/`ddi`-derived) occurrence and dropping a redundant sideloaded duplicate for the same visit. **Known limitation, unchanged from Step 10b's existing behavior**: if the same item genuinely has two different values at (nearly) the same computed age -- not a redundant resend, but an actual repeat measurement on the same day -- only the first is kept; this was already true for the sideload path and is not a new restriction introduced by this fix.
+
 # bdsreader 0.33.0
 
 - Adds official BDS numbers for pubertal/Tanner-stage measurements: 313 (genital development, `gen`), 315 (pubic hair, boy, `phb`), 317 (breast development, `bre`), 825 (pubic hair, girl, `phg`) and 312 (date of menarche, stored as `psn$mendate`).
